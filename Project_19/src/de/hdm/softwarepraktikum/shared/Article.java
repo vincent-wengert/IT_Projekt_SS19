@@ -5,7 +5,9 @@ package de.hdm.softwarepraktikum.shared;
  * Superklasse BusinessObject erbt, in der die nötigen Methoden bereits implementiert sind.
  */
 
-public class Article {
-
+public class Article extends BusinessObject {
+	
+	private String name;
+	private enum Einheit{Stueck,Kilogramm,Gramm};
 	private static final long serialVersionUID = 1L;
 }
