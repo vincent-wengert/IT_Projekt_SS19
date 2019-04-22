@@ -1,7 +1,9 @@
 package de.hdm.softwarepraktikum.shared;
-import java.util.Date;
 
-public abstract class BusinessObject {
+import java.util.Date;
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public abstract class BusinessObject implements IsSerializable{
 
 	private static final long serialVersionUID = 1L;
 	private int BO_ID = 0;

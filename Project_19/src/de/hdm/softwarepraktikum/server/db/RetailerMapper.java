@@ -74,10 +74,10 @@ public class RetailerMapper {
 			try {
 				PreparedStatement stmt = con.prepareStatement("UPDATE Retailer SET = ?, Name= ? WHERE BO_ID = ?");
 
-				stmt.setString(2, Retailer.getName());
-				stmt.setString(3, Retailer.getStreet());
+				stmt.setString(1, Retailer.getName());
+				stmt.setString(2, Retailer.getStreet());
 				stmt.setInt(3, Retailer.getPostcode());
-				stmt.setString(3, Retailer.getCity());
+				stmt.setString(4, Retailer.getCity());
 				stmt.executeUpdate();
 
 			} catch (SQLException e) {
