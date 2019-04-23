@@ -102,7 +102,7 @@ public class RetailerMapper {
 			try {
 				Statement stmt = con.createStatement();
 
-				stmt.executeUpdate("DELETE * FROM retailer WHERE id=" + "'" + Retailer.getId() + "'");
+				stmt.executeUpdate("DELETE * FROM retailer WHERE id=" + "'" + Retailer.getBO_ID() + "'");
 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -114,7 +114,7 @@ public class RetailerMapper {
 		public Retailer findByID(int ID) {
 		
 			
-			return retailer;
+			return ;
 		}
 	
 		//Alle Retailer als Array-Liste ausgeben
