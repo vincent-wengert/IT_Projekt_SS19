@@ -8,6 +8,5 @@ package de.hdm.softwarepraktikum.shared;
 public class Article extends BusinessObject {
 	
 	private String name;
-	private enum Einheit{Stueck,Kilogramm,Gramm};
 	private static final long serialVersionUID = 1L;
 }
