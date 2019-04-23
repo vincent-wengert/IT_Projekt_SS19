@@ -6,55 +6,55 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import de.hdm.softwarepraktikum.shared.Retailer;
+import de.hdm.softwarepraktikum.shared.Store;
 
-public class RetailerMapper {
+public class StoreMapper {
 
 	
 	
 		//Instanzierung
-		private static RetailerMapper retailerMapper = null;
+		private static StoreMapper storeMapper = null;
 
 		
-		protected RetailerMapper() {
+		protected StoreMapper() {
 		}
 		
 		
 		// Sicherstellung Singleton
-		public static RetailerMapper retailerMapper() {
-			if (retailerMapper == null) {
-				retailerMapper = new RetailerMapper();
+		public static StoreMapper storeMapper() {
+			if (storeMapper == null) {
+				storeMapper = new StoreMapper();
 			}
 		
-			return retailerMapper;
+			return storeMapper;
 		}
 	
 		
-		//Erstellen eines neuen Retailers
+		//Erstellen eines neuen Stores
 			
-		public void insertRetailer() {
+		public void insertStore() {
 			
 			Connection con = DBConnection.connection();
 			
 			try {
 
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT MAX(Retailer_ID) AS id " + "FROM Retailer ");
+				ResultSet rs = stmt.executeQuery("SELECT MAX(Store_ID) AS id " + "FROM Store ");
 
 				if (rs.next()) {
 
-					Retailer.setBO_ID(rs.getInt("Retailer_ID") + 1);
+					Store.setBO_ID(rs.getInt("Store_ID") + 1);
 
 				}
 
-				PreparedStatement stmt2 = con.prepareStatement("INSERT INTO Retailer (Retailer_ID, Name, Street, Postcode, City) VALUES (?, ?, ?)",
+				PreparedStatement stmt2 = con.prepareStatement("INSERT INTO Store (Store_ID, Name, Street, Postcode, City) VALUES (?, ?, ?)",
 						Statement.RETURN_GENERATED_KEYS);
 
-				stmt2.setInt(1, Retailer.getBO_ID());
-				stmt2.setString(2, Retailer.getName());
-				stmt2.setString(3, Retailer.getStreet());
-				stmt2.setInt(4, Retailer.getPostcode());
-				stmt2.setString(5, Retailer.getCity());
+				stmt2.setInt(1, Store.getBO_ID());
+				stmt2.setString(2, Store.getName());
+				stmt2.setString(3, Store.getStreet());
+				stmt2.setInt(4, Store.getPostcode());
+				stmt2.setString(5, Store.getCity());
 				stmt2.executeUpdate();
 
 			} catch (SQLException e) {
@@ -66,18 +66,18 @@ public class RetailerMapper {
 				
 		}
 		
-		//Eigenschaften eines Retailers aendern
-		public Retailer updateRetailer(Retailer r) {
+		//Eigenschaften eines Stores aendern
+		public Store updateStore(Store r) {
 			
 			Connection con = DBConnection.connection();
 
 			try {
-				PreparedStatement stmt = con.prepareStatement("UPDATE Retailer SET = ?, Name= ? WHERE BO_ID = ?");
+				PreparedStatement stmt = con.prepareStatement("UPDATE Store SET = ?, Name= ? WHERE BO_ID = ?");
 
-				stmt.setString(1, Retailer.getName());
-				stmt.setString(2, Retailer.getStreet());
-				stmt.setInt(3, Retailer.getPostcode());
-				stmt.setString(4, Retailer.getCity());
+				stmt.setString(1, Store.getName());
+				stmt.setString(2, Store.getStreet());
+				stmt.setInt(3, Store.getPostcode());
+				stmt.setString(4, Store.getCity());
 				stmt.executeUpdate();
 
 			} catch (SQLException e) {
@@ -86,23 +86,23 @@ public class RetailerMapper {
 			return r;	
 		}
 		
-		// bestimmten Retailer aufrufen
-		/*public Retailer readRetailer(String name) {
+		// bestimmten Store aufrufen
+		/*public Store readStore(String name) {
 				
 		
-		return Retailer;
+		return Store;
 		}*/
 		
-		//Retailer aus Datenbank löschen
+		//Store aus Datenbank löschen
 			
-		public void deleteRetailer() {
+		public void deleteStore() {
 			
 			Connection con = DBConnection.connection();
 
 			try {
 				Statement stmt = con.createStatement();
 
-				stmt.executeUpdate("DELETE * FROM retailer WHERE id=" + "'" + Retailer.getBO_ID() + "'");
+				stmt.executeUpdate("DELETE * FROM store WHERE id=" + "'" + Store.getBO_ID() + "'");
 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -111,36 +111,36 @@ public class RetailerMapper {
 				
 		}
 	
-		public Retailer findByID(int ID) {
+		public Store findByID(int ID) {
 		
 			
 			return ;
 		}
 	
-		//Alle Retailer als Array-Liste ausgeben
-		public ArrayList<Retailer> findAllRetailer(){
+		//Alle Store als Array-Liste ausgeben
+		public ArrayList<Store> findAllStore(){
 			
 			onnection con = DBConnection.connection();
-			ArrayList<Retailer> allRetailers = new ArrayList<Retailer>();
+			ArrayList<Store> allStores = new ArrayList<Store>();
 			
 			try {
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM retailer "
-						+ " WHERE Retailer_ID = " + Retailer.getBO_ID());
+				ResultSet rs = stmt.executeQuery("SELECT * FROM store "
+						+ " WHERE Store_ID = " + Store.getBO_ID());
 				while (rs.next()) {
 
-					allRetailers.add(rs.getRetailer("Retailer"));
+					allStores.add(rs.getStore("Store"));
 
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			
-			return allRetailers;
+			return allStores;
 		
 		}
 	
-		public Retailer findByObject(Retailer retailer) {
+		public Store findByObject(Store store) {
 		
 		
 		}

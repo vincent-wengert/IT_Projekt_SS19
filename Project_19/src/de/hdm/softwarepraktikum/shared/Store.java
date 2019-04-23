@@ -1,9 +1,9 @@
 package de.hdm.softwarepraktikum.shared;
 
-public class Retailer extends BusinessObject{
+public class Store extends BusinessObject{
 
 	private static final long serialVersionUID = 1L;
-	private int Retailer_ID;
+	private int Store_ID;
 	private String name;
 	private String street;
 	private int postcode;
@@ -11,11 +11,11 @@ public class Retailer extends BusinessObject{
 	
 	
 	
-	public int getRetailer_ID() {
-		return Retailer_ID;
+	public int getStore_ID() {
+		return Store_ID;
 	}
-	public void setRetailer_ID(int retailer_ID) {
-		Retailer_ID = retailer_ID;
+	public void setStore_ID(int store_ID) {
+		Store_ID = store_ID;
 	}
 	
 	public String getName() {
