@@ -8,20 +8,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ArrayList;
 
-public class ArticleMapper {
+public class ItemMapper {
 	
 	
 	/* 
 	 * Speicherung der Instanz dieser Mapperklasse.
 	 */
 	
-	private static ArticleMapper articleMapper = null;
+	private static ItemMapper articleMapper = null;
 	
 	/*
 	 * Konstruktor ist geschützt, um weitere Instanzierung zu verhindern.
 	 */
 
-	protected ArticleMapper() {
+	protected ItemMapper() {
 		
 	}
 	
@@ -29,9 +29,9 @@ public class ArticleMapper {
 	 * Einhaltung der Singleton Eigenschaft des Mappers.
 	 */
 	
-	public static ArticleMapper articleMapper() {
+	public static ItemMapper itemMapper() {
 		if (articleMapper == null) {
-			articleMapper = new ArticleMapper();
+			articleMapper = new ItemMapper();
 		}
 
 		return articleMapper;
@@ -41,7 +41,7 @@ public class ArticleMapper {
 	 * Artikel anhand seiner Id zu suchen.
 	 */
 	
-	public Article findById(int id) {
+	public Item findById(int id) {
 		
 	}
 	
@@ -49,7 +49,7 @@ public class ArticleMapper {
 	 * Methode zum Auflisten aller Artikel.
 	 */
 	
-	public ArrayList<Article> findAllArticles() {
+	public ArrayList<Item> findAllItems() {
 		
 	}
 	
@@ -57,7 +57,7 @@ public class ArticleMapper {
 	 * Methode um einen Artikel anhand seines Objektes zu suchen.
 	 */
 	
-	public Article findByObject(Article a) {
+	public Item findByObject(Item a) {
 		
 	}
 	
@@ -65,7 +65,7 @@ public class ArticleMapper {
 	 * Delete Methode, um einen Artikel aus der Datenbank zu entfernen.
 	 */
 	
-	public void delete(Article a) {
+	public void delete(Item a) {
 		
 	}
 	
@@ -73,7 +73,7 @@ public class ArticleMapper {
 	 * Update Methode, um einen Artikel erneut zu schreiben.
 	 */
 	
-	public Article update(Article a) {
+	public Item update(Item a) {
 		
 	}
 	
@@ -81,7 +81,7 @@ public class ArticleMapper {
 	 * Insert Methode, um einen neuen Artikel der Datenbank hinzuzufügen.
 	 */
 	
-	public Article insert(Article a) {
+	public Item insert(Item a) {
 		
 	}
 	
@@ -89,7 +89,7 @@ public class ArticleMapper {
 	 * Eine Methode, um alle Artikel einer Person zu finden.
 	 */
 	
-	public ArrayList<Article> findByPerson () {
+	public ArrayList<Item> findByPerson () {
 		
 	}
 
