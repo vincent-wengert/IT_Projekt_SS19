@@ -20,17 +20,17 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Header extends HorizontalPanel {
 				
-		private User u = CurrentReportUser.getUser();
+		private Person p = CurrentReportPerson.getPerson();
 		
 		private HorizontalPanel homeButtonPanel = new HorizontalPanel();
-		private VerticalPanel userPanel = new VerticalPanel();
+		private VerticalPanel PersonPanel = new VerticalPanel();
 		private HorizontalPanel topPanel = new HorizontalPanel();
 		
 		private Button logoutButton = new Button("Logout");
 		private Button editorButton = new Button ("Editor");
 		private Button reportGeneratorButton = new Button("Reportgenerator");
 		private Image logo = new Image ();
-		private Label userLabel = new Label();
+		private Label PersonLabel = new Label();
 		private Anchor contactEditorLink = new Anchor("Kontakt-Editor");
 		
 		
@@ -43,12 +43,12 @@ public class Header extends HorizontalPanel {
 			this.add(logo);
 			logo.setUrl("images/logoSpaceContacts.png");
 			
-			userPanel.add(logoutButton);
-			userLabel.setText(u.getGmailAddress());
-			userPanel.add(userLabel);
+			PersonPanel.add(logoutButton);
+			PersonLabel.setText(p.getGmailAddress());
+			PersonPanel.add(PersonLabel);
 			topPanel.add(homeButtonPanel);
-			topPanel.add(userPanel);
-			topPanel.add(userPanel);
+			topPanel.add(PersonPanel);
+			topPanel.add(PersonPanel);
 
 			this.add(topPanel);
 			
@@ -85,13 +85,13 @@ public class Header extends HorizontalPanel {
 			logoutButton.setStylePrimaryName("logoutButton");
 			editorButton.setStylePrimaryName("editorButton");
 			reportGeneratorButton.setStylePrimaryName("reportGeneratorButton");
-			userPanel.setStylePrimaryName("userPanel");
+			PersonPanel.setStylePrimaryName("PersonPanel");
 			
-			userPanel.setCellHorizontalAlignment(logoutButton, ALIGN_CENTER);
+			PersonPanel.setCellHorizontalAlignment(logoutButton, ALIGN_CENTER);
 			homeButtonPanel.setCellHorizontalAlignment(editorButton, ALIGN_LEFT);
 			homeButtonPanel.setCellHorizontalAlignment(reportGeneratorButton, ALIGN_RIGHT);
-			topPanel.setCellHorizontalAlignment(userPanel, ALIGN_RIGHT);
-			topPanel.setCellVerticalAlignment(userPanel,ALIGN_MIDDLE);
+			topPanel.setCellHorizontalAlignment(PersonPanel, ALIGN_RIGHT);
+			topPanel.setCellVerticalAlignment(PersonPanel,ALIGN_MIDDLE);
 			this.setCellHorizontalAlignment(topPanel, ALIGN_RIGHT);
 			this.setCellVerticalAlignment(topPanel, ALIGN_MIDDLE);
 			this.setCellVerticalAlignment(logo, ALIGN_MIDDLE);
@@ -131,7 +131,7 @@ public class Header extends HorizontalPanel {
 		
 		
 		/**
-		 * Durch ein Klick auf den Logout-Button wird der User auf die
+		 * Durch ein Klick auf den Logout-Button wird der Person auf die
 		 * Begrüßungsseite weitergeleitet
 		 */
 		private class LogoutClickHandler  implements ClickHandler {
@@ -139,8 +139,8 @@ public class Header extends HorizontalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				
-				u.setLogoutUrl(u.getLogoutUrl());
-				Window.open(u.getLogoutUrl(), "_self", "");
+				p.setLogoutUrl(p.getLogoutUrl());
+				Window.open(p.getLogoutUrl(), "_self", "");
 			}	
 		}
 	}
