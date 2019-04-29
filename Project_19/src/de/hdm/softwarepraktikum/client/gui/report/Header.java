@@ -1,5 +1,15 @@
 package de.hdm.softwarepraktikum.client.gui.report;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * Die <code>Header</code>-Klasse ist der Kopfbereich des Kontaktverwaltungstools. 
  * Der Header wird über alle Seiten des Tools gleich angezeigt. 
