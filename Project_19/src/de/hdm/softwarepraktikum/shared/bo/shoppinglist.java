@@ -7,7 +7,6 @@ public class shoppinglist {
 /** extends muss noch hinzugefügt werden*/
 	
 	private String title;
-	private int ID;
 	
 	ArrayList<String> shoppinglist = new ArrayList<String>(); //* ersetzen durch shareable objects*/
 	
