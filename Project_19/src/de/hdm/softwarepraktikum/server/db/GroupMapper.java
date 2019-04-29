@@ -72,7 +72,7 @@ public class GroupMapper {
 			if (rs.next()) {
 				//Ergebnis-Tupel in Objekt umwandeln
 				Group g = new Group();
-				g.setBo_id(rs.getInt("bo_id"));
+				g.setBO_ID(rs.getInt("bo_id"));
 				g.setName(rs.getString("name"));
 				g.setUser(rs.getPerson("user"));
 				
@@ -103,7 +103,7 @@ public class GroupMapper {
 			 * g erhält den bisher maximalen, nun um 1 inkrementierten
 			 * Primärschlüssel.
 			 */
-			g.setBo_id(rs.getInt("maxgroup_id") + 1);
+			g.setBO_ID(rs.getInt("maxgroup_id") + 1);
 					
 			stmt = con.createStatement();
 							
@@ -136,7 +136,7 @@ public class GroupMapper {
 			Statement stmt = con.createStatement();
 			
 			stmt.executeUpdate("UPDATE groups " + "SET name=\"" + g.getName() + "\", " + "user=\""
-					+ g.getPerson() + "\" " + "WHERE group_id=" + g.getBo_id());
+					+ g.getPerson() + "\" " + "WHERE bo_id=" + g.getBo_id());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -153,7 +153,7 @@ public class GroupMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE FROM groups " + "WHERE group_id=" + g.getBo_id());
+			stmt.executeUpdate("DELETE FROM groups " + "WHERE bo_id=" + g.getBo_id());
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
