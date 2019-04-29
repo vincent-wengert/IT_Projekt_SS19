@@ -114,14 +114,33 @@ public class StoreMapper {
 	
 		public Store findByID(int ID) {
 		
+			Connection con = DBConnection.connection();
 			
-			return ;
+			Store store = new Store();
+			
+			try {
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM store "
+						+ " WHERE Store_ID = " + Store.getBO_ID());
+				while (rs.next()) {
+
+					allStores.add(rs.getStore("Store"));
+
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return allStores;
+			
+			
+			return store;
 		}
 	
 		//Alle Store als Array-Liste ausgeben
 		public ArrayList<Store> findAllStore(){
 			
-			onnection con = DBConnection.connection();
+			Connection con = DBConnection.connection();
 			ArrayList<Store> allStores = new ArrayList<Store>();
 			
 			try {
