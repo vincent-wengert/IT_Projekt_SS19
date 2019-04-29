@@ -1,6 +1,6 @@
 package de.hdm.softwarepraktikum.shared.bo;
 
-public class Responsibility {
+public class Responsibility extends BusinessObject {
 	
 	private static final long serialVersionUID = 1L;
 	private Person buyer;
