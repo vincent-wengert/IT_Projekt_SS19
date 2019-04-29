@@ -1,4 +1,4 @@
-package de.hdm.softwarepraktikum.shared;
+package de.hdm.softwarepraktikum.shared.bo;
 
 /*
  * Neben get und set Name/Unit wurden keine weiteren Methoden deklariert, da die Articleklasse von ihrer

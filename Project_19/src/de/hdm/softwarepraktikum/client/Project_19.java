@@ -1,6 +1,5 @@
 package de.hdm.softwarepraktikum.client;
 
-import de.hdm.softwarepraktikum.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -16,6 +15,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import de.hdm.softwarepraktikum.shared.bo.FieldVerifier;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.

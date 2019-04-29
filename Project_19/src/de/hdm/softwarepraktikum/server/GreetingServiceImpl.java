@@ -1,7 +1,8 @@
 package de.hdm.softwarepraktikum.server;
 
 import de.hdm.softwarepraktikum.client.GreetingService;
-import de.hdm.softwarepraktikum.shared.FieldVerifier;
+import de.hdm.softwarepraktikum.shared.bo.FieldVerifier;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**

@@ -1,4 +1,4 @@
-package de.hdm.softwarepraktikum.shared;
+package de.hdm.softwarepraktikum.shared.bo;
 
 /**
  * <p>

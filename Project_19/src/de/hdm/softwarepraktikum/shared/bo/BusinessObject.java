@@ -1,4 +1,4 @@
-package de.hdm.softwarepraktikum.shared;
+package de.hdm.softwarepraktikum.shared.bo;
 
 import java.util.Date;
 import com.google.gwt.user.client.rpc.IsSerializable;
