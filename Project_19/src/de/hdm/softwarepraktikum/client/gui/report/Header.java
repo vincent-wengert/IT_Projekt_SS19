@@ -4,7 +4,7 @@ package de.hdm.softwarepraktikum.client.gui.report;
  * Die <code>Header</code>-Klasse ist der Kopfbereich des Kontaktverwaltungstools. 
  * Der Header wird über alle Seiten des Tools gleich angezeigt. 
  * 
- * @author Tobias Moser, Vincent Wengert
+ * @author Vincent Wengert
  * @version 1.0
  */
 
