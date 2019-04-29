@@ -1,6 +1,9 @@
 package de.hdm.softwarepraktikum.server.db;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.hdm.softwarepraktikum.shared.bo.shoppinglist;
@@ -53,29 +56,88 @@ public class ShoppingListMapper {
 		
 	}
 	
+	
+	
+
 	/*
-	 * Delete Methode, um eine SL aus der Datenbank zu entfernen.
+	 * Insert Methode, um eine neue sl der Datenbank hinzuzufuegen.
 	 */
 	
-	public void delete(ShoppingList sl) {
+	public ShoppingList insert(ShoppingList sl) {
 		
+			Connection con = DBConnection.connection();
+
+			try {
+			Statement stmt = con.createStatement();
+			
+			/*
+			 * Zunächst schauen wir nach, welches der momentan höchste
+			 * Primärschlüsselwert ist.
+			 */
+			ResultSet rs = stmt.executeQuery("SELECT MAX(bo_id) AS maxbo_id " + "FROM shoppinglist ");
+			
+			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+			if (rs.next()) {
+			/*
+			 * sl erhält den bisher maximalen, nun um 1 inkrementierten
+			 * Primärschlüssel.
+			 */
+			g.setBO_ID(rs.getInt("maxbo_id") + 1);
+					
+			stmt = con.createStatement();
+							
+			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
+			stmt.executeUpdate("INSERT INTO shoppinglists (bo_id, title) " + "VALUES (" + sl.getBo_Id() + ",'"
+					+ sl.getTitle() + "')");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		/*
+		 * Rückgabe, der evtl. korrigierten ShoppingList.
+		 */
+		return sl;
 	}
 	
 	/*
 	 * Update Methode, um eine SL erneut zu schreiben.
 	 */
-	
-	public ShoppingList update(ShoppingList sl) {
+		public ShoppingList update(ShoppingList sl) {
 		
-	}
-	
-	/*
-	 * Insert Methode, um eine neue sl der Datenbank hinzuzufÃ¼gen.
-	 */
-	
-	public ShoppingList insert(ShoppingList sl) {
+		Connection con = DBConnection.connection();
 		
+		try {
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("UPDATE shoppinglists " + "SET title=\"" + sl.getTitle() + "\", "  + "WHERE bo_id=" + sl.getBO_ID());
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		// Um Analogie zu insert(ShoppingList sl) zu wahren, wird sl zurückgegeben
+				return sl;
 	}
+		
+		/*
+		 * Delete Methode, um eine SL aus der Datenbank zu entfernen.
+		 */
+		
+		public void delete(ShoppingList sl) {
+			Connection con = DBConnection.connection();
+			
+			try {
+				Statement stmt = con.createStatement();
+				
+				stmt.executeUpdate("DELETE FROM shoppinglists " + "WHERE bo_id=" + sl.getBO_ID());
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+	}
+		
+		
+	
 	
 	/*
 	 * Eine Methode, um alle SL einer Person zu finden.
