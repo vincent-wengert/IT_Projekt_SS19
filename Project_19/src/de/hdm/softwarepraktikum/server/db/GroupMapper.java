@@ -108,7 +108,7 @@ public class GroupMapper {
 			stmt = con.createStatement();
 							
 			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate("INSERT INTO groups (bo_id, name, user) " + "VALUES (" + g.getBo_Id() + ",'"
+			stmt.executeUpdate("INSERT INTO groups (bo_id, name, user) " + "VALUES (" + g.getBO_ID() + ",'"
 					+ g.getName() + "','" + g.getPerson() + "')");
 		}
 	} catch (SQLException e) {
@@ -136,7 +136,7 @@ public class GroupMapper {
 			Statement stmt = con.createStatement();
 			
 			stmt.executeUpdate("UPDATE groups " + "SET name=\"" + g.getName() + "\", " + "user=\""
-					+ g.getPerson() + "\" " + "WHERE bo_id=" + g.getBo_id());
+					+ g.getPerson() + "\" " + "WHERE bo_id=" + g.getBO_ID());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
