@@ -5,20 +5,20 @@ import java.util.ArrayList;
 
 import de.hdm.softwarepraktikum.shared.bo.shoppinglist;
 
-public class Shoppinglistmapper {
+public class ShoppingListmapper {
 	
 
 	/* 
 	 * Speicherung der Instanz dieser Mapperklasse.
 	 */
 	
-	private static Shoppinglistmapper shoppinglistMapper = null;
+	private static ShoppingListmapper shoppinglistMapper = null;
 	
 	/*
 	 * Konstruktor ist geschützt, um weitere Instanzierung zu verhindern.
 	 */
 
-	protected Shoppinglistmapper() {
+	protected ShoppingListmapper() {
 		
 	}
 	
@@ -26,15 +26,15 @@ public class Shoppinglistmapper {
 	 * Einhaltung der Singleton Eigenschaft des Mappers.
 	 */
 	
-	public static Shoppinglistmapper shoppinglistMapper() {
+	public static ShoppingListmapper shoppinglistMapper() {
 		if (shoppinglistMapper == null) {
-			shoppinglistMapper = new Shoppinglistmapper();
+			shoppinglistMapper = new ShoppingListmapper();
 		}
 
 		return shoppinglistMapper;
 	}
 	
-	public shoppinglist findById(int id) {
+	public ShoppingList findById(int id) {
 		
 	}
 	
@@ -42,7 +42,7 @@ public class Shoppinglistmapper {
 	 * Methode zum Auflisten aller Shoppinglists.
 	 */
 	
-	public ArrayList<shoppinglist> findAllShoppinglists() {
+	public ArrayList<ShoppingList> findAllShoppingLists() {
 		
 	}
 	
@@ -50,7 +50,7 @@ public class Shoppinglistmapper {
 	 * Methode um eine shoppinglist anhand einer Gruppe zu finden.
 	 */
 	
-	public shoppinglist findByGroup(Group g) {
+	public ShoppingList findByGroup(Group g) {
 		
 	}
 	
@@ -58,7 +58,7 @@ public class Shoppinglistmapper {
 	 * Delete Methode, um eine SL aus der Datenbank zu entfernen.
 	 */
 	
-	public void delete(shoppinglist sl) {
+	public void delete(ShoppingList sl) {
 		
 	}
 	
@@ -66,7 +66,7 @@ public class Shoppinglistmapper {
 	 * Update Methode, um eine SL erneut zu schreiben.
 	 */
 	
-	public shoppinglist update(shoppinglist sl) {
+	public ShoppingList update(ShoppingList sl) {
 		
 	}
 	
@@ -74,7 +74,7 @@ public class Shoppinglistmapper {
 	 * Insert Methode, um eine neue sl der Datenbank hinzuzufügen.
 	 */
 	
-	public shoppinglist insert(shoppinglist sl) {
+	public ShoppingList insert(ShoppingList sl) {
 		
 	}
 	
@@ -82,7 +82,7 @@ public class Shoppinglistmapper {
 	 * Eine Methode, um alle SL einer Person zu finden.
 	 */
 	
-	public ArrayList<shoppinglist> findByPerson (Person p) {
+	public ArrayList<ShoppingList> findByPerson (Person p) {
 		
 	}
 }
