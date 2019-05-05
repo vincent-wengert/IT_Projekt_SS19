@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.hdm.softwarepraktikum.shared.bo.Group;
+import de.hdm.softwarepraktikum.shared.bo.Item;
+import de.hdm.softwarepraktikum.shared.bo.Person;
 
 import java.util.ArrayList;
 
@@ -74,7 +76,7 @@ public class GroupMapper {
 				Group g = new Group();
 				g.setBO_ID(rs.getInt("bo_id"));
 				g.setName(rs.getString("name"));
-				g.setUser(rs.getPerson("user"));
+				g.setMember((ArrayList<Person>) rs.getArray("member"));
 				
 				return g;		
 	}
@@ -109,7 +111,7 @@ public class GroupMapper {
 							
 			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
 			stmt.executeUpdate("INSERT INTO groups (bo_id, name, user) " + "VALUES (" + g.getBO_ID() + ",'"
-					+ g.getName() + "','" + g.getPerson() + "')");
+					+ g.getName() + "','" + g.getMember() + "')");
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
@@ -136,7 +138,7 @@ public class GroupMapper {
 			Statement stmt = con.createStatement();
 			
 			stmt.executeUpdate("UPDATE groups " + "SET name=\"" + g.getName() + "\", " + "user=\""
-					+ g.getPerson() + "\" " + "WHERE bo_id=" + g.getBO_ID());
+					+ g.getMember() + "\" " + "WHERE bo_id=" + g.getBO_ID());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -153,10 +155,46 @@ public class GroupMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE FROM groups " + "WHERE bo_id=" + g.getBo_id());
+			stmt.executeUpdate("DELETE FROM groups " + "WHERE bo_id=" + g.getBO_ID());
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * auslesen aller Kunden
+	 * @return Eine ArrayList mit Group-Objekten, die alle Gruppen im System darstellen.
+	 */
+	public ArrayList<Group> findAllGroups() {
+		//Ergebnisvektor vorbereiten
+		ArrayList<Group> result = new ArrayList<Group>();
+		
+		Connection con = DBConnection.connection();
+		try {
+			
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt
+					.executeQuery("SELECT bo_id, name, isglobal, favoriteitem " + "FROM items " + "ORDER BY name");
+			
+			// Für jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
+			while(rs.next()) {
+				Group g = new Group();
+				g.setBO_ID(rs.getInt("bo_id"));
+				g.setName(rs.getString("name"));
+				g.setMember((ArrayList<Person>)rs.getArray("member"));
+				g.setFavoriteitem((ArrayList<ListItem>)rs.getArray("favoriteitem"));
+				
+				//Hinzufügen des neuen Objekts zum Ergebnisvektor
+				result.add(g);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		//Ergebnis zurückgeben
+		return result;
+	}
+	
 }
 

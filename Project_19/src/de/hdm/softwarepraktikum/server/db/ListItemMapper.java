@@ -60,10 +60,10 @@ public class ListItemMapper {
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
 			/*
-			 * g erhält den bisher maximalen, nun um 1 inkrementierten
+			 * li erhält den bisher maximalen, nun um 1 inkrementierten
 			 * Primärschlüssel.
 			 */
-			g.setBo_id(rs.getInt("maxbo_id") + 1);
+			li.setBo_id(rs.getInt("maxbo_id") + 1);
 					
 			stmt = con.createStatement();
 							
@@ -96,7 +96,7 @@ public class ListItemMapper {
 			Statement stmt = con.createStatement();
 			
 			stmt.executeUpdate("UPDATE listitems " + "SET item=\"" + li.getItem() + "\", " + "amount=\""
-					+ g.getAmount() + "\" " + "WHERE bo_id=" + li.getBo_id());
+					+ li.getAmount() + "\" " + "WHERE bo_id=" + li.getBO_ID());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -113,7 +113,7 @@ public class ListItemMapper {
 			try {
 				Statement stmt = con.createStatement();
 				
-				stmt.executeUpdate("DELETE FROM listitems " + "WHERE bo_id=" + li.getBo_id());
+				stmt.executeUpdate("DELETE FROM listitems " + "WHERE bo_id=" + li.getBO_ID());
 			} catch(SQLException e) {
 				e.printStackTrace();
 			}
@@ -140,7 +140,7 @@ public class ListItemMapper {
 		if (rs.next()) {
 			//Ergebnis-Tupel in Objekt umwandeln
 			ListItem li = new ListItem();
-			li.setBo_id(rs.getInt("bo_id"));
+			li.setBO_ID(rs.getInt("bo_id"));
 			li.setItem(rs.getString("item"));
 			li.setAmount(rs.getDouble("amount"));
 			li.setUnit(rs.getInt("Unit"));
@@ -172,7 +172,7 @@ return null;
 		
 		while (rs.next()){
 			ListItem li = new ListItem();
-			li.setBo_id(rs.getInt("bo_id"));
+			li.setBO_ID(rs.getInt("bo_id"));
 			li.setItem(rs.getString("item"));
 			li.setAmount(rs.getDouble("amount"));
 			li.setUnit(rs.getInt("Unit"));
