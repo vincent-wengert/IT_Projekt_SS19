@@ -2,7 +2,7 @@ package de.hdm.softwarepraktikum.shared.bo;
 
 import java.util.ArrayList;
 
-public class shoppinglist {
+public class ShoppingList {
 
 /** extends muss noch hinzugefügt werden*/
 	

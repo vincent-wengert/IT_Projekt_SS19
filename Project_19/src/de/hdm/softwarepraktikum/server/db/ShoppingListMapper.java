@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import de.hdm.softwarepraktikum.shared.bo.shoppinglist;
+import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 public class ShoppingListMapper {
 	
