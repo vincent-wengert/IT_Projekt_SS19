@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.hdm.softwarepraktikum.shared.bo.Group;
+import de.hdm.softwarepraktikum.shared.bo.ListItem;
 
 public class ListItemMapper {
 	
@@ -45,7 +46,7 @@ public class ListItemMapper {
 		return listItemMapper;
 	}
 	
-	public Group insert(ListItem li) {
+	public ListItem insert(ListItem li) {
 		Connection con = DBConnection.connection();
 		
 		try {
@@ -63,20 +64,20 @@ public class ListItemMapper {
 			 * li erhält den bisher maximalen, nun um 1 inkrementierten
 			 * Primärschlüssel.
 			 */
-			li.setBo_id(rs.getInt("maxbo_id") + 1);
+			li.setBO_ID(rs.getInt("maxbo_id") + 1);
 					
 			stmt = con.createStatement();
 							
 			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate("INSERT INTO listitems (bo_id, item, amount, unit) " + "VALUES (" + li.getBo_Id() + ",'"
-					+ li.getItem() + "','" + li.getAmount() + "','" + li.getUnit() + "')");
+			stmt.executeUpdate("INSERT INTO listitems (bo_id, item, amount, unit) " + "VALUES (" + li.getBO_ID() + ",'"
+					+ li.getIt() + "','" + li.getAmount() + "','" + li.getUnit() + "')");
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
 	}
 		
 		/*
-		 * Rückgabe, der evtl. korrigierten Group.
+		 * Rückgabe des evtl. korrigierten ListItems.
 		 */
 		return li;
 	}
@@ -89,13 +90,13 @@ public class ListItemMapper {
 	 * @return das als Parameter übergebene Objekt
 	 */
 	
-	public Group update(ListItem li) {
+	public ListItem update(ListItem li) {
 		Connection con = DBConnection.connection();
 		
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE listitems " + "SET item=\"" + li.getItem() + "\", " + "amount=\""
+			stmt.executeUpdate("UPDATE listitems " + "SET item=\"" + li.getIt() + "\", " + "amount=\""
 					+ li.getAmount() + "\" " + "WHERE bo_id=" + li.getBO_ID());
 			
 		} catch (SQLException e) {
@@ -126,27 +127,27 @@ public class ListItemMapper {
 		//Herstellung einer Verbindung zur DB-Connection
 			Connection con =DBConnection.connection();
 			
-	try {
-		//leeres SQL-Statement (JDBC) anlegen
-		Statement stmt = con.createStatement();
+			try {
+				//leeres SQL-Statement (JDBC) anlegen
+				Statement stmt = con.createStatement();
 		
-		//Statement ausfüllen und als Query an die DB schicken
-		ResultSet rs = stmt.executeQuery("Select bo_id, amount, responsibility, unit, ischecked" + "WHERE bo_id= " + bo_id);
+				//Statement ausfüllen und als Query an die DB schicken
+				ResultSet rs = stmt.executeQuery("Select bo_id, amount, responsibility, unit, ischecked" + "WHERE bo_id= " + bo_id);
 		
-		/*
-	     * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-	     * werden. Prüfe, ob ein Ergebnis vorliegt.
-	     */
-		if (rs.next()) {
-			//Ergebnis-Tupel in Objekt umwandeln
-			ListItem li = new ListItem();
-			li.setBO_ID(rs.getInt("bo_id"));
-			li.setItem(rs.getString("item"));
-			li.setAmount(rs.getDouble("amount"));
-			li.setUnit(rs.getInt("Unit"));
-			li.setIsChecked(rs.getBoolean("iscchecked"));
+				/*
+				 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+				 * werden. Prüfe, ob ein Ergebnis vorliegt.
+				 */
+				if (rs.next()) {
+					//Ergebnis-Tupel in Objekt umwandeln
+					ListItem li = new ListItem();
+					li.setBO_ID(rs.getInt("bo_id"));
+					//li.setIt(rs.getString("item"));
+					li.setAmount(rs.getDouble("amount"));
+					//li.setUnit(rs.getInt("Unit"));
+					li.setChecked(rs.getBoolean("iscchecked"));
 			
-			return li;		
+					return li;		
 }
 	}catch (SQLException e) {
 		e.printStackTrace();
@@ -156,35 +157,35 @@ return null;
 }
 		
 		//Liste mit allen ListItems
-		public ListItem findAllListItems() {
+		public ArrayList<ListItem> findAllListItems() {
+			
+			ArrayList<ListItem> result = new ArrayList<ListItem>();
 			
 			//Herstellung einer Verbindung zur DB-Connection
 			Connection con =DBConnection.connection();
 			
-			ArrayList<ListItem> result = new ArrayList<ListItem>();
+		try {
+			//leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
 			
-	try {
-		//leeres SQL-Statement (JDBC) anlegen
-		Statement stmt = con.createStatement();
-		
-		//Statement ausfüllen und als Query an die DB schicken
-		ResultSet rs = stmt.executeQuery("SELECT * FROM listitem");
-		
-		while (rs.next()){
-			ListItem li = new ListItem();
-			li.setBO_ID(rs.getInt("bo_id"));
-			li.setItem(rs.getString("item"));
-			li.setAmount(rs.getDouble("amount"));
-			li.setUnit(rs.getInt("Unit"));
-			li.setIsChecked(rs.getBoolean("iscchecked"));
+			//Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs = stmt.executeQuery("SELECT * FROM listitem");
 			
-			result.addElement(li);
-		}
-	}catch (SQLException e) {
-		e.printStackTrace();
-		
-	}
-return result;
+			while (rs.next()){
+				ListItem li = new ListItem();
+				li.setBO_ID(rs.getInt("bo_id"));
+				//li.setIt(rs.getString("item"));
+				li.setAmount(rs.getDouble("amount"));
+				//li.setUnit(rs.getInt("Unit"));
+				li.setChecked(rs.getBoolean("iscchecked"));
+				
+				//Hinzufügen des neuen Objekts zur ArrayList
+				result.add(li);
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			
+			} return result;
 		}
 		
 		

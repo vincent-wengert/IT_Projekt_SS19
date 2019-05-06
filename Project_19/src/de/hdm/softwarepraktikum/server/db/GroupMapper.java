@@ -78,7 +78,7 @@ public class GroupMapper {
 				g.setName(rs.getString("name"));
 				g.setMember((ArrayList<Person>) rs.getArray("member"));
 				
-				return g;		
+				return g; 		
 	}
 		}catch (SQLException e) {
 			e.printStackTrace();
