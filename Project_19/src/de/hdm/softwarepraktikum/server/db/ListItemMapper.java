@@ -21,7 +21,7 @@ public class ListItemMapper {
 	   * @author Peter Thies
 	   */
 	
-	private static ListItemMapper listitemMapper = null;
+	private static ListItemMapper listItemMapper = null;
 	
 	/**
 	   * Geschützter Konstruktor - verhindert die Möglichkeit, mit <code>new</code>
@@ -38,11 +38,11 @@ public class ListItemMapper {
 	
 	public static ListItemMapper listitemMapper() {
 		
-		if(listitemMapper == null) {
-			listitemMapper = new ListItemMapper();
+		if(listItemMapper == null) {
+			listItemMapper = new ListItemMapper();
 		}
 		
-		return listitemMapper;
+		return listItemMapper;
 	}
 	
 	public Group insert(ListItem li) {
