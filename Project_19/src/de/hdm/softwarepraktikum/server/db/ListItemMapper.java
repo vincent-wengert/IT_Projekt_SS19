@@ -56,7 +56,7 @@ public class ListItemMapper {
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(bo_id) AS maxbo_id " + "FROM listitem ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM listitem ");
 			
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
@@ -64,12 +64,12 @@ public class ListItemMapper {
 			 * li erhält den bisher maximalen, nun um 1 inkrementierten
 			 * Primärschlüssel.
 			 */
-			li.setBO_ID(rs.getInt("maxbo_id") + 1);
+			li.setId(rs.getInt("maxid") + 1);
 					
 			stmt = con.createStatement();
 							
 			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate("INSERT INTO listitems (bo_id, item, amount, unit) " + "VALUES (" + li.getBO_ID() + ",'"
+			stmt.executeUpdate("INSERT INTO listitem (id, item, amount, unit) " + "VALUES (" + li.getId() + ",'"
 					+ li.getIt() + "','" + li.getAmount() + "','" + li.getUnit() + "')");
 		}
 	} catch (SQLException e) {
@@ -97,7 +97,7 @@ public class ListItemMapper {
 			Statement stmt = con.createStatement();
 			
 			stmt.executeUpdate("UPDATE listitems " + "SET item=\"" + li.getIt() + "\", " + "amount=\""
-					+ li.getAmount() + "\" " + "WHERE bo_id=" + li.getBO_ID());
+					+ li.getAmount() + "\" " + "WHERE id=" + li.getId());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -114,15 +114,15 @@ public class ListItemMapper {
 			try {
 				Statement stmt = con.createStatement();
 				
-				stmt.executeUpdate("DELETE FROM listitems " + "WHERE bo_id=" + li.getBO_ID());
+				stmt.executeUpdate("DELETE FROM listitems " + "WHERE id=" + li.getId());
 			} catch(SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		
 		
-		//Finden eins ListItems anhand der BO_ID
-		public ListItem findById(int bo_id) {
+		//Finden eins ListItems anhand der Id
+		public ListItem findById(int id) {
 			
 		//Herstellung einer Verbindung zur DB-Connection
 			Connection con =DBConnection.connection();
@@ -132,7 +132,7 @@ public class ListItemMapper {
 				Statement stmt = con.createStatement();
 		
 				//Statement ausfüllen und als Query an die DB schicken
-				ResultSet rs = stmt.executeQuery("Select bo_id, amount, responsibility, unit, ischecked" + "WHERE bo_id= " + bo_id);
+				ResultSet rs = stmt.executeQuery("Select id, amount, responsibility, unit, ischecked" + "WHERE id= " + id);
 		
 				/*
 				 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -141,7 +141,7 @@ public class ListItemMapper {
 				if (rs.next()) {
 					//Ergebnis-Tupel in Objekt umwandeln
 					ListItem li = new ListItem();
-					li.setBO_ID(rs.getInt("bo_id"));
+					li.setId(rs.getInt("id"));
 					//li.setIt(rs.getString("item"));
 					li.setAmount(rs.getDouble("amount"));
 					//li.setUnit(rs.getInt("Unit"));
@@ -173,7 +173,7 @@ return null;
 			
 			while (rs.next()){
 				ListItem li = new ListItem();
-				li.setBO_ID(rs.getInt("bo_id"));
+				li.setId(rs.getInt("id"));
 				//li.setIt(rs.getString("item"));
 				li.setAmount(rs.getDouble("amount"));
 				//li.setUnit(rs.getInt("Unit"));

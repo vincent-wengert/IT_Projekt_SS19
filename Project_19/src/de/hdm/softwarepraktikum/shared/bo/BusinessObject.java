@@ -9,6 +9,7 @@ public abstract class BusinessObject implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id = 0;
 	private Date creationdate;
+	private Date changedate;
 	
 	
 	
@@ -27,6 +28,13 @@ public abstract class BusinessObject implements Serializable{
 		this.creationdate = creationdate;
 	}
 	
+	
+	public Date getChangedate() {
+		return changedate;
+	}
+	public void setChangedate(Date changedate) {
+		this.changedate = changedate;
+	}
 	// Rückgabe Name + ID als String
 	public String toString() {
 		return this.getClass().getName() + "#" + this.id;

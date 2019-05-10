@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Person;
+import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 import java.util.ArrayList;
 
@@ -55,7 +56,7 @@ public class GroupMapper {
 	 * Einkäufergruppe anhand ihrer Id suchen.
 	 */
 	
-	public Group findById(int bo_id) {
+	public Group findById(int id) {
 		
 		//Herstellung einer Verbindung zur DB-Connection
 				Connection con =DBConnection.connection();
@@ -65,7 +66,7 @@ public class GroupMapper {
 			Statement stmt = con.createStatement();
 			
 			//Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("Select bo_id, name, user FROM person" + "WHERE bo_id= " + bo_id);
+			ResultSet rs = stmt.executeQuery("Select id, name, user FROM person" + "WHERE id= " + id);
 			
 			/*
 		     * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -74,8 +75,8 @@ public class GroupMapper {
 			if (rs.next()) {
 				//Ergebnis-Tupel in Objekt umwandeln
 				Group g = new Group();
-				g.setBO_ID(rs.getInt("bo_id"));
-				g.setName(rs.getString("name"));
+				g.setId(rs.getInt("id"));
+				g.setTitle(rs.getString("title"));
 				g.setMember((ArrayList<Person>) rs.getArray("member"));
 				
 				return g; 		
@@ -97,7 +98,7 @@ public class GroupMapper {
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(group_id) AS maxgroup_id " + "FROM group ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM group ");
 			
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
@@ -105,13 +106,13 @@ public class GroupMapper {
 			 * g erhält den bisher maximalen, nun um 1 inkrementierten
 			 * Primärschlüssel.
 			 */
-			g.setBO_ID(rs.getInt("maxgroup_id") + 1);
+			g.setId(rs.getInt("maxid") + 1);
 					
 			stmt = con.createStatement();
 							
 			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate("INSERT INTO groups (bo_id, name, user) " + "VALUES (" + g.getBO_ID() + ",'"
-					+ g.getName() + "','" + g.getMember() + "')");
+			stmt.executeUpdate("INSERT INTO groups (bo_id, name, user) " + "VALUES (" + g.getId() + ",'"
+					+ g.getTitle() + "','" + g.getMember() + "')");
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
@@ -137,8 +138,8 @@ public class GroupMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE groups " + "SET name=\"" + g.getName() + "\", " + "user=\""
-					+ g.getMember() + "\" " + "WHERE bo_id=" + g.getBO_ID());
+			stmt.executeUpdate("UPDATE group " + "SET title=\"" + g.getTitle() + "\", " + "user=\""
+					+ g.getMember() + "\" " + "WHERE id=" + g.getId());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -155,7 +156,7 @@ public class GroupMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE FROM groups " + "WHERE bo_id=" + g.getBO_ID());
+			stmt.executeUpdate("DELETE FROM group " + "WHERE id=" + g.getId());
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -165,25 +166,27 @@ public class GroupMapper {
 	 * auslesen aller Kunden
 	 * @return Eine ArrayList mit Group-Objekten, die alle Gruppen im System darstellen.
 	 */
-	public ArrayList<Group> findAllGroups() {
+	public ArrayList<Group> findAll() {
+		
+		Connection con = DBConnection.connection();
+		
 		//Ergebnisvektor vorbereiten
 		ArrayList<Group> result = new ArrayList<Group>();
 		
-		Connection con = DBConnection.connection();
 		try {
 			
 			Statement stmt = con.createStatement();
 			
 			ResultSet rs = stmt
-					.executeQuery("SELECT bo_id, name, isglobal, favoriteitem " + "FROM items " + "ORDER BY name");
+					.executeQuery("SELECT id, title, member " + "FROM group " + "ORDER BY name");
 			
 			// Für jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
 			while(rs.next()) {
 				Group g = new Group();
-				g.setBO_ID(rs.getInt("bo_id"));
-				g.setName(rs.getString("name"));
+				g.setId(rs.getInt("id"));
+				g.setTitle(rs.getString("title"));
 				g.setMember((ArrayList<Person>)rs.getArray("member"));
-				g.setFavoriteitem((ArrayList<ListItem>)rs.getArray("favoriteitem"));
+				
 				
 				//Hinzufügen des neuen Objekts zum Ergebnisvektor
 				result.add(g);
@@ -195,6 +198,33 @@ public class GroupMapper {
 		//Ergebnis zurückgeben
 		return result;
 	}
+	
+	
+	
+	
+	/**
+	 * Methode, um alle Einkaufslisten einer Gruppe auszulesen.
+	 * @param p
+	 * @return ShoppingLists
+	 
+	public ArrayList<ShoppingList> getShoppingListsPerGroup(Group p) {
+		
+		Connection con = DBConnection.connection();
+		
+		ArrayList<ShoppingList> result1 = new ArrayList<ShoppingList>();
+		
+		try {
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt
+					.executeQuery("SELECT id, title " + "FROM shoppinglist " + )
+		}
+		
+		
+		
+	}
+	
+	*/
 	
 }
 

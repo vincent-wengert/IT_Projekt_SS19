@@ -57,7 +57,7 @@ public class ItemMapper {
 		 * Zunächst schauen wir nach, welches der momentan höchste
 		 * Primärschlüsselwert ist.
 		 */
-		ResultSet rs = stmt.executeQuery("SELECT MAX(item_id) AS maxitem_id " + "FROM item ");
+		ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM item ");
 		
 		// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 		if (rs.next()) {
@@ -65,12 +65,12 @@ public class ItemMapper {
 		 * i erhält den bisher maximalen, nun um 1 inkrementierten
 		 * Primärschlüssel.
 		 */
-		i.setBO_ID(rs.getInt("maxitem_id") + 1);
+		i.setId(rs.getInt("maxid") + 1);
 				
 		stmt = con.createStatement();
 						
 		// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-		stmt.executeUpdate("INSERT INTO items (bo_id, name, isglobal) " + "VALUES (" + i.getBO_ID() + ",'"
+		stmt.executeUpdate("INSERT INTO item (id, name, isglobal) " + "VALUES (" + i.getId() + ",'"
 				+ i.getName() + "','" + i.getIsGlobal() + "')");
 		}
 	} catch (SQLException e) {
@@ -96,7 +96,7 @@ public class ItemMapper {
 			Statement stmt = con.createStatement();
 			
 			stmt.executeUpdate("UPDATE groups " + "SET name=\"" + i.getName() + "\", " + "globalid=\""
-					+ i.getIsGlobal() + "\" " + "WHERE bo_id=" + i.getBO_ID());
+					+ i.getIsGlobal() + "\" " + "WHERE id=" + i.getId());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -117,7 +117,7 @@ public class ItemMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE FROM groups " + "WHERE bo_id=" + i.getBO_ID());
+			stmt.executeUpdate("DELETE FROM groups " + "WHERE id=" + i.getId());
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -127,7 +127,7 @@ public class ItemMapper {
 	 * Methode, um Artikel anhand ihrer ID zu suchen.
 	 */
 	
-	public Item findById(int bo_id) {
+	public Item findById(int id) {
 		
 		//Herstellung einer Verbindung zur DB-Connection
 				Connection con =DBConnection.connection();
@@ -137,7 +137,7 @@ public class ItemMapper {
 			Statement stmt = con.createStatement();
 			
 			//Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("Select bo_id, name, isglobal FROM item" + "WHERE bo_id= " + bo_id);
+			ResultSet rs = stmt.executeQuery("Select id, name, isglobal FROM item" + "WHERE id= " + id);
 			
 			/*
 		     * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -146,7 +146,7 @@ public class ItemMapper {
 			if (rs.next()) {
 				//Ergebnis-Tupel in Objekt umwandeln
 				Item i = new Item();
-				i.setBO_ID(rs.getInt("bo_id"));
+				i.setId(rs.getInt("id"));
 				i.setName(rs.getString("name"));
 				i.setIsGlobal(rs.getBoolean("isglobal"));
 				
@@ -173,12 +173,12 @@ public class ItemMapper {
 			Statement stmt = con.createStatement();
 			
 			ResultSet rs = stmt
-					.executeQuery("SELECT bo_id, name, isglobal " + "FROM items " + "ORDER BY name");
+					.executeQuery("SELECT id, name, isglobal " + "FROM item " + "ORDER BY name");
 			
 			// Für jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
 			while(rs.next()) {
 				Item i = new Item();
-				i.setBO_ID(rs.getInt("bo_id"));
+				i.setId(rs.getInt("id"));
 				i.setName(rs.getString("name"));
 				i.setIsGlobal(rs.getBoolean("isglobal"));
 				
