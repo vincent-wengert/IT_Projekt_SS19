@@ -1,23 +1,22 @@
 package de.hdm.softwarepraktikum.shared.bo;
 
+import java.io.Serializable;
 import java.util.Date;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
-import de.hdm.thies.bankProjekt.shared.bo.BusinessObject;
 
-public abstract class BusinessObject implements IsSerializable{
+public abstract class BusinessObject implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private int bO_ID = 0;
+	private int id = 0;
 	private Date creationdate;
 	
 	
 	
-	public int getBO_ID() {
-		return bO_ID;
+	public int getId() {
+		return id;
 	}
-	public void setBO_ID(int bO_ID) {
-		this.bO_ID = bO_ID;
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	
@@ -30,7 +29,7 @@ public abstract class BusinessObject implements IsSerializable{
 	
 	// Rückgabe Name + ID als String
 	public String toString() {
-		return this.getClass().getName() + "#" + this.bO_ID;
+		return this.getClass().getName() + "#" + this.id;
 	}
 	
 
@@ -40,7 +39,7 @@ public abstract class BusinessObject implements IsSerializable{
 		if (obj != null && obj instanceof BusinessObject) {
 		      BusinessObject bo = (BusinessObject) obj;
 		      try {
-		        if (bo.getBO_ID() == this.bO_ID)
+		        if (bo.getId() == this.id)
 		          return true;
 		      }
 		      catch (IllegalArgumentException e) {
@@ -48,6 +47,11 @@ public abstract class BusinessObject implements IsSerializable{
 		        return false;
 		      }
 		}
+		/*
+	     * Wenn bislang keine Gleichheit bestimmt werden konnte, dann müssen
+	     * schließlich false zurückgeben.
+	     */
+	    return false;
 	}
 	
 }

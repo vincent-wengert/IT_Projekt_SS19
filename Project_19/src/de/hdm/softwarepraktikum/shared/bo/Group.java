@@ -10,13 +10,13 @@ public class Group extends BusinessObject {
 	private static final long serialVersionUID = 1L;
 	
 	//Name der Gruppe.
-	private String name;
+	private String title;
 	
 	//Mitglieder der Gruppe.
 	private ArrayList<Person> member;
 	
 	//Standartartikel der Gruppe
-	private ArrayList<Listitem> favoriteitem;
+	private ArrayList<ListItem> favoriteitem;
 
 	
 	
@@ -24,12 +24,12 @@ public class Group extends BusinessObject {
 	 * Getter und Setter der Attribute
 	 */
 	
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public ArrayList<Person> getMember() {
@@ -40,7 +40,7 @@ public class Group extends BusinessObject {
 		this.member = member;
 	}
 
-	public ArrayList<Listitem> getFavoriteitem() {
+	public ArrayList<ListItem> getFavoriteitem() {
 		return favoriteitem;
 	}
 
