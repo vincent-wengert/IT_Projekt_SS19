@@ -1,5 +1,5 @@
 package de.hdm.softwarepraktikum.shared;
 
-public class ShoppingListAdministration {
+public interface ShoppingListAdministration {
 
 }
