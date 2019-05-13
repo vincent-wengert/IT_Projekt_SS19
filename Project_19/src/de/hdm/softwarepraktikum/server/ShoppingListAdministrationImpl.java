@@ -1,5 +1,6 @@
 package de.hdm.softwarepraktikum.server;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -10,6 +11,7 @@ import de.hdm.softwarepraktikum.server.db.ShoppingListMapper;
 import de.hdm.softwarepraktikum.server.db.StoreMapper;
 import de.hdm.softwarepraktikum.server.db.GroupMapper;
 import de.hdm.softwarepraktikum.server.db.ItemMapper;
+import de.hdm.softwarepraktikum.shared.ShoppingListAdministration;
 import de.hdm.softwarepraktikum.shared.bo.BusinessObject;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
@@ -102,63 +104,219 @@ private ResponsibilityMapper responsibilityMapper = null;
 		
 	}
 	
-	/**
-	 *  ***************
-	 *  ABSCHNITT, Beginn: Methoden für Group Objekte
-	 *  
-	 *  ***************
-	 */
+
+
 	
-	/**
-	 * Anlegen eines Group Objektes
-	 * @param name
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	
-	public Group createGroup(String name) throws IllegalArgumentException {
-		
-		Group g = new Group();
-		g.setName(name);
-		
-		return g;
+
+
+	@Override
+	public void updatePerson(String name) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
 		
 	}
-	
-	/**
-	 * Schreibt Änderungen des Namens der Gruppe in die Datenbank.
-	 * @param g
-	 * @param name
-	 * @throws IllegalArgumentException
-	 */
-	
-public Group updateGroup(Group g, String name) throws IllegalArgumentException {
+
+
+	@Override
+	public void createPerson(Date creationDate, String gmail, String name) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
 		
-		g.setName(name);
-		
+	}
+
+
+	@Override
+	public Item createStore(String name, Enum unit) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public void updateItem(Item i) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
 		
 	}
 
-/**
- * Auslesen der zugehörigen Gruppe zur ShoppingList
- * @param sl
- * @return
- * @throws IllegalArgumentException
- */
 
-public Group getGroup(ShoppingList sl) throws IllegalArgumentException {
-	
-}
+	@Override
+	public void deleteItem(Item i) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
 
-public Group getAllGroupMembers(Group g) throws IllegalArgumentException {
+
+	@Override
+	public ArrayList<Item> getAllItems() throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Item getItem(int id) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ListItem createListItem(Item item, Person buyer, Store store, ShoppingList sl) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void updateListItem(ListItem li, Person buyer, Store store, ShoppingList sl) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void checkListItem(ListItem li) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void deleteListItem(ListItem li) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void getListItem(int id) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void createGroup(String title) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void updateGroup(String title) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void getGroup(ShoppingList sl) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public ArrayList<Person> getAllGroupMembers(Group g) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ShoppingList createShoppingList(Person owner, String title, Group p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void updateShoppingList(Person owner, String title, Group p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void deleteShoppingList(ShoppingList sl) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void getAllShoppingListsByPerson(Person p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void getAllShoppingListsByGroup(Group g) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void addFavoriteItem(Item i, Person p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void removeFavoriteItem(Item i, Person p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Store createStore(String name, String street, int postcode, String city) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Store getStore(int id) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void updateStore(String name, String street, int postcode, String city) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void deleteStore(Store s) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Responsibility createResponsibility(Person buyer, Store s, ShoppingList sl) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void updateResponsibility(Person buyer, Store s, ShoppingList sl) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void deleteResponsibility(Person buyer, Store s, ShoppingList sl) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
 	
-	ArrayList<Person> persons = this.get
-			// getGroupMembers im Mapper hinzufügen
 	
-}
-	
-	
-	
-	
-}
+}	
