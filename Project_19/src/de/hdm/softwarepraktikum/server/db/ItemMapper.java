@@ -193,18 +193,6 @@ public class ItemMapper {
 		return result;
 	}
 	
-	/*
-	 * Methode um einen Artikel anhand seines Objektes zu suchen.
-	 */
-	
-	public Item findByObject(Item i) {
-		
-	}
-	
-	
-	
-	
-	
 	
 	
 	/*
