@@ -18,6 +18,10 @@ public class Group extends BusinessObject {
 	//Standartartikel der Gruppe
 	private ArrayList<ListItem> favoriteitem;
 
+	/**
+	   * Fremdschlüsselbeziehung zu einem Mitglied der Gruppe.
+	   */
+	private int memberID;
 	
 	
 	/*
@@ -46,6 +50,22 @@ public class Group extends BusinessObject {
 
 	public void setFavoriteitem(ArrayList<ListItem> favoriteitem) {
 		this.favoriteitem = favoriteitem;
+	}
+
+	/**
+	 * Auslesen des Fremdschlüssels zu einem Gruppenmitglied
+	 * @return memberID
+	 */
+	public int getMemberID() {
+		return memberID;
+	}
+
+	/**
+	 * Setzen des Fremdschlüssels zu einem Gruppenmitglied
+	 * @param memberID
+	 */
+	public void setMemberID(int memberID) {
+		this.memberID = memberID;
 	}
 	
 	

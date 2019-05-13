@@ -3,7 +3,10 @@ package de.hdm.softwarepraktikum.server.db;
 import java.sql.*;
 import java.util.ArrayList;
 
+import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Person;
+import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
+import de.hdm.softwarepraktikum.server.db.GroupMapper;
 
 
 public class PersonMapper{
@@ -171,15 +174,15 @@ public class PersonMapper{
 
 			//Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden. 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT Person.Person_BO_ID,Businessobject.Owner, Businessobject.Creationdate, Businessobject.Changedate, Businessobject.IsShared"
-							+ " FROM Person JOIN Businessobject ON Person.Person_BO_ID = Businessobject.BO_ID"
+					"SELECT id, name, creationdate, changedate, isShared"
+							+ " FROM person " + "ORDER BY "
 			);
 
 			while (rs.next()) {
 
 				//Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden. 
 				Person person = new Person();
-				person.setId(rs.getInt("Contact_BO_Id"));
+				person.setId(rs.getInt("Id"));
 				person.setCreationdate(rs.getTimestamp("Creationdate"));
 				person.setChangedate(rs.getTimestamp("Changedate"));
 
@@ -195,6 +198,11 @@ public class PersonMapper{
 		return persons;
 	}
 	
+	/**
+	 * Finden einer Person anhand von ihrem Namen.
+	 * @param name
+	 * @return eine Arraylist mit Personen, deren Name der Eingabe ähnelt
+	 */
 	public ArrayList<Person> findByName(String name){
 		Connection con = DBConnection.connection();
 		ArrayList<Person> result = new ArrayList<Person>();
@@ -220,4 +228,36 @@ public class PersonMapper{
 		//Ergebnis zurückgeben
 		return result;
 	}
-}
+	
+	/**
+	 * Auslesen der zugehörigen <code>Group</code>-Objekte zu einer gegebenen Person.
+	 * @param p
+	 * @return
+	 */
+	public ArrayList<Group> getGroupsOf(Person p){
+		
+		/*
+		 * Hier wird auf den GroupMapper zugegriffen, welchem der im Person-Objekt
+		 * enthaltende Primärschlüssel übergeben wird. Der PersonMapper löst die ID
+		 * in eine Reihe von Group-Objekten auf.
+		 */
+		
+		return GroupMapper.groupMapper().findByMember(p);
+		}
+	
+	/**
+	 * Auslesen der zugehörigen <code>ShoppingList</code>-Objekte zu einer gegebenen Person.
+	 * @param p
+	 * @return
+	 */
+	public ArrayList<ShoppingList> getShoppingListsOf(Person p){
+		
+		/*
+		 * Hier wird auf den ShoppingListMapper zugegriffen, welchem der im Person-Objekt
+		 * enthaltende Primärschlüssel übergeben wird. Der PersonMapper löst die ID
+		 * in eine Reihe von ShoppingList-Objekten auf.
+		 */
+		return ShoppingListMapper.shoppinglistMapper().findByMember(p);
+	}
+	}
+

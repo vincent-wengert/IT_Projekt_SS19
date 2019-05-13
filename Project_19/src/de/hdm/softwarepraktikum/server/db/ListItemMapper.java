@@ -121,7 +121,11 @@ public class ListItemMapper {
 		}
 		
 		
-		//Finden eins ListItems anhand der Id
+		/**
+		 * Finden eins ListItems anhand der Id
+		 * @param id
+		 * @return
+		 */
 		public ListItem findById(int id) {
 			
 		//Herstellung einer Verbindung zur DB-Connection
@@ -148,13 +152,13 @@ public class ListItemMapper {
 					li.setChecked(rs.getBoolean("iscchecked"));
 			
 					return li;		
-}
-	}catch (SQLException e) {
-		e.printStackTrace();
-		return null;
-	}
-return null;
-}
+						}
+			}catch (SQLException e) {
+				e.printStackTrace();
+				return null;
+			}
+			return null;
+		}
 		
 		//Liste mit allen ListItems
 		public ArrayList<ListItem> findAllListItems() {
@@ -189,11 +193,5 @@ return null;
 		}
 		
 		
-		//Finden eines ListItems anhand eines Objects
-		public ListItem findbyObject(ListItem li) {
-			
-			/*
-			 * To be done
-			 */
-		}
+		
 }

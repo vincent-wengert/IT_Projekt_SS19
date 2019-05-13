@@ -6,11 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
+import de.hdm.thies.bankProjekt.server.db.DBConnection;
+import de.hdm.thies.bankProjekt.shared.bo.Account;
+import de.hdm.thies.bankProjekt.shared.bo.Customer;
 
 import java.util.ArrayList;
 
@@ -180,7 +184,7 @@ public class GroupMapper {
 			ResultSet rs = stmt
 					.executeQuery("SELECT id, title, member " + "FROM group " + "ORDER BY name");
 			
-			// Für jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
+			// Für jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
 			while(rs.next()) {
 				Group g = new Group();
 				g.setId(rs.getInt("id"));
@@ -198,6 +202,55 @@ public class GroupMapper {
 		//Ergebnis zurückgeben
 		return result;
 	}
+	
+	/**
+	 * Auslesen aller Gruppen eines durch Fremdschlüssel (id) gegebenen
+	 * Kunden.
+	 * @param memberID
+	 * @return
+	 */
+	public ArrayList<Group> findByMember(int memberID) {
+	    Connection con = DBConnection.connection();
+	    ArrayList<Group> result = new ArrayList<Group>();
+
+	    try {
+	      Statement stmt = con.createStatement();
+
+	      ResultSet rs = stmt.executeQuery("SELECT id, member FROM group "
+	          + "WHERE member=" + memberID + " ORDER BY id");
+
+	      // Für jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
+	      while (rs.next()) {
+	        Group g = new Group();
+	        g.setId(rs.getInt("id"));
+	        g.setMemberID(rs.getInt("member"));
+
+	        // Hinzufügen des neuen Objekts zum Ergebnisvektor
+	        result.add(g);
+	      }
+	    }
+	    catch (SQLException e2) {
+	      e2.printStackTrace();
+	    }
+
+	    // Ergebnisvektor zurückgeben
+	    return result;
+	  }
+	
+	/**
+	 * Auslesen aller Gruppen einer Person (durch <code> Person</code>-Objekt 
+	 * gegeben).
+	 * @param member Personobjekt, dessen Gruppen ausgelesen werden sollen.
+	 * @return alle Gruppen der Person
+	 */
+	 public ArrayList<Group> findByMember(Person member) {
+
+		    /*
+		     * Wir lesen einfach die id (Primärschlüssel) des Person-Objekts
+		     * aus und delegieren die weitere Bearbeitung an findByMember(int memberID).
+		     */
+		    return findByMember(member.getId());
+		  }
 	
 	
 	
