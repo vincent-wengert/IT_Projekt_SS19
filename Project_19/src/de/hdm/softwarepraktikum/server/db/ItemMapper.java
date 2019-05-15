@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import de.hdm.softwarepraktikum.shared.bo.Item;
+
 import java.util.ArrayList;
 
 public class ItemMapper {
@@ -83,7 +86,42 @@ public class ItemMapper {
 	
 	public Item insert(Item a) {
 		
-	}
+Connection con = DBConnection.connection();
+    	
+    	try {
+			 
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT MAX(Item_ID) AS maxid " + "FROM Item");
+
+
+		      if (rs.next()) {
+		      
+		      a.setBO_ID(rs.getInt("maxid") + 1);
+
+		      }
+
+				
+			    PreparedStatement stmt2 = con.prepareStatement(
+
+							"INSERT INTO Property (Property_ID, Term, Deletable) VALUES (?, ?, ?)",
+
+							Statement.RETURN_GENERATED_KEYS);
+
+					stmt2.setInt(1, p.getBO_ID());
+					stmt2.setString(2, p.getTerm());
+					stmt2.setBoolean(3, p.isDeletable());
+					stmt2.executeUpdate();
+			
+    	  }
+    	  catch(SQLException e) {
+        		e.printStackTrace();
+        	}	
+				
+        return p;
+    }
+		
+	
 	
 	/*
 	 * Eine Methode, um alle Artikel einer Person zu finden.
