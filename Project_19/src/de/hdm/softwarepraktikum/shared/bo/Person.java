@@ -1,28 +1,13 @@
 package de.hdm.softwarepraktikum.shared.bo;
 
+import java.util.ArrayList;
+
 public class Person extends BusinessObject{
 	
 	private static long serialVersionUID = 1L;
 	private String gmail;
 	private ArrayList<Item> favoriteItems = new ArrayList<Item>();
 	private String name;	
-	public int person_ID; 
-	
-	/**
-	*
-	*	Konstruktor mit Superklasse 
-	*
-	*/
-	public Person(String gmail, ArrayList<Item> favoriteItems, String name, int person_ID){
-		//Wird später von Datenbank gesetzt?
-		this.person_ID = -1;
-		
-		super(serialVersionUID, creationDate);
-		
-		this.gmail = gmail;
-		this.favoriteItems = favoriteItems;
-		this.name = name;
-	}
 	
 	/**
 	*
@@ -43,11 +28,11 @@ public class Person extends BusinessObject{
 	
 	/**
 	*
-	*	Gibt den Namen der Person zurueck.
+	*	Setzt die Gmail der Person.
 	*
 	*/
-	public String getName(){
-		return this.name;
+	public void setGmail(String gmail){
+		this.gmail = gmail;
 	}
 	
 	/**
@@ -58,34 +43,7 @@ public class Person extends BusinessObject{
 	public ArrayList<Item> getFavoriteItems(){
 		return this.favoriteItems;
 	}
-	
-	/**
-	*
-	*	Gibt die person_ID der Person zurueck.
-	*
-	*/
-	public int getPerson_ID(){
-		return this.Person_ID;
-	}
-	
-	/**
-	*
-	*	Setzt die Gmail der Person.
-	*
-	*/
-	public void setGmail(String gmail){
-		this.gmail = gmail;
-	}
-	
-	/**
-	*
-	*	Setzt den Namen der Person.
-	*
-	*/
-	public void setName(String name){
-		this.name = name;
-	}
-	
+
 	/**
 	*
 	*	Setzt die favoriteItems der Person.
@@ -97,12 +55,22 @@ public class Person extends BusinessObject{
 	
 	/**
 	*
-	*	Setzt die Person_ID der Person.
+	*	Gibt den Namen der Person zurueck.
 	*
 	*/
-	public void setPerson_ID(int person_ID){
-		this.person_ID = person_ID;
+	public String getName(){
+		return this.name;
 	}
+	
+	/**
+	*
+	*	Setzt den Namen der Person.
+	*
+	*/
+	public void setName(String name){
+		this.name = name;
+	}
+	
 	
 	/**
 	*

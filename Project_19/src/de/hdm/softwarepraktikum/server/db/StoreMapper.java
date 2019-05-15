@@ -11,17 +11,32 @@ import de.hdm.softwarepraktikum.shared.bo.Store;
 
 public class StoreMapper {
 
+	/**
+	   * Die Klasse StoreMapper wird nur einmal instantiiert. Man spricht hierbei
+	   * von einem sogenannten <b>Singleton</b>.
+	   * <p>
+	   * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal für
+	   * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	   * einzige Instanz dieser Klasse.
+	   * 
+	   * @author Peter Thies
+	   */
 	
-	
-		//Instanzierung
 		private static StoreMapper storeMapper = null;
 
 		
+		/**
+		 * Geschützter Konstruktor - verhindert die Möglichkeit, mit <code>new</code>
+		 * neue Instanzen dieser Klasse zu erzeugen.
+		 */
 		protected StoreMapper() {
 		}
 		
 		
-		// Sicherstellung Singleton
+		/*
+		 * Einhaltung der Singleton Eigenschaft des Mappers.
+		 */
+		
 		public static StoreMapper storeMapper() {
 			if (storeMapper == null) {
 				storeMapper = new StoreMapper();
@@ -33,37 +48,44 @@ public class StoreMapper {
 		
 		//Erstellen eines neuen Stores
 			
-		public void insertStore() {
-			
+		public Store insert(Store s) {
 			Connection con = DBConnection.connection();
 			
 			try {
 
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT MAX(Store_ID) AS id " + "FROM Store ");
+				
+				/*
+				 * Zunächst schauen wir nach, welches der momentan höchste
+				 * Primärschlüsselwert ist.
+				 */
+				ResultSet rs = stmt.executeQuery("SELECT MAX(store_id) AS id " + "FROM store ");
 
+				// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+				
 				if (rs.next()) {
+				/* 
+				 * s erhält den bisher maximalen, nun um 1 inkrementierten
+				 * Primärschlüssel.
+				 */
+					s.setBO_ID(rs.getInt("maxstore_id") + 1);
 
-					Store.setBO_ID(rs.getInt("Store_ID") + 1);
-
+					stmt = con.createStatement();
 				}
-
-				PreparedStatement stmt2 = con.prepareStatement("INSERT INTO Store (Store_ID, Name, Street, Postcode, City) VALUES (?, ?, ?)",
-						Statement.RETURN_GENERATED_KEYS);
-
-				stmt2.setInt(1, Store.getBO_ID());
-				stmt2.setString(2, Store.getName());
-				stmt2.setString(3, Store.getStreet());
-				stmt2.setInt(4, Store.getPostcode());
-				stmt2.setString(5, Store.getCity());
-				stmt2.executeUpdate();
+				
+				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
+				stmt.executeUpdate("INSERT INTO store (store_id, name, street, postcode, city) " + "VALUES (" + s.getBO_ID() + ",'"
+						+ s.getName() + "','" + s.getStreet() + " ','" + s.getPostcode() + "','" + s.getCity()+ "')");
+			
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-
 			}
 			
-			
+			/*
+			 * Rückgabe, der evtl. korrigierten Group.
+			 */
+			return s;
 				
 		}
 		

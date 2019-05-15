@@ -7,7 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+
+import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
+import de.hdm.softwarepraktikum.shared.bo.Person;
+
 
 import java.util.ArrayList;
 
@@ -41,11 +45,120 @@ public class ItemMapper {
 	}
 	
 	/*
-	 * Artikel anhand seiner Id zu suchen.
+	 * Insert Methode, um einen neuen Artikel der Datenbank hinzuzufuegen.
+	 */
+	
+	public Item insert(Item i) {
+		
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement stmt = con.createStatement();
+			
+		/*
+		 * Zunächst schauen wir nach, welches der momentan höchste
+		 * Primärschlüsselwert ist.
+		 */
+		ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM item ");
+		
+		// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+		if (rs.next()) {
+		/*
+		 * i erhält den bisher maximalen, nun um 1 inkrementierten
+		 * Primärschlüssel.
+		 */
+		i.setId(rs.getInt("maxid") + 1);
+				
+		stmt = con.createStatement();
+						
+		// Jetzt erst erfolgt die tatsächliche Einfügeoperation
+		stmt.executeUpdate("INSERT INTO item (id, name, isglobal) " + "VALUES (" + i.getId() + ",'"
+				+ i.getName() + "','" + i.getIsGlobal() + "')");
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+		
+		/*
+		 * Rückgabe des evtl. korrigierten Items.
+		 */
+		return i;
+	}
+	
+	
+	/*
+	 * Update Methode, um einen Artikel erneut zu schreiben.
+	 */
+	
+	public Item update(Item i) {
+		
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("UPDATE groups " + "SET name=\"" + i.getName() + "\", " + "globalid=\""
+					+ i.getIsGlobal() + "\" " + "WHERE id=" + i.getId());
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		// Um Analogie zu insert(item i) zu wahren, wird i zurückgegeben
+				return i;
+	}
+	
+	
+	/*
+	 * Delete Methode, um einen Artikel aus der Datenbank zu entfernen.
+	 */
+	
+	public void delete(Item i) {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("DELETE FROM groups " + "WHERE id=" + i.getId());
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * Methode, um Artikel anhand ihrer ID zu suchen.
 	 */
 	
 	public Item findById(int id) {
 		
+		//Herstellung einer Verbindung zur DB-Connection
+				Connection con =DBConnection.connection();
+				
+		try {
+			//leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+			
+			//Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs = stmt.executeQuery("Select id, name, isglobal FROM item" + "WHERE id= " + id);
+			
+			/*
+		     * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+		     * werden. Prüfe, ob ein Ergebnis vorliegt.
+		     */
+			if (rs.next()) {
+				//Ergebnis-Tupel in Objekt umwandeln
+				Item i = new Item();
+				i.setId(rs.getInt("id"));
+				i.setName(rs.getString("name"));
+				i.setIsGlobal(rs.getBoolean("isglobal"));
+				
+				return i;		
+	}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	return null;
 	}
 	
 	/*
@@ -53,81 +166,43 @@ public class ItemMapper {
 	 */
 	
 	public ArrayList<Item> findAllItems() {
+		//Ergebnisvektor vorbereiten
+		ArrayList<Item> result = new ArrayList<Item>();
 		
-	}
-	
-	/*
-	 * Methode um einen Artikel anhand seines Objektes zu suchen.
-	 */
-	
-	public Item findByObject(Item a) {
-		
-	}
-	
-	/*
-	 * Delete Methode, um einen Artikel aus der Datenbank zu entfernen.
-	 */
-	
-	public void delete(Item a) {
-		
-	}
-	
-	/*
-	 * Update Methode, um einen Artikel erneut zu schreiben.
-	 */
-	
-	public Item update(Item a) {
-		
-	}
-	
-	/*
-	 * Insert Methode, um einen neuen Artikel der Datenbank hinzuzufÃ¼gen.
-	 */
-	
-	public Item insert(Item a) {
-		
-Connection con = DBConnection.connection();
-    	
-    	try {
-			 
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery("SELECT MAX(Item_ID) AS maxid " + "FROM Item");
-
-
-		      if (rs.next()) {
-		      
-		      a.setBO_ID(rs.getInt("maxid") + 1);
-
-		      }
-
-				
-			    PreparedStatement stmt2 = con.prepareStatement(
-
-							"INSERT INTO Property (Property_ID, Term, Deletable) VALUES (?, ?, ?)",
-
-							Statement.RETURN_GENERATED_KEYS);
-
-					stmt2.setInt(1, p.getBO_ID());
-					stmt2.setString(2, p.getTerm());
-					stmt2.setBoolean(3, p.isDeletable());
-					stmt2.executeUpdate();
+		Connection con = DBConnection.connection();
+		try {
 			
-    	  }
-    	  catch(SQLException e) {
-        		e.printStackTrace();
-        	}	
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt
+					.executeQuery("SELECT id, name, isglobal " + "FROM item " + "ORDER BY name");
+			
+			// Für jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
+			while(rs.next()) {
+				Item i = new Item();
+				i.setId(rs.getInt("id"));
+				i.setName(rs.getString("name"));
+				i.setIsGlobal(rs.getBoolean("isglobal"));
 				
-        return p;
-    }
+				//Hinzufügen des neuen Objekts zum Ergebnisvektor
+				result.add(i);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
+		//Ergebnis zurückgeben
+		return result;
+	}
 	
+	
+
 	
 	/*
 	 * Eine Methode, um alle Artikel einer Person zu finden.
 	 */
 	
-	public ArrayList<Item> findByPerson () {
+	public ArrayList<Item> findByPerson() {
 		
 	}
 

@@ -3,20 +3,10 @@ package de.hdm.softwarepraktikum.shared.bo;
 public class Store extends BusinessObject{
 
 	private static final long serialVersionUID = 1L;
-	private int Store_ID;
 	private String name;
 	private String street;
 	private int postcode;
 	private String city;
-	
-	
-	
-	public int getStore_ID() {
-		return Store_ID;
-	}
-	public void setStore_ID(int store_ID) {
-		Store_ID = store_ID;
-	}
 	
 	public String getName() {
 		return name;

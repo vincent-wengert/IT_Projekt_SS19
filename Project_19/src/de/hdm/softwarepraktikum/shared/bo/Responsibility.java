@@ -23,7 +23,7 @@ public class Responsibility extends BusinessObject {
 		this.st = value;
 	}
 	
-	public Shoppinglist getSl() {
+	public ShoppingList getSl() {
 		return sl;
 	}
 	
