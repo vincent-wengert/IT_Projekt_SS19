@@ -3,32 +3,30 @@ package de.hdm.softwarepraktikum.shared.bo;
 public class Responsibility extends BusinessObject {
 	
 	private static final long serialVersionUID = 1L;
-	private Person buyer;
-	private Store st;
-	private ShoppingList sl;
+	private int buyerID;
+	private int storeID;
+	private int slID;
 	
-	public Person getBuyer() {
-		return buyer;
+	
+	public int getBuyerID() {
+		return buyerID;
+	}
+	public void setBuyerID(int buyerID) {
+		this.buyerID = buyerID;
+	}
+	public int getStoreID() {
+		return storeID;
+	}
+	public void setStoreID(int storeID) {
+		this.storeID = storeID;
+	}
+	public int getSlID() {
+		return slID;
+	}
+	public void setSlID(int slID) {
+		this.slID = slID;
 	}
 	
-	public void setBuyer(Person value) {
-		this.buyer = value;
-	}
 	
-	public Store getSt() {
-		return st;
-	}
-	
-	public void setSt(Store value) {
-		this.st = value;
-	}
-	
-	public ShoppingList getSl() {
-		return sl;
-	}
-	
-	public void setSl(ShoppingList value) {
-		this.sl = value;
-	}
 
 }

@@ -9,6 +9,8 @@ public class ShoppingList extends BusinessObject {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String title;
+	private int ownerID;
+	private int groupID;
 	
 	/**
 	   * Fremdschlüsselbeziehung zu einem Mitglied der Gruppe.
@@ -31,13 +33,22 @@ public class ShoppingList extends BusinessObject {
 	 * Auslesen des Fremdschlüssels zu einem Gruppenmitglied
 	 * @return memberID
 	 */
-	public int getMemberID() {
-		return memberID;
+
+
+	public int getGroupID() {
+		return groupID;
 	}
-    
-	public void setMemberID(int memberID) {
-		this.memberID = memberID;
-		
+
+	public void setGroupID(int groupID) {
+		this.groupID = groupID;
+	}
+
+	public int getOwnerID() {
+		return ownerID;
+	}
+
+	public void setOwnerID(int ownerID) {
+		this.ownerID = ownerID;
 	}
 	
 }

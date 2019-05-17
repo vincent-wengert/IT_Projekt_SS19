@@ -26,4 +26,9 @@ public class Item extends BusinessObject {
 	public void setIsGlobal(boolean value) {
 		this.isGlobal = value;
 	}
+
+	public void setUnit(Enum unit) {
+		// TODO Auto-generated method stub
+		
+	}
 }
