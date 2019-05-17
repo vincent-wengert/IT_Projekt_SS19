@@ -258,5 +258,12 @@ public class PersonMapper{
 		 */
 		return ShoppingListMapper.shoppinglistMapper().findByMember(p);
 	}
+	
+	public ArrayList<Person> findAllGroupMembers(){
+		return null;
+		
+	}
+	
+	
 	}
 

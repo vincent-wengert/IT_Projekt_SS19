@@ -16,6 +16,7 @@ import de.hdm.softwarepraktikum.shared.bo.BusinessObject;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
+import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
@@ -130,7 +131,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public Item createStore(String name, Enum unit) throws IllegalArgumentException {
+	public Item createItem(String name, Unit unit) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		Item i = new Item();
 		
@@ -171,7 +172,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public ListItem createListItem(Item item, Person buyerID, int storeID, int slID) throws IllegalArgumentException {
+	public ListItem createListItem(Item item, int buyerID, int storeID, int slID) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		
 		ListItem li = new ListItem();
@@ -179,7 +180,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 		li.setIt(item);
 		li.setBuyerID(buyerID);
 		li.setStoreID(storeID);
-		li.setShoppingListID(slID);
+		li.setSlID(slID);
 		
 		li.setId();
 		
@@ -188,9 +189,9 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public void updateListItem(Item item, Person buyer, int storeID, int slID) throws IllegalArgumentException {
+	public void updateListItem(ListItem li) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		ListItemMapper.update(li);
 	}
 
 
@@ -228,9 +229,9 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public void updateGroup(String title) throws IllegalArgumentException {
+	public void updateGroup(Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		groupMapper.update(g);
 	}
 
 
@@ -244,7 +245,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public ArrayList<Person> getAllGroupMembers(Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.personMapper.findAllGroupMembers();
 	}
 
 
@@ -263,9 +264,9 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public void updateShoppingList(Person owner, String title, Group p) throws IllegalArgumentException {
+	public void updateShoppingList(ShoppingList sl) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		ShoppingListMapper.update(sl);
 	}
 
 
@@ -277,15 +278,17 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public void getAllShoppingListsByPerson(Person p) throws IllegalArgumentException {
+	public ArrayList<ShoppingList> getAllShoppingListsByPerson(Person p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		return this.shoppingListMapper.findByMember(p);
 	}
 
 
 	@Override
-	public void getAllShoppingListsByGroup(Group g) throws IllegalArgumentException {
+	public ShoppingList getAllShoppingListsByGroup(Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+		
+		return this.shoppingListMapper.findByGroup(g);
 		
 	}
 
@@ -328,9 +331,9 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public void updateStore(String name, String street, int postcode, String city) throws IllegalArgumentException {
+	public void updateStore(Store s) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		StoreMapper.updateStore(s);
 	}
 
 
@@ -355,10 +358,10 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public void updateResponsibility(Person buyer, Store s, ShoppingList sl) throws IllegalArgumentException {
+	public void updateResponsibility(Responsibility r) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
-	}
+		ResponsibilityMapper.updateResponsibility(r);
+	} 
 
 
 	@Override
