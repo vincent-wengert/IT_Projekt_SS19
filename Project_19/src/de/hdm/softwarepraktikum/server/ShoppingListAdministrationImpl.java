@@ -117,16 +117,28 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public void createPerson(Date creationDate, String gmail, String name) throws IllegalArgumentException {
+	public Person createPerson(Date creationDate, String gmail, String name) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+		Person p = new Person();
+		p.setCreationdate(creationDate);
+		p.setGmail(gmail);
+		p.setName(name);
+		p.setId();
 		
+		return this.personMapper.insert(p);
 	}
 
 
 	@Override
 	public Item createStore(String name, Enum unit) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		Item i = new Item();
+		
+		i.setName(name);
+		i.setUnit(unit);
+		
+		
+		return this.itemMapper.insert(i);
 	}
 
 
@@ -159,14 +171,24 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public ListItem createListItem(Item item, Person buyer, Store store, ShoppingList sl) throws IllegalArgumentException {
+	public ListItem createListItem(Item item, Person buyerID, int storeID, int slID) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
+		ListItem li = new ListItem();
+		
+		li.setIt(item);
+		li.setBuyerID(buyerID);
+		li.setStoreID(storeID);
+		li.setShoppingListID(slID);
+		
+		li.setId();
+		
+		return this.listItemMapper.insert(li);
 	}
 
 
 	@Override
-	public void updateListItem(ListItem li, Person buyer, Store store, ShoppingList sl) throws IllegalArgumentException {
+	public void updateListItem(Item item, Person buyer, int storeID, int slID) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -196,6 +218,11 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public void createGroup(String title) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+		Group g = new Group();
+		
+		g.setTitle(title);
+		
+		g.setId();
 		
 	}
 
@@ -222,9 +249,16 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public ShoppingList createShoppingList(Person owner, String title, Group p) throws IllegalArgumentException {
+	public ShoppingList createShoppingList(int ownerid, String title, int groupID) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		ShoppingList sl = new ShoppingList();
+		sl.setTitle(title);
+		sl.setOwnerID(ownerid);
+		sl.setGroupID(groupID);
+		
+		sl.setId();
+		
+		return this.shoppingListMapper.insert(sl);
 	}
 
 
@@ -273,7 +307,16 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public Store createStore(String name, String street, int postcode, String city) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
+		Store s = new Store();
+		
+		s.setName(name);
+		s.setStreet(street);
+		s.setPostcode(postcode);
+		s.setCity(city);		
+		
+		return this.storeMapper.insert(s);
+		
 	}
 
 
@@ -299,9 +342,15 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public Responsibility createResponsibility(Person buyer, Store s, ShoppingList sl) throws IllegalArgumentException {
+	public Responsibility createResponsibility(int buyerID, int storeID, int slID) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
+		Responsibility r = new Responsibility();
+		r.setBuyerID(buyerID);
+		r.setStoreID(storeID);
+		r.setSlID(slID);
+		
+		return this.responsibilityMapper.insert(r);
 	}
 
 
