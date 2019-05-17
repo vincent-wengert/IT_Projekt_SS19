@@ -161,11 +161,12 @@ public class ItemMapper {
 	return null;
 	}
 	
-	/*
-	 * Methode zum Auflisten aller Artikel.
+	/**
+	 * Auslesen aller Items
+	 * @return Eine Arraylist mit Item-Objekten, die alle Produkte darstellt.
 	 */
 	
-	public ArrayList<Item> findAllItems() {
+	public ArrayList<Item> findAll() {
 		//Ergebnisvektor vorbereiten
 		ArrayList<Item> result = new ArrayList<Item>();
 		
@@ -200,10 +201,10 @@ public class ItemMapper {
 	
 	/*
 	 * Eine Methode, um alle Artikel einer Person zu finden.
-	 */
+	 
 	
 	public ArrayList<Item> findByPerson() {
 		
 	}
-
+	*/
 }

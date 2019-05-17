@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -12,14 +13,12 @@ import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
-import de.hdm.thies.bankProjekt.server.db.DBConnection;
-import de.hdm.thies.bankProjekt.shared.bo.Account;
-import de.hdm.thies.bankProjekt.shared.bo.Customer;
 
-import java.util.ArrayList;
+
+
 
 public class GroupMapper {
-
+	
 	/**
 	   * Die Klasse GroupMapper wird nur einmal instantiiert. Man spricht hierbei
 	   * von einem sogenannten <b>Singleton</b>.
@@ -28,7 +27,7 @@ public class GroupMapper {
 	   * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	   * einzige Instanz dieser Klasse.
 	   * 
-	   * @author Peter Thies
+	   * @author Bruno Herceg
 	   */
 	
 	private static GroupMapper groupMapper = null;
@@ -74,7 +73,7 @@ public class GroupMapper {
 			
 			/*
 		     * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-		     * werden. Prüfe, ob ein Ergebnis vorliegt.
+		     * werden. Prüfe, ob ein Ergebnis vorliegt.group
 		     */
 			if (rs.next()) {
 				//Ergebnis-Tupel in Objekt umwandeln
