@@ -2,12 +2,15 @@
 
 
 /** Example rules used by the template application (remove for your app) */
+
 html *{
 	font-size: 14pt !important;
 	fornt-family: verdana, sans-serif;
-	transform-origin:0 0.9;	
-}
+	transform-origin:0 0.9;
 
+	
+}
+/** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
   margin: 15px 6px 6px;
 }
@@ -16,13 +19,13 @@ body{
 	background-image: url("images/background.jpg") !important ;
 	background-size: cover !important;
 	}
-	
 #Header{	
 	padding-left: 25px;
     background-color:rgba(225, 225, 225, 0.8);
     color:white;
     width: 99%;
     background-repeat: no-repeat;
+	background-image: url("images/header.png") !important ;
 	margin-top:-8px;
 	margin-left:-10px;
 
@@ -46,9 +49,10 @@ body{
 	margin-left:-10px;
 	height: 80vh;
 	background-repeat: no-repeat;
-	background-color:rgba(225, 225, 225, 0.8);	
+	/* background-image: url("images/Menu.png") !important ; */
+	background-color:rgba(225, 225, 225, 0.8);
+	
 }
-
 #Navigator{
 	
 	line-height: 40px;
@@ -79,34 +83,505 @@ body{
 	position: relative;
 	align: center;
 }
-
-h1 {
-  font-size: 2em;
-  font-weight: bold;
-  color: #777777;
-  margin: 40px 0px 70px;
-  text-align: center;
+#footer .gwt-Button{
+	background: transparent;
+	border: none;
+	color: transparent;
 }
 
-.sendButton {
-  display: block;
-  font-size: 16pt;
+.impressum{
+	background: transparent;
+	border: none;
+	color: black;
 }
 
-/** Most GWT widgets already have a style name defined */
-.gwt-DialogBox {
-  width: 400px;
+.credits{
+	background: transparent;
+	border: none;
+	color: black;   
 }
 
-.dialogVPanel {
-  margin: 5px;
+.gwt-TextBox {
+	
+	height: 25px;
+	width: 300px;
+	background: #white !important;
+
 }
 
-.serverResponseLabelError {
-  color: red;
+.gwt-TextBox-readonly{
+	height: 25px;
+	width: 150px;
+	background:  #c0c0c0!important;
 }
 
-/** Set ids using widget.getElement().setId("idOfElement") */
-#closeButton {
-  margin: 15px 6px 6px;
+.gwt-DialogBox{
+	left: 40vw !important;
+	top: 10vh !important;
+    visibility: visible;
+    position: absolute;
+    overflow: visible;
+    clip: rect(auto, auto, auto, auto);
 }
+
+.gwt-TabPanel{
+	height: auto;
+
+}
+
+.gwt-TabBar {
+	background: #1f2833 !important;
+	height: 7vh !important;
+}
+
+.gwt-TabBar .gwt-TabBarItem {
+	background: #6f7277  !important;
+	color: black !important;
+}
+
+.gwt-TabBar .gwt-TabBarItem-selected {
+	background:	#C2C4C2 !important;
+	color: #1f2833 !important;
+}
+.headerPanel .gwt-Label {
+	margin-left: 20px;
+}
+
+
+.userPanel{
+	margin-left: 30px;
+	margin-right:30px;
+}
+
+.createGroupButton{
+	outline: white;
+	position: relative;
+	right: 0px;
+	margin: 0, auto;
+	color: white;
+	border: none;
+	background: transparent;
+	background-image: url("images/group.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+.createGroupButton:hover{
+	background-color: #1F2833;
+	position: relative;
+	right: 0px;
+	margin: 0, auto;
+	color: white;
+	border:solid black 1px;
+	background-image: url("images/group.png");
+	
+}
+						
+.createShoppinglistButton{
+	outline: white;
+	position: relative;
+	right: 0px;
+	margin: 0, auto;
+	color: white;
+	border: none;
+	background: transparent;
+	background-image: url("images/shoppinglist.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+.createShoppinglistButton:hover{
+	background-color: #1F2833;
+	position: relative;
+	right: 0px;
+	margin: 0, auto;
+	color: white;
+	border:solid black 1px;
+	background-image: url("images/shoppinglist.png");
+}
+
+.createArticleButton{		
+	outline: white;
+	position: relative;
+	right: 0px;
+	margin: 0, auto;
+	color: white;
+	border: none;
+	background: transparent;
+	background-image: url("images/article.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+.createArticleButton:hover{
+	background-color: #1F2833;
+	position: relative;
+	right: 0px;
+	margin: 0, auto;
+	color: white;
+	border:solid black 1px;
+	background-image: url("images/article.png");
+}
+
+.createStoreButton{	outline: white;
+	position: relative;
+	right: 0px;
+	margin: 0, auto;
+	color: white;
+	border: none;
+	background: transparent;
+	background-image: url("images/store.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+.createStoreButton:hover{	
+	background-color: #1F2833;
+	position: relative;
+	right: 0px;
+	margin: 0, auto;
+	color: white;
+	border:solid black 1px;
+	background-image: url("images/store.png");
+}
+
+
+.logoutButton{
+	
+	outline: white;
+	position: relative;
+	right: 0px;
+	margin: 0, auto;
+	color: white;
+	border: none;
+	background: transparent;
+	background-image: url("images/logout.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+    background-size: 50%;
+}
+
+.logoutButton:hover {
+ 	background-color: #1F2833;
+	position: relative;
+	right: 0px;
+	margin: 0, auto;
+	color: white;
+	border:solid black 1px;
+	background-image: url("images/logout.png");	
+	background-size: 50%;
+	
+}
+
+
+.editButton{
+	
+	outline:none !important;
+	border: none;
+	background: transparent;
+	background-image: url("images/editButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+	
+}
+
+.editButton:hover{
+	
+	border:solid black 1px;
+	cursor: pointer;
+	background-color:#6f7277;
+	background-image: url("images/editButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+
+.deleteButton{
+	border: none;
+	background: transparent;
+	background-image: url("images/deleteButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+.deleteButton:hover{
+	
+	border:solid black 1px;
+	cursor: pointer;
+	background-color:#6f7277;
+	background-image: url("images/deleteButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+.shareButton{
+	border: none;
+	background: transparent;
+	background-image: url("images/shareButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+.shareButton:hover{
+	border:solid black 1px;
+	cursor: pointer;
+	background-color: #6f7277;
+	background-image: url("images/shareButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+.revokeButton{
+	border: none;
+	background: transparent;
+	background-image: url("images/revokeButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+.revokeButton:hover{
+	border:solid black 1px;
+	cursor: pointer;
+	background-color:#6f7277;
+	background-image: url("images/revokeButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+
+
+.loginButton{
+	margin: 50px;
+	color:white;
+	padding-left: 35px;
+	border: none;
+	font-size:170% !important;
+	font-weigth: bolder;
+	cursor: pointer;
+	background: transparent;
+	background-repeat:no-repeat;
+	background-image: url("images/loginButton.png");
+	
+}
+
+.loginLabel {
+	margin-top: 150px;
+	font-size: 24pt !important;
+	font-weight: bold;
+	color: white;
+}
+
+
+.editorButton {
+   	font-size:170% !important;
+	font-weigth: bolder;
+    color: white;
+    cursor: pointer;
+	background: #1F2833;
+	border: none;
+}
+
+
+.editorButton:hover {
+  	 font-size:170% !important;
+	font-weigth: bolder;
+    color: white;
+    cursor: pointer;
+	background:#1F2833 !important;
+	border:solid black 1px;
+	
+}
+.reportGeneratorButton {
+	
+   	font-size:170% !important;
+	font-weigth: bolder;
+    color: white;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    
+}
+
+.reportGeneratorButton:hover{
+	
+  	 font-size:170% !important;
+	font-weigth: bolder;
+    color: white;
+    cursor: pointer;
+    background: #1F2833 !important;
+    border:solid black 1px;
+}
+
+
+.homeButtonPanel{
+	
+	margin-left: 10vw;
+}
+
+
+.formHeaderPanel{
+	background-color: #1F2833 !important;
+	height: 7vh !important;
+	
+}
+
+.infoTitleLabel {
+	color:white;
+	margin-left:10px;
+	font-weight: bold;
+	font-size: 250% !important;
+	margin-Bottom:7px;
+	
+}
+
+.cancelButton{
+	background-color: #666666;
+	color: white;
+	border: solid black 1px;
+}
+
+.cancelButton:hover{
+	background-color: #6f7277;
+	color: white;
+	border: solid white 2px;
+	cursor:pointer;
+}
+
+.confirmButton{
+	background-color: #666666;
+	color: white;
+	border: solid black 1px;
+}
+
+.confirmButton:hover{
+	background-color: #6f7277;
+	color: white;
+	border: solid white 2px;
+	cursor:pointer;
+}
+
+.textLabel{
+	font-family: 'Helvetica Neue', sans-serif;
+	font-size: 130%;
+	line-height: 1; 
+	text-align: center;
+}
+
+.contactListGrid{
+	margin-top: 20px;
+}
+
+
+
+.propertyPanel{
+	margin-top: 20px;
+	border: solid black 1px;
+	background-color: #eeeeee;
+}
+
+.additionalInfoGrid{
+	    margin-top: 30px;
+	   	padding-left: 5px;
+	    padding-right: 5px;
+	    
+}
+
+.editFlexTable{
+	 margin-top: 20px;
+}
+
+.regiterLabel{
+	margin-top: 20px;
+	margin-left: 20px;
+}
+
+.checkboxDisabled{
+	color:#666666 !important;
+	
+}
+
+.cancelSearchButton{
+	border: solid black 1px;
+	cursor: pointer;
+ 	background-color: #6f7277;
+ 	color: white;
+ 	vertical-align:middle;
+}
+
+.cancelSearchButton:hover{
+	border: solid white 1px;
+	cursor: pointer;
+ 	background-color: #6f7277;
+ 	color: white;
+}
+
+.addPersonButton{
+	border: solid black 1px;
+	cursor: pointer;
+ 	background-color: #6f7277;
+ 	color: white;
+ 	vertical-align:middle;
+}
+.addPersonButton:hover{
+	border: solid white 1px;
+	cursor: pointer;
+ 	background-color: #6f7277;
+ 	color: white;
+}
+
+.slogan{
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.bottomButtonsPanel{
+
+}
+
+.refreshInfoLabel {
+	text-align: center;
+    font-size: 100%;
+    color: white;
+    background-color: black;
+    -webkit-animation-name: refreshInfoLabelAnimation; 
+    -webkit-animation-duration: 3s; 
+    -webkit-animation-iteration-count: infinite;
+    animation-name: refreshInfoLabelAnimation;
+    animation-iteration-count: infinite;
+    animation-duration: 3s;
+    margin-left:120px;
+    
+}
+
+.errorLabel {
+	text-align: center;
+    font-size: 100%;
+    margin-left:120px;
+    color: white;
+    background-color: black;
+    -webkit-animation-name: refreshInfoLabelAnimation; 
+    -webkit-animation-duration: 3s; 
+    -webkit-animation-iteration-count: infinite;
+    animation-name: refreshInfoLabelAnimation;
+    animation-iteration-count: infinite;
+    animation-duration: 3s;
+}
+
+@-webkit-keyframes refreshInfoLabelAnimation {
+    
+    0%   {background-color: #1f2833;}
+    25%  {background-color:  black;}
+    50%  {background-color: #596b8b;}
+    100% {background-color: black;}
+}
+
+
+@keyframes refreshInfoLabelAnimation {
+   
+    0%   {background-color: #1f2833;}
+    25%  {background-color: black;}
+    50%  {background-color: #596b8b;}
+    100% {background-color: black;}
+ 
+}
+
+
