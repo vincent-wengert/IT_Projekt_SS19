@@ -1,5 +1,7 @@
 package de.hdm.softwarepraktikum.client.gui;
 
-public class Footer {
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+public class Footer extends VerticalPanel{
 
 }

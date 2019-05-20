@@ -1,5 +1,7 @@
 package de.hdm.softwarepraktikum.client.gui;
 
-public class MenuPanel {
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+public class MenuPanel extends VerticalPanel{
 
 }
