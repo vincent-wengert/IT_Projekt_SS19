@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * Die <code>Header</code>-Klasse ist der Kopfbereich des Shoppinglisttool. 
  * Der Header wird über alle Seiten des Tools gleich angezeigt. 
- * Dieser Ermöglicht die Navigation zwischen den Clients <code>ShoppingListEntry</code>
+ * Dieser ermöglicht die Navigation zwischen den Clients <code>ShoppingListEntry</code>
  * und <code>ShoppingListReportEntry</code> und den Logout aus dem System.
  * 
  * @author Vincent Wengert

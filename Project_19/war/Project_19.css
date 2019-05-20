@@ -2,6 +2,84 @@
 
 
 /** Example rules used by the template application (remove for your app) */
+html *{
+	font-size: 14pt !important;
+	fornt-family: verdana, sans-serif;
+	transform-origin:0 0.9;	
+}
+
+#closeButton {
+  margin: 15px 6px 6px;
+}
+
+body{
+	background-image: url("images/background.jpg") !important ;
+	background-size: cover !important;
+	}
+	
+#Header{	
+	padding-left: 25px;
+    background-color:rgba(225, 225, 225, 0.8);
+    color:white;
+    width: 99%;
+    background-repeat: no-repeat;
+	margin-top:-8px;
+	margin-left:-10px;
+
+}
+
+#container{
+	
+	height: auto!important;
+	margin-top: 10px;
+	min-height: 80vh;
+}
+
+#Menu{
+
+	width: 15vh;
+	float: left;
+	left: 0px;
+	margin-top: 0px;
+	padding-top: 0px;
+	margin-right: 10px;
+	margin-left:-10px;
+	height: 80vh;
+	background-repeat: no-repeat;
+	background-color:rgba(225, 225, 225, 0.8);	
+}
+
+#Navigator{
+	
+	line-height: 40px;
+    background-color:rgba(225, 225, 225, 0.8);
+    min-width: 35vw;
+    float:left;
+  	margin-right:10px;
+  	height: 80vh;
+  	overflow: auto;
+}
+
+#Details{
+	
+	background-color:rgba(225, 225, 225, 0.8);
+	right: 0px;
+	min-width: 45vw;
+	min-height: 80vh;
+    overflow: auto;
+    margin: 0px auto;
+    
+}
+
+#footer{
+	
+	min-height: 5vh;
+	text-align: center;
+	margin-top: 2vh;
+	position: relative;
+	align: center;
+}
+
 h1 {
   font-size: 2em;
   font-weight: bold;
