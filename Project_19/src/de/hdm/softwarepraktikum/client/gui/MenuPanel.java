@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-
 /**
  * Das <code>MenuPanel</code> bildet das Menü des GUI und enthält
  * die Buttons zum Anlegen von <code>Items</code> und <code>Shoppinglist</code>,
@@ -19,6 +18,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class MenuPanel extends VerticalPanel{
 	
+	private NewGroupForm newGroupForm;
 	private NewStoreForm newStoreForm;
 	private NewItemForm newItemForm;
 	private NewShoppingListForm newShoppingListForm;
@@ -83,7 +83,8 @@ public class MenuPanel extends VerticalPanel{
 		logoutButton.setStylePrimaryName("logoutButton");
 		logoutButton.setTitle("Abmelden");
 	}
-
+	
+	
 	/**
 	 * Setzen des NewStoreForm innerhalb des MenuPanels
 	 * 
@@ -111,6 +112,14 @@ public class MenuPanel extends VerticalPanel{
 		this.newShoppingListForm = newShoppingListForm;
 	}
 	
+	/**
+	 * Setzen der NewGroupForm innerhalb des MenuPanels
+	 * 
+	 * @param die zu setzende NewGroupForm
+	 */
+	public void setNewGroupForm(NewGroupForm newGroupForm) {
+		this.newGroupForm = newGroupForm;
+	}
 	
 	/**
 	 * Clickhander zum Erstellen einer <code>Gruppe<code>
@@ -120,6 +129,10 @@ public class MenuPanel extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			Notification.show("Gruppe erstellen");
+			RootPanel.get("Details").clear();
+			newGroupForm = new NewGroupForm();
+			newGroupForm.setNewGroupForm(newGroupForm);
+			RootPanel.get("Details").add(newGroupForm);
 		}	
 	}
 	
