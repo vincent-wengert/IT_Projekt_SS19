@@ -29,6 +29,8 @@ private AllItemssCellList aicl = new AllItemssCellList();
 
 private Grid itemsGrid = new Grid(2,2);
 private Grid storesGrid = new Grid(2,2);
+
+private AllShoppingListsCellList aslcl = new AllShoppingListsCellList();
 		
 /**
  * ***************************************************************************
@@ -52,6 +54,8 @@ public void onLoad() {
 
 	this.setWidth("35vw");
 	this.setAnimationEnabled(true);
+	
+	contentPanelShoppinglists.add(aslcl);
 
 	this.add(contentPanelGroups, "Gruppen");
 	this.selectTab(0);
