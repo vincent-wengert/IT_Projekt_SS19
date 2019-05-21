@@ -7,6 +7,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import client.gui.client.NewItemForm;
+import client.gui.client.Notification;
+
 /**
  * Das <code>MenuPanel</code> bildet das Menü des GUI und enthält
  * die Buttons zum Anlegen von <code>Items</code> und <code>Shoppinglist</code>,
@@ -19,6 +22,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class MenuPanel extends VerticalPanel{
 	
 	private NewStoreForm newStoreForm;
+	private NewItemForm newItemForm;
 	
 	private Button createGroupButton = new Button ();
 	private Button createShoppinglistButton = new Button ();
@@ -39,7 +43,7 @@ public class MenuPanel extends VerticalPanel{
 	createShoppinglistButton.addClickHandler(new CreateShoppingListClickHandler());
 	this.add(createShoppinglistButton);
 	
-	createArticleButton.addClickHandler(new CreateArticleClickHandler());
+	createArticleButton.addClickHandler(new CreateItemClickHandler());
 	this.add(createArticleButton);
 	
 	createStoreButton.addClickHandler(new CreateStoreClickHandler());
@@ -89,7 +93,15 @@ public class MenuPanel extends VerticalPanel{
 	public void setNewStoreForm(NewStoreForm newStoreForm) {
 		this.newStoreForm = newStoreForm;
 	}
-
+	
+	/**
+	 * Setzen der NewItemForm innerhalb des MenuPanels
+	 * 
+	 * @param die zu setzende NewItemForm
+	 */
+	public void setNewItemForm(NewItemForm newItemForm) {
+		this.newItemForm = newItemForm;
+	}
 	/**
 	 * Clickhander zum Erstellen einer <code>Gruppe<code>
 	 */
@@ -117,11 +129,15 @@ public class MenuPanel extends VerticalPanel{
 	/**
 	 * Clickhander zum Erstellen eines <code>Article<code>
 	 */
-	private class CreateArticleClickHandler implements ClickHandler{
+	private class CreateItemClickHandler implements ClickHandler{
 
 		@Override
 		public void onClick(ClickEvent event) {
 			Notification.show("Artikel erstellen");
+			RootPanel.get("Details").clear();
+			newItemForm = new NewItemForm();
+			newItemForm.setNewItemForm(newItemForm);
+			RootPanel.get("Details").add(newItemForm);	
 		}
 	}
 	

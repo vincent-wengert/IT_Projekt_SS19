@@ -14,10 +14,6 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.hdm.softwarePraktikum.client.gui.NavigatorPanel.SearchForm.GetContactListCallBack;
-import de.hdm.softwarePraktikum.client.gui.NavigatorPanel.SearchForm.GetContactMapCallBack;
-import de.hdm.softwarePraktikum.client.gui.NavigatorPanel.SearchForm.GetPropertyValuesCallBack;
-import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 
 public class NavigatorPanel extends TabPanel {
 	
