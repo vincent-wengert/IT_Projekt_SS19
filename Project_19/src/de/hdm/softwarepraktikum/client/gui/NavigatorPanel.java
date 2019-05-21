@@ -23,7 +23,9 @@ private VerticalPanel contentPanelShoppinglists = new VerticalPanel();
 private VerticalPanel contentPanelStores = new VerticalPanel();
 private VerticalPanel contentPanelArticles = new VerticalPanel();
 
-private Grid articlesGrid = new Grid(2,2);
+private AllItemssCellList apcl = new AllItemssCellList();
+
+private Grid itemsGrid = new Grid(2,2);
 private Grid storesGrid = new Grid(2,2);
 		
 /**
@@ -40,8 +42,7 @@ private Grid storesGrid = new Grid(2,2);
 public void onLoad() {
 	
 	SearchFormArticles sfa = new SearchFormArticles();
-	articlesGrid.setWidget(0, 0, sfa);
-	contentPanelArticles.add(articlesGrid);
+	itemsGrid.setWidget(0, 0, sfa);
 	
 	SearchFormStores sfs = new SearchFormStores();
 	storesGrid.setWidget(0, 0, sfs);
@@ -55,13 +56,16 @@ public void onLoad() {
 	this.add(contentPanelShoppinglists, "Einkaufslisten");
 	this.add(contentPanelStores, "Alle Händler");
 	this.add(contentPanelArticles, "Alle Artikel");
+	
+	itemsGrid.setWidget(1, 0, apcl);
+	contentPanelArticles.add(itemsGrid);
 	}
 
 
 
 /**
 * In dieser Methode wird das Design des NavigatorPanels und der Buttons festgelegt.
-* Ebenso wird die searchbar mit <code>Items</code> Suggestions befüllt.
+* Ebenso wird die searchbar mit <code>Item</code> Suggestions befüllt.
 * Diese Methode wird aufgerufen, sobald eine Instanz der Klasse <code> NavigationPanel</code> aufgerufen wird. 
 */
 private class SearchFormArticles extends VerticalPanel {
