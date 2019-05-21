@@ -7,8 +7,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import client.gui.client.NewItemForm;
-import client.gui.client.Notification;
 
 /**
  * Das <code>MenuPanel</code> bildet das Menü des GUI und enthält
@@ -23,6 +21,7 @@ public class MenuPanel extends VerticalPanel{
 	
 	private NewStoreForm newStoreForm;
 	private NewItemForm newItemForm;
+	private NewShoppingListForm newShoppingListForm;
 	
 	private Button createGroupButton = new Button ();
 	private Button createShoppinglistButton = new Button ();
@@ -102,6 +101,17 @@ public class MenuPanel extends VerticalPanel{
 	public void setNewItemForm(NewItemForm newItemForm) {
 		this.newItemForm = newItemForm;
 	}
+	
+	/**
+	 * Setzen des NewShoppingListForm innerhalb des MenuPanels
+	 * 
+	 * @param das zu setzende NewShoppingListForm
+	 */
+	public void setNewShoppingListForm(NewShoppingListForm newShoppingListForm) {
+		this.newShoppingListForm = newShoppingListForm;
+	}
+	
+	
 	/**
 	 * Clickhander zum Erstellen einer <code>Gruppe<code>
 	 */
@@ -122,6 +132,11 @@ public class MenuPanel extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			Notification.show("Einkaufsliste erstellen");
+			RootPanel.get("Details").clear();
+			newShoppingListForm = new NewShoppingListForm();
+			newShoppingListForm.setNewShoppingListForm(newShoppingListForm);
+//			navigator.selectTab(0);
+			RootPanel.get("Details").add(newShoppingListForm);
 		}	
 	}
 	
