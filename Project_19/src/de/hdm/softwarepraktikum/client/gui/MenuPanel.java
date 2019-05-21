@@ -7,8 +7,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import client.gui.client.NewItemForm;
-import client.gui.client.Notification;
 
 /**
  * Das <code>MenuPanel</code> bildet das Menü des GUI und enthält

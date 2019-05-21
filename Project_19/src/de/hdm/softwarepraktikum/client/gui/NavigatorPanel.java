@@ -25,6 +25,8 @@ private VerticalPanel contentPanelArticles = new VerticalPanel();
 
 private Grid articlesGrid = new Grid(2,2);
 private Grid storesGrid = new Grid(2,2);
+
+private AllShoppingListsCellList aslcl = new AllShoppingListsCellList();
 		
 /**
  * ***************************************************************************
@@ -49,6 +51,8 @@ public void onLoad() {
 
 	this.setWidth("35vw");
 	this.setAnimationEnabled(true);
+	
+	contentPanelShoppinglists.add(aslcl);
 
 	this.add(contentPanelGroups, "Gruppen");
 	this.selectTab(0);
