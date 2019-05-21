@@ -18,13 +18,15 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class MenuPanel extends VerticalPanel{
 	
-private Button createGroupButton = new Button ();
-private Button createShoppinglistButton = new Button ();
-private Button createArticleButton = new Button ();
-private Button createStoreButton = new Button ();
-private Button logoutButton = new Button();
-
-public MenuPanel() {
+	private NewStoreForm newStoreForm;
+	
+	private Button createGroupButton = new Button ();
+	private Button createShoppinglistButton = new Button ();
+	private Button createArticleButton = new Button ();
+	private Button createStoreButton = new Button ();
+	private Button logoutButton = new Button();
+	
+	public MenuPanel() {
 	
 	/**
 	 *  Den Buttons werden dem Panel hinzugefügt.
@@ -79,6 +81,14 @@ public MenuPanel() {
 		logoutButton.setTitle("Abmelden");
 	}
 
+	/**
+	 * Setzen des NewStoreForm innerhalb des MenuPanels
+	 * 
+	 * @param das zu setzende NewStoreForm
+	 */
+	public void setNewStoreForm(NewStoreForm newStoreForm) {
+		this.newStoreForm = newStoreForm;
+	}
 
 	/**
 	 * Clickhander zum Erstellen einer <code>Gruppe<code>
@@ -87,7 +97,7 @@ public MenuPanel() {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Notification.show("CreateGroup");
+			Notification.show("Gruppe erstellen");
 		}	
 	}
 	
@@ -99,7 +109,7 @@ public MenuPanel() {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Notification.show("createShoppingListForm");
+			Notification.show("Einkaufsliste erstellen");
 		}	
 	}
 	
@@ -123,6 +133,10 @@ public MenuPanel() {
 		@Override
 		public void onClick(ClickEvent event) {
 			Notification.show("Store erstellen");
+			RootPanel.get("Details").clear();
+			newStoreForm = new NewStoreForm();
+			newStoreForm.setNewStoreForm(newStoreForm);
+			RootPanel.get("Details").add(newStoreForm);
 		}	
 	}
 	
