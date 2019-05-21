@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Grid;
@@ -13,6 +14,7 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.TreeViewModel;
 
 
 public class NavigatorPanel extends TabPanel {
@@ -23,7 +25,7 @@ private VerticalPanel contentPanelShoppinglists = new VerticalPanel();
 private VerticalPanel contentPanelStores = new VerticalPanel();
 private VerticalPanel contentPanelArticles = new VerticalPanel();
 
-private AllItemssCellList apcl = new AllItemssCellList();
+private AllItemssCellList aicl = new AllItemssCellList();
 
 private Grid itemsGrid = new Grid(2,2);
 private Grid storesGrid = new Grid(2,2);
@@ -57,8 +59,20 @@ public void onLoad() {
 	this.add(contentPanelStores, "Alle Händler");
 	this.add(contentPanelArticles, "Alle Artikel");
 	
-	itemsGrid.setWidget(1, 0, apcl);
+	itemsGrid.setWidget(1, 0, aicl);
 	contentPanelArticles.add(itemsGrid);
+	
+    // Create a model for the tree.
+    TreeViewModel model = new CustomTreeModel();
+
+    /*
+     * Create the tree using the model. We specify the default value of the
+     * hidden root node as "Item 1".
+     */
+    CellTree tree = new CellTree(model, "Gruppe");
+
+    // Add the tree to the root layout panel.
+    contentPanelGroups.add(tree);
 	}
 
 
@@ -93,6 +107,18 @@ public void onLoad() {
 	searchGridArticles.setWidget(0, 1, cancelButton);
 
 	this.add(searchGridArticles);
+	
+    // Create a model for the tree.
+    TreeViewModel model = new CustomTreeModel();
+
+    /*
+     * Create the tree using the model. We specify the default value of the
+     * hidden root node as "Item 1".
+     */
+    CellTree tree = new CellTree(model, "Gruppe");
+
+    // Add the tree to the root layout panel.
+    contentPanelGroups.add(tree);
 	}
 }
 
