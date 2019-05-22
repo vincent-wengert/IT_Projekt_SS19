@@ -1,9 +1,11 @@
 package de.hdm.softwarepraktikum.server.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import de.hdm.softwarepraktikum.shared.bo.Group;
@@ -116,6 +118,7 @@ public class ShoppingListMapper {
 	 */
 	
 	public ShoppingList findByGroup(Group g) {
+		return null;
 		
 	}
 	
@@ -130,39 +133,39 @@ public class ShoppingListMapper {
 	
 	public ShoppingList insert(ShoppingList sl) {
 		
-			Connection con = DBConnection.connection();
-
-			try {
-			Statement stmt = con.createStatement();
-			
-			/*
-			 * Zunächst schauen wir nach, welches der momentan höchste
-			 * Primärschlüsselwert ist.
-			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS id " + "FROM shoppinglist ");
-			
-			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
-			if (rs.next()) {
-			/*
-			 * sl erhält den bisher maximalen, nun um 1 inkrementierten
-			 * Primärschlüssel.
-			 */
-			sl.setId(rs.getInt("maxid") + 1);
-					
-			stmt = con.createStatement();
-							
-			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate("INSERT INTO shoppinglists (id, title) " + "VALUES (" + sl.getId() + ",'"
-					+ sl.getTitle() + "')");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+Connection con = DBConnection.connection();
 		
-		/*
-		 * Rückgabe, der evtl. korrigierten ShoppingList.
-		 */
-		return sl;
+		try {
+			 
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT MAX(Shoppinglist_ID) AS maxid " + "FROM Shoppinglist");
+
+
+		      if (rs.next()) {
+		      
+		      sl.setId(rs.getInt("maxid") + 1);
+
+		      }
+		      
+		      PreparedStatement stmt2 = con.prepareStatement(
+			"INSERT INTO Shoppinglist (Shoppinglist_ID,Creationdate,Changedate,Title,Group_ID) VALUES (?, ?, ?,?, ?)",
+						Statement.RETURN_GENERATED_KEYS);
+
+				stmt2.setInt(1, sl.getId());
+				//stmt2.setTimestamp(2, sl.getCreationdate());
+				//stmt2.setTimestamp(3, sl.getChangedate());
+				stmt2.setString(4, sl.getTitle());
+				stmt2.setInt(5, sl.getGroupID());
+				
+				stmt2.executeUpdate();
+
+    	  }
+    	  catch(SQLException e) {
+        		e.printStackTrace();
+        	}	
+				
+        return sl;
 	}
 	
 	/*
@@ -170,20 +173,23 @@ public class ShoppingListMapper {
 	 */
 		public ShoppingList update(ShoppingList sl) {
 		
-		Connection con = DBConnection.connection();
-		
-		try {
-			Statement stmt = con.createStatement();
+			Connection con = DBConnection.connection();
 			
-			stmt.executeUpdate("UPDATE shoppinglists " + "SET title=\"" + sl.getTitle() + "\", "  + "WHERE id=" + sl.getId());
+			try {
+				Statement stmt = con.createStatement();
+				
+				stmt.executeUpdate("UPDATE Shoppinglist " + "SET Title=\"" +sl.getTitle() + "\", " + "Group_ID=\""
+						+ sl.getGroupID() + "\", " +"SET Changedate=\"" +sl.getChangedate() + "\" "+ "WHERE id=" + sl.getId());
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
+			// Um Analogie zu insert(Group g) zu wahren, wird g zurückgegeben
+					return sl;
+		        
 		}
-		
-		// Um Analogie zu insert(ShoppingList sl) zu wahren, wird sl zurückgegeben
-				return sl;
-	}
+	
 		
 		/*
 		 * Delete Methode, um eine SL aus der Datenbank zu entfernen.
@@ -222,7 +228,7 @@ public class ShoppingListMapper {
 		      while (rs.next()) {
 		    	ShoppingList sl = new ShoppingList();
 		        sl.setId(rs.getInt("id"));
-		        sl.setMemberID(rs.getInt("member"));
+		      
 
 		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
 		        result.add(sl);

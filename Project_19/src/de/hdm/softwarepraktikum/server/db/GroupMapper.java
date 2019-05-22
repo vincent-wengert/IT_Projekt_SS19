@@ -12,9 +12,7 @@ import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
-import de.hdm.thies.bankProjekt.server.db.DBConnection;
-import de.hdm.thies.bankProjekt.shared.bo.Account;
-import de.hdm.thies.bankProjekt.shared.bo.Customer;
+
 
 import java.util.ArrayList;
 

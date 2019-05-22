@@ -38,13 +38,16 @@ public class Report implements Serializable {
 	   */
 	  private Date created = new Date();
 
+	private Paragraph imprint;
+
 	  /** Original-Kommentar
 	   * Auslesen des Impressums.
 	   * 
 	   * @return Text des Impressums
 	   */
 	  public Paragraph getImprint() {
-	    return this.imprint;
+		return headerData;
+	     
 	  }
 
 	  /** Original-Kommentar

@@ -1,6 +1,7 @@
 package de.hdm.softwarepraktikum.shared.bo;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -8,8 +9,8 @@ public abstract class BusinessObject implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private int id = 0;
-	private Date creationdate;
-	private Date changedate;
+	private Timestamp creationdate;
+	private Timestamp changedate;
 	
 	
 	
@@ -24,7 +25,7 @@ public abstract class BusinessObject implements Serializable{
 	public Date getCreationdate() {
 		return creationdate;
 	}
-	public void setCreationdate(Date creationdate) {
+	public void setCreationdate(Timestamp creationdate) {
 		this.creationdate = creationdate;
 	}
 	
@@ -32,7 +33,7 @@ public abstract class BusinessObject implements Serializable{
 	public Date getChangedate() {
 		return changedate;
 	}
-	public void setChangedate(Date changedate) {
+	public void setChangedate(Timestamp changedate) {
 		this.changedate = changedate;
 	}
 	// Rückgabe Name + ID als String

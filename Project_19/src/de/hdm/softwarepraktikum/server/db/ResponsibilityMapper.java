@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
@@ -46,6 +47,35 @@ public class ResponsibilityMapper {
 	
 	public Responsibility findById(int id) {
 		
+		Connection con = DBConnection.connection();
+
+		Responsibility rl = new Responsibility();	
+		
+		
+		
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Responsibility"
+							+ " WHERE Responsibility_ID = " + id);
+
+			if (rs.next()) {
+
+				rl.setId(rs.getInt("Responsibility_ID"));
+				rl.setCreationdate(rs.getTimestamp("Creationdate"));
+				rl.setChangedate(rs.getTimestamp("Changedate"));
+				//rl.setBuyer(new Person(rs.getInt("Person_ID"));//???
+				//rl.setSl(rs.getInt("Shoppinglist_ID"));
+				//contactList.setIsShared(rs.getBoolean("IsShared"));
+			}
+		} catch (
+
+		SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return rl;
 	}
 	
 	/*
@@ -53,6 +83,7 @@ public class ResponsibilityMapper {
 	 */
 	
 	public Responsibility findbystore(Store s) {
+		return null;
 		
 	}
 	
@@ -61,6 +92,7 @@ public class ResponsibilityMapper {
 	 */
 	
 	public Responsibility findByPerson(Person p) {
+		return null;
 		
 	}
 	
@@ -73,8 +105,9 @@ public class ResponsibilityMapper {
 		Connection con = DBConnection.connection();
     	
   	  try {
-    	    Statement stmt = con.createStatement();
-  	    stmt.executeUpdate("DELETE FROM Responsibilty WHERE Responsibility_ID = "+rs.getBO_ID());			
+  		Statement stmt = con.createStatement();
+		stmt.executeUpdate("DELETE FROM Responsibility "+ "WHERE Responsibility_ID = " + rs.getId());
+			
   	  	}
   	  catch(SQLException e) {
       		e.printStackTrace();
@@ -92,16 +125,19 @@ public class ResponsibilityMapper {
     	Connection con = DBConnection.connection();
     	
   	  try {
-    	Statement stmt = con.createStatement();
-
-
-    	stmt.executeUpdate("UPDATE Store SET = ?, Name= ? WHERE BO_ID = ?");
+    	PreparedStatement stmt = con.prepareStatement("UPDATE Responsibility SET Changedate = ?, Shoppinglist_ID = ?, Store_ID = ?, Person_ID = ? WHERE Responsibility_ID ="+ rs.getId());
+    	
+    	//stmt.setTimestamp(1, rs.getChangedate());
+		stmt.setInt(2, rs.getSl().getId());
+		stmt.setInt(3, rs.getSt().getId());
+		stmt.setInt(4, rs.getBuyer().getId());
+		stmt.executeUpdate();
     	
   	  		}
   	  catch(SQLException e) {
       		e.printStackTrace();
       	}
-        return p;
+        return rs;
 		
 	}
 	
@@ -122,25 +158,23 @@ public class ResponsibilityMapper {
 
 		      if (rs.next()) {
 		      
-		      rl.setBO_ID(rs.getInt("maxid") + 1);
+		      rl.setId(rs.getInt("maxid") + 1);
 
 		      }
+		      
+		      PreparedStatement stmt2 = con.prepareStatement(
+			"INSERT INTO Responsibility (Responsibility_ID,Creationdate,Changedate,Shoppinglist_ID,Store_ID,Person_ID) VALUES (?, ?, ?,?, ?, ?)",
+						Statement.RETURN_GENERATED_KEYS);
 
+				stmt2.setInt(1, rl.getId());
+				//stmt2.setTimestamp(2,rl.getCreationdate());
+				//stmt2.setTimestamp(3, rl.getChangedate());
+				stmt2.setInt(4, rl.getSl().getId());
+				stmt2.setInt(5,rl.getSt().getId());
+				stmt2.setInt(6,rl.getBuyer().getId());
 				
-			    PreparedStatement stmt2 = con.prepareStatement(
+				stmt2.executeUpdate();
 
-							"INSERT INTO Responsibility (Responsibility_ID, buyer, st,sl) VALUES (?, ?, ?,?)",
-
-							Statement.RETURN_GENERATED_KEYS);
-
-					stmt2.setInt(1, rl.getBO_ID());
-					stmt2.setString(2, rl.getBuyer().getName());
-					stmt2.setString(3, rl.getSt().getName());
-					stmt2.setString(4, rl.getSl().getName());
-					
-					
-					stmt2.executeUpdate();
-			
     	  }
     	  catch(SQLException e) {
         		e.printStackTrace();

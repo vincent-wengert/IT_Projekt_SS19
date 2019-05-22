@@ -317,6 +317,20 @@ private ResponsibilityMapper responsibilityMapper = null;
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	@Override
+	public void initMapper() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void deleteGroupMembership(Person p, Group g) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }	

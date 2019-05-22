@@ -65,8 +65,8 @@ public class PersonMapper{
 			con.setAutoCommit(false);
 			
 			PreparedStatement stmt = con.prepareStatement("UPDATE Businessobject SET Changedate= ?, IsShared= ? WHERE Businessobject.BO_ID = ?");
-
-			stmt.setTimestamp(1, person.getChangedate());
+			
+			//stmt.setTimestamp(1, person.getChangedate());
 			//stmt.setBoolean(2, person.isShared());
 			stmt.setInt(3, person.getId());
 			stmt.executeUpdate();
@@ -106,7 +106,7 @@ public class PersonMapper{
 			
 			//Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden. 
 			stmt2.setInt(1, person.getId());
-			stmt2.setTimestamp(2, person.getCreationdate());
+			//stmt2.setTimestamp(2, person.getCreationdate());
 			stmt2.executeUpdate();
 
 			PreparedStatement stmt3 = con.prepareStatement("INSERT INTO Person (Person_BO_ID) VALUES (?)",

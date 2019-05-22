@@ -68,13 +68,13 @@ public class StoreMapper {
 				 * s erhält den bisher maximalen, nun um 1 inkrementierten
 				 * Primärschlüssel.
 				 */
-					s.setBO_ID(rs.getInt("maxstore_id") + 1);
+					s.setId(rs.getInt("maxstore_id") + 1);
 
 					stmt = con.createStatement();
 				}
 				
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO store (store_id, name, street, postcode, city) " + "VALUES (" + s.getBO_ID() + ",'"
+				stmt.executeUpdate("INSERT INTO store (store_id, name, street, postcode, city) " + "VALUES (" + s.getId() + ",'"
 						+ s.getName() + "','" + s.getStreet() + " ','" + s.getPostcode() + "','" + s.getCity()+ "')");
 			
 
@@ -97,10 +97,10 @@ public class StoreMapper {
 			try {
 				PreparedStatement stmt = con.prepareStatement("UPDATE Store SET = ?, Name= ? WHERE BO_ID = ?");
 
-				stmt.setString(1, Store.getName());
-				stmt.setString(2, Store.getStreet());
-				stmt.setInt(3, Store.getPostcode());
-				stmt.setString(4, Store.getCity());
+				stmt.setString(1, r.getName());
+				stmt.setString(2, r.getStreet());
+				stmt.setInt(3, r.getPostcode());
+				stmt.setString(4, r.getCity());
 				stmt.executeUpdate();
 
 			} catch (SQLException e) {
@@ -118,21 +118,21 @@ public class StoreMapper {
 		
 		//Store aus Datenbank löschen
 			
-		public void deleteStore() {
+		public void deleteStore(Store s) {
 			
 			Connection con = DBConnection.connection();
 
 			try {
 				Statement stmt = con.createStatement();
 
-				stmt.executeUpdate("DELETE * FROM store WHERE id=" + "'" + Store.getBO_ID() + "'");
+				stmt.executeUpdate("DELETE * FROM store WHERE id=" + "'" + s.getId() + "'");
 
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 				
-		}
+		
 	
 		public Store findByID(int ID) {
 		
@@ -143,17 +143,17 @@ public class StoreMapper {
 			try {
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT * FROM store "
-						+ " WHERE Store_ID = " + Store.getBO_ID());
+						+ " WHERE Store_ID = " +ID);
 				while (rs.next()) {
-
-					allStores.add(rs.getStore("Store"));
+					
+				//	allStores.add(rs.getStore("Store"));
 
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			
-			return allStores;
+			
 			
 			
 			return store;
@@ -167,11 +167,11 @@ public class StoreMapper {
 			
 			try {
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM store "
-						+ " WHERE Store_ID = " + Store.getBO_ID());
+				ResultSet rs = stmt.executeQuery("SELECT * FROM store ");
+						
 				while (rs.next()) {
-
-					allStores.add(rs.getStore("Store"));
+					
+					allStores.add(this.findByID(rs.getInt("Store_ID")));
 
 				}
 			} catch (SQLException e) {
@@ -183,6 +183,7 @@ public class StoreMapper {
 		}
 	
 		public Store findByObject(Store store) {
+			return store;
 		
 		
 		}

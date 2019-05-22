@@ -203,6 +203,7 @@ public class ItemMapper {
 	 */
 	
 	public ArrayList<Item> findByPerson() {
+		return null;
 		
 	}
 
