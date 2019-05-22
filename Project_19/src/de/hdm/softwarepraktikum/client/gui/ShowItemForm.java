@@ -139,7 +139,7 @@ public class ShowItemForm extends VerticalPanel{
 	 */
 
 	/**
-	 * EditClickHandler der das Bearbeiten des Contacts ermöglicht.
+	 * EditClickHandler der das Bearbeiten des Items ermöglicht.
 	 * Durch diesen werden alle Textboxen aktiviert, sowie ein zusätzliches ButtonPanel angezeigt.
 	 */
 	private class EditClickHandler implements ClickHandler {
@@ -173,7 +173,7 @@ public class ShowItemForm extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 //				shoppingListAdministration.createItem(nameBox.getText(), new CreateItemCallback());
-				//RootPanel.get("Details").clear();
+			//RootPanel.get("Details").clear();
 			itemNameBox.setEnabled(false);
 			itemNameBox.setFocus(false);
 			bottomButtonsPanel.setVisible(false);

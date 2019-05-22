@@ -7,8 +7,6 @@ html *{
 	font-size: 14pt !important;
 	fornt-family: verdana, sans-serif;
 	transform-origin:0 0.9;
-
-	
 }
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
@@ -19,6 +17,7 @@ body{
 	background-image: url("images/background.jpg") !important ;
 	background-size: cover !important;
 	}
+	
 #Header{	
 	padding-left: 25px;
     background-color:rgba(225, 225, 225, 0.8);
@@ -28,7 +27,6 @@ body{
 	background-image: url("images/header.png") !important ;
 	margin-top:-8px;
 	margin-left:-10px;
-
 }
 
 #container{
@@ -51,8 +49,8 @@ body{
 	background-repeat: no-repeat;
 	/* background-image: url("images/Menu.png") !important ; */
 	background-color:rgba(225, 225, 225, 0.8);
-	
 }
+
 #Navigator{
 	
 	line-height: 40px;
@@ -72,7 +70,6 @@ body{
 	min-height: 80vh;
     overflow: auto;
     margin: 0px auto;
-    
 }
 
 #footer{
@@ -83,6 +80,7 @@ body{
 	position: relative;
 	align: center;
 }
+
 #footer .gwt-Button{
 	background: transparent;
 	border: none;
@@ -126,7 +124,6 @@ body{
 
 .gwt-TabPanel{
 	height: auto;
-
 }
 
 .gwt-TabBar {
@@ -143,10 +140,10 @@ body{
 	background:	#C2C4C2 !important;
 	color: #1f2833 !important;
 }
+
 .headerPanel .gwt-Label {
 	margin-left: 20px;
 }
-
 
 .userPanel{
 	margin-left: 30px;
