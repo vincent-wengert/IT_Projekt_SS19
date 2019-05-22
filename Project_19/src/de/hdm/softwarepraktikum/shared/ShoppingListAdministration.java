@@ -17,9 +17,9 @@ public interface ShoppingListAdministration {
 	
 	public void updatePerson(String name);
 	
-	public void createPerson(Date creationDate, String gmail, String name);
+	public Person createPerson(Date creationDate, String gmail, String name);
 	
-	public Item createStore(String name, Enum unit);
+	public Store createStore(String name, Enum unit);
 	
 	public void updateItem(Item i);
 	
@@ -29,9 +29,9 @@ public interface ShoppingListAdministration {
 	
 	public Item getItem(int id);
 	
-	public ListItem createListItem(Item item, Person buyer, Store store, ShoppingList sl);
+	public ListItem createListItem(Item item, Person buyer, int storeID, int slID);
 	
-	public void updateListItem(ListItem li, Person buyer, Store store, ShoppingList sl);
+	public void updateListItem(Item item, Person buyer, int storeID, int slID);
 	
 	public void checkListItem(ListItem li);
 	
@@ -49,7 +49,7 @@ public interface ShoppingListAdministration {
 	
 	public void deleteGroupMembership(Person p, Group g);
 	
-	public ShoppingList createShoppingList(Person owner, String title, Group p);
+	public ShoppingList createShoppingList(int ownerid, String title, int groupID);
 	
 	public void updateShoppingList(Person owner, String title, Group p);
 	
@@ -71,7 +71,7 @@ public interface ShoppingListAdministration {
 	
 	public void deleteStore(Store s);
 	
-	public Responsibility createResponsibility(Person buyer, Store s, ShoppingList sl);
+	public Responsibility createResponsibility(int buyerID, int storeID, int slID);
 	
 	public void updateResponsibility(Person buyer, Store s, ShoppingList sl);
 	

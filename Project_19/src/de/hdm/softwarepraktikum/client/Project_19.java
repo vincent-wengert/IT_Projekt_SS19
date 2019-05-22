@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.softwarepraktikum.client.gui.ShoppingListEditor;
 import de.hdm.softwarepraktikum.shared.FieldVerifier;
 
 /**
@@ -38,6 +39,7 @@ public class Project_19 implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+
 		
 		final Button sendButton = new Button("Send");
 		final TextBox nameField = new TextBox();
@@ -144,5 +146,9 @@ public class Project_19 implements EntryPoint {
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
+
+		ShoppingListEditor editor = new ShoppingListEditor();
+		editor.loadForms();
+
 	}
 }
