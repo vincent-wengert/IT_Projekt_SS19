@@ -13,10 +13,8 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
-
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import java_cup.version;
-import sun.security.ssl.Debug;
 
 public class AllItemssCellList extends VerticalPanel{
 	private static int counter = 1;
@@ -25,6 +23,7 @@ public class AllItemssCellList extends VerticalPanel{
 	private ItemDemoKeyProvider keyProvider= null; 
 	private CellList<ItemDemo> cellList = new CellList<ItemDemo>(new ItemCell(), keyProvider);
 	
+	private ShowItemForm sif = null;
 	
 	private ListDataProvider<ItemDemo> dataProvider = new ListDataProvider<ItemDemo>();
 	
@@ -111,8 +110,13 @@ public class AllItemssCellList extends VerticalPanel{
 	}
 	
 	public void setSelectedItem(ItemDemo i){
-	// show selected item
+		RootPanel.get("Details").clear();
+		Notification.show("clear Details");
+		sif = new ShowItemForm();
+		sif.setSelected(i);
+		RootPanel.get("Details").add(sif);
 	}
+
 
 
 	public class ItemDemo {
@@ -164,5 +168,4 @@ public class AllItemssCellList extends VerticalPanel{
 	      }
 
 	}
-
 }
