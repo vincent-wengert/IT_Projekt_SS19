@@ -222,7 +222,8 @@ body{
 	background-image: url("images/article.png");
 }
 
-.createStoreButton{	outline: white;
+.createStoreButton{	
+	outline: white;
 	position: relative;
 	right: 0px;
 	margin: 0, auto;
@@ -382,7 +383,7 @@ body{
 
 
 .editorButton:hover {
-  	 font-size:170% !important;
+  	font-size:170% !important;
 	font-weigth: bolder;
     color: white;
     cursor: pointer;
@@ -466,22 +467,10 @@ body{
 	text-align: center;
 }
 
-.contactListGrid{
-	margin-top: 20px;
-}
-
-
-
-.propertyPanel{
-	margin-top: 20px;
-	border: solid black 1px;
-	background-color: #eeeeee;
-}
-
 .additionalInfoGrid{
-	    margin-top: 30px;
-	   	padding-left: 5px;
-	    padding-right: 5px;
+    margin-top: 30px;
+   	padding-left: 5px;
+    padding-right: 5px;
 	    
 }
 

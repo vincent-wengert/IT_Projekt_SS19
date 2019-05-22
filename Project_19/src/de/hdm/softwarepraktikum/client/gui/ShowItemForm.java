@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
+import com.google.gwt.user.datepicker.client.DateBox;
 import de.hdm.softwarepraktikum.client.gui.AllItemssCellList.ItemDemo;
 
 
@@ -25,6 +25,7 @@ public class ShowItemForm extends VerticalPanel{
 
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
+	private HorizontalPanel topButtonsPanel = new HorizontalPanel();
 
 	private ItemDemo itemToDisplayProduct = null;
 	private Label infoTitleLabel = new Label("Artikel");
@@ -34,17 +35,23 @@ public class ShowItemForm extends VerticalPanel{
 
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
+	private Button editButton = new Button();
 	private Grid itemGrid = new Grid(2,2);
 
 	private ShowItemForm newShowItemForm;
 
 	public ShowItemForm() {
+		editButton.addClickHandler(new EditClickHandler());
+		topButtonsPanel.add(editButton);
 
 		confirmButton.addClickHandler(new CreateClickHandler());
 		bottomButtonsPanel.add(confirmButton);
 
 		cancelButton.addClickHandler(new CancelClickHandler());
 		bottomButtonsPanel.add(cancelButton);
+		
+		bottomButtonsPanel.setVisible(false);
+		itemNameBox.setEnabled(false);
 	}
 	
 	
@@ -55,6 +62,7 @@ public class ShowItemForm extends VerticalPanel{
 	public void onLoad() {
 
 		this.setWidth("100%");
+		editButton.setStylePrimaryName("editButton");
 		itemNameLabel.setStylePrimaryName("textLabel");
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
@@ -62,19 +70,30 @@ public class ShowItemForm extends VerticalPanel{
 		cancelButton.setStylePrimaryName("cancelButton");
 		confirmButton.setStylePrimaryName("confirmButton");
 
+		
+		editButton.setWidth("8vh");
+		editButton.setHeight("8vh");
 		formHeaderPanel.setHeight("8vh");
 		formHeaderPanel.setWidth("100%");
+		infoTitleLabel.setWidth("100%");
+		
 		cancelButton.setPixelSize(130, 40);
 		confirmButton.setPixelSize(130, 40);
 
 		formHeaderPanel.add(infoTitleLabel);
 		formHeaderPanel.setCellVerticalAlignment(infoTitleLabel, ALIGN_BOTTOM);
+		formHeaderPanel.setCellHorizontalAlignment(infoTitleLabel, ALIGN_LEFT);
 
 		bottomButtonsPanel.setSpacing(20);
-
+		formHeaderPanel.add(topButtonsPanel);
+		
 		this.add(formHeaderPanel);
 		this.add(itemGrid);
 		this.setCellHorizontalAlignment(itemGrid, ALIGN_CENTER);
+		
+		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_CENTER);
+		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
+		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
 
 		itemNameBox.setMaxLength(10);
 
@@ -83,6 +102,8 @@ public class ShowItemForm extends VerticalPanel{
 		itemGrid.setWidget(0, 1, itemNameBox);
 
 		this.add(bottomButtonsPanel);
+		
+		
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
 
 	}
@@ -105,6 +126,11 @@ public class ShowItemForm extends VerticalPanel{
 		}
 	}
 
+	public void setTableEditable () {
+			itemNameBox.setEnabled(true);
+			itemNameBox.setFocus(true);
+			bottomButtonsPanel.setVisible(true);
+	}
 	
 	/**
 	 * ***************************************************************************
@@ -112,7 +138,17 @@ public class ShowItemForm extends VerticalPanel{
 	 * ***************************************************************************
 	 */
 
-	
+	/**
+	 * EditClickHandler der das Bearbeiten des Contacts ermöglicht.
+	 * Durch diesen werden alle Textboxen aktiviert, sowie ein zusätzliches ButtonPanel angezeigt.
+	 */
+	private class EditClickHandler implements ClickHandler {
+		@Override
+		public void onClick(ClickEvent event) {
+			setTableEditable();
+		}
+	}
+
 	/**
 	 * Hiermit wird der Änderungsvorgang eines Items abbgebrochen.
 	 */
@@ -120,7 +156,10 @@ public class ShowItemForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			RootPanel.get("Details").clear();
+			//RootPanel.get("Details").clear();
+			itemNameBox.setEnabled(false);
+			itemNameBox.setFocus(false);
+			bottomButtonsPanel.setVisible(false);
 		}
 	}
 
@@ -134,7 +173,11 @@ public class ShowItemForm extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 //				shoppingListAdministration.createItem(nameBox.getText(), new CreateItemCallback());
-				RootPanel.get("Details").clear();
+				//RootPanel.get("Details").clear();
+			itemNameBox.setEnabled(false);
+			itemNameBox.setFocus(false);
+			bottomButtonsPanel.setVisible(false);
+			
 
 		}
 	}
