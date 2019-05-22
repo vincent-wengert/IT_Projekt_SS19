@@ -31,6 +31,7 @@ private Grid itemsGrid = new Grid(2,2);
 private Grid storesGrid = new Grid(2,2);
 
 private AllShoppingListsCellList aslcl = new AllShoppingListsCellList();
+private AllStoresCellList ascl = new AllStoresCellList();
 		
 /**
  * ***************************************************************************
@@ -50,6 +51,7 @@ public void onLoad() {
 	
 	SearchFormStores sfs = new SearchFormStores();
 	storesGrid.setWidget(0, 0, sfs);
+	storesGrid.setWidget(1, 0, ascl);
 	contentPanelStores.add(storesGrid);
 
 	this.setWidth("35vw");
