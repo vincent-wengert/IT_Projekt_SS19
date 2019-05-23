@@ -123,7 +123,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 		p.setCreationdate(creationDate);
 		p.setGmail(gmail);
 		p.setName(name);
-		p.setId();
+		p.setId(1);
 		
 		return this.personMapper.insert(p);
 	}
@@ -181,7 +181,12 @@ private ResponsibilityMapper responsibilityMapper = null;
 		li.setStoreID(storeID);
 		li.setShoppingListID(slID);
 		
-		li.setId();
+		/**
+		 * Setzen einer vorlÃ¤ufigen ID. Der Insert Aufruf liefert dann ein Objekt,
+		 * dessen Nummer mit der Datenbank konsistent ist.
+		 */
+		
+		li.setId(1);
 		
 		return this.listItemMapper.insert(li);
 	}
@@ -222,7 +227,12 @@ private ResponsibilityMapper responsibilityMapper = null;
 		
 		g.setTitle(title);
 		
-		g.setId();
+		/**
+		 * Setzen einer vorlÃ¤ufigen ID. Der Insert Aufruf liefert dann ein Objekt,
+		 * dessen Nummer mit der Datenbank konsistent ist.
+		 */
+		
+		g.setId(1);
 		
 	}
 
@@ -256,7 +266,12 @@ private ResponsibilityMapper responsibilityMapper = null;
 		sl.setOwnerID(ownerid);
 		sl.setGroupID(groupID);
 		
-		sl.setId();
+		/**
+		 * Setzen einer vorlÃ¤ufigen ID. Der Insert Aufruf liefert dann ein Objekt,
+		 * dessen Nummer mit der Datenbank konsistent ist.
+		 */
+		
+		sl.setId(1);
 		
 		return this.shoppingListMapper.insert(sl);
 	}
