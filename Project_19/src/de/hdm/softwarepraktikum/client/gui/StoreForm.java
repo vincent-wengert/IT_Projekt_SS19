@@ -11,7 +11,14 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.softwarepraktikum.client.gui.AllStoresCellList.DemoStore;
-
+/**
+ * In der Klasse <code>StoreForm</code> wird die Detailansicht der Stores implementiert.
+ * Die Klasse wird bei der Erstellung eines neuen Stores und bei der Bearbeitung eines Stores aufgerufen.
+ * 
+ * @author Jan Duwe
+ * @version 1.0
+ *
+ */
 
 public class StoreForm extends VerticalPanel{
 
