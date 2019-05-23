@@ -40,7 +40,8 @@ public class ItemForm extends VerticalPanel{
 	private Button editButton = new Button();
 	private Grid itemGrid = new Grid(2,2);
 
-	private Boolean init = new Boolean(true);
+	private Boolean editable;
+	private Boolean initial;
 	private static ItemForm itemForm;
 
 	public ItemForm() {
@@ -95,6 +96,7 @@ public class ItemForm extends VerticalPanel{
 		this.setCellHorizontalAlignment(itemGrid, ALIGN_CENTER);
 		
 		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_CENTER);
+		
 		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
 		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
 
@@ -110,7 +112,7 @@ public class ItemForm extends VerticalPanel{
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
 		
 
-		setTableEditable(init);
+		setTableEditable(editable);
 
 	}
 	
@@ -125,9 +127,14 @@ public class ItemForm extends VerticalPanel{
 		this.itemForm = itemForm;
 	}
 	
-	public void setInit(Boolean init) {
+	public void setEditable(Boolean editable) {
 
-		this.init = init;
+		this.editable = editable;
+	}
+	
+	public void setInitial(Boolean initial) {
+
+		this.initial = initial;
 	}
 	
 	public void setSelected(AllItemssCellList.ItemDemo i) {
@@ -176,8 +183,11 @@ public class ItemForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			//RootPanel.get("Details").clear();
+			if (initial == true) {
+			RootPanel.get("Details").clear();
+			}else {
 			setTableEditable(false);
+			}
 		}
 	}
 
