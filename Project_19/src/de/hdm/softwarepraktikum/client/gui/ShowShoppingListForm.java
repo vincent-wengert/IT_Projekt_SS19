@@ -10,6 +10,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
@@ -20,7 +21,10 @@ import de.hdm.softwarepraktikum.client.gui.AllShoppingListsCellList.DemoShopping
 import de.hdm.softwarepraktikum.client.gui.AllShoppingListsCellList.ItemDemo;
 
 public class ShowShoppingListForm extends VerticalPanel{
+	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel shoppingListPanel = new HorizontalPanel();
+	
+	private Label infoTitleLabel = new Label("Einkaufsliste");
 	
 	private CellTable<ItemDemo> cellTable = null;
 	private ProductKeyProvider keyProvider = null;
@@ -29,6 +33,20 @@ public class ShowShoppingListForm extends VerticalPanel{
 	private ArrayList<ItemDemo> productsToDisplay = null;
 	
 	public void onLoad() {
+		this.setWidth("100%");
+		
+		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
+		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
+	
+		
+		formHeaderPanel.setHeight("8vh");
+		formHeaderPanel.setWidth("100%");
+		
+		formHeaderPanel.add(infoTitleLabel);
+		formHeaderPanel.setCellVerticalAlignment(infoTitleLabel, ALIGN_BOTTOM);
+
+		this.add(formHeaderPanel);
+		
 		keyProvider = new ProductKeyProvider();
 		multiselectionModel = new MultiSelectionModel<ItemDemo>(keyProvider);
 		cellTable = new CellTable<ItemDemo>();
