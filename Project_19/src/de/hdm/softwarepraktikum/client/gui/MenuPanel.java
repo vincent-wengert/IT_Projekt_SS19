@@ -167,7 +167,7 @@ public class MenuPanel extends VerticalPanel{
 			RootPanel.get("Details").clear();
 			itemForm = new ItemForm();
 			itemForm.setEditable(true);
-			itemForm.setInit(true);
+			itemForm.setInitial(true);
 			itemForm.setItemForm(itemForm);
 			RootPanel.get("Details").add(itemForm);	
 		}

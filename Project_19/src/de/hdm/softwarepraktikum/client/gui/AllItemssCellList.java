@@ -115,7 +115,7 @@ public class AllItemssCellList extends VerticalPanel{
 		sif = new ItemForm();
 		sif.setSelected(i);
 		sif.setEditable(false);
-		sif.setInit(false);
+		sif.setInitial(false);
 		RootPanel.get("Details").add(sif);
 	}
 

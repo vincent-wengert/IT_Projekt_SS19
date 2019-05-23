@@ -41,7 +41,7 @@ public class ItemForm extends VerticalPanel{
 	private Grid itemGrid = new Grid(2,2);
 
 	private Boolean editable;
-	private Boolean init;
+	private Boolean initial;
 	private static ItemForm itemForm;
 
 	public ItemForm() {
@@ -132,9 +132,9 @@ public class ItemForm extends VerticalPanel{
 		this.editable = editable;
 	}
 	
-	public void setInit(Boolean init) {
+	public void setInitial(Boolean initial) {
 
-		this.init = init;
+		this.initial = initial;
 	}
 	
 	public void setSelected(AllItemssCellList.ItemDemo i) {
@@ -183,7 +183,7 @@ public class ItemForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			if (init == true) {
+			if (initial == true) {
 			RootPanel.get("Details").clear();
 			}else {
 			setTableEditable(false);
