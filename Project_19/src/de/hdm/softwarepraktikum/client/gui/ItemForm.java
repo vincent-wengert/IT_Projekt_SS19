@@ -1,5 +1,7 @@
 package de.hdm.softwarepraktikum.client.gui;
 
+import org.apache.commons.io.filefilter.TrueFileFilter;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -21,7 +23,7 @@ import de.hdm.softwarepraktikum.client.gui.AllItemssCellList.ItemDemo;
  * @version 1.0
  */
 
-public class ShowItemForm extends VerticalPanel{
+public class ItemForm extends VerticalPanel{
 
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
@@ -38,9 +40,10 @@ public class ShowItemForm extends VerticalPanel{
 	private Button editButton = new Button();
 	private Grid itemGrid = new Grid(2,2);
 
-	private ShowItemForm newShowItemForm;
+	private Boolean init = new Boolean(true);
+	private static ItemForm itemForm;
 
-	public ShowItemForm() {
+	public ItemForm() {
 		editButton.addClickHandler(new EditClickHandler());
 		topButtonsPanel.add(editButton);
 
@@ -105,6 +108,9 @@ public class ShowItemForm extends VerticalPanel{
 		
 		
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
+		
+
+		setTableEditable(init);
 
 	}
 	
@@ -114,22 +120,36 @@ public class ShowItemForm extends VerticalPanel{
 	 * 
 	 * @param newShowItemForm das zu setzende <code>newShowItemForm</code> Objekt.
 	 */
-	public void setNewShowItemForm(ShowItemForm newShowItemForm) {
+	public void setItemForm(ItemForm itemForm) {
 
-		this.newShowItemForm = newShowItemForm;
+		this.itemForm = itemForm;
+	}
+	
+	public void setInit(Boolean init) {
+
+		this.init = init;
 	}
 	
 	public void setSelected(AllItemssCellList.ItemDemo i) {
 		if(i != null) {
 			infoTitleLabel.setText("Ausgewählter Artikel: " + i.getName());
 			itemNameBox.setText(i.getName());
+			setTableEditable(false);
 		}
 	}
 
-	public void setTableEditable () {
+	public void setTableEditable (boolean editable) {
+		if (editable == true) {
 			itemNameBox.setEnabled(true);
 			itemNameBox.setFocus(true);
 			bottomButtonsPanel.setVisible(true);
+			topButtonsPanel.setVisible(false);
+			}else {
+			itemNameBox.setEnabled(false);
+			itemNameBox.setFocus(false);
+			bottomButtonsPanel.setVisible(false);
+			topButtonsPanel.setVisible(true);
+			}
 	}
 	
 	/**
@@ -145,7 +165,7 @@ public class ShowItemForm extends VerticalPanel{
 	private class EditClickHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
-			setTableEditable();
+			setTableEditable(true);
 		}
 	}
 
@@ -157,9 +177,7 @@ public class ShowItemForm extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			//RootPanel.get("Details").clear();
-			itemNameBox.setEnabled(false);
-			itemNameBox.setFocus(false);
-			bottomButtonsPanel.setVisible(false);
+			setTableEditable(false);
 		}
 	}
 
@@ -174,11 +192,7 @@ public class ShowItemForm extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 //				shoppingListAdministration.createItem(nameBox.getText(), new CreateItemCallback());
 			//RootPanel.get("Details").clear();
-			itemNameBox.setEnabled(false);
-			itemNameBox.setFocus(false);
-			bottomButtonsPanel.setVisible(false);
-			
-
+			setTableEditable(false);
 		}
 	}
 }

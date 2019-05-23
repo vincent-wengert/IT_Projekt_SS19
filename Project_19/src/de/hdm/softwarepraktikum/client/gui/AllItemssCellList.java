@@ -23,7 +23,7 @@ public class AllItemssCellList extends VerticalPanel{
 	private ItemDemoKeyProvider keyProvider= null; 
 	private CellList<ItemDemo> cellList = new CellList<ItemDemo>(new ItemCell(), keyProvider);
 	
-	private ShowItemForm sif = null;
+	private ItemForm sif = null;
 	
 	private ListDataProvider<ItemDemo> dataProvider = new ListDataProvider<ItemDemo>();
 	
@@ -112,9 +112,11 @@ public class AllItemssCellList extends VerticalPanel{
 	public void setSelectedItem(ItemDemo i){
 		RootPanel.get("Details").clear();
 		Notification.show("clear Details");
-		sif = new ShowItemForm();
+		sif = new ItemForm();
 		sif.setSelected(i);
+		sif.setInit(false);
 		RootPanel.get("Details").add(sif);
+		
 	}
 
 

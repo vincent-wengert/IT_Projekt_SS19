@@ -163,7 +163,7 @@ body{
 	background-position: center center;
 }
 .createGroupButton:hover{
-	background-color: #1F2833;
+	background-color: grey;
 	position: relative;
 	right: 0px;
 	margin: 0, auto;
@@ -187,7 +187,7 @@ body{
 }
 
 .createShoppinglistButton:hover{
-	background-color: #1F2833;
+	background-color: grey;
 	position: relative;
 	right: 0px;
 	margin: 0, auto;
@@ -210,7 +210,7 @@ body{
 }
 
 .createArticleButton:hover{
-	background-color: #1F2833;
+	background-color: grey;
 	position: relative;
 	right: 0px;
 	margin: 0, auto;
@@ -233,7 +233,7 @@ body{
 }
 
 .createStoreButton:hover{	
-	background-color: #1F2833;
+	background-color: grey;
 	position: relative;
 	right: 0px;
 	margin: 0, auto;
@@ -259,7 +259,7 @@ body{
 }
 
 .logoutButton:hover {
- 	background-color: #1F2833;
+ 	background-color: grey;
 	position: relative;
 	right: 0px;
 	margin: 0, auto;

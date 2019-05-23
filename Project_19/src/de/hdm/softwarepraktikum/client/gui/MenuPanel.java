@@ -20,7 +20,7 @@ public class MenuPanel extends VerticalPanel{
 	
 	private NewGroupForm newGroupForm;
 	private NewStoreForm newStoreForm;
-	private NewItemForm newItemForm;
+	private ItemForm itemForm;
 	private NewShoppingListForm newShoppingListForm;
 	
 	private Button createGroupButton = new Button ();
@@ -95,12 +95,12 @@ public class MenuPanel extends VerticalPanel{
 	}
 	
 	/**
-	 * Setzen der NewItemForm innerhalb des MenuPanels
+	 * Setzen der itemForm innerhalb des MenuPanels
 	 * 
-	 * @param die zu setzende NewItemForm
+	 * @param die zu setzende itemForm
 	 */
-	public void setNewItemForm(NewItemForm newItemForm) {
-		this.newItemForm = newItemForm;
+	public void setItemForm(ItemForm itemForm) {
+		this.itemForm = itemForm;
 	}
 	
 	/**
@@ -163,9 +163,9 @@ public class MenuPanel extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			Notification.show("Artikel erstellen");
 			RootPanel.get("Details").clear();
-			newItemForm = new NewItemForm();
-			newItemForm.setNewItemForm(newItemForm);
-			RootPanel.get("Details").add(newItemForm);	
+			itemForm = new ItemForm();
+			itemForm.setItemForm(itemForm);
+			RootPanel.get("Details").add(itemForm);	
 		}
 	}
 	
