@@ -46,6 +46,8 @@ public class AllStoresCellList extends VerticalPanel{
 		Notification.show("clear Details");
 		sf = new StoreForm();
 		sf.setSelected(s);
+		sf.setEditable(false);
+		sf.setInitial(false);
 		RootPanel.get("Details").add(sf);
 	}
 	

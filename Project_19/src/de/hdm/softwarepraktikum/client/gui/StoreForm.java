@@ -1,9 +1,12 @@
 package de.hdm.softwarepraktikum.client.gui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -16,6 +19,7 @@ public class StoreForm extends VerticalPanel{
 
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
+	private HorizontalPanel topButtonsPanel = new HorizontalPanel();
 
 	private Label infoTitleLabel = new Label("Store");
 	private Label storeNameLabel = new Label("Name des Stores");
@@ -28,22 +32,26 @@ public class StoreForm extends VerticalPanel{
 	private TextBox cityNameBox = new TextBox();
 	private TextBox streetNameBox = new TextBox();
 
-
+	private Button editButton = new Button();
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
-	private Grid storeGrid = new Grid(4, 4);
+	private Grid storeGrid = new Grid(4, 2);
 	
 //	private FieldVerifier verifier = new FieldVerifier();
 
 	private StoreForm StoreForm;
-
+	private Boolean editable;
+	private Boolean initial;
+	
 	public StoreForm() {
 
-		//confirmButton.addClickHandler(new CreateClickHandler());
+		confirmButton.addClickHandler(new CreateClickHandler());
 		bottomButtonsPanel.add(confirmButton);
 
-		//cancelButton.addClickHandler(new CancelClickHandler());
+		cancelButton.addClickHandler(new CancelClickHandler());
 		bottomButtonsPanel.add(cancelButton);
+		
+		editButton.addClickHandler(new EditClickHandler());
 	}
 	
 	public void setSelected(DemoStore s) {
@@ -52,7 +60,7 @@ public class StoreForm extends VerticalPanel{
 			postCodeBox.setText(Integer.toString(s.getPostleitZahl()));
 			cityNameBox.setText(s.getOrt());
 			streetNameBox.setText(s.getStrasse() + " " + s.getHausNummer());
-			infoTitleLabel.setText("Ausgewählter Store: " + s.getName());
+			infoTitleLabel.setText(s.getName());
 		}
 	}
 	/**
@@ -65,6 +73,7 @@ public class StoreForm extends VerticalPanel{
 		this.setWidth("100%");
 //		postCodeLabel.setStylePrimaryName("textLabel");
 //		storeNameLabel.setStylePrimaryName("textLabel");
+		editButton.setStylePrimaryName("editButton");
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
 		bottomButtonsPanel.setStylePrimaryName("bottomButtonsPanel");
@@ -75,9 +84,20 @@ public class StoreForm extends VerticalPanel{
 		formHeaderPanel.setWidth("100%");
 		cancelButton.setPixelSize(130, 40);
 		confirmButton.setPixelSize(130, 40);
+		
+		editButton.setHeight("8vh");
+		editButton.setWidth("8vh");
+		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_CENTER);
 
 		formHeaderPanel.add(infoTitleLabel);
+		formHeaderPanel.add(topButtonsPanel);
 		formHeaderPanel.setCellVerticalAlignment(infoTitleLabel, ALIGN_BOTTOM);
+		formHeaderPanel.setCellHorizontalAlignment(infoTitleLabel, ALIGN_LEFT);
+		
+		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
+		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
+		
+		topButtonsPanel.add(editButton);
 
 		bottomButtonsPanel.setSpacing(20);
 
@@ -101,11 +121,88 @@ public class StoreForm extends VerticalPanel{
 
 		this.add(bottomButtonsPanel);
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
+		
+		setTableEditable(editable);
 
 	}
 	
 	public void setStoreForm(StoreForm StoreForm) {
 
 		this.StoreForm = StoreForm;
+	}
+	
+	public void setTableEditable(boolean editable) {
+		if(editable == true) {
+			storeNameBox.setEnabled(true);
+			postCodeBox.setEnabled(true);
+			cityNameBox.setEnabled(true);
+			streetNameBox.setEnabled(true);
+			topButtonsPanel.setVisible(false);
+			bottomButtonsPanel.setVisible(true);
+		}else {
+			storeNameBox.setEnabled(false);
+			postCodeBox.setEnabled(false);
+			cityNameBox.setEnabled(false);
+			streetNameBox.setEnabled(false);
+			topButtonsPanel.setVisible(true);
+			bottomButtonsPanel.setVisible(false);
+		}
+	}
+	
+	public void setEditable(Boolean editable) {
+		this.editable = editable;
+	}
+	
+	public void setInitial(Boolean initial) {
+		this.initial = initial;
+	}
+	
+	/**
+	 * ***************************************************************************
+	 * ABSCHNITT der ClickHandler
+	 * ***************************************************************************
+	 */
+
+	
+	/**
+	 * Hiermit wird der Erstellvorgang eines neuen Store abbgebrochen.
+	 */
+	private class CancelClickHandler implements ClickHandler {
+		
+		@Override
+		public void onClick(ClickEvent event) {
+			
+			if(initial==true) {
+				Notification.show("Cancel");
+				RootPanel.get("Details").clear();
+			}else {
+				setTableEditable(false); 		//store wird neu geladen
+			}
+		}
+	}
+
+	
+	/**
+	 * Sobald die Textfelder für den Namen und die Auswahl der Stores ausgefüllt wurden, wird
+	 * ein neuer <code>Store</code> nach dem Klicken des Bestätigungsbutton erstellt.
+	 */
+	private class CreateClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+//
+//				shoppingListAdministration.createStore(all textboxes,new CreateArticleCallback());
+//
+			setTableEditable(false);
+		}
+	}
+	
+	private class EditClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			Notification.show("edit");
+			setTableEditable(true);
+		}
 	}
 }

@@ -19,8 +19,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class MenuPanel extends VerticalPanel{
 	
 	private NewGroupForm newGroupForm;
-	private NewStoreForm newStoreForm;
+
 	private ItemForm itemForm;
+	private StoreForm storeForm;
+
 	private NewShoppingListForm newShoppingListForm;
 	
 	private Button createGroupButton = new Button ();
@@ -90,8 +92,8 @@ public class MenuPanel extends VerticalPanel{
 	 * 
 	 * @param das zu setzende NewStoreForm
 	 */
-	public void setNewStoreForm(NewStoreForm newStoreForm) {
-		this.newStoreForm = newStoreForm;
+	public void setNewStoreForm(StoreForm storeForm) {
+		this.storeForm = storeForm;
 	}
 	
 	/**
@@ -178,9 +180,12 @@ public class MenuPanel extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			Notification.show("Store erstellen");
 			RootPanel.get("Details").clear();
-			newStoreForm = new NewStoreForm();
-			newStoreForm.setNewStoreForm(newStoreForm);
-			RootPanel.get("Details").add(newStoreForm);
+			storeForm = new StoreForm();
+			storeForm.setEditable(true);
+			storeForm.setInitial(true);
+			storeForm.setStoreForm(storeForm);
+		
+			RootPanel.get("Details").add(storeForm);
 		}	
 	}
 	
