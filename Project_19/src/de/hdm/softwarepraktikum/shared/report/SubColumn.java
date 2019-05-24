@@ -40,3 +40,4 @@ public class SubColumn extends Column {
 	public ArrayList<Row> getSubRows() {
 		return subRows;
 	}	
+}

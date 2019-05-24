@@ -13,9 +13,9 @@ public class ShoppingList extends BusinessObject {
 	private int groupID;
 	
 	/**
-	   * Fremdschlüsselbeziehung zu einem Mitglied der Gruppe.
+	   * Fremdschlüsselbeziehung zu einer Gruppe.
 	   */
-	private int memberID;
+
 	
 	
 	ArrayList<String> shoppinglist = new ArrayList<String>(); //* ersetzen durch shareable objects*/
@@ -35,9 +35,12 @@ public class ShoppingList extends BusinessObject {
 	 */
 
 
+
+
 	public int getGroupID() {
 		return groupID;
 	}
+
 
 	public void setGroupID(int groupID) {
 		this.groupID = groupID;
@@ -49,6 +52,7 @@ public class ShoppingList extends BusinessObject {
 
 	public void setOwnerID(int ownerID) {
 		this.ownerID = ownerID;
+
 	}
 	
 }

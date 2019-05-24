@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import de.hdm.softwarepraktikum.server.ShoppingListAdministrationImpl;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministration;
 import de.hdm.softwarepraktikum.shared.ReportGenerator;

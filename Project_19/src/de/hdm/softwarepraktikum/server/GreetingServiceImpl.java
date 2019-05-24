@@ -1,6 +1,7 @@
 package de.hdm.softwarepraktikum.server;
 
 import de.hdm.softwarepraktikum.client.GreetingService;
+import de.hdm.softwarepraktikum.server.db.DBConnection;
 import de.hdm.softwarepraktikum.shared.FieldVerifier;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -12,6 +13,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
 
 	public String greetServer(String input) throws IllegalArgumentException {
+		DBConnection con = new DBConnection();
+		
 		// Verify that the input is valid. 
 		if (!FieldVerifier.isValidName(input)) {
 			// If the input is not valid, throw an IllegalArgumentException back to

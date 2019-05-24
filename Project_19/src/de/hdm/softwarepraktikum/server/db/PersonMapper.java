@@ -64,7 +64,10 @@ public class PersonMapper{
 			//Setzt den AutoCommit auf false, um das sichere Schreiben in die Datenbank zu gewährleisten.
 			con.setAutoCommit(false);
 			
-			PreparedStatement stmt = con.prepareStatement("UPDATE Businessobject SET, IsShared= ? WHERE Businessobject.BO_ID = ?");
+
+			PreparedStatement stmt = con.prepareStatement("UPDATE Businessobject SET Changedate= ?, IsShared= ? WHERE Businessobject.BO_ID = ?");
+			
+			//stmt.setTimestamp(1, person.getChangedate());
 
 			//stmt.setBoolean(2, person.isShared());
 			stmt.setInt(3, person.getId());

@@ -1,0 +1,241 @@
+/** Add css rules here for your application. */
+
+
+/** Example rules used by the template application (remove for your app) */
+
+
+html *{
+	font-size: 14pt !important;
+	fornt-family: verdana, sans-serif;
+	
+}
+
+body{
+	background: transparent;
+	background-repeat:no-repeat;
+	background-image: url("images/background.jpg") !important ;
+}
+
+td{
+	width: auto !important;
+}
+
+
+#Header{	
+	padding-left: 20px;
+    background-color: transparent;
+    color:white;
+    width: auto;
+    background-repeat: no-repeat;
+	background-image: url("images/header.png") !important ;
+
+}
+
+#footer{
+	text-align: center;
+	margin-top:5vh;
+}
+
+#footer .gwt-Button{
+	background: transparent;
+	border: none;
+	color: #666666;
+}
+
+#Selection{
+	margin-top: 20px;
+	background-color:#C2C4C2;
+    color:black;
+    width: 100%;  
+}
+
+#Result{
+	height: 70vh;
+	background-color:#C2C4C2;
+    color:black;
+    width: 100%;
+    overflow: auto;
+}
+
+.formHeaderPanel{
+	background-color: #1F2833 !important;
+	
+}
+
+.infoTitleLabel {
+	color:white;
+	font-weight: bold;
+	font-size: 250% !important;
+}
+
+.loginButton{
+	margin: 50px;
+	color:white;
+	padding-left: 35px;
+	border: none;
+	font-size:170% !important;
+	font-weigth: bolder;
+	cursor: pointer;
+	background: transparent;
+	background-repeat:no-repeat;
+	background-image: url("images/loginButton.png");
+	
+}
+
+.loginLabel {
+	margin-top: 150px;
+	font-size: 24pt !important;
+	font-weight: bold;
+	color: white;
+    overflow:auto;
+
+}
+
+.logoutButton{
+	
+	color:white;
+	padding-left: 35px;
+	border: none;
+	font-size:170% !important;
+	font-weigth: bolder;
+	cursor: pointer;
+	background: transparent;
+	background-repeat:no-repeat;
+	background-image: url("images/logoutButton.png");
+}
+
+.editorButton {
+   	font-size:170% !important;
+	font-weigth: bolder;
+    color: white;
+    cursor: pointer;
+	background: transparent;
+	border: none;
+}
+
+.editorButton:hover {
+  	 font-size:170% !important;
+	font-weigth: bolder;
+    color: white;
+    cursor: pointer;
+	background:#1F2833 !important;
+	border:solid black 1px;
+	
+}
+.reportGeneratorButton {
+	
+   	font-size:170% !important;
+	font-weigth: bolder;
+    color: white;
+    cursor: pointer;
+    background: #1F2833;
+    border: none;
+    
+}
+
+.reportGeneratorButton:hover{
+	
+  	 font-size:170% !important;
+	font-weigth: bolder;
+    color: white;
+    cursor: pointer;
+    background: #1F2833 !important;
+    border:solid black 1px;
+}
+
+.homeButtonPanel{
+	
+	margin-left: 10vw;
+}
+
+.userPanel{
+	margin-left: 30px;
+	margin-right:30px;
+}
+
+.reportButton{
+	background-color: #1F2833 !important;
+	position: relative;
+	right: 0px;
+	font-size: 100%;
+	margin: 0, auto;
+	color: white;
+	border:solid black 1px;
+	
+}
+
+.printReportButton{
+	
+	border: solid #1F2833 1px;
+	background: transparent;
+	background-image: url("images/printReportButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+	
+}
+
+.printReportButton:hover{
+	
+	cursor:pointer;
+	border: solid white 1px;
+	background-image: url("images/printReportButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+	
+}
+
+.backButton{
+	margin-left: 5px;
+	background: transparent;
+	border: none;
+	background-image: url("images/backButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+
+.backButton:hover{
+	background-color:#6f7277;
+	cursor:pointer;
+	border: solid black 1px;
+	background-image: url("images/backButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+.slogan{
+	
+	font-weight: bold;
+	font-style: italic;
+	color: #666666;
+}
+
+.errorLabel {
+	text-align: center;
+    font-size: 100%;
+    color: white;
+    background-color: black;
+    -webkit-animation-name: refreshErrorLabelAnimation; 
+    -webkit-animation-duration: 4s; 
+    -webkit-animation-iteration-count: infinite;
+    animation-name: refreshErrorLabelAnimation;
+    animation-iteration-count: infinite;
+    animation-duration: 4s;
+}
+
+@-webkit-keyframes refreshErrorLabelAnimation {
+    
+    0%   {background-color: #1f2833;}
+    25%  {background-color: black;}
+    50%  {background-color: #596b8b;}
+    100% {background-color: black;}
+}
+
+
+@keyframes refreshErrorLabelAnimation {
+   
+    0%   {background-color: #1f2833;}
+    25%  {background-color: black;}
+    50%  {background-color: #596b8b;}
+    100% {background-color: black;}
+ 
+}

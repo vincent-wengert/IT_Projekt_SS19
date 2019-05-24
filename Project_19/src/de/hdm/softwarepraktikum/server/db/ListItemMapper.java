@@ -69,8 +69,8 @@ public class ListItemMapper {
 			stmt = con.createStatement();
 							
 			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate("INSERT INTO listitem (id, item, amount, unit) " + "VALUES (" + li.getId() + ",'"
-					+ li.getIt() + "','" + li.getAmount() + "','" + li.getUnit() + "')");
+		//	stmt.executeUpdate("INSERT INTO listitem (id, item, amount, unit) " + "VALUES (" + li.getId() + ",'"
+		//			+ li.getIt() + "','" + li.getAmount() + "','" + li.getUnit() + "')");
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();

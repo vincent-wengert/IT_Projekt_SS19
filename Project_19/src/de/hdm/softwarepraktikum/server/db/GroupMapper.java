@@ -17,6 +17,7 @@ import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 
 
+
 public class GroupMapper {
 	
 	/**
