@@ -128,21 +128,35 @@ private ResponsibilityMapper responsibilityMapper = null;
 		return this.personMapper.insert(p);
 	}
 
-
-	@Override
-	public Item createStore(String name, Enum unit) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	/**
+	 * Methode, um ein <code>Item</code> in der Datenbank zu anzulegen.
+	 * @param name
+	 * @param isGlobal
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	
+	public Item createItem(String name, boolean value) throws IllegalArgumentException {
 		Item i = new Item();
 		
 		i.setName(name);
-		i.setUnit(unit);
+		i.setIsGlobal(value);
 		
+		/**
+		 * Setzen einer vorläufigen ID. Der insert Aufruf liefert dann ein Objekt,
+		 * dessen Numme rmit de rDatenbank konsistent ist.
+		 */
+		
+		i.setId(1);
+		
+		/**
+		 * Objekt in Datenbank speichern.
+		 */
 		
 		return this.itemMapper.insert(i);
 	}
 
 
-	@Override
 	public void updateItem(Item i) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		
