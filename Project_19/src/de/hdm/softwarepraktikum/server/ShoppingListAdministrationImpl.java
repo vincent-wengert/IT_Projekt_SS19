@@ -282,7 +282,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public void updateShoppingList(ShoppingList sl) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		ShoppingListMapper.update(sl);
+		shoppingListMapper.update(sl);
 	}
 
 
@@ -312,7 +312,13 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public void addFavoriteItem(Item i, Person p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		personMapper.addFavItem(i, p);
+		
+		personMapper.findByName(p.getName());
+		
+		ArrayList<Item> favItem = personMapper.allFavoriteItems();
+		favItem.add(i);
+		
+		personMapper.update(p);
 	}
 
 
@@ -349,7 +355,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public void updateStore(Store s) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		StoreMapper.updateStore(s);
+		storeMapper.updateStore(s);
 	}
 
 
@@ -376,28 +382,23 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public void updateResponsibility(Responsibility r) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		ResponsibilityMapper.updateResponsibility(r);
+		responsibilityMapper.updateResponsibility(r);
 	} 
 
 
 	@Override
-	public void deleteResponsibility(Person buyer, Store s, ShoppingList sl) throws IllegalArgumentException {
+	public void deleteResponsibility(Responsibility rs) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		responsibilityMapper.delete(rs);
 	}
 
 
-	@Override
-	public void initMapper() {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	@Override
 	public void deleteGroupMembership(Person p, Group g) {
 		// TODO Auto-generated method stub
-		
+		groupMapper.deleteMembership(g);
 	}
 	
 	

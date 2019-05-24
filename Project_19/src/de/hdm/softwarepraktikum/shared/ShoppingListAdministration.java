@@ -76,7 +76,7 @@ public interface ShoppingListAdministration {
 	
 	public void updateResponsibility(Responsibility r);
 	
-	public void deleteResponsibility(Person buyer, Store s, ShoppingList sl);
+	public void deleteResponsibility(Responsibility rs);
 	
 	
 	
