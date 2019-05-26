@@ -105,29 +105,34 @@ private ResponsibilityMapper responsibilityMapper = null;
 		
 	}
 	
-
-
-	
-
-
-	@Override
-	public void updatePerson(String name) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		personMapper.update(name);
-		
-	}
-
-
-	@Override
-	public Person createPerson(Date creationDate, String gmail, String name) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	/**
+	 * Methode um ein <code>Person</code> Objekt anzulegen.
+	 * @param Name der Person und E-Mail Adresse
+	 * @return das in die Datenbank gespeicherte Person Objekt wird zurückgegeben
+	 */
+	public Person createPerson(String gmail, String name) throws IllegalArgumentException {
 		Person p = new Person();
-		p.setCreationdate(creationDate);
 		p.setGmail(gmail);
 		p.setName(name);
+		
+		/**
+		 * Setzen einer vorläufigen ID. Der insert Aufruf liefert anschließend
+		 * ein Objekt dessen Nummer mit der Datenbank konsistent ist.
+		 */
 		p.setId(1);
 		
-		return this.personMapper.insert(p);
+		return this.personMapper.insert(p)
+		
+	}
+	
+	/**
+	 * Methode um Änderungen dem zu übergebenden Person Objekt in die Datenbank 
+	 * zu schreiben
+	 */
+
+	public void updatePerson(Person p) throws IllegalArgumentException {
+		personMapper.update(p);
+		
 	}
 	
 	/**
