@@ -4,6 +4,7 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -12,7 +13,11 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
+import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.client.gui.AllItemssCellList.ItemDemo;
+import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
+import de.hdm.softwarepraktikum.shared.bo.Item;
+import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 
 
 /**
@@ -24,6 +29,8 @@ import de.hdm.softwarepraktikum.client.gui.AllItemssCellList.ItemDemo;
  */
 
 public class ItemForm extends VerticalPanel{
+	
+	private ShoppingListAdministrationAsync shoopinglistAdministration = ClientsideSettings.getShoppinglistAdministration();
 
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
@@ -200,9 +207,27 @@ public class ItemForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-//				shoppingListAdministration.createItem(nameBox.getText(), new CreateItemCallback());
-			//RootPanel.get("Details").clear();
+			shoopinglistAdministration.createItem(itemNameBox.getText(), Unit.KG, new CreateItemCallback());
 			setTableEditable(false);
 		}
 	}
+	 
+		/**
+		 * Nachdem ein neues <code>Item</code> Objekt erstellt wurde, wird dieses der Liste der aktuellen
+		 *  <code>AllItemsCelllist</code> Instanz hinzugefügt.
+		 */
+		private class CreateItemCallback implements AsyncCallback<Item> {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Notification.show("Der Artikel konnte leider nicht erstellt werden:\n" + caught.toString());
+			}
+
+			@Override
+			public void onSuccess(Item item) {
+				//add item to cellist
+				Notification.show("Artikel wurde erstellt");
+
+			}
+		}
 }
