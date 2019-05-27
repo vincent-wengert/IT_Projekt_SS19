@@ -3,6 +3,9 @@ package de.hdm.softwarepraktikum.shared;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
@@ -12,7 +15,8 @@ import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
-public interface ShoppingListAdministration {
+@RemoteServiceRelativePath("administration")
+public interface ShoppingListAdministration extends RemoteService {
 	
 	public void initMapper();
 	
@@ -77,9 +81,5 @@ public interface ShoppingListAdministration {
 	public void updateResponsibility(Responsibility r);
 	
 	public void deleteResponsibility(Responsibility rs);
-	
-	
-	
-	
 
 }
