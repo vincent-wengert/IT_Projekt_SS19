@@ -27,4 +27,9 @@ public class ItemsByGroupReport extends CompositeReport implements Serializable 
 		
 	}
 
+	public void addRow(Row headline) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	}

@@ -79,6 +79,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			//Titel des Reports
 			result.setTitle("Einkaufsstatistik der Gruppe");
 			
+			//Impressum hinzufügen
+			this.AddImprint(result);
+			
 			/*
 			 * Erstellungsdatum des Reports durch einen Timestamp hinzufügen. 
 			 */
@@ -92,31 +95,62 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			 */
 			CompositeParagraph header = new CompositeParagraph();
 			
+			//Name der Gruppe aufnehmen
 			header.addSubParagraph(new SimpleParagraph("Gruppe: " + g.getTitle()));
 			
+			//Hinzufügen der Kopfdaten zum Report
+			result.setHeaderData(header);
 			
-			//Kopfdaten (Headline) des Reports.
+			//Anlegen der Kopfzeile für die Statistik-Tabelle.
 			Row headline = new Row();
+			
+			/**
+			 * Im Report werden fünf Spalten benötigt: die ID des Produkts,
+			 * die Produktbezeichnung, die Einheit, die Eingekaufte Menge und das
+			 * Einkaufsdatum.
+			 */
 			headline.addColumn(new Column("ID"));
 			headline.addColumn(new Column("Produktbezeichnung"));
 			headline.addColumn(new Column("Einheit"));
 			headline.addColumn(new Column("Eingekaufte Menge"));
 			headline.addColumn(new Column("gekauft am:"));
 			
-			result.addRow("headline");
+			result.addRow(headline);
 			
 			/*
 			 * Auslesen sämtlicher abgehakten <code>ListItem</code>-Objekte, die dem Report 
-			 * hinzugefügt werden.
+			 * hinzugefügt werden. Methode "getListItem 
+			 * 
+			 * ToDo: Methode in ShoppingListAdministration, die alle Checked ITems einer SL/Gruppe 
+			 * ermittelt.
 			 */
-			for(ListItem listItem : listitems) {
+			ArrayList<ListItem> li = this.administration.getCheckedLi(g);
+			for(ListItem li : listitems) {
 				
-				Row row = new Row();
-				row.addColumn(listItem.toString());
+				//Eine leere Zeile anlegen.
+				Row listItemRow = new Row();
 				
+				//erste Spalte: ID hinzufügen
+				listItemRow.addColumn(new Column(String.valueOf(li.getId())));
+				
+				//zweite Spalte: Bezeichnung eintragen
+				listItemRow.addColumn(new Column(String.valueOf(li.getIt().getName())));
+				
+				//dritte Spalte: Einheit eintragen
+				listItemRow.addColumn(new Column(String.valueOf(li.getUnit())));
+				
+				//vierte Spalte: Anzahl, wie oft das Produkt gekauft wurde.
+				//listItemRow.addColumn(new Column(String.valueOf()));
+				
+				//fünfte Spalte: Einkaufsdatum
+				//listItemRow.addColumn(new Column());
+				
+				result.addRow(listItemRow);
 				
 				
 			}
+			
+			return result;
 		
 		
 	}
