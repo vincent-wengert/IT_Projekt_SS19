@@ -23,6 +23,8 @@ public class MenuPanel extends VerticalPanel{
 	private ItemForm itemForm;
 	private StoreForm storeForm;
 
+	private NavigatorPanel navigator;
+	
 	private NewShoppingListForm newShoppingListForm;
 	
 	private Button createGroupButton = new Button ();
@@ -86,7 +88,14 @@ public class MenuPanel extends VerticalPanel{
 		logoutButton.setTitle("Abmelden");
 	}
 	
-	
+	/**
+	 * Setzen des NavigatorPanels innerhalb des MenuPanels
+	 * 
+	 * @param das zu setzende NavigatorPanel
+	 */
+	public void setNavigator(NavigatorPanel navigator) {
+		this.navigator = navigator;
+	}
 	/**
 	 * Setzen des NewStoreForm innerhalb des MenuPanels
 	 * 
@@ -130,11 +139,11 @@ public class MenuPanel extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Notification.show("Gruppe erstellen");
 			RootPanel.get("Details").clear();
 			newGroupForm = new NewGroupForm();
 			newGroupForm.setNewGroupForm(newGroupForm);
 			RootPanel.get("Details").add(newGroupForm);
+			navigator.selectTab(0);
 		}	
 	}
 	
@@ -146,12 +155,11 @@ public class MenuPanel extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Notification.show("Einkaufsliste erstellen");
 			RootPanel.get("Details").clear();
 			newShoppingListForm = new NewShoppingListForm();
 			newShoppingListForm.setNewShoppingListForm(newShoppingListForm);
-//			navigator.selectTab(0);
 			RootPanel.get("Details").add(newShoppingListForm);
+			navigator.selectTab(1);
 		}	
 	}
 	
@@ -163,7 +171,7 @@ public class MenuPanel extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Notification.show("Artikel erstellen");
+			navigator.selectTab(2);
 			RootPanel.get("Details").clear();
 			itemForm = new ItemForm();
 			itemForm.setEditable(true);
@@ -180,13 +188,12 @@ public class MenuPanel extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Notification.show("Store erstellen");
+			navigator.selectTab(3);
 			RootPanel.get("Details").clear();
 			storeForm = new StoreForm();
 			storeForm.setEditable(true);
 			storeForm.setInitial(true);
 			storeForm.setStoreForm(storeForm);
-		
 			RootPanel.get("Details").add(storeForm);
 		}	
 	}
@@ -200,6 +207,7 @@ public class MenuPanel extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			Notification.show("Logout");
+			navigator.selectTab(2);
 //			
 //			u.setLogoutUrl(u.getLogoutUrl());
 //			Window.open(u.getLogoutUrl(), "_self", "");

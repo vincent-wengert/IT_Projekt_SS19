@@ -22,7 +22,7 @@ public class ItemMapper {
 	 * Speicherung der Instanz dieser Mapperklasse.
 	 */
 	
-	private static ItemMapper articleMapper = null;
+	private static ItemMapper itemMapper = null;
 	
 	/*
 	 * Konstruktor ist geschÃ¼tzt, um weitere Instanzierung zu verhindern.
@@ -37,11 +37,11 @@ public class ItemMapper {
 	 */
 	
 	public static ItemMapper itemMapper() {
-		if (articleMapper == null) {
-			articleMapper = new ItemMapper();
+		if (itemMapper == null) {
+			itemMapper = new ItemMapper();
 		}
 
-		return articleMapper;
+		return itemMapper;
 	}
 	
 	/*
@@ -56,22 +56,22 @@ public class ItemMapper {
 			Statement stmt = con.createStatement();
 			
 		/*
-		 * Zunächst schauen wir nach, welches der momentan höchste
-		 * Primärschlüsselwert ist.
+		 * Zunï¿½chst schauen wir nach, welches der momentan hï¿½chste
+		 * Primï¿½rschlï¿½sselwert ist.
 		 */
 		ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM item ");
 		
-		// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+		// Wenn wir etwas zurï¿½ckerhalten, kann dies nur einzeilig sein
 		if (rs.next()) {
 		/*
-		 * i erhält den bisher maximalen, nun um 1 inkrementierten
-		 * Primärschlüssel.
+		 * i erhï¿½lt den bisher maximalen, nun um 1 inkrementierten
+		 * Primï¿½rschlï¿½ssel.
 		 */
 		i.setId(rs.getInt("maxid") + 1);
 				
 		stmt = con.createStatement();
 						
-		// Jetzt erst erfolgt die tatsächliche Einfügeoperation
+		// Jetzt erst erfolgt die tatsï¿½chliche Einfï¿½geoperation
 		stmt.executeUpdate("INSERT INTO item (id, name, isglobal) " + "VALUES (" + i.getId() + ",'"
 				+ i.getName() + "','" + i.getIsGlobal() + "')");
 		}
@@ -80,7 +80,7 @@ public class ItemMapper {
 	}
 		
 		/*
-		 * Rückgabe des evtl. korrigierten Items.
+		 * Rï¿½ckgabe des evtl. korrigierten Items.
 		 */
 		return i;
 	}
@@ -104,7 +104,7 @@ public class ItemMapper {
 			e.printStackTrace();
 		}
 		
-		// Um Analogie zu insert(item i) zu wahren, wird i zurückgegeben
+		// Um Analogie zu insert(item i) zu wahren, wird i zurï¿½ckgegeben
 				return i;
 	}
 	
@@ -138,12 +138,12 @@ public class ItemMapper {
 			//leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 			
-			//Statement ausfüllen und als Query an die DB schicken
+			//Statement ausfï¿½llen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery("Select id, name, isglobal FROM item" + "WHERE id= " + id);
 			
 			/*
-		     * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-		     * werden. Prüfe, ob ein Ergebnis vorliegt.
+		     * Da id Primï¿½rschlï¿½ssel ist, kann max. nur ein Tupel zurï¿½ckgegeben
+		     * werden. Prï¿½fe, ob ein Ergebnis vorliegt.
 		     */
 			if (rs.next()) {
 				//Ergebnis-Tupel in Objekt umwandeln
@@ -178,21 +178,21 @@ public class ItemMapper {
 			ResultSet rs = stmt
 					.executeQuery("SELECT id, name, isglobal " + "FROM item " + "ORDER BY name");
 			
-			// Für jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
+			// Fï¿½r jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
 			while(rs.next()) {
 				Item i = new Item();
 				i.setId(rs.getInt("id"));
 				i.setName(rs.getString("name"));
 				i.setIsGlobal(rs.getBoolean("isglobal"));
 				
-				//Hinzufügen des neuen Objekts zum Ergebnisvektor
+				//Hinzufï¿½gen des neuen Objekts zum Ergebnisvektor
 				result.add(i);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		//Ergebnis zurückgeben
+		//Ergebnis zurï¿½ckgeben
 		return result;
 	}
 	

@@ -21,6 +21,8 @@ public class ShoppingListEditor {
 		RootPanel.get("Menu").add(menuPanel);
 		RootPanel.get("Navigator").add(navigator);
 		RootPanel.get("Header").add(header);
+		
+		menuPanel.setNavigator(navigator);
 	}
 
 }
