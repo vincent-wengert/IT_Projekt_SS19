@@ -30,7 +30,7 @@ import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 
 public class ItemForm extends VerticalPanel{
 	
-	private ShoppingListAdministrationAsync shoopinglistAdministration = ClientsideSettings.getShoppinglistAdministration();
+	private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings.getShoppinglistAdministration();
 
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
@@ -207,7 +207,7 @@ public class ItemForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			shoopinglistAdministration.createItem(itemNameBox.getText(), Unit.KG, new CreateItemCallback());
+			shoppinglistAdministration.createItem(itemNameBox.getText(), Unit.KG, new CreateItemCallback());
 			setTableEditable(false);
 		}
 	}

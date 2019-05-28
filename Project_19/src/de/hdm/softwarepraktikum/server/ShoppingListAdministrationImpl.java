@@ -9,6 +9,7 @@ import de.hdm.softwarepraktikum.server.db.PersonMapper;
 import de.hdm.softwarepraktikum.server.db.ResponsibilityMapper;
 import de.hdm.softwarepraktikum.server.db.ShoppingListMapper;
 import de.hdm.softwarepraktikum.server.db.StoreMapper;
+import de.hdm.softwarepraktikum.client.gui.Notification;
 import de.hdm.softwarepraktikum.server.db.GroupMapper;
 import de.hdm.softwarepraktikum.server.db.ItemMapper;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministration;
@@ -22,6 +23,7 @@ import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -144,6 +146,8 @@ private ResponsibilityMapper responsibilityMapper = null;
 	 */
 	
 	public Item createItem(String name, boolean value) throws IllegalArgumentException {
+		
+		Window.alert("artikel erstellen impl");
 
 		Item i = new Item();
 		
@@ -419,6 +423,34 @@ private ResponsibilityMapper responsibilityMapper = null;
 	public void deleteGroupMembership(Person p, Group g) {
 		// TODO Auto-generated method stub
 		groupMapper.deleteMembership(g);
+	}
+
+
+	@Override
+	public void initMapper() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void updatePerson(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Person createPerson(Date creationDate, String gmail, String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Item createItem(String name, Unit unit) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

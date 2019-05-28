@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.cellview.client.CellTree;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Grid;
@@ -72,13 +73,16 @@ public void onLoad() {
     TreeViewModel model = new CustomTreeModel();
 
     /*
-     * Create the tree using the model. We specify the default value of the
-     * hidden root node as "Item 1".
+     * Create the tree using the model. We use <code>null</code> as the default
+     * value of the root node. The default value will be passed to
+     * CustomTreeModel#getNodeInfo();
      */
-    CellTree tree = new CellTree(model, "Gruppe");
+    CellTree tree = new CellTree(model, null);
+    tree.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
     // Add the tree to the root layout panel.
     contentPanelGroups.add(tree);
+   
 	}
 
 
@@ -162,6 +166,7 @@ public void onLoad() {
 
 	this.add(searchGridStores);
 
+	
 		  }
 	}
 
