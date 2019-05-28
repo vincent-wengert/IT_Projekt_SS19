@@ -207,7 +207,7 @@ public class ItemForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			shoppinglistAdministration.createItem(itemNameBox.getText(), Unit.KG, new CreateItemCallback());
+			shoppinglistAdministration.createItem(itemNameBox.getText(), true, new CreateItemCallback());
 			setTableEditable(false);
 		}
 	}
