@@ -18,7 +18,7 @@ public interface ShoppingListAdministrationAsync {
 	
 	public void initMapper(AsyncCallback<Void> callback);
 
-	public void createItem(String name, Unit unit, AsyncCallback<Item> callback) throws IllegalArgumentException;
+	public void createItem(String name, boolean value, AsyncCallback<Item> callback) throws IllegalArgumentException;
 
 	void updatePerson(String name, AsyncCallback<Void> callback);
 

@@ -24,7 +24,7 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public Person createPerson(Date creationDate, String gmail, String name);
 	
-	public Item createItem(String name, Unit unit);
+	public Item createItem(String name, boolean value);
 	
 	public void updateItem(Item i);
 	

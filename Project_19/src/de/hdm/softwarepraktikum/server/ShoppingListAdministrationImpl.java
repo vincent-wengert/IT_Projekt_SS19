@@ -123,7 +123,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 		 */
 		p.setId(1);
 		
-		return this.personMapper.insert(p)
+		return this.personMapper.insert(p);
 		
 	}
 	
@@ -147,8 +147,6 @@ private ResponsibilityMapper responsibilityMapper = null;
 	
 	public Item createItem(String name, boolean value) throws IllegalArgumentException {
 		
-		Window.alert("artikel erstellen impl");
-
 		Item i = new Item();
 		
 		i.setName(name);
@@ -445,13 +443,4 @@ private ResponsibilityMapper responsibilityMapper = null;
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-	@Override
-	public Item createItem(String name, Unit unit) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
 }	
