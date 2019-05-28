@@ -55,7 +55,7 @@ public class ShoppingListMapper {
 			Statement stmt = con.createStatement();
 			
 			//Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("Select id, title FROM shoppinglist" + "WHERE id= " + id);
+			ResultSet rs = stmt.executeQuery("Select Shopinglist_id, Title FROM Shoppinglist" + "WHERE Shoppinglist_id= " + id);
 			
 			/*
 		     * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -64,8 +64,8 @@ public class ShoppingListMapper {
 			if (rs.next()) {
 				//Ergebnis-Tupel in Objekt umwandeln
 				ShoppingList sl = new ShoppingList();
-				sl.setId(rs.getInt("id"));
-				sl.setTitle(rs.getString("title"));
+				sl.setId(rs.getInt("Shoppinglist_id"));
+				sl.setTitle(rs.getString("Title"));
 				
 				return sl; 		
 		}
@@ -153,8 +153,8 @@ Connection con = DBConnection.connection();
 						Statement.RETURN_GENERATED_KEYS);
 
 				stmt2.setInt(1, sl.getId());
-				//stmt2.setTimestamp(2, sl.getCreationdate());
-				//stmt2.setTimestamp(3, sl.getChangedate());
+				stmt2.setTimestamp(2, sl.getCreationdate());
+				stmt2.setTimestamp(3, sl.getChangedate());
 				stmt2.setString(4, sl.getTitle());
 				stmt2.setInt(5, sl.getGroupID());
 				
@@ -179,13 +179,13 @@ Connection con = DBConnection.connection();
 				Statement stmt = con.createStatement();
 				
 				stmt.executeUpdate("UPDATE Shoppinglist " + "SET Title=\"" +sl.getTitle() + "\", " + "Group_ID=\""
-						+ sl.getGroupID() + "\", " +"SET Changedate=\"" +sl.getChangedate() + "\" "+ "WHERE id=" + sl.getId());
+						+ sl.getGroupID() + "\", " +"SET Changedate=\"" +sl.getChangedate() + "\" "+ "WHERE Shoppinglist_id=" + sl.getId());
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			
-			// Um Analogie zu insert(Group g) zu wahren, wird g zurückgegeben
+			// Um Analogie zu insert(Shoppinglist sl) zu wahren, wirdsl zurückgegeben
 					return sl;
 		        
 		}
@@ -201,7 +201,7 @@ Connection con = DBConnection.connection();
 			try {
 				Statement stmt = con.createStatement();
 				
-				stmt.executeUpdate("DELETE FROM shoppinglists " + "WHERE id=" + sl.getId());
+				stmt.executeUpdate("DELETE * FROM Shoppinglist " + "WHERE Shoppinglist_id=" + sl.getId());
 			} catch(SQLException e) {
 				e.printStackTrace();
 			}
@@ -249,7 +249,7 @@ Connection con = DBConnection.connection();
 		 * @return alle SL der Person
 		 */
 		 public ArrayList<ShoppingList> findByMember(Person member) {
-
+    
 			    /*
 			     * Wir lesen einfach die id (Primärschlüssel) des Person-Objekts
 			     * aus und delegieren die weitere Bearbeitung an findByMember(int memberID).

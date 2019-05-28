@@ -22,7 +22,7 @@ public abstract class BusinessObject implements Serializable{
 	}
 	
 	
-	public Date getCreationdate() {
+	public Timestamp getCreationdate() {
 		return creationdate;
 	}
 	public void setCreationdate(Timestamp creationdate) {
@@ -30,7 +30,7 @@ public abstract class BusinessObject implements Serializable{
 	}
 	
 	
-	public Date getChangedate() {
+	public Timestamp getChangedate() {
 		return changedate;
 	}
 	public void setChangedate(Timestamp changedate) {

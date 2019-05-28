@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
 public class StoreMapper {
@@ -59,7 +60,7 @@ public class StoreMapper {
 				 * Zunächst schauen wir nach, welches der momentan höchste
 				 * Primärschlüsselwert ist.
 				 */
-				ResultSet rs = stmt.executeQuery("SELECT MAX(store_id) AS id " + "FROM store ");
+				ResultSet rs = stmt.executeQuery("SELECT MAX(Store_id) AS id " + "FROM Store ");
 
 				// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 				
@@ -68,14 +69,14 @@ public class StoreMapper {
 				 * s erhält den bisher maximalen, nun um 1 inkrementierten
 				 * Primärschlüssel.
 				 */
-					s.setId(rs.getInt("maxstore_id") + 1);
+					s.setId(rs.getInt("id") + 1);
 
 					stmt = con.createStatement();
 				}
 				
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO store (store_id, name, street, postcode, city) " + "VALUES (" + s.getId() + ",'"
-						+ s.getName() + "','" + s.getStreet() + " ','" + s.getPostcode() + "','" + s.getCity()+ "')");
+				stmt.executeUpdate("INSERT INTO store (Store_id, Name, Street, Postcode, City, Creationdate, Changedate) " + "VALUES (" + s.getId() + ",'"
+						+ s.getName() + "','" + s.getStreet() + " ','" + s.getPostcode() + "','" + s.getCity()+" ','" + s.getCreationdate() +" ','" + s.getChangedate()+ "')");
 			
 
 			} catch (SQLException e) {
@@ -93,30 +94,27 @@ public class StoreMapper {
 		public Store updateStore(Store r) {
 			
 			Connection con = DBConnection.connection();
-
+			
 			try {
-				PreparedStatement stmt = con.prepareStatement("UPDATE Store SET = ?, Name= ? WHERE BO_ID = ?");
-
-				stmt.setString(1, r.getName());
-				stmt.setString(2, r.getStreet());
-				stmt.setInt(3, r.getPostcode());
-				stmt.setString(4, r.getCity());
-				stmt.executeUpdate();
-
+				Statement stmt = con.createStatement();
+				
+				stmt.executeUpdate("UPDATE Store " + "SET name=\"" + r.getName() + "\", " + "Street=\""
+						+ r.getStreet()+ "\" " + "Postcode=\""
+						+ r.getPostcode()+ "\" " +"City=\""
+						+ r.getCity()+ "\" " +"Changdate=\""
+						+ r.getChangedate()+ "\" " +"WHERE id=" + r.getId());
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
-				}
-			return r;	
+			}
+			
+			// Um Analogie zu insert(item r) zu wahren, wird i zurückgegeben
+					return r;
 		}
 		
-		// bestimmten Store aufrufen
-		/*public Store readStore(String name) {
-				
 		
-		return Store;
-		}*/
 		
-		//Store aus Datenbank löschen
+         //Store aus Datenbank löschen
 			
 		public void deleteStore(Store s) {
 			
@@ -125,7 +123,7 @@ public class StoreMapper {
 			try {
 				Statement stmt = con.createStatement();
 
-				stmt.executeUpdate("DELETE * FROM store WHERE id=" + "'" + s.getId() + "'");
+				stmt.executeUpdate("DELETE * FROM Store WHERE id=" + "'" + s.getId() + "'");
 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -138,16 +136,25 @@ public class StoreMapper {
 		
 			Connection con = DBConnection.connection();
 			
-			Store store = new Store();
 			
 			try {
+				//leeres SQL-Statement (JDBC) anlegen
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM store "
+				
+				//Statement ausfüllen und als Query an die DB schicken
+				ResultSet rs = stmt.executeQuery("SELECT Store_id, Name, Street, Postcode, City, Creationdate, Changedate FROM Store "
 						+ " WHERE Store_ID = " +ID);
 				while (rs.next()) {
+				//Ergebnis-Tupel in Objekt umwandeln
+				 Store s = new Store();
+				 s.setId(rs.getInt("Store_id"));
+				 s.setName(rs.getString("Name"));
+				 s.setPostcode(rs.getInt("Postcode"));
+				 s.setCity(rs.getString("City"));
+				 s.setCreationdate(rs.getTimestamp("Creationdate"));
+				 s.setChangedate(rs.getTimestamp("Changedate"));
 					
-				//	allStores.add(rs.getStore("Store"));
-
+				 return s;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -156,37 +163,51 @@ public class StoreMapper {
 			
 			
 			
-			return store;
+			return null;
 		}
 	
 		//Alle Store als Array-Liste ausgeben
 		public ArrayList<Store> findAllStore(){
 			
+			//Ergebnisvektor vorbereiten
+			ArrayList<Store> result = new ArrayList<Store>();
+			
 			Connection con = DBConnection.connection();
-			ArrayList<Store> allStores = new ArrayList<Store>();
+			
 			
 			try {
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM store ");
+				
+				ResultSet rs = stmt.executeQuery("SELECT Store_id, Name, Street, Postcode, City, Creationdate, Changedate FROM Store "+ "ORDER BY Name");
 						
 				while (rs.next()) {
 					
-					allStores.add(this.findByID(rs.getInt("Store_ID")));
+					//Ergebnis-Tupel in Objekt umwandeln
+					 Store s = new Store();
+					 s.setId(rs.getInt("Store_id"));
+					 s.setName(rs.getString("Name"));
+					 s.setPostcode(rs.getInt("Postcode"));
+					 s.setCity(rs.getString("City"));
+					 s.setCreationdate(rs.getTimestamp("Creationdate"));
+					 s.setChangedate(rs.getTimestamp("Changedate"));
+					
+					//Hinzufügen des neuen Objekts zum Ergebnisvektor
+					result.add(s);
 
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			
-			return allStores;
+			return result;
 		
 		}
 	
-		public Store findByObject(Store store) {
-			return store;
+		//public Store findByObject(Store store) {
+		//	return store;
 		
 		
-		}
+		//}
 	
 	
 	
