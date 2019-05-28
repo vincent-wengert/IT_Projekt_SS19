@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.Store;
@@ -64,9 +65,9 @@ public class ResponsibilityMapper {
 				rl.setId(rs.getInt("Responsibility_ID"));
 				rl.setCreationdate(rs.getTimestamp("Creationdate"));
 				rl.setChangedate(rs.getTimestamp("Changedate"));
-				//rl.setBuyer(new Person(rs.getInt("Person_ID"));//???
-				//rl.setSl(rs.getInt("Shoppinglist_ID"));
-				//contactList.setIsShared(rs.getBoolean("IsShared"));
+				rl.setBuyerID(rs.getInt("Person_ID"));
+				rl.setSlID(rs.getInt("Shoppinglist_ID"));
+				rl.setStoreID(rs.getInt("Store_ID"));
 			}
 		} catch (
 
@@ -82,8 +83,37 @@ public class ResponsibilityMapper {
 	 * Methode zum Auflisten aller Artikel.
 	 */
 	
-	public Responsibility findbystore(Store s) {
-		return null;
+	public ArrayList<Responsibility> findbystore(Store s) {
+		
+		ArrayList<Responsibility> result = new ArrayList<Responsibility>();
+		
+		//Herstellung einer Verbindung zur DB-Connection
+		Connection con =DBConnection.connection();
+		try {
+			//leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+			
+			//Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs = stmt.executeQuery("Select Responsibilty_id,Store_ID FROM Responsibility" + "WHERE Store_id= " + s.getId());
+			
+			/*
+		     * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+		     * werden. Prüfe, ob ein Ergebnis vorliegt.
+		     */
+			while(rs.next()) {
+				Responsibility r = new Responsibility();
+				r.setId(rs.getInt("Responsibility_id"));
+				r.setStoreID(rs.getInt("Store_id"));
+				
+				//Hinzufügen des neuen Objekts zum Ergebnisvektor
+				result.add(r);
+	}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	return result;
+		
 		
 	}
 	
@@ -91,8 +121,37 @@ public class ResponsibilityMapper {
 	 * Methode um einen Artikel anhand seines Objektes zu suchen.
 	 */
 	
-	public Responsibility findByPerson(Person p) {
-		return null;
+	public ArrayList<Responsibility> findByPerson(Person p) {
+          
+		ArrayList<Responsibility> result = new ArrayList<Responsibility>();
+		
+		//Herstellung einer Verbindung zur DB-Connection
+		Connection con =DBConnection.connection();
+		try {
+			//leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+			
+			//Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs = stmt.executeQuery("Select Responsibilty_id,Store_ID FROM Responsibility" + "WHERE Person_ID_id= " + p.getId());
+			
+			/*
+		     * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+		     * werden. Prüfe, ob ein Ergebnis vorliegt.
+		     */
+			while(rs.next()) {
+				Responsibility r = new Responsibility();
+				r.setId(rs.getInt("Responsibility_id"));
+				r.setBuyerID(rs.getInt("Person_id"));
+				
+				//Hinzufügen des neuen Objekts zum Ergebnisvektor
+				result.add(r);
+	}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	return result;
+		
 		
 	}
 	
@@ -127,10 +186,10 @@ public class ResponsibilityMapper {
   	  try {
     	PreparedStatement stmt = con.prepareStatement("UPDATE Responsibility SET Changedate = ?, Shoppinglist_ID = ?, Store_ID = ?, Person_ID = ? WHERE Responsibility_ID ="+ rs.getId());
     	
-    	//stmt.setTimestamp(1, rs.getChangedate());
-		stmt.setInt(2, rs.getSl().getId());
-		stmt.setInt(3, rs.getSt().getId());
-		stmt.setInt(4, rs.getBuyer().getId());
+    	stmt.setTimestamp(1, rs.getChangedate());
+		stmt.setInt(2, rs.getSlID());
+		stmt.setInt(3, rs.getStoreID());
+		stmt.setInt(4, rs.getBuyerID());
 		stmt.executeUpdate();
     	
   	  		}
@@ -167,11 +226,11 @@ public class ResponsibilityMapper {
 						Statement.RETURN_GENERATED_KEYS);
 
 				stmt2.setInt(1, rl.getId());
-				//stmt2.setTimestamp(2,rl.getCreationdate());
-				//stmt2.setTimestamp(3, rl.getChangedate());
-				stmt2.setInt(4, rl.getSl().getId());
-				stmt2.setInt(5,rl.getSt().getId());
-				stmt2.setInt(6,rl.getBuyer().getId());
+				stmt2.setTimestamp(2,rl.getCreationdate());
+				stmt2.setTimestamp(3, rl.getChangedate());
+				stmt2.setInt(4, rl.getSlID());
+				stmt2.setInt(5,rl.getStoreID());
+				stmt2.setInt(6,rl.getBuyerID());
 				
 				stmt2.executeUpdate();
 
