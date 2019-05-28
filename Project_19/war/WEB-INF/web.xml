@@ -5,16 +5,55 @@
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
 
-  <!-- Servlets -->
+   <!-- Servlets -->
+
   <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>de.hdm.softwarepraktikum.server.GreetingServiceImpl</servlet-class>
+    <servlet-name>shoppingListAdministrationService</servlet-name>
+    <servlet-class>de.hdm.softwarepraktikum.server.ShoppingListAdministrationImpl</servlet-class>
   </servlet>
   
+  
   <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/project_19/greet</url-pattern>
+    <servlet-name>shoppingListAdministrationService</servlet-name>
+    <url-pattern>/project_19/administration</url-pattern>
   </servlet-mapping>
+  
+<!--   <servlet-mapping>
+    <servlet-name>shoppinglistAdministrationService</servlet-name>
+    <url-pattern>/ReportGenerator/administration</url-pattern>
+  </servlet-mapping>
+   -->
+  
+  
+<!--   <servlet>
+	<servlet-name>ReportGenerator</servlet-name>
+	<servlet-class>de.hdm.softwarePraktikum.server.report.ReportGeneratorImpl</servlet-class>
+	</servlet>
+  
+  <servlet-mapping>
+	<servlet-name>ReportGenerator</servlet-name>
+	<url-pattern>/ReportGenerator/reportGenerator</url-pattern>
+</servlet-mapping> -->
+
+
+  
+<!--   <servlet>
+	<servlet-name>loginService</servlet-name>
+	<servlet-class>de.hdm.softwarePraktikum.server.LoginServiceImpl</servlet-class>
+	</servlet>
+	
+
+	<servlet-mapping>
+	<servlet-name>loginService</servlet-name>
+	<url-pattern>/it_projekt_ss18/login</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+	<servlet-name>loginService</servlet-name>
+	<url-pattern>/ReportGenerator/login</url-pattern>
+	</servlet-mapping> -->
+  
+  
   
   <!-- Default page to serve -->
   <welcome-file-list>

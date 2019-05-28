@@ -9,7 +9,7 @@ import de.hdm.softwarepraktikum.shared.ShoppingListAdministration;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 
 /**
- * Klasse die die Methoden zur Instanziierung <code>ShopppingListAdministrationAsync</code>,
+ * Klasse die die Methoden zur Instanziierung <code>ShoppingListAdministrationAsync</code>,
  * <code>ReportGeneratorAsync</code> und <code>LoginServiceAsync</code> beinhalten.
  * 
  * @author VincentWengert
