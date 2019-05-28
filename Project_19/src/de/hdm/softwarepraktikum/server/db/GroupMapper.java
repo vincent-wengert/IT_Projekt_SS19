@@ -251,6 +251,11 @@ public class GroupMapper {
 		     */
 		    return findByMember(member.getId());
 		  }
+
+	public void deleteMembership(Group g) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

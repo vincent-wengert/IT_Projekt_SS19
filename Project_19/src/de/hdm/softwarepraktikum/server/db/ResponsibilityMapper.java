@@ -178,7 +178,7 @@ public class ResponsibilityMapper {
 	 * Update Methode, um einen Artikel erneut zu schreiben.
 	 */
 	
-	public Responsibility update(Responsibility rs) {
+	public Responsibility updateResponsibility(Responsibility rs) {
 		
 
     	Connection con = DBConnection.connection();

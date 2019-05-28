@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import de.hdm.softwarepraktikum.shared.bo.Group;
+import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.server.db.GroupMapper;
@@ -56,7 +57,7 @@ public class PersonMapper{
 
 }
 
-	public Person update(Person person) {
+	public Person update(String name) {
 		Connection con = DBConnection.connection();
 
 		try {
@@ -70,7 +71,7 @@ public class PersonMapper{
 			//stmt.setTimestamp(1, person.getChangedate());
 
 			//stmt.setBoolean(2, person.isShared());
-			stmt.setInt(3, person.getId());
+			stmt.setInt(3, name.getId());
 			stmt.executeUpdate();
 			
 			//Wenn alle Statements fehlerfrei ausgeführt wurden, wird commited.
@@ -79,7 +80,7 @@ public class PersonMapper{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return person;
+		return name;
 }
 	/**
 	 * Insert Methode, um eine neue <codee>Person</code> der Datenbank hinzuzufügen.
@@ -261,5 +262,17 @@ public class PersonMapper{
 		 */
 		return ShoppingListMapper.shoppinglistMapper().findByMember(p);
 	}
+	
+	public ArrayList<Person> findAllGroupMembers(){
+		return null;
+		
+	}
+	public ArrayList<Item> allFavoriteItems() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	
 	}
 

@@ -9,6 +9,7 @@ import de.hdm.softwarepraktikum.server.db.PersonMapper;
 import de.hdm.softwarepraktikum.server.db.ResponsibilityMapper;
 import de.hdm.softwarepraktikum.server.db.ShoppingListMapper;
 import de.hdm.softwarepraktikum.server.db.StoreMapper;
+import de.hdm.softwarepraktikum.client.gui.Notification;
 import de.hdm.softwarepraktikum.server.db.GroupMapper;
 import de.hdm.softwarepraktikum.server.db.ItemMapper;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministration;
@@ -16,11 +17,13 @@ import de.hdm.softwarepraktikum.shared.bo.BusinessObject;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
+import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -104,55 +107,78 @@ private ResponsibilityMapper responsibilityMapper = null;
 		
 	}
 	
-
-
-	
-
-
-	@Override
-	public void updatePerson(String name) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public Person createPerson(Date creationDate, String gmail, String name) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	/**
+	 * Methode um ein <code>Person</code> Objekt anzulegen.
+	 * @param Name der Person und E-Mail Adresse
+	 * @return das in die Datenbank gespeicherte Person Objekt wird zurückgegeben
+	 */
+	public Person createPerson(String gmail, String name) throws IllegalArgumentException {
 		Person p = new Person();
-		p.setCreationdate(creationDate);
 		p.setGmail(gmail);
 		p.setName(name);
-		p.setId();
 		
-		return this.personMapper.insert(p);
+		/**
+		 * Setzen einer vorläufigen ID. Der insert Aufruf liefert anschließend
+		 * ein Objekt dessen Nummer mit der Datenbank konsistent ist.
+		 */
+		p.setId(1);
+		
+		return this.personMapper.insert(p)
+		
 	}
+	
+	/**
+	 * Methode um Änderungen dem zu übergebenden Person Objekt in die Datenbank 
+	 * zu schreiben
+	 */
 
+	public void updatePerson(Person p) throws IllegalArgumentException {
+		personMapper.update(p);
+		
+	}
+	
+	/**
+	 * Methode, um ein <code>Item</code> in der Datenbank zu anzulegen.
+	 * @param name
+	 * @param isGlobal
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	
+	public Item createItem(String name, boolean value) throws IllegalArgumentException {
+		
+		Window.alert("artikel erstellen impl");
 
-	@Override
-	public Item createStore(String name, Enum unit) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		Item i = new Item();
 		
 		i.setName(name);
-		i.setUnit(unit);
+		i.setIsGlobal(value);
 		
+		/**
+		 * Setzen einer vorläufigen ID. Der insert Aufruf liefert dann ein Objekt,
+		 * dessen Numme rmit de rDatenbank konsistent ist.
+		 */
+		
+		i.setId(1);
+		
+		/**
+		 * Objekt in Datenbank speichern.
+		 */
 		
 		return this.itemMapper.insert(i);
 	}
 
 
-	@Override
 	public void updateItem(Item i) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		itemMapper.update(i);
 	}
 
 
 	@Override
 	public void deleteItem(Item i) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		itemMapper.delete(i);
 	}
 
 
@@ -171,7 +197,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public ListItem createListItem(Item item, Person buyerID, int storeID, int slID) throws IllegalArgumentException {
+	public ListItem createListItem(Item item, int buyerID, int storeID, int slID) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		
 		ListItem li = new ListItem();
@@ -179,32 +205,37 @@ private ResponsibilityMapper responsibilityMapper = null;
 		li.setIt(item);
 		li.setBuyerID(buyerID);
 		li.setStoreID(storeID);
-		li.setShoppingListID(slID);
+		li.setSlID(slID);
 		
-		li.setId();
+		/**
+		 * Setzen einer vorlÃ¤ufigen ID. Der Insert Aufruf liefert dann ein Objekt,
+		 * dessen Nummer mit der Datenbank konsistent ist.
+		 */
+		
+		li.setId(1);
 		
 		return this.listItemMapper.insert(li);
 	}
 
 
 	@Override
-	public void updateListItem(Item item, Person buyer, int storeID, int slID) throws IllegalArgumentException {
+	public void updateListItem(ListItem li) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		listItemMapper.update(li);
 	}
 
 
 	@Override
 	public void checkListItem(ListItem li) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		this.listItemMapper.checkListItem(li);
 	}
 
 
 	@Override
 	public void deleteListItem(ListItem li) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		listItemMapper.delete(li);
 	}
 
 
@@ -222,15 +253,20 @@ private ResponsibilityMapper responsibilityMapper = null;
 		
 		g.setTitle(title);
 		
-		g.setId();
+		/**
+		 * Setzen einer vorlÃ¤ufigen ID. Der Insert Aufruf liefert dann ein Objekt,
+		 * dessen Nummer mit der Datenbank konsistent ist.
+		 */
+		
+		g.setId(1);
 		
 	}
 
 
 	@Override
-	public void updateGroup(String title) throws IllegalArgumentException {
+	public void updateGroup(Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		groupMapper.update(g);
 	}
 
 
@@ -244,7 +280,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public ArrayList<Person> getAllGroupMembers(Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.personMapper.findAllGroupMembers();
 	}
 
 
@@ -256,36 +292,43 @@ private ResponsibilityMapper responsibilityMapper = null;
 		sl.setOwnerID(ownerid);
 		sl.setGroupID(groupID);
 		
-		sl.setId();
+		/**
+		 * Setzen einer vorlÃ¤ufigen ID. Der Insert Aufruf liefert dann ein Objekt,
+		 * dessen Nummer mit der Datenbank konsistent ist.
+		 */
+		
+		sl.setId(1);
 		
 		return this.shoppingListMapper.insert(sl);
 	}
 
 
 	@Override
-	public void updateShoppingList(Person owner, String title, Group p) throws IllegalArgumentException {
+	public void updateShoppingList(ShoppingList sl) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		shoppingListMapper.update(sl);
 	}
 
 
 	@Override
 	public void deleteShoppingList(ShoppingList sl) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		shoppingListMapper.delete(sl);
 	}
 
 
 	@Override
-	public void getAllShoppingListsByPerson(Person p) throws IllegalArgumentException {
+	public ArrayList<ShoppingList> getAllShoppingListsByPerson(Person p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		return this.shoppingListMapper.findByMember(p);
 	}
 
 
 	@Override
-	public void getAllShoppingListsByGroup(Group g) throws IllegalArgumentException {
+	public ShoppingList getAllShoppingListsByGroup(Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+		
+		return this.shoppingListMapper.findByGroup(g);
 		
 	}
 
@@ -294,6 +337,12 @@ private ResponsibilityMapper responsibilityMapper = null;
 	public void addFavoriteItem(Item i, Person p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		
+		personMapper.findByName(p.getName());
+		
+		ArrayList<Item> favItem = personMapper.allFavoriteItems();
+		favItem.add(i);
+		
+		personMapper.update(p);
 	}
 
 
@@ -328,9 +377,9 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public void updateStore(String name, String street, int postcode, String city) throws IllegalArgumentException {
+	public void updateStore(Store s) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		storeMapper.updateStore(s);
 	}
 
 
@@ -355,16 +404,25 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public void updateResponsibility(Person buyer, Store s, ShoppingList sl) throws IllegalArgumentException {
+	public void updateResponsibility(Responsibility r) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
-	}
+		responsibilityMapper.updateResponsibility(r);
+	} 
 
 
 	@Override
-	public void deleteResponsibility(Person buyer, Store s, ShoppingList sl) throws IllegalArgumentException {
+	public void deleteResponsibility(Responsibility rs) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		responsibilityMapper.delete(rs);
+	}
+
+
+
+
+	@Override
+	public void deleteGroupMembership(Person p, Group g) {
+		// TODO Auto-generated method stub
+		groupMapper.deleteMembership(g);
 	}
 
 
@@ -376,9 +434,23 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public void deleteGroupMembership(Person p, Group g) {
+	public void updatePerson(String name) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public Person createPerson(Date creationDate, String gmail, String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Item createItem(String name, Unit unit) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

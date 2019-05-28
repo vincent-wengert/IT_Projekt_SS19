@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.hdm.softwarepraktikum.shared.bo.Item;
+import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Person;
@@ -34,13 +35,6 @@ public interface ReportGenerator extends RemoteService {
 	
 	public void init() throws IllegalArgumentException;
 	
-	/**
-	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#createItemsByGroupReport(int id)
-	 * @param g
-	 * @throws IllegalArgumentException
-	 */
-	
-	public ItemsByGroupReport createGroupStatisticsReport(int id) throws IllegalArgumentException;
 	
 	/**
 	 * @see 
@@ -59,6 +53,14 @@ public interface ReportGenerator extends RemoteService {
 	 */
 	
 	public ItemsByPersonReport createUserStatisticsReport(int id) throws IllegalArgumentException;
+	
+	/**
+	 * Diese Methode gibt die Einkaufsstatistik für eine Gruppe aus.
+	 * @param a
+	 * @return alle eingekauften Produkte einer Gruppe 
+	 * @throws IllegalArgumentException
+	 */
+	public abstract ItemsByGroupReport createGroupStatisticsReport(Group g) throws IllegalArgumentException;
  	
 	/**
 	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#getAllItems
@@ -87,11 +89,6 @@ public interface ReportGenerator extends RemoteService {
 	
 	public Store getStore(int id) throws IllegalArgumentException;
 	
-	/*
-	 * 
-	 */
-	
-	public void AddImprint() throws IllegalArgumentException;
 	
 	/**
 	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#getAllParticipations
@@ -101,6 +98,12 @@ public interface ReportGenerator extends RemoteService {
 	 */
 	
 	public ArrayList<ShoppingList> getAllParticipations(Person p) throws IllegalArgumentException;
+
+
+	void AddImprint();
+
+	
+	
 	
 	
 	/**

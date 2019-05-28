@@ -19,8 +19,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class MenuPanel extends VerticalPanel{
 	
 	private NewGroupForm newGroupForm;
-	private NewStoreForm newStoreForm;
-	private NewItemForm newItemForm;
+
+	private ItemForm itemForm;
+	private StoreForm storeForm;
+
 	private NewShoppingListForm newShoppingListForm;
 	
 	private Button createGroupButton = new Button ();
@@ -90,17 +92,17 @@ public class MenuPanel extends VerticalPanel{
 	 * 
 	 * @param das zu setzende NewStoreForm
 	 */
-	public void setNewStoreForm(NewStoreForm newStoreForm) {
-		this.newStoreForm = newStoreForm;
+	public void setNewStoreForm(StoreForm storeForm) {
+		this.storeForm = storeForm;
 	}
 	
 	/**
-	 * Setzen der NewItemForm innerhalb des MenuPanels
+	 * Setzen der itemForm innerhalb des MenuPanels
 	 * 
-	 * @param die zu setzende NewItemForm
+	 * @param die zu setzende itemForm
 	 */
-	public void setNewItemForm(NewItemForm newItemForm) {
-		this.newItemForm = newItemForm;
+	public void setItemForm(ItemForm itemForm) {
+		this.itemForm = itemForm;
 	}
 	
 	/**
@@ -163,9 +165,11 @@ public class MenuPanel extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			Notification.show("Artikel erstellen");
 			RootPanel.get("Details").clear();
-			newItemForm = new NewItemForm();
-			newItemForm.setNewItemForm(newItemForm);
-			RootPanel.get("Details").add(newItemForm);	
+			itemForm = new ItemForm();
+			itemForm.setEditable(true);
+			itemForm.setInitial(true);
+			itemForm.setItemForm(itemForm);
+			RootPanel.get("Details").add(itemForm);	
 		}
 	}
 	
@@ -178,9 +182,12 @@ public class MenuPanel extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			Notification.show("Store erstellen");
 			RootPanel.get("Details").clear();
-			newStoreForm = new NewStoreForm();
-			newStoreForm.setNewStoreForm(newStoreForm);
-			RootPanel.get("Details").add(newStoreForm);
+			storeForm = new StoreForm();
+			storeForm.setEditable(true);
+			storeForm.setInitial(true);
+			storeForm.setStoreForm(storeForm);
+		
+			RootPanel.get("Details").add(storeForm);
 		}	
 	}
 	
