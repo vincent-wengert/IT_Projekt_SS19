@@ -1,6 +1,7 @@
 package de.hdm.softwarepraktikum.shared.report;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 public class ItemsByPersonReport extends CompositeReport implements Serializable {
 
@@ -15,5 +16,15 @@ public class ItemsByPersonReport extends CompositeReport implements Serializable
 	 */
 	
 	  private static final long serialVersionUID = 1L;
+
+	public void setCreationDate(Timestamp timestamp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void addRow(Row headline) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

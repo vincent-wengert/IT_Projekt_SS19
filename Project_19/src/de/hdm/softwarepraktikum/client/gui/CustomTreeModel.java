@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gargoylesoftware.htmlunit.javascript.host.Console;
-import com.google.appengine.api.search.query.ExpressionParser.name_return;
-import com.google.appengine.api.search.query.QueryParser.value_return;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
@@ -124,6 +122,7 @@ public class CustomTreeModel implements TreeViewModel{
 	        // LEVEL 1.
 	        // We want the children of the composer. Return the Person in the Group, later the Shoppinglists.
 	        ListDataProvider<Person> dataProvider = new ListDataProvider<Person>(((Group) value).getMember());
+	        
 	        Cell<Person> cell = new AbstractCell<Person>() {
 			@Override
 			public void render(Context context, Person value, SafeHtmlBuilder sb) {

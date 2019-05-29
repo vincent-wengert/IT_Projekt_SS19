@@ -2,6 +2,7 @@ package de.hdm.softwarepraktikum.client.gui;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -10,7 +11,11 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.client.gui.AllStoresCellList.DemoStore;
+import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
+import de.hdm.softwarepraktikum.shared.bo.Item;
+import de.hdm.softwarepraktikum.shared.bo.Store;
 /**
  * In der Klasse <code>StoreForm</code> wird die Detailansicht der Stores implementiert.
  * Die Klasse wird bei der Erstellung eines neuen Stores und bei der Bearbeitung eines Stores aufgerufen.
@@ -21,6 +26,8 @@ import de.hdm.softwarepraktikum.client.gui.AllStoresCellList.DemoStore;
  */
 
 public class StoreForm extends VerticalPanel{
+	
+	private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings.getShoppinglistAdministration();
 
 	private DemoStore storeToDisplay = null;
 
@@ -38,11 +45,12 @@ public class StoreForm extends VerticalPanel{
 	private TextBox postCodeBox = new TextBox();
 	private TextBox cityNameBox = new TextBox();
 	private TextBox streetNameBox = new TextBox();
+	private TextBox houseNumberBox = new TextBox();
 
 	private Button editButton = new Button();
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
-	private Grid storeGrid = new Grid(4, 2);
+	private Grid storeGrid = new Grid(4, 3);
 	
 //	private FieldVerifier verifier = new FieldVerifier();
 
@@ -66,7 +74,8 @@ public class StoreForm extends VerticalPanel{
 			storeNameBox.setText(s.getName());
 			postCodeBox.setText(Integer.toString(s.getPostleitZahl()));
 			cityNameBox.setText(s.getOrt());
-			streetNameBox.setText(s.getStrasse() + " " + s.getHausNummer());
+			streetNameBox.setText(s.getStrasse());
+			houseNumberBox.setText(Integer.toString(s.getHausNummer()));
 			infoTitleLabel.setText(s.getName());
 		}
 	}
@@ -125,6 +134,7 @@ public class StoreForm extends VerticalPanel{
 		storeGrid.setWidget(1, 1, postCodeBox);
 		storeGrid.setWidget(2, 1, cityNameBox);
 		storeGrid.setWidget(3, 1, streetNameBox);
+		storeGrid.setWidget(3, 2, houseNumberBox);
 
 		this.add(bottomButtonsPanel);
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
@@ -197,9 +207,9 @@ public class StoreForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-//
-//				shoppingListAdministration.createStore(all textboxes,new CreateArticleCallback());
-//
+
+				shoppinglistAdministration.createStore(storeNameBox.getText(), streetNameBox.getText(), Integer.parseInt(postCodeBox.getText()), cityNameBox.getText(), new CreateStoreCallback());
+
 			setTableEditable(false);
 		}
 	}
@@ -210,6 +220,21 @@ public class StoreForm extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			Notification.show("edit");
 			setTableEditable(true);
+		}
+	}
+	
+	private class CreateStoreCallback implements AsyncCallback<Store> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show("Der Store konnte leider nicht erstellt werden:\n" + caught.toString());
+		}
+
+		@Override
+		public void onSuccess(Store store) {
+			//add item to cellist
+			Notification.show("Artikel wurde erstellt");
+
 		}
 	}
 }

@@ -186,14 +186,15 @@ public class ItemMapper {
 			Statement stmt = con.createStatement();
 			
 			ResultSet rs = stmt
-					.executeQuery("SELECT Item_ID, Name, isglobal " + "FROM Item " + "ORDER BY name");
+					.executeQuery("SELECT Item_ID, Name " + "FROM Item " + "ORDER BY Name");
 			
 			// F�r jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
 			while(rs.next()) {
 				Item i = new Item();
 				i.setId(rs.getInt("Item_ID"));
 				i.setName(rs.getString("Name"));
-				i.setIsGlobal(rs.getBoolean("Isglobal"));
+
+				//i.setIsGlobal(rs.getBoolean("isglobal"));
 				
 				//Hinzuf�gen des neuen Objekts zum Ergebnisvektor
 				result.add(i);

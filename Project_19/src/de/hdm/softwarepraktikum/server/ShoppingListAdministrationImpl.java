@@ -175,6 +175,8 @@ private ResponsibilityMapper responsibilityMapper = null;
 	public void deleteItem(Item i) throws IllegalArgumentException {
 		itemMapper.delete(i);
 	}
+	
+
 
 
 	public ArrayList<Item> getFavItems(Person p) throws IllegalArgumentException {
@@ -209,14 +211,13 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	public void updateListItem(ListItem li) throws IllegalArgumentException {
-		return listItemMapper.update(li);
+		listItemMapper.update(li);
 	}
 
 
 	public void checkListItem(ListItem li) throws IllegalArgumentException {
 		this.listItemMapper.checkListItem(li);
 	}
-
 
 	public void deleteListItem(ListItem li) throws IllegalArgumentException {
 		listItemMapper.delete(li);
@@ -225,6 +226,10 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 	public ListItem getListItem(int id) throws IllegalArgumentException {
 		return this.listItemMapper.findById(id);
+	}
+	
+	public ArrayList<ListItem> getAllCheckedItemsByGroup(Group g) throws IllegalArgumentException {
+		return this.groupMapper.
 	}
 
 	public void createGroup(String title) throws IllegalArgumentException {
@@ -420,5 +425,23 @@ private ResponsibilityMapper responsibilityMapper = null;
 		
 		return this.personMapper.insert(p);
 		
+	}
+
+	public ArrayList<Item> getAllItems() throws IllegalArgumentException{
+		return this.itemMapper.findAll();
+	}
+
+
+	@Override
+	public void getListItem(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public ArrayList<ShoppingList> getAllShoppingListsByGroup(Group g) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }	
