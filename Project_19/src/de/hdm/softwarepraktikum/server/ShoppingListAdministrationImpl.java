@@ -168,35 +168,27 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	public void updateItem(Item i) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		itemMapper.update(i);
 	}
 
 
-	@Override
 	public void deleteItem(Item i) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		itemMapper.delete(i);
 	}
 
 
-	@Override
-	public ArrayList<Item> getAllItems() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Item> getFavItems(Person p) throws IllegalArgumentException {
+		return this.personMapper.findFav(p);
 	}
 
 
-	@Override
+	
 	public Item getItem(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return itemMapper.findById(id);
 	}
 
 
-	@Override
 	public ListItem createListItem(Item item, int buyerID, int storeID, int slID) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		
 		ListItem li = new ListItem();
 		
@@ -216,35 +208,25 @@ private ResponsibilityMapper responsibilityMapper = null;
 	}
 
 
-	@Override
 	public void updateListItem(ListItem li) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		listItemMapper.update(li);
+		return listItemMapper.update(li);
 	}
 
 
-	@Override
 	public void checkListItem(ListItem li) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		this.listItemMapper.checkListItem(li);
 	}
 
 
-	@Override
 	public void deleteListItem(ListItem li) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		listItemMapper.delete(li);
 	}
 
 
-	@Override
-	public void getListItem(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+	public ListItem getListItem(int id) throws IllegalArgumentException {
+		return this.listItemMapper.findById(id);
 	}
 
-
-	@Override
 	public void createGroup(String title) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		Group g = new Group();
@@ -260,17 +242,12 @@ private ResponsibilityMapper responsibilityMapper = null;
 		
 	}
 
-
-	@Override
 	public void updateGroup(Group g) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		groupMapper.update(g);
 	}
 
 
-	@Override
 	public void getGroup(ShoppingList sl) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		
 	}
 
