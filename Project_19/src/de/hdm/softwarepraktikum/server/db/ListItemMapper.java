@@ -191,6 +191,11 @@ public class ListItemMapper {
 			
 			} return result;
 		}
+
+		public void checkListItem(ListItem li) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 		
 		

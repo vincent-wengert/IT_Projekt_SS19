@@ -347,7 +347,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public void removeFavoriteItem(Item i, Person p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		personMapper.removeFavoriteItem();
 	}
 
 
@@ -384,7 +384,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public void deleteStore(Store s) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		storeMapper.deleteStore(s);
 	}
 
 
@@ -424,12 +424,6 @@ private ResponsibilityMapper responsibilityMapper = null;
 	}
 
 
-	@Override
-	public void initMapper() {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	@Override
 	public void updatePerson(String name) {
@@ -441,6 +435,14 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public Person createPerson(Date creationDate, String gmail, String name) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		Person p = new Person();
+		
+		p.setGmail(gmail);
+		p.setName(name);
+		p.setId(1);
+		
+		return this.personMapper.insert(p);
+		
 	}
 }	
