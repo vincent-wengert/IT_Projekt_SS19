@@ -1,9 +1,10 @@
 package de.hdm.softwarepraktikum.server.db;
 	
 	
-	import java.sql.Connection;
-	import java.sql.DriverManager;
-	import com.google.appengine.api.utils.SystemProperty;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import com.google.appengine.api.utils.SystemProperty;
+	
 
 	
 		public class DBConnection {
@@ -21,7 +22,7 @@ package de.hdm.softwarepraktikum.server.db;
 		    private static Connection con = null;
 		    
 		    private static String googleUrl = "jdbc:google:mysql://fabled-rookery-239112:europe-west3:itprojekt-ss19/19ssprojekt?user=root&password=bruno";
-		    private static String localUrl = "jdbc:mysql://127.0.0.1:3306/it_project_db?user=root&password=&serverTimezone=UTC";
+		    private static String localUrl = "jdbc:mysql://127.0.0.1:3306/19ssprojekt?user=root&password=itprojekt";
 		   
 
 		   
@@ -32,7 +33,7 @@ package de.hdm.softwarepraktikum.server.db;
 		     * einzige Instanz von <code>DBConnection</code> existiert.
 		     * <p>
 		     * 
-		     * @return DAS <code>DBConncetion</code>-Objekt.
+		     * @return Das <code>DBConnection</code>-Objekt.
 		     * @see con
 		     */
 		    public static Connection connection() {
@@ -42,6 +43,7 @@ package de.hdm.softwarepraktikum.server.db;
 		        	
 		            String url = null;
 		            try {
+		            	
 		                if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
 		                    // Load the class that provides the new
 		                    // "jdbc:google:mysql://" prefix.
