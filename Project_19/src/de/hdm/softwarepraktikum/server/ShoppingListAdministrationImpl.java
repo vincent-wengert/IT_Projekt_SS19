@@ -423,4 +423,22 @@ private ResponsibilityMapper responsibilityMapper = null;
 		return this.personMapper.insert(p);
 		
 	}
+
+	public ArrayList<Item> getAllItems() throws IllegalArgumentException{
+		return this.itemMapper.findAll();
+	}
+
+
+	@Override
+	public void getListItem(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public ArrayList<ShoppingList> getAllShoppingListsByGroup(Group g) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }	
