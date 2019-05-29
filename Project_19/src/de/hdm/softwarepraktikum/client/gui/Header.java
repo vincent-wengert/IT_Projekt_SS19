@@ -96,7 +96,7 @@ public class Header extends HorizontalPanel{
 	 	 * Durch ein Klick auf den ReportGenerator-Button wird man 
 	 	 * auf die ReportGenerator-Seite weitergeleitet.
 	 	 */
-	 	private class ReportGeneratorClickHandler implements ClickHandler {
+	 	public class ReportGeneratorClickHandler implements ClickHandler {
 
 	 		@Override
 	 		public void onClick(ClickEvent event) {
@@ -113,7 +113,7 @@ public class Header extends HorizontalPanel{
 	 	 * Durch ein Klick auf den Shoppinglist-Editor-Button wird die Editorseite
 	 	 * aktualisiert.
 	 	 */
-	 	private class HomeClickHandler implements ClickHandler{
+	 	public class HomeClickHandler implements ClickHandler{
 	 		
 	 		@Override
 	 		public void onClick(ClickEvent event) {
