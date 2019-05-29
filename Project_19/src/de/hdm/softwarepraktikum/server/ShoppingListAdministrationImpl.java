@@ -211,14 +211,13 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	public void updateListItem(ListItem li) throws IllegalArgumentException {
-		return listItemMapper.update(li);
+		listItemMapper.update(li);
 	}
 
 
 	public void checkListItem(ListItem li) throws IllegalArgumentException {
 		this.listItemMapper.checkListItem(li);
 	}
-
 
 	public void deleteListItem(ListItem li) throws IllegalArgumentException {
 		listItemMapper.delete(li);
@@ -227,6 +226,10 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 	public ListItem getListItem(int id) throws IllegalArgumentException {
 		return this.listItemMapper.findById(id);
+	}
+	
+	public ArrayList<ListItem> getAllCheckedItemsByGroup(Group g) throws IllegalArgumentException {
+		return this.groupMapper.
 	}
 
 	public void createGroup(String title) throws IllegalArgumentException {
