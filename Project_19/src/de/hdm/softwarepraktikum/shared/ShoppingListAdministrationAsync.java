@@ -62,7 +62,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void updateItem(Item i, AsyncCallback<Void> callback);
 
-	void getListItem(int id, AsyncCallback<Void> callback);
+	void getListItem(int id, AsyncCallback<ListItem> callback);
 
 	void getStore(int id, AsyncCallback<Store> callback);
 

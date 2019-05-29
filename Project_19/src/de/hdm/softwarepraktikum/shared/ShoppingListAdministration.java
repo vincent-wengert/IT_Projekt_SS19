@@ -42,7 +42,7 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void deleteListItem(ListItem li);
 	
-	public void getListItem(int id);
+	public ListItem getListItem(int id);
 	
 	public void createGroup(String title);
 	
