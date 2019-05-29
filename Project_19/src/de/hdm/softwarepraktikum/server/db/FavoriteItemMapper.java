@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
+import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 public class FavoriteItemMapper {
 	
@@ -116,6 +119,38 @@ public class FavoriteItemMapper {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public ArrayList<Item> findFavItems(ShoppingList sl) {
+		// TODO Auto-generated method stub
+		
+		Connection con = DBConnection.connection();
+		ArrayList<Item> favItems = new ArrayList<Item>();
+		
+		 try {
+		      Statement stmt = con.createStatement();
+
+		      ResultSet rs = stmt.executeQuery("SELECT item FROM group "
+		          + "WHERE groupid =" + sl.getGroupID());
+
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
+		      while (rs.next()) {
+		    	Item i = new Item();
+		        i.setId(rs.getInt("id"));
+		      
+
+		        // Hinzufügen des neuen Items zum Ergebnisvektor
+		        favItems.add(i);
+		      }
+		    }
+		    catch (SQLException e2) {
+		      e2.printStackTrace();
+		    }
+
+		    // Ergebnisvektor zurückgeben
+		    return favItems;
+		    
 	}
 
 }

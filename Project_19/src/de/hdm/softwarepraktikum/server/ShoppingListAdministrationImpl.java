@@ -10,6 +10,7 @@ import de.hdm.softwarepraktikum.server.db.ResponsibilityMapper;
 import de.hdm.softwarepraktikum.server.db.ShoppingListMapper;
 import de.hdm.softwarepraktikum.server.db.StoreMapper;
 import de.hdm.softwarepraktikum.client.gui.Notification;
+import de.hdm.softwarepraktikum.server.db.FavoriteItemMapper;
 import de.hdm.softwarepraktikum.server.db.GroupMapper;
 import de.hdm.softwarepraktikum.server.db.ItemMapper;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministration;
@@ -81,6 +82,9 @@ private GroupMapper groupMapper = null;
 private ResponsibilityMapper responsibilityMapper = null;
 
 
+private FavoriteItemMapper favoriteItemMapper = null;
+
+
 /**
  * Ein <code>RemoteServiceServlet</code> wird unter GWT mittels
  * <code>GWT.create(Klassenname.class)</code> Client-seitig erzeugt. Hierzu ist
@@ -103,6 +107,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 		this.storeMapper = StoreMapper.storeMapper();
 		this.groupMapper = GroupMapper.groupMapper();
 		this.responsibilityMapper = ResponsibilityMapper.responsibilityMapper();
+		this.favoriteItemMapper = FavoriteItemMapper.favoriteItemMapper();
 		
 		
 	}
@@ -178,7 +183,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	public ArrayList<Item> getFavItems(ShoppingList sl) throws IllegalArgumentException {
-		return this.shoppingListMapper.findFavItems(sl);
+		return this.favoriteItemMapper.findFavItems(sl);
 	}
 
 
