@@ -70,7 +70,7 @@ public class GroupMapper {
 			Statement stmt = con.createStatement();
 			
 			//Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("Select id, name, user FROM person" + "WHERE id= " + id);
+			ResultSet rs = stmt.executeQuery("Select Group_ID, Title, user FROM Group" + "WHERE Group_ID= " + id);
 			
 			/*
 		     * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -79,8 +79,8 @@ public class GroupMapper {
 			if (rs.next()) {
 				//Ergebnis-Tupel in Objekt umwandeln
 				Group g = new Group();
-				g.setId(rs.getInt("id"));
-				g.setTitle(rs.getString("title"));
+				g.setId(rs.getInt("Group_ID"));
+				g.setTitle(rs.getString("Title"));
 				g.setMember((ArrayList<Person>) rs.getArray("member"));
 				
 				return g; 		
@@ -102,7 +102,7 @@ public class GroupMapper {
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM group ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(Group_ID) AS maxid " + "FROM Group ");
 			
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
@@ -115,7 +115,7 @@ public class GroupMapper {
 			stmt = con.createStatement();
 							
 			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate("INSERT INTO groups (bo_id, name, user) " + "VALUES (" + g.getId() + ",'"
+			stmt.executeUpdate("INSERT INTO Group (Group_ID, Title, user) " + "VALUES (" + g.getId() + ",'"
 					+ g.getTitle() + "','" + g.getMember() + "')");
 		}
 	} catch (SQLException e) {
@@ -142,8 +142,8 @@ public class GroupMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE group " + "SET title=\"" + g.getTitle() + "\", " + "user=\""
-					+ g.getMember() + "\" " + "WHERE id=" + g.getId());
+			stmt.executeUpdate("UPDATE Group " + "SET Title=\"" + g.getTitle() + "\", " + "user=\""
+					+ g.getMember() + "\" " + "WHERE Group_ID=" + g.getId());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -160,7 +160,7 @@ public class GroupMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE FROM group " + "WHERE id=" + g.getId());
+			stmt.executeUpdate("DELETE FROM Group " + "WHERE Group_ID=" + g.getId());
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -182,13 +182,13 @@ public class GroupMapper {
 			Statement stmt = con.createStatement();
 			
 			ResultSet rs = stmt
-					.executeQuery("SELECT id, title, member " + "FROM group " + "ORDER BY name");
+					.executeQuery("SELECT Group_ID, Title, member " + "FROM Group " + "ORDER BY Title");
 			
 			// Für jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
 			while(rs.next()) {
 				Group g = new Group();
-				g.setId(rs.getInt("id"));
-				g.setTitle(rs.getString("title"));
+				g.setId(rs.getInt("Group_ID"));
+				g.setTitle(rs.getString("Title"));
 				g.setMember((ArrayList<Person>)rs.getArray("member"));
 				
 				
@@ -216,13 +216,13 @@ public class GroupMapper {
 	    try {
 	      Statement stmt = con.createStatement();
 
-	      ResultSet rs = stmt.executeQuery("SELECT id, member FROM group "
-	          + "WHERE member=" + memberID + " ORDER BY id");
+	      ResultSet rs = stmt.executeQuery("SELECT Group_ID, member FROM Group "
+	          + "WHERE member=" + memberID + " ORDER BY Group_ID");
 
 	      // Für jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
 	      while (rs.next()) {
 	        Group g = new Group();
-	        g.setId(rs.getInt("id"));
+	        g.setId(rs.getInt("Group_ID"));
 	        g.setMemberID(rs.getInt("member"));
 
 	        // Hinzufügen des neuen Objekts zum Ergebnisvektor

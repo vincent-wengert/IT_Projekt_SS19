@@ -42,11 +42,11 @@ public class PersonMapper{
 			//Setzt den AutoCommit auf false, um das sichere Schreiben in die Datenbank zu gewährleisten.
 			con.setAutoCommit(false);
 			
-			Statement stmt = con.createStatement();
-			stmt.executeUpdate("DELETE FROM Person WHERE id =" + person.getId());
-
-			Statement stmt2 = con.createStatement();
-			stmt2.executeUpdate("DELETE FROM Businessobject WHERE id =" + person.getId());
+			PreparedStatement stmt = con.prepareStatement("DELETE FROM Person " + "WHERE Person_ID= ? ");
+			stmt.executeUpdate("DELETE FROM Person WHERE Person_ID =" + person.getId());
+			
+			stmt.setInt(1, person.getId());
+			stmt.executeUpdate();
 
 			//Erst Wenn alle Statements fehlerfrei ausgeführt wurden, wird commited.
 			con.commit();
@@ -57,22 +57,23 @@ public class PersonMapper{
 
 }
 
-	public Person update(String name) {
+	public Person update(Person person) {
 		Connection con = DBConnection.connection();
-
+		String sql = "UPDATE Person SET Changedate= ?, Name= ? WHERE Person_ID = ? ";
+		java.sql.Timestamp sqlDateChange = new java.sql.Timestamp(person.getChangedate().getTime());
 		try {
 			
 			//Setzt den AutoCommit auf false, um das sichere Schreiben in die Datenbank zu gewährleisten.
 			con.setAutoCommit(false);
 			
-
-			PreparedStatement stmt = con.prepareStatement("UPDATE Businessobject SET Changedate= ?, IsShared= ? WHERE Businessobject.BO_ID = ?");
+			PreparedStatement stmt = con.prepareStatement(sql);
 			
-			//stmt.setTimestamp(1, person.getChangedate());
-
-			//stmt.setBoolean(2, person.isShared());
-			stmt.setInt(3, name.getId());
+			stmt.setTimestamp(1, sqlDateChange);
+			stmt.setString(2, person.getName());
+			stmt.setInt(3, person.getId());
 			stmt.executeUpdate();
+			
+			System.out.println("Update successfully executed.");
 			
 			//Wenn alle Statements fehlerfrei ausgeführt wurden, wird commited.
 			con.commit();
@@ -80,7 +81,7 @@ public class PersonMapper{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return name;
+		return person;
 }
 	/**
 	 * Insert Methode, um eine neue <codee>Person</code> der Datenbank hinzuzufügen.
@@ -90,39 +91,37 @@ public class PersonMapper{
 	 */
 	public Person insert(Person person) {
 		Connection con = DBConnection.connection();
+		java.sql.Timestamp sqlDateCreation = new java.sql.Timestamp(person.getCreationdate().getTime());
+		java.sql.Timestamp sqlDateChange = new java.sql.Timestamp(person.getChangedate().getTime());
 
 		try {
 
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM Businessobject ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(Person_ID) AS maxid " + "FROM Person ");
 
 			if (rs.next()) {
 
 				person.setId(rs.getInt("maxid") + 1);
-			}
+			
 			//Setzt den AutoCommit auf false, um das sichere Schreiben in die Datenbank zu gewährleisten.
 			con.setAutoCommit(false);
 			
 			PreparedStatement stmt2 = con.prepareStatement(
-					"INSERT INTO Businessobject (id, Creationdate) VALUES (?, ?)",
+					"INSERT INTO Person (Person_ID, Creationdate, Changedate, Name, Gmail) "+ "VALUES (?, ?, ?, ? ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			
 			//Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden. 
 			stmt2.setInt(1, person.getId());
-			//stmt2.setTimestamp(2, person.getCreationdate());
+			stmt2.setTimestamp(2, sqlDateCreation);
+			stmt2.setTimestamp(3, sqlDateChange);
+			stmt2.setString(4, person.getName());
+			stmt2.setString(5, person.getGmail());
+			System.out.println(stmt2);
 			stmt2.executeUpdate();
 
-			PreparedStatement stmt3 = con.prepareStatement("INSERT INTO Person (Person_BO_ID) VALUES (?)",
-
-					Statement.RETURN_GENERATED_KEYS);
-
-			stmt3.setInt(1, person.getId());
-			stmt3.executeUpdate();
-			
-			//Wenn alle Statements fehlerfrei ausgeführt wurden, wird commited.
-			con.commit();
-
-		} catch (SQLException e) {
+			}
+		}
+		catch (SQLException e) {
 			e.printStackTrace();
 
 		}
@@ -137,6 +136,7 @@ public class PersonMapper{
 	 */
 	public Person findById(int id) {
 
+		//Herstellung einer Verbindung zur BD-Connection
 		Connection con = DBConnection.connection();
 
 		try {
@@ -145,16 +145,16 @@ public class PersonMapper{
 
 			ResultSet rs = stmt.executeQuery(
 
-					"SELECT * FROM Person JOIN Businessobject ON Person.Person_BO_ID = Businessobject.BO_ID"
-							+ " WHERE Contact_BO_ID = " + id);
+					"SELECT *  Person_ID, Name, Gmail FROM Person"
+							+ " WHERE Person_ID " + id);
 
 			if (rs.next()) {
 
 				//Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden. 
 				Person person = new Person();
-				person.setId(rs.getInt("Person_BO_ID"));
-				person.setCreationdate(rs.getTimestamp("Creationdate"));
-
+				person.setId(rs.getInt("Person_ID"));
+				person.setName(rs.getString("Name"));
+				person.setGmail(rs.getString("Gmail"));
 				
 				return person;
 			}
@@ -271,6 +271,8 @@ public class PersonMapper{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	//RemovefavoriteItem machen, Item aus ArrayList entfernen
 
 	
 	
