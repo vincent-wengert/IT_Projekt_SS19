@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 public class Person extends BusinessObject{
 	
-	private static long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String gmail;
-	private ArrayList<Item> favoriteItems = new ArrayList<Item>();
 	private String name;	
 	
 	/**
@@ -37,24 +39,6 @@ public class Person extends BusinessObject{
 	
 	/**
 	*
-	*	Gibt die favoriteItems der Person zurueck.
-	*
-	*/
-	public ArrayList<Item> getFavoriteItems(){
-		return this.favoriteItems;
-	}
-
-	/**
-	*
-	*	Setzt die favoriteItems der Person.
-	*
-	*/
-	public void setFavoriteItems(ArrayList<Item> favoriteItems){
-		this.favoriteItems = favoriteItems;
-	}
-	
-	/**
-	*
 	*	Gibt den Namen der Person zurueck.
 	*
 	*/
@@ -71,13 +55,5 @@ public class Person extends BusinessObject{
 		this.name = name;
 	}
 	
-	
-	/**
-	*
-	*	Fuegt einen Artikel der favoriteItems List hinzu.
-	*
-	*/
-	public void addItem(Item a){
-		favoriteItems.add(a);
-	}
+
 }

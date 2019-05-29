@@ -216,13 +216,15 @@ public class GroupMapper {
 	    try {
 	      Statement stmt = con.createStatement();
 
-	      ResultSet rs = stmt.executeQuery("SELECT Group_ID, member FROM Group "
-	          + "WHERE member=" + memberID + " ORDER BY Group_ID");
-
+	      ResultSet rs = stmt.executeQuery("SELECT * FROM Participant"
+	    		  + " JOIN Group ON Participant.Group_ID = Group_ID"
+	    		  + " WHERE Participant.Person_ID =" + memberID);
+	    		  
 	      // Für jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
 	      while (rs.next()) {
 	        Group g = new Group();
 	        g.setId(rs.getInt("Group_ID"));
+	        g.setTitle(rs.getString("Title"));
 	        g.setMemberID(rs.getInt("member"));
 
 	        // Hinzufügen des neuen Objekts zum Ergebnisvektor
@@ -252,9 +254,25 @@ public class GroupMapper {
 		    return findByMember(member.getId());
 		  }
 
-	public void deleteMembership(Group g) {
-		// TODO Auto-generated method stub
+	public void deleteMembership(Person p) {
 		
+		Connection con = DBConnection.connection();
+		
+		
+		try {
+		Statement stmt = con.createStatement();
+		
+		ResultSet rs = stmt.executeQuery("DELETE * FROM Participant"
+							+ " JOIN Person ON Person.Person_ID = Person.Person_ID"
+							+ " WHERE Participant.Person_ID =" + p.getId());
+		}
+		catch(SQLException e2) {
+			e2.printStackTrace();
+		}
+
+
+
+			
 	}
 	
 	
@@ -264,7 +282,8 @@ public class GroupMapper {
 	 * Methode, um alle Einkaufslisten einer Gruppe auszulesen.
 	 * @param p
 	 * @return ShoppingLists
-	 
+	 */
+	 /*
 	public ArrayList<ShoppingList> getShoppingListsPerGroup(Group p) {
 		
 		Connection con = DBConnection.connection();
@@ -277,12 +296,15 @@ public class GroupMapper {
 			ResultSet rs = stmt
 					.executeQuery("SELECT id, title " + "FROM shoppinglist " + )
 		}
+		catch(SQLException e2) {
+			e2.printStackTrace();
+		}
 		
 		
-		
+		return result1;
 	}
-	
 	*/
+	
 	
 }
 
