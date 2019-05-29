@@ -46,15 +46,6 @@ public interface ReportGenerator extends RemoteService {
 	public ShoppingListAdministration getShoppingListAdministration(int id) throws IllegalArgumentException;
 	
 	/**
-	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#createUserStatisticsReport
-	 * @param id
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	
-	public ItemsByPersonReport createUserStatisticsReport(int id) throws IllegalArgumentException;
-	
-	/**
 	 * Diese Methode gibt die Einkaufsstatistik für eine Gruppe aus.
 	 * @param a
 	 * @return alle eingekauften Produkte einer Gruppe 
@@ -101,6 +92,9 @@ public interface ReportGenerator extends RemoteService {
 
 
 	void AddImprint();
+
+
+	ItemsByPersonReport createUserStatisticsReport(Person p) throws IllegalArgumentException;
 
 	
 	
