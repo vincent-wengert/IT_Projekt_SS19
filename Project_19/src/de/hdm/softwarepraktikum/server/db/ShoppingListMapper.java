@@ -300,5 +300,3 @@ Connection con = DBConnection.connection();
 		
 			
 		}
-
-}
