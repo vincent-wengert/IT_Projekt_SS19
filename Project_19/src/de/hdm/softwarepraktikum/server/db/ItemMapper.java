@@ -52,14 +52,16 @@ public class ItemMapper {
 		
 		Connection con = DBConnection.connection();
 		
+		
 		try {
+			
 			Statement stmt = con.createStatement();
 			
 		/*
 		 * Zun�chst schauen wir nach, welches der momentan h�chste
 		 * Prim�rschl�sselwert ist.
 		 */
-		ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM item ");
+		ResultSet rs = stmt.executeQuery("SELECT MAX(Item_ID) AS maxid " + "FROM item ");
 		
 		// Wenn wir etwas zur�ckerhalten, kann dies nur einzeilig sein
 		if (rs.next()) {
@@ -72,11 +74,12 @@ public class ItemMapper {
 		stmt = con.createStatement();
 						
 		// Jetzt erst erfolgt die tats�chliche Einf�geoperation
-		stmt.executeUpdate("INSERT INTO item (id, name, isglobal) " + "VALUES (" + i.getId() + ",'"
-				+ i.getName() + "','" + i.getIsGlobal() + "')");
+		stmt.executeUpdate("INSERT INTO item (Item_ID, name) " + "VALUES (" + i.getId() + ",'"
+				+ i.getName()+"')");
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
+		System.out.println("connection");
 	}
 		
 		/*
