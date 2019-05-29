@@ -62,7 +62,7 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ArrayList<ShoppingList> getAllShoppingListsByPerson(Person p);
 	
-	public ShoppingList getAllShoppingListsByGroup(Group g);
+	public ArrayList<ShoppingList> getAllShoppingListsByGroup(Group g);
 	
 	public void addFavoriteItem(Item i, Person p);
 	
