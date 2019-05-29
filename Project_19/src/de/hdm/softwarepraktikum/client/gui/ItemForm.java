@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
-import de.hdm.softwarepraktikum.client.gui.AllItemssCellList.ItemDemo;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
@@ -36,7 +35,7 @@ public class ItemForm extends VerticalPanel{
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
 	private HorizontalPanel topButtonsPanel = new HorizontalPanel();
 
-	private ItemDemo itemToDisplayProduct = null;
+	private Item itemToDisplayProduct = null;
 	private Label infoTitleLabel = new Label("Artikel");
 	private Label itemNameLabel = new Label("Name des Artikels");
 
@@ -144,7 +143,7 @@ public class ItemForm extends VerticalPanel{
 		this.initial = initial;
 	}
 	
-	public void setSelected(AllItemssCellList.ItemDemo i) {
+	public void setSelected(Item i) {
 		if(i != null) {
 			infoTitleLabel.setText("Ausgewählter Artikel: " + i.getName());
 			itemNameBox.setText(i.getName());

@@ -10,7 +10,6 @@ import de.hdm.softwarepraktikum.server.db.ResponsibilityMapper;
 import de.hdm.softwarepraktikum.server.db.ShoppingListMapper;
 import de.hdm.softwarepraktikum.server.db.StoreMapper;
 import de.hdm.softwarepraktikum.client.gui.Notification;
-import de.hdm.softwarepraktikum.server.db.FavoriteItemMapper;
 import de.hdm.softwarepraktikum.server.db.GroupMapper;
 import de.hdm.softwarepraktikum.server.db.ItemMapper;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministration;
@@ -82,9 +81,6 @@ private GroupMapper groupMapper = null;
 private ResponsibilityMapper responsibilityMapper = null;
 
 
-private FavoriteItemMapper favoriteItemMapper = null;
-
-
 /**
  * Ein <code>RemoteServiceServlet</code> wird unter GWT mittels
  * <code>GWT.create(Klassenname.class)</code> Client-seitig erzeugt. Hierzu ist
@@ -107,7 +103,6 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		this.storeMapper = StoreMapper.storeMapper();
 		this.groupMapper = GroupMapper.groupMapper();
 		this.responsibilityMapper = ResponsibilityMapper.responsibilityMapper();
-		this.favoriteItemMapper = FavoriteItemMapper.favoriteItemMapper();
 		
 		
 	}
@@ -180,10 +175,12 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	public void deleteItem(Item i) throws IllegalArgumentException {
 		itemMapper.delete(i);
 	}
+	
 
 
-	public ArrayList<Item> getFavItems(ShoppingList sl) throws IllegalArgumentException {
-		return this.favoriteItemMapper.findFavItems(sl);
+
+	public ArrayList<Item> getFavItems(Person p) throws IllegalArgumentException {
+		return this.personMapper.findFav(p);
 	}
 
 
@@ -303,12 +300,11 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		return this.shoppingListMapper.findByMember(p);
 	}
 
-/**
- * Methode um alle Shoppinglists einer Gruppe zu erhalten
- * @param Gruppenobjekt
- * @rturn ShoppingList
- */
-	public ArrayList<ShoppingList> getAllShoppingListsByGroup(Group g) throws IllegalArgumentException {
+
+	@Override
+	public ShoppingList getAllShoppingListsByGroup(Group g) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
 		return this.shoppingListMapper.findByGroup(g);
 		
 	}
