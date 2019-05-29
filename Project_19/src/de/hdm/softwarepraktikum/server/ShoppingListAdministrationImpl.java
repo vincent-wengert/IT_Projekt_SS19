@@ -334,7 +334,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 
 
 	@Override
-	public Store createStore(String name, String street, int postcode, String city) throws IllegalArgumentException {
+	public Store createStore(String name, String street, int postcode, String city, int housenumber) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		
 		Store s = new Store();
@@ -342,7 +342,9 @@ private ResponsibilityMapper responsibilityMapper = null;
 		s.setName(name);
 		s.setStreet(street);
 		s.setPostcode(postcode);
-		s.setCity(city);		
+		s.setCity(city);
+		s.setHouseNumber(housenumber);
+		
 		
 		return this.storeMapper.insert(s);
 		
@@ -368,7 +370,11 @@ private ResponsibilityMapper responsibilityMapper = null;
 		// TODO Auto-generated method stub
 		storeMapper.deleteStore(s);
 	}
-
+	
+	public ArrayList<Store> getAllStores() throws IllegalArgumentException{
+		// TODO Auto-generated method stub
+		return this.storeMapper.findAllStore();
+	}
 
 	@Override
 	public Responsibility createResponsibility(int buyerID, int storeID, int slID) throws IllegalArgumentException {
@@ -432,16 +438,13 @@ private ResponsibilityMapper responsibilityMapper = null;
 	}
 
 
-	@Override
-	public void getListItem(int id) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	@Override
 	public ArrayList<ShoppingList> getAllShoppingListsByGroup(Group g) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
 }	

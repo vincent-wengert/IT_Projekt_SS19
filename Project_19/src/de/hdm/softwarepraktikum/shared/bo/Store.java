@@ -7,6 +7,15 @@ public class Store extends BusinessObject{
 	private String street;
 	private int postcode;
 	private String city;
+	private int houseNumber;
+	
+	public int getHouseNumber() {
+		return this.houseNumber;
+	}
+	
+	public void setHouseNumber(int i) {
+		this.houseNumber = i;
+	}
 	
 	public String getName() {
 		return name;

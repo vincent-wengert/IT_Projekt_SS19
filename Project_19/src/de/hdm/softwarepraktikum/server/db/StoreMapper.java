@@ -75,8 +75,8 @@ public class StoreMapper {
 				}
 				
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO store (Store_id, Name, Street, Postcode, City, Creationdate, Changedate) " + "VALUES (" + s.getId() + ",'"
-						+ s.getName() + "','" + s.getStreet() + " ','" + s.getPostcode() + "','" + s.getCity()+" ','" + s.getCreationdate() +" ','" + s.getChangedate()+ "')");
+				stmt.executeUpdate("INSERT INTO store (Store_id, Name, Street, Postcode, City, Housenumber, Creationdate, Changedate ) " + "VALUES (" + s.getId() + ",'"
+						+ s.getName() + "','" + s.getStreet() + " ','" + s.getPostcode()+ " ','" + s.getCity()+ " ','" + s.getHouseNumber() + "','" + s.getCreationdate()+ "','" + s.getChangedate() + "')");
 			
 
 			} catch (SQLException e) {

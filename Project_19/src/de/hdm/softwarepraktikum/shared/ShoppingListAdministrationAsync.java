@@ -36,7 +36,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void createShoppingList(int ownerid, String title, int groupID, AsyncCallback<ShoppingList> callback);
 
-	void createStore(String name, String street, int postcode, String city, AsyncCallback<Store> callback);
+	void createStore(String name, String street, int postcode, String city, int housenumber, AsyncCallback<Store> callback);
 
 	void deleteGroupMembership(Person p, Group g, AsyncCallback<Void> callback);
 
@@ -79,4 +79,6 @@ public interface ShoppingListAdministrationAsync {
 	void updateStore(Store s, AsyncCallback<Void> callback);
 
 	void getAllGroupMembers(Group g, AsyncCallback<ArrayList<Person>> callback);
+	
+	void getAllStores(AsyncCallback<ArrayList<Store>> callback);
 }

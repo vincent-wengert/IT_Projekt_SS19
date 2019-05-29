@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
-import de.hdm.softwarepraktikum.client.gui.AllStoresCellList.DemoStore;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Store;
@@ -29,7 +28,7 @@ public class StoreForm extends VerticalPanel{
 	
 	private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings.getShoppinglistAdministration();
 
-	private DemoStore storeToDisplay = null;
+	private Store storeToDisplay = null;
 
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
@@ -69,13 +68,13 @@ public class StoreForm extends VerticalPanel{
 		editButton.addClickHandler(new EditClickHandler());
 	}
 	
-	public void setSelected(DemoStore s) {
+	public void setSelected(Store s) {
 		if(s != null) {
 			storeNameBox.setText(s.getName());
-			postCodeBox.setText(Integer.toString(s.getPostleitZahl()));
-			cityNameBox.setText(s.getOrt());
-			streetNameBox.setText(s.getStrasse());
-			houseNumberBox.setText(Integer.toString(s.getHausNummer()));
+			postCodeBox.setText(Integer.toString(s.getPostcode()));
+			cityNameBox.setText(s.getCity());
+			streetNameBox.setText(s.getStreet());
+			houseNumberBox.setText(Integer.toString(s.getHouseNumber()));
 			infoTitleLabel.setText(s.getName());
 		}
 	}
@@ -208,8 +207,7 @@ public class StoreForm extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 
-				shoppinglistAdministration.createStore(storeNameBox.getText(), streetNameBox.getText(), Integer.parseInt(postCodeBox.getText()), cityNameBox.getText(), new CreateStoreCallback());
-
+			shoppinglistAdministration.createStore(storeNameBox.getText(), streetNameBox.getText(), Integer.parseInt(postCodeBox.getText()), cityNameBox.getText(), Integer.parseInt(houseNumberBox.getText()), new CreateStoreCallback());
 			setTableEditable(false);
 		}
 	}
@@ -233,7 +231,7 @@ public class StoreForm extends VerticalPanel{
 		@Override
 		public void onSuccess(Store store) {
 			//add item to cellist
-			Notification.show("Artikel wurde erstellt");
+			Notification.show("Store wurde erstellt");
 
 		}
 	}
