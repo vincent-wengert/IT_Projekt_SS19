@@ -12,7 +12,18 @@ public abstract class BusinessObject implements Serializable{
 	private Timestamp creationdate;
 	private Timestamp changedate;
 	
-	
+    /**
+     * Konstruktor des SharedBusinessObjects
+     * Wird bei der Erzeugung eines neuen SharedBusinessObjects Objekts standardmÃ¤ÃŸig 
+     * aufgerufen. Dabei wird ein Creationdate erzeugt und dem Objekt zugewiesen.
+     */
+    public BusinessObject () {
+   
+    this.setCreationdate(new Timestamp(System.currentTimeMillis()));
+    
+    this.changedate=creationdate;
+    	
+    }
 	
 	public int getId() {
 		return id;
@@ -36,14 +47,14 @@ public abstract class BusinessObject implements Serializable{
 	public void setChangedate(Timestamp changedate) {
 		this.changedate = changedate;
 	}
-	// Rückgabe Name + ID als String
+	// Rï¿½ckgabe Name + ID als String
 	public String toString() {
 		return this.getClass().getName() + "#" + this.id;
 	}
 	
 
 	
-	//Prüfen ob gleiches Objekt anhand der ID
+	//Prï¿½fen ob gleiches Objekt anhand der ID
 	public boolean equals(Object obj) {
 		if (obj != null && obj instanceof BusinessObject) {
 		      BusinessObject bo = (BusinessObject) obj;
@@ -57,8 +68,8 @@ public abstract class BusinessObject implements Serializable{
 		      }
 		}
 		/*
-	     * Wenn bislang keine Gleichheit bestimmt werden konnte, dann müssen
-	     * schließlich false zurückgeben.
+	     * Wenn bislang keine Gleichheit bestimmt werden konnte, dann mï¿½ssen
+	     * schlieï¿½lich false zurï¿½ckgeben.
 	     */
 	    return false;
 	}

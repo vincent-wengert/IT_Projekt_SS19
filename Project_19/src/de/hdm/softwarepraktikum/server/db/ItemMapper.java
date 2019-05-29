@@ -51,7 +51,8 @@ public class ItemMapper {
 	public Item insert(Item i) {
 		
 		Connection con = DBConnection.connection();
-		
+		java.sql.Timestamp sqlDateCreation = new java.sql.Timestamp(i.getCreationdate().getTime());
+		java.sql.Timestamp sqlDateChange = new java.sql.Timestamp(i.getChangedate().getTime());
 		
 		try {
 			
@@ -61,7 +62,7 @@ public class ItemMapper {
 		 * Zun�chst schauen wir nach, welches der momentan h�chste
 		 * Prim�rschl�sselwert ist.
 		 */
-		ResultSet rs = stmt.executeQuery("SELECT MAX(Item_ID) AS maxid " + "FROM item ");
+		ResultSet rs = stmt.executeQuery("SELECT MAX(Item_ID) AS maxid " + "FROM Item ");
 		
 		// Wenn wir etwas zur�ckerhalten, kann dies nur einzeilig sein
 		if (rs.next()) {
@@ -71,15 +72,21 @@ public class ItemMapper {
 		 */
 		i.setId(rs.getInt("maxid") + 1);
 				
-		stmt = con.createStatement();
-						
-		// Jetzt erst erfolgt die tats�chliche Einf�geoperation
-		stmt.executeUpdate("INSERT INTO item (Item_ID, name) " + "VALUES (" + i.getId() + ",'"
-				+ i.getName()+"')");
+		PreparedStatement stmt2 = con.prepareStatement(
+				"INSERT INTO Item (Item_ID, Name, Creationdate, Changedate) " + "VALUES (?, ?, ?, ?)",
+				Statement.RETURN_GENERATED_KEYS);
+		
+		stmt2.setInt(1, i.getId());
+		stmt2.setString(2, i.getName());
+		stmt2.setTimestamp(3, sqlDateCreation);
+		stmt2.setTimestamp(4, sqlDateChange);
+		System.out.println(stmt2);
+		stmt2.executeUpdate();
+		
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
-		System.out.println("connection");
+		
 	}
 		
 		/*
@@ -100,7 +107,7 @@ public class ItemMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE groups " + "SET name=\"" + i.getName() + "\", " + "globalid=\""
+			stmt.executeUpdate("UPDATE Item " + "SET Name=\"" + i.getName() + "\", " + "globalid=\""
 					+ i.getIsGlobal() + "\" " + "WHERE id=" + i.getId());
 			
 		} catch (SQLException e) {
@@ -186,6 +193,7 @@ public class ItemMapper {
 				Item i = new Item();
 				i.setId(rs.getInt("Item_ID"));
 				i.setName(rs.getString("Name"));
+
 				//i.setIsGlobal(rs.getBoolean("isglobal"));
 				
 				//Hinzuf�gen des neuen Objekts zum Ergebnisvektor
@@ -200,15 +208,4 @@ public class ItemMapper {
 	}
 	
 	
-
-	
-	/*
-	 * Eine Methode, um alle Artikel einer Person zu finden.
-	 
-	
-	public ArrayList<Item> findByPerson() {
-		return null;
-		
-	}
-	*/
 }
