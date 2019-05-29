@@ -18,7 +18,7 @@ import de.hdm.softwarepraktikum.shared.bo.Store;
 @RemoteServiceRelativePath("administration")
 public interface ShoppingListAdministration extends RemoteService {
 	
-	public void initMapper();
+	public void init();
 	
 	public void updatePerson(String name);
 	

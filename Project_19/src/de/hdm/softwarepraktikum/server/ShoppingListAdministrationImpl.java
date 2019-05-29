@@ -95,7 +95,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 	
 	
 	//Initialisierung aller Mapper in der Klasse
-	public void InitMapper() throws IllegalArgumentException {
+	public void init() throws IllegalArgumentException {
 		this.listItemMapper = ListItemMapper.listitemMapper();
 		this.itemMapper = ItemMapper.itemMapper();
 		this.personMapper = PersonMapper.personMapper();
@@ -421,13 +421,6 @@ private ResponsibilityMapper responsibilityMapper = null;
 	public void deleteGroupMembership(Person p, Group g) {
 		// TODO Auto-generated method stub
 		groupMapper.deleteMembership(g);
-	}
-
-
-	@Override
-	public void initMapper() {
-		// TODO Auto-generated method stub
-		
 	}
 
 

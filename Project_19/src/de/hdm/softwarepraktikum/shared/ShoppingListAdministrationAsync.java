@@ -16,7 +16,7 @@ import de.hdm.softwarepraktikum.shared.bo.Store;
 
 public interface ShoppingListAdministrationAsync {
 	
-	public void initMapper(AsyncCallback<Void> callback);
+	public void init(AsyncCallback<Void> callback);
 
 	public void createItem(String name, boolean value, AsyncCallback<Item> callback) throws IllegalArgumentException;
 
