@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import de.hdm.softwarepraktikum.shared.bo.Group;
+import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
@@ -256,5 +257,9 @@ Connection con = DBConnection.connection();
 			     */
 			    return findByMember(member.getId());
 			  }
+
+		
+			
+		}
 
 }

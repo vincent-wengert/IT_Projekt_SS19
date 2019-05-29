@@ -177,8 +177,8 @@ private ResponsibilityMapper responsibilityMapper = null;
 	}
 
 
-	public ArrayList<Item> getFavItems(Person p) throws IllegalArgumentException {
-		return this.personMapper.findFav(p);
+	public ArrayList<Item> getFavItems(ShoppingList sl) throws IllegalArgumentException {
+		return this.shoppingListMapper.findFavItems(sl);
 	}
 
 
