@@ -298,11 +298,12 @@ private ResponsibilityMapper responsibilityMapper = null;
 		return this.shoppingListMapper.findByMember(p);
 	}
 
-
-	@Override
-	public ShoppingList getAllShoppingListsByGroup(Group g) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+/**
+ * Methode um alle Shoppinglists einer Gruppe zu erhalten
+ * @param Gruppenobjekt
+ * @rturn ShoppingList
+ */
+	public ArrayList<ShoppingList> getAllShoppingListsByGroup(Group g) throws IllegalArgumentException {
 		return this.shoppingListMapper.findByGroup(g);
 		
 	}

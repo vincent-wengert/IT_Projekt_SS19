@@ -54,12 +54,12 @@ public class ShoppingListMapper {
 			//leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 			
-			//Statement ausfüllen und als Query an die DB schicken
+			//Statement ausfï¿½llen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery("Select Shopinglist_id, Title FROM Shoppinglist" + "WHERE Shoppinglist_id= " + id);
 			
 			/*
-		     * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-		     * werden. Prüfe, ob ein Ergebnis vorliegt.
+		     * Da id Primï¿½rschlï¿½ssel ist, kann max. nur ein Tupel zurï¿½ckgegeben
+		     * werden. Prï¿½fe, ob ein Ergebnis vorliegt.
 		     */
 			if (rs.next()) {
 				//Ergebnis-Tupel in Objekt umwandeln
@@ -95,31 +95,70 @@ public class ShoppingListMapper {
 			ResultSet rs = stmt
 					.executeQuery("SELECT id, title, " + "FROM shoppinglist " + "ORDER BY title");
 			
-			// Für jeden Eintrag im Suchergebnis wird nun ein ShoppingList-Objekt erstellt.
+			// Fï¿½r jeden Eintrag im Suchergebnis wird nun ein ShoppingList-Objekt erstellt.
 			while(rs.next()) {
 				ShoppingList sl = new ShoppingList();
 				sl.setId(rs.getInt("id"));
 				sl.setTitle(rs.getString("title"));
 				
 				
-				//Hinzufügen des neuen Objekts zum Ergebnisvektor
+				//Hinzufï¿½gen des neuen Objekts zum Ergebnisvektor
 				result.add(sl);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		//Ergebnis zurückgeben
+		//Ergebnis zurï¿½ckgeben
 		return result;
 	}
 	
 	/*
-	 * Methode um eine shoppinglist anhand einer Gruppe zu finden.
+	 * Methode, um alle Shoppinglists einer Gruppe zu finden.
 	 */
 	
-	public ShoppingList findByGroup(Group g) {
-		return null;
+	public ArrayList<ShoppingList> findByGroup(int groupID) {
+		Connection con = DBConnection.connection();
+	    ArrayList<ShoppingList> result = new ArrayList<ShoppingList>();
+
+	    try {
+	      Statement stmt = con.createStatement();
+
+	      ResultSet rs = stmt.executeQuery("SELECT id, FROM group "
+	          + "WHERE GroupID=" + groupID);
+
+	      // Fï¿½r jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
+	      while (rs.next()) {
+	    	ShoppingList sl = new ShoppingList();
+	        sl.setId(rs.getInt("id"));
+	      
+
+	        // Hinzufï¿½gen des neuen Objekts zum Ergebnisvektor
+	        result.add(sl);
+	      }
+	    }
+	    catch (SQLException e2) {
+	      e2.printStackTrace();
+	    }
+
+	    // Ergebnisvektor zurï¿½ckgeben
+	    return result;
+	}
+	
+	/**
+	 * Auslesen aller SL einer Group (durch <code>Group</code>-Objekt 
+	 * gegeben).
+	 * @param g Groupobjekt, dessen SL ausgelesen werden sollen.
+	 * @return alle SL der Person
+	 */
+	
+	public ArrayList<ShoppingList> findByGroup(Group g) {
 		
+		/*
+	     * Wir lesen die id (Primï¿½rschlï¿½ssel) des Group-Objekts
+	     * aus und delegieren die weitere Bearbeitung an findByGroup(int groupID).
+	     */
+		return findByGroup(g.getId());
 	}
 	
 	
@@ -185,7 +224,7 @@ Connection con = DBConnection.connection();
 				e.printStackTrace();
 			}
 			
-			// Um Analogie zu insert(Shoppinglist sl) zu wahren, wirdsl zurückgegeben
+			// Um Analogie zu insert(Shoppinglist sl) zu wahren, wirdsl zurï¿½ckgegeben
 					return sl;
 		        
 		}
@@ -222,15 +261,15 @@ Connection con = DBConnection.connection();
 		      Statement stmt = con.createStatement();
 
 		      ResultSet rs = stmt.executeQuery("SELECT id, member FROM group "
-		          + "WHERE member=" + memberID + " ORDER BY id");
+		          + "WHERE member=" + memberID);
 
-		      // Für jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
+		      // Fï¿½r jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
 		      while (rs.next()) {
 		    	ShoppingList sl = new ShoppingList();
 		        sl.setId(rs.getInt("id"));
 		      
 
-		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
+		        // Hinzufï¿½gen des neuen Objekts zum Ergebnisvektor
 		        result.add(sl);
 		      }
 		    }
@@ -238,7 +277,7 @@ Connection con = DBConnection.connection();
 		      e2.printStackTrace();
 		    }
 
-		    // Ergebnisvektor zurückgeben
+		    // Ergebnisvektor zurï¿½ckgeben
 		    return result;
 		  }
 		
@@ -251,7 +290,7 @@ Connection con = DBConnection.connection();
 		 public ArrayList<ShoppingList> findByMember(Person member) {
     
 			    /*
-			     * Wir lesen einfach die id (Primärschlüssel) des Person-Objekts
+			     * Wir lesen einfach die id (Primï¿½rschlï¿½ssel) des Person-Objekts
 			     * aus und delegieren die weitere Bearbeitung an findByMember(int memberID).
 			     */
 			    return findByMember(member.getId());
