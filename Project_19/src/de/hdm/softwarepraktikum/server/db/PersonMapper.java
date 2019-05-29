@@ -107,7 +107,7 @@ public class PersonMapper{
 			con.setAutoCommit(false);
 			
 			PreparedStatement stmt2 = con.prepareStatement(
-					"INSERT INTO Person (Person_ID, Creationdate, Changedate, Name, Gmail) "+ "VALUES (?, ?, ?, ? ?)",
+					"INSERT INTO Person (Person_ID, Creationdate, Changedate, Name, Gmail) "+ "VALUES (?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			
 			//Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden. 
@@ -136,18 +136,17 @@ public class PersonMapper{
 	 */
 	public Person findById(int id) {
 
-		//Herstellung einer Verbindung zur BD-Connection
+		//Herstellung einer Verbindung zur DB-Connection
 		Connection con = DBConnection.connection();
+		
+		Person p = new Person();
 
 		try {
 
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery(
-
-					"SELECT *  Person_ID, Name, Gmail FROM Person"
-							+ " WHERE Person_ID " + id);
-
+			PreparedStatement stmt = con.prepareStatement("SELECT * FROM Person WHERE Person_ID = ?");
+			
+			stmt.setInt(1, id);
+			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
 
 				//Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden. 
@@ -155,15 +154,18 @@ public class PersonMapper{
 				person.setId(rs.getInt("Person_ID"));
 				person.setName(rs.getString("Name"));
 				person.setGmail(rs.getString("Gmail"));
+				person.setCreationdate(rs.getTimestamp("Creationdate"));
+				person.setChangedate(rs.getTimestamp("Changedate"));
+				p = person;
 				
 				return person;
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
+			
 		}
-		return null;
+		return p;
 	}
 
 	public ArrayList<Person> findAll() {
@@ -177,15 +179,14 @@ public class PersonMapper{
 
 			//Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden. 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, name, creationdate, changedate, isShared"
-							+ " FROM person " + "ORDER BY "
-			);
+					"SELECT * FROM person ORDER BY Name ASC ");
 
 			while (rs.next()) {
 
 				//Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden. 
 				Person person = new Person();
-				person.setId(rs.getInt("Id"));
+				person.setId(rs.getInt("Person_ID"));
+				person.setName(rs.getString("Name"));
 				person.setCreationdate(rs.getTimestamp("Creationdate"));
 				person.setChangedate(rs.getTimestamp("Changedate"));
 
@@ -196,7 +197,7 @@ public class PersonMapper{
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
+			
 		}
 		return persons;
 	}
@@ -213,7 +214,7 @@ public class PersonMapper{
 		try {
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT id, name " + "FROM person " + "WHERE name LIKE '" + name + "'");
+			ResultSet rs = stmt.executeQuery("SELECT Person_ID, Name " + "FROM Person " + "WHERE Name = '" + name + "'");
 			
 			//Für jeden Eintrag im Suchergebnis wird ein Person-Objekt erstellt.
 			while(rs.next()) {
