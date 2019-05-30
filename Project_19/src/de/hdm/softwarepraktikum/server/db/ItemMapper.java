@@ -51,8 +51,6 @@ public class ItemMapper {
 	public Item insert(Item i) {
 		
 		Connection con = DBConnection.connection();
-		java.sql.Timestamp sqlDateCreation = new java.sql.Timestamp(i.getCreationdate().getTime());
-		java.sql.Timestamp sqlDateChange = new java.sql.Timestamp(i.getChangedate().getTime());
 		
 		try {
 			
@@ -78,8 +76,8 @@ public class ItemMapper {
 		
 		stmt2.setInt(1, i.getId());
 		stmt2.setString(2, i.getName());
-		stmt2.setTimestamp(3, sqlDateCreation);
-		stmt2.setTimestamp(4, sqlDateChange);
+		stmt2.setTimestamp(3, i.getCreationdate());
+		stmt2.setTimestamp(4, i.getChangedate());
 		System.out.println(stmt2);
 		stmt2.executeUpdate();
 		

@@ -30,57 +30,46 @@ public class PersonMapper{
 }
 	
 	/**
-	 * Delete Methode, um Person Datensätze aus der Datenbank zu entfernen.
+	 * Delete Methode, um ein<code>Person</code>-Objekt aus der Datenbank zu löschen.
 	 * 
-	 * @param Person person wird übergeben.
+	 * @param person, das aus der Datenbank zu löschende Objekt.
 	 */
 	public void delete(Person person) {
 
 		Connection con = DBConnection.connection();
 
 		try {
-			//Setzt den AutoCommit auf false, um das sichere Schreiben in die Datenbank zu gewährleisten.
-			con.setAutoCommit(false);
 			
-			PreparedStatement stmt = con.prepareStatement("DELETE FROM Person " + "WHERE Person_ID= ? ");
+			Statement stmt = con.createStatement();
 			stmt.executeUpdate("DELETE FROM Person WHERE Person_ID =" + person.getId());
-			
-			stmt.setInt(1, person.getId());
-			stmt.executeUpdate();
-
-			//Erst Wenn alle Statements fehlerfrei ausgeführt wurden, wird commited.
-			con.commit();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 }
-
+	/**
+	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
+	 * @param person, das Objekt das in die Datenbank geschrieben werden soll.
+	 * @return das als Parameter übergebene Objekt
+	 */
 	public Person update(Person person) {
 		Connection con = DBConnection.connection();
-		String sql = "UPDATE Person SET Changedate= ?, Name= ? WHERE Person_ID = ? ";
-		java.sql.Timestamp sqlDateChange = new java.sql.Timestamp(person.getChangedate().getTime());
+		
+		
 		try {
 			
-			//Setzt den AutoCommit auf false, um das sichere Schreiben in die Datenbank zu gewährleisten.
-			con.setAutoCommit(false);
+			Statement stmt = con.createStatement();
 			
-			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.executeUpdate("UPDATE Person " + "SET Name=\"" + person.getName() + "\", " + 
+			"Changedate=\"" + person.getChangedate() + "\" " + "WHERE Person_ID=" + person.getId());
 			
-			stmt.setTimestamp(1, sqlDateChange);
-			stmt.setString(2, person.getName());
-			stmt.setInt(3, person.getId());
-			stmt.executeUpdate();
-			
-			System.out.println("Update successfully executed.");
-			
-			//Wenn alle Statements fehlerfrei ausgeführt wurden, wird commited.
-			con.commit();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		//um Analogie zu insert(Person person) zu wahren, geben wir person zurück.
 		return person;
 }
 	/**
@@ -91,8 +80,7 @@ public class PersonMapper{
 	 */
 	public Person insert(Person person) {
 		Connection con = DBConnection.connection();
-		java.sql.Timestamp sqlDateCreation = new java.sql.Timestamp(person.getCreationdate().getTime());
-		java.sql.Timestamp sqlDateChange = new java.sql.Timestamp(person.getChangedate().getTime());
+		
 
 		try {
 
@@ -106,14 +94,13 @@ public class PersonMapper{
 			//Setzt den AutoCommit auf false, um das sichere Schreiben in die Datenbank zu gewährleisten.
 			con.setAutoCommit(false);
 			
-			PreparedStatement stmt2 = con.prepareStatement(
-					"INSERT INTO Person (Person_ID, Creationdate, Changedate, Name, Gmail) "+ "VALUES (?, ?, ?, ?, ?)",
+			PreparedStatement stmt2 = con.prepareStatement("INSERT INTO Person (Person_ID, Creationdate, Changedate, Name, Gmail) "+ "VALUES (?, ?, ?, ? ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			
 			//Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden. 
 			stmt2.setInt(1, person.getId());
-			stmt2.setTimestamp(2, sqlDateCreation);
-			stmt2.setTimestamp(3, sqlDateChange);
+			stmt2.setTimestamp(2, person.getCreationdate());
+			stmt2.setTimestamp(3, person.getChangedate());
 			stmt2.setString(4, person.getName());
 			stmt2.setString(5, person.getGmail());
 			System.out.println(stmt2);
