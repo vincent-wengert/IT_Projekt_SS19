@@ -77,7 +77,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			//Anlegen eines leeren Reports.
 			ItemsByGroupReport result = new ItemsByGroupReport();
 			//Titel des Reports
-			result.setTitle("Einkaufsstatistik der Gruppe");
+			result.setTitle("Gruppenreport");
 			
 			//Impressum hinzufügen
 			this.AddImprint(result);
@@ -113,7 +113,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			headline.addColumn(new Column("Produktbezeichnung"));
 			headline.addColumn(new Column("Einheit"));
 			headline.addColumn(new Column("Eingekaufte Menge"));
-			headline.addColumn(new Column("gekauft am:"));
+			headline.addColumn(new Column("Händler"));
+			
 			
 			result.addRow(headline);
 			
@@ -121,10 +122,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			 * Auslesen sämtlicher abgehakten <code>ListItem</code>-Objekte, die dem Report 
 			 * hinzugefügt werden. Methode "getListItem 
 			 * 
-			 * ToDo: Methode in ShoppingListAdministration, die alle Checked ITems einer SL/Gruppe 
-			 * ermittelt.
+			 * 
 			 */
-			ArrayList<ListItem> li = this.administration.getCheckedLi(g);
+			ArrayList<ListItem> li = this.administration.getAllCheckedItemsByGroup(g);
 			for(ListItem l : li) {
 				
 				//Eine leere Zeile anlegen.
@@ -142,8 +142,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				//vierte Spalte: Anzahl, wie oft das Produkt gekauft wurde.
 				//listItemRow.addColumn(new Column(String.valueOf()));
 				
-				//fünfte Spalte: Einkaufsdatum
-				//listItemRow.addColumn(new Column());
+				//fünfte Spalte: Store
+				listItemRow.addColumn(new Column(String.valueOf(l.getStore())));
 				
 				result.addRow(listItemRow);
 				
