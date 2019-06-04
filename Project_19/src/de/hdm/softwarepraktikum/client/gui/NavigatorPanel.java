@@ -27,12 +27,12 @@ private VerticalPanel contentPanelStores = new VerticalPanel();
 private VerticalPanel contentPanelArticles = new VerticalPanel();
 
 private AllItemssCellList aicl = new AllItemssCellList();
+private AllShoppingListsCellList aslcl = new AllShoppingListsCellList();
+private AllStoresCellList ascl = new AllStoresCellList();
 
 private Grid itemsGrid = new Grid(2,2);
 private Grid storesGrid = new Grid(2,2);
 
-private AllShoppingListsCellList aslcl = new AllShoppingListsCellList();
-private AllStoresCellList ascl = new AllStoresCellList();
 		
 /**
  * ***************************************************************************

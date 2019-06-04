@@ -31,7 +31,6 @@ public class NewShoppingListForm extends VerticalPanel {
 	private Button cancelButton = new Button("\u2716");
 	private Grid shoppinglistGrid = new Grid(2, 2);
 	
-
 	private NewShoppingListForm newShoppingListForm;
 
 	public NewShoppingListForm() {
