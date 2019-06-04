@@ -81,6 +81,13 @@ private GroupMapper groupMapper = null;
 private ResponsibilityMapper responsibilityMapper = null;
 
 
+
+/*
+ * ***************************************************************************
+ * ABSCHNITT, Beginn: Initialisierung
+ * ***************************************************************************
+ */
+
 /**
  * Ein <code>RemoteServiceServlet</code> wird unter GWT mittels
  * <code>GWT.create(Klassenname.class)</code> Client-seitig erzeugt. Hierzu ist
@@ -107,11 +114,26 @@ private ResponsibilityMapper responsibilityMapper = null;
 		
 	}
 	
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Ende: Initialisierung
+	   * ***************************************************************************
+	   */
+	
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Beginn: Methoden für Person-Objekte
+	   * ***************************************************************************
+	   */
+	
 	/**
 	 * Methode um ein <code>Person</code> Objekt anzulegen.
 	 * @param Name der Person und E-Mail Adresse
 	 * @return das in die Datenbank gespeicherte Person Objekt wird zurückgegeben
 	 */
+	
 	public Person createPerson(String gmail, String name) throws IllegalArgumentException {
 		Person p = new Person();
 		p.setGmail(gmail);
@@ -138,10 +160,87 @@ private ResponsibilityMapper responsibilityMapper = null;
 	}
 	
 	/**
+	 * Methode um ein <code>Person</code> Objekt aus der Datenbank zu löschen
+	 * @param p
+	 * @throws IllegalArgumentException
+	 */
+	
+	public void deletePerson(Person p) throws IllegalArgumentException {
+		personMapper.delete(p);
+	}
+	
+	/**
+	 * Gibt die <code>Person</code> zurück, welcher die übergebene Id besitzt.
+	 * @param id
+	 * @return Das PErson Objekt wird zurückgegeben
+	 * @throws IllegalArgumentException
+	 */
+	
+	public Person getPerson(int id) throws IllegalArgumentException {
+		return personMapper.findById(id);
+	}
+	
+	/**
+	 * Methode um die Gruppen einer Person anzuzeigen
+	 * @param p
+	 * @return Liste der jeweiligen Gruppen
+	 * @throws IllegalArgumentException
+	 */
+	
+	public ArrayList<Group> getGroupsOf (Person p) throws IllegalArgumentException {
+		ArrayList<Group> groups = personMapper.getGroupsOf(p);
+		
+		return groups;
+	}
+	
+	/**
+	 * Methode um die ShoppingLists einer Person anzuzeigen
+	 * @param p
+	 * @return Liste der jeweiligen ShoppingLists
+	 * @throws IllegalArgumentException
+	 */
+	
+	public ArrayList<ShoppingList> getShoppingListsOf (Person p) throws IllegalArgumentException {
+		ArrayList<ShoppingList> sls = personMapper.getShoppingListsOf(p);
+		
+		return sls;
+	}
+	
+	public ArrayList<Person> findByName (String name) throws IllegalArgumentException {
+		ArrayList<Person> prs = personMapper.findByName(name);
+		
+		return prs;
+	}
+	
+	
+	/** Wird das überhaupt benötigt??
+	 * Methode um eine ArrayList aller Personen einer Gruppe zu erhalten
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	
+	 // public ArrayList<Person> getAllPersons() throws IllegalArgumentException {
+//		return this.personMapper.findAll();
+//	}
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Ende: Methoden für Person-Objekte
+	   * ***************************************************************************
+	   */
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Beginn: Methoden für Item-Objekte
+	   * ***************************************************************************
+	   */
+
+	
+	/**
 	 * Methode, um ein <code>Item</code> in der Datenbank zu anzulegen.
 	 * @param name
 	 * @param isGlobal
-	 * @return
+	 * @return Insert 
 	 * @throws IllegalArgumentException
 	 */
 	
@@ -165,31 +264,73 @@ private ResponsibilityMapper responsibilityMapper = null;
 		
 		return this.itemMapper.insert(i);
 	}
+	
+	/**
+	 * Methode um Änderungen dem zu übergebenden Item Obejekt in die Datenbank zu schreiben
+	 */
 
 
 	public void updateItem(Item i) throws IllegalArgumentException {
 		itemMapper.update(i);
 	}
+	
+	/**
+	 * Methode um ein <code>Item</code> Objekt aus der Datenbank zu löschen
+	 * @param i
+	 * @throws IllegalArgumentException
+	 */
 
 
 	public void deleteItem(Item i) throws IllegalArgumentException {
 		itemMapper.delete(i);
 	}
 	
+	/**
+	 * Gibt die <code>Person</code> zurück, welcher die übergebene Id besitzt.
+	 * @param id
+	 * @return Das Item Objekt wird zurückgegeben
+	 * @throws IllegalArgumentException
+	 */
 
-
-
-	public ArrayList<Item> getFavItems(Person p) throws IllegalArgumentException {
-		return this.personMapper.findFav(p);
+	public Item getItem(int id) throws IllegalArgumentException {
+		
+		Item i = itemMapper.findById(id);
+		
+		if (i != null) {
+			return i;
+		}
+		return null;
 	}
-
+	
+	/**
+	 * Methode um alle in der Datenbank gespeicherten <code>Item</code> Objekte als ArrayList auszugeben
+	 * @return ArrayList<Item>
+	 */
+	
+	public ArrayList<Item> getAllItems() throws IllegalArgumentException{
+		return this.itemMapper.findAll();
+	}
+	
 
 	
-	public Item getItem(int id) throws IllegalArgumentException {
-		return itemMapper.findById(id);
-	}
-
-
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Ende: Methoden für Item-Objekte
+	   * ***************************************************************************
+	   */
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Beginn: Methoden für ListItem-Objekte
+	   * ***************************************************************************
+	   */
+	
+	/**
+	 * Methode, um ein <code>ListItem</code> Objekt in der Datenbank anzulegen
+	 * @param zugehöriges Item, BuyerID, storeID, slID
+	 * @return Das in die Datenbank gespeicherte ListITemObjekt wird zurückgegeben
+	 */
+	
 	public ListItem createListItem(Item item, int buyerID, int storeID, int slID) throws IllegalArgumentException {
 		
 		ListItem li = new ListItem();
@@ -208,21 +349,41 @@ private ResponsibilityMapper responsibilityMapper = null;
 		
 		return this.listItemMapper.insert(li);
 	}
-
-
+	
+	/**
+	 * Methode um Änderungen dem zu übergebenden ListItem Obejekt in die Datenbank zu schreiben
+	 */
+	
 	public void updateListItem(ListItem li) throws IllegalArgumentException {
 		listItemMapper.update(li);
 	}
-
-
-	public void checkListItem(ListItem li) throws IllegalArgumentException {
-		this.listItemMapper.checkListItem(li);
-	}
+	
+	/**
+	 * Methode um ein <code>ListItem</code> Objekt aus der Datenbank zu löschen
+	 * @param ListItem li
+	 * @throws IllegalArgumentException
+	 */
 
 	public void deleteListItem(ListItem li) throws IllegalArgumentException {
 		listItemMapper.delete(li);
 	}
 
+// in mapper ausformulieren
+	/**
+	 * Methode um ListItems als eingekauft zu merkieren
+	 * @param ListItem li
+	 */
+	
+	public void checkListItem(ListItem li) throws IllegalArgumentException {
+		this.listItemMapper.checkListItem(li);
+	}
+
+	/**
+	 * Gibt das <code>ListItem</code> zurück, welcher die übergebene Id besitzt.
+	 * @param id
+	 * @return Das ListItem Objekt wird zurückgegeben
+	 * @throws IllegalArgumentException
+	 */
 
 	public ListItem getListItem(int id) throws IllegalArgumentException {
 		return this.listItemMapper.findById(id);
@@ -231,6 +392,18 @@ private ResponsibilityMapper responsibilityMapper = null;
 	public ArrayList<ListItem> getAllCheckedItemsByGroup(Group g) throws IllegalArgumentException {
 		return this.groupMapper.
 	}
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Ende: Methoden für ListItem-Objekte
+	   * ***************************************************************************
+	   */
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Beginn: Methoden für Group-Objekte
+	   * ***************************************************************************
+	   */
 
 	public void createGroup(String title) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
@@ -262,6 +435,18 @@ private ResponsibilityMapper responsibilityMapper = null;
 		// TODO Auto-generated method stub
 		return this.personMapper.findAllGroupMembers();
 	}
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Ende: Methoden für Group-Objekte
+	   * ***************************************************************************
+	   */
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Beginn: Methoden für ShoppingList-Objekte
+	   * ***************************************************************************
+	   */
 
 
 	@Override
@@ -311,7 +496,37 @@ private ResponsibilityMapper responsibilityMapper = null;
 		return this.shoppingListMapper.findByGroup(g);
 		
 	}
+	
+	public ArrayList<ListItem> getAllListItemsByShoppingList(ShoppingList sl) throws IllegalArgumentException {
+		ArrayList<ListItem> li = new ArrayList();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		if (sl == )
+			
+			li.add(e);
+	}
+	
+	// Methode um ein ListItem einer ShoppingList hinzuzufügen
 
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Ende: Methoden für ShoppingList-Objekte
+	   * ***************************************************************************
+	   */
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Beginn: Methoden für FavoriteItem-Objekte
+	   * ***************************************************************************
+	   */
 
 	@Override
 	public void addFavoriteItem(Item i, Person p) throws IllegalArgumentException {
@@ -332,6 +547,21 @@ private ResponsibilityMapper responsibilityMapper = null;
 		personMapper.removeFavoriteItem();
 	}
 
+	public ArrayList<Item> getFavItems(Person p) throws IllegalArgumentException {
+		return this.personMapper.findFav(p);
+	}
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Ende: Methoden für FavoriteItem-Objekte
+	   * ***************************************************************************
+	   */
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Beginn: Methoden für Store-Objekte
+	   * ***************************************************************************
+	   */
 
 	@Override
 	public Store createStore(String name, String street, int postcode, String city, int housenumber) throws IllegalArgumentException {
@@ -350,31 +580,34 @@ private ResponsibilityMapper responsibilityMapper = null;
 		
 	}
 
-
-	@Override
-	public Store getStore(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
 	public void updateStore(Store s) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		storeMapper.updateStore(s);
 	}
 
-
-	@Override
 	public void deleteStore(Store s) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		storeMapper.deleteStore(s);
+	}
+	
+	public Store getStore(int id) throws IllegalArgumentException {
+		return null;
 	}
 	
 	public ArrayList<Store> getAllStores() throws IllegalArgumentException{
 		// TODO Auto-generated method stub
 		return this.storeMapper.findAllStore();
 	}
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Ende: Methoden für Store-Objekte
+	   * ***************************************************************************
+	   */
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Beginn: Methoden für Responsibility-Objekte
+	   * ***************************************************************************
+	   */
 
 	@Override
 	public Responsibility createResponsibility(int buyerID, int storeID, int slID) throws IllegalArgumentException {
@@ -401,8 +634,18 @@ private ResponsibilityMapper responsibilityMapper = null;
 		// TODO Auto-generated method stub
 		responsibilityMapper.delete(rs);
 	}
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Ende: Methoden für Responsibility-Objekte
+	   * ***************************************************************************
+	   */
 
-
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Beginn: Sonstiges
+	   * ***************************************************************************
+	   */
 
 
 	@Override
@@ -410,40 +653,12 @@ private ResponsibilityMapper responsibilityMapper = null;
 		// TODO Auto-generated method stub
 		groupMapper.deleteMembership(g);
 	}
-
-
-	@Override
-	public void updatePerson(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public Person createPerson(Date creationDate, String gmail, String name) {
-		// TODO Auto-generated method stub
-		
-		Person p = new Person();
-		
-		p.setGmail(gmail);
-		p.setName(name);
-		p.setId(1);
-		
-		return this.personMapper.insert(p);
-		
-	}
-
-	public ArrayList<Item> getAllItems() throws IllegalArgumentException{
-		return this.itemMapper.findAll();
-	}
-
-
-
-	@Override
-	public ArrayList<ShoppingList> getAllShoppingListsByGroup(Group g) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+	/*
+	   * ***************************************************************************
+	   * ABSCHNITT, Ende: Sonstiges
+	   * ***************************************************************************
+	   */
 
 
 
