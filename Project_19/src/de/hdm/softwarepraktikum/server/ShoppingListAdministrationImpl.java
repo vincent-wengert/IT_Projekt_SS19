@@ -133,6 +133,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 	 * @param Name der Person und E-Mail Adresse
 	 * @return das in die Datenbank gespeicherte Person Objekt wird zurückgegeben
 	 */
+	
 	public Person createPerson(String gmail, String name) throws IllegalArgumentException {
 		Person p = new Person();
 		p.setGmail(gmail);
@@ -178,6 +179,39 @@ private ResponsibilityMapper responsibilityMapper = null;
 	public Person getPerson(int id) throws IllegalArgumentException {
 		return personMapper.findById(id);
 	}
+	
+	/**
+	 * Methode um die Gruppen einer Person anzuzeigen
+	 * @param p
+	 * @return Liste der jeweiligen Gruppen
+	 * @throws IllegalArgumentException
+	 */
+	
+	public ArrayList<Group> getGroupsOf (Person p) throws IllegalArgumentException {
+		ArrayList<Group> groups = personMapper.getGroupsOf(p);
+		
+		return groups;
+	}
+	
+	/**
+	 * Methode um die ShoppingLists einer Person anzuzeigen
+	 * @param p
+	 * @return Liste der jeweiligen ShoppingLists
+	 * @throws IllegalArgumentException
+	 */
+	
+	public ArrayList<ShoppingList> getShoppingListsOf (Person p) throws IllegalArgumentException {
+		ArrayList<ShoppingList> sls = personMapper.getShoppingListsOf(p);
+		
+		return sls;
+	}
+	
+	public ArrayList<Person> findByName (String name) throws IllegalArgumentException {
+		ArrayList<Person> prs = personMapper.findByName(name);
+		
+		return prs;
+	}
+	
 	
 	/** Wird das überhaupt benötigt??
 	 * Methode um eine ArrayList aller Personen einer Gruppe zu erhalten
@@ -277,12 +311,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 		return this.itemMapper.findAll();
 	}
 	
-	/**
-	 * Methode, um ein <code>ListItem</code> Objekt in der Datenbank anzulegen
-	 * @param zugehöriges Item, BuyerID, storeID, slID
-	 * @return Das in die Datenbank gespeicherte ListITemObjekt wird zurückgegeben
-	 */
-	
+
 	
 	/*
 	   * ***************************************************************************
@@ -295,6 +324,12 @@ private ResponsibilityMapper responsibilityMapper = null;
 	   * ABSCHNITT, Beginn: Methoden für ListItem-Objekte
 	   * ***************************************************************************
 	   */
+	
+	/**
+	 * Methode, um ein <code>ListItem</code> Objekt in der Datenbank anzulegen
+	 * @param zugehöriges Item, BuyerID, storeID, slID
+	 * @return Das in die Datenbank gespeicherte ListITemObjekt wird zurückgegeben
+	 */
 	
 	public ListItem createListItem(Item item, int buyerID, int storeID, int slID) throws IllegalArgumentException {
 		
@@ -325,7 +360,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 	
 	/**
 	 * Methode um ein <code>ListItem</code> Objekt aus der Datenbank zu löschen
-	 * @param li
+	 * @param ListItem li
 	 * @throws IllegalArgumentException
 	 */
 
@@ -334,6 +369,11 @@ private ResponsibilityMapper responsibilityMapper = null;
 	}
 
 // in mapper ausformulieren
+	/**
+	 * Methode um ListItems als eingekauft zu merkieren
+	 * @param ListItem li
+	 */
+	
 	public void checkListItem(ListItem li) throws IllegalArgumentException {
 		this.listItemMapper.checkListItem(li);
 	}
@@ -456,6 +496,25 @@ private ResponsibilityMapper responsibilityMapper = null;
 		return this.shoppingListMapper.findByGroup(g);
 		
 	}
+	
+	public ArrayList<ListItem> getAllListItemsByShoppingList(ShoppingList sl) throws IllegalArgumentException {
+		ArrayList<ListItem> li = new ArrayList();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		if (sl == )
+			
+			li.add(e);
+	}
+	
+	// Methode um ein ListItem einer ShoppingList hinzuzufügen
 
 	/*
 	   * ***************************************************************************
