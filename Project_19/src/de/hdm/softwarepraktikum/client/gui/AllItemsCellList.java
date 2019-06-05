@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.appengine.api.search.query.ExpressionParser.index_return;
+import com.google.gwt.aria.client.AlertdialogRole;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellList;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -19,12 +22,13 @@ import com.google.gwt.view.client.SingleSelectionModel;
 
 
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.server.ShoppingListAdministrationImpl;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import java_cup.version;
 
-public class AllItemssCellList extends VerticalPanel{
-	private static int counter = 1;
+public class AllItemsCellList extends VerticalPanel{
+	private NavigatorPanel navigator;
 	
 	ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	
@@ -32,42 +36,29 @@ public class AllItemssCellList extends VerticalPanel{
 	private ItemDemoKeyProvider keyProvider= null; 
 	private CellList<Item> cellList = new CellList<Item>(new ItemCell(), keyProvider);
 	
-	private ItemForm sif = null;
+	private ItemForm itemForm = null;
 	
 	private ListDataProvider<Item> dataProvider = new ListDataProvider<Item>();
 	
 	private ArrayList<Item> items = new ArrayList<Item>();
-//	ItemDemo p1 = new ItemDemo("Apfel", "St�ck", 3);
-//	ItemDemo p2 = new ItemDemo("Banane", "St�ck", 5);
-//	ItemDemo p3 = new ItemDemo("Zitrone", "St�ck", 2);
-//	ItemDemo p4 = new ItemDemo("Orangensaft", "Liter", 4);
-//	ItemDemo p5 = new ItemDemo("Zimt", "Stangen", 5);
-//	ItemDemo p6 = new ItemDemo("Apfel", "St�ck", 3);
-//	ItemDemo p7 = new ItemDemo("Banane", "St�ck", 5);
-//	ItemDemo p8 = new ItemDemo("Zitrone", "St�ck", 2);
-//	ItemDemo p9 = new ItemDemo("Orangensaft", "Liter", 4);
-//	ItemDemo p10 = new ItemDemo("Zimt", "Stangen", 5);
-//	ItemDemo p11 = new ItemDemo("Apfel", "St�ck", 3);
-//	ItemDemo p12 = new ItemDemo("Banane", "St�ck", 5);
-//	ItemDemo p13 = new ItemDemo("Zitrone", "St�ck", 2);
-//	ItemDemo p14 = new ItemDemo("Orangensaft", "Liter", 4);
-//	ItemDemo p15 = new ItemDemo("Zimt", "Stangen", 5);
 	
 	
-	public void onLoad(){
-		getAllItems();
+	public void onLoad() {
+		
 		ItemDemoKeyProvider keyProvider = new ItemDemoKeyProvider();
 		selectionModel = new SingleSelectionModel<Item>(keyProvider);
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEventHandler());
 		cellList.setSelectionModel(selectionModel);
 		
-		dataProvider.addDataDisplay(cellList);
 		
-		cellList.setRowCount(items.size(), true);
+		
+		administration.getAllItems(new GetAllItemsCallback());
+		dataProvider.addDataDisplay(cellList);
 		cellList.setRowData(0, dataProvider.getList());
+		cellList.setRowCount(items.size(), true);
 		
 		this.add(cellList);
-		administration.getAllItems(new GetAllItemsCallback());
+		
 	}
 	
 	public void getAllItems() {
@@ -76,6 +67,21 @@ public class AllItemssCellList extends VerticalPanel{
 			  dataProvider.getList().add(p);
 		  }
 	}
+	
+	/**
+	 * Setzen des NavigatorPanels innerhalb des MenuPanels
+	 * 
+	 * @param das zu setzende NavigatorPanel
+	 */
+	public void setNavigator(NavigatorPanel navigator) {
+		this.navigator = navigator;
+	}
+	
+		
+	public void setItemForm(ItemForm itemForm) {
+		this.itemForm = itemForm;
+	}
+	
 	
 	private class GetAllItemsCallback implements AsyncCallback<ArrayList<Item>> {
 
@@ -121,11 +127,23 @@ public class AllItemssCellList extends VerticalPanel{
 	
 	public void setSelectedItem(Item i){
 		RootPanel.get("Details").clear();
-		sif = new ItemForm();
-		sif.setSelected(i);
-		sif.setEditable(false);
-		sif.setInitial(false);
-		RootPanel.get("Details").add(sif);
+		itemForm.setSelected(i);
+		itemForm.setEditable(false);
+		itemForm.setInitial(false);
+		RootPanel.get("Details").add(itemForm);
+	}
+	
+	public void updateCelllist(Item i) {
+		Notification.show("liste aktualisieren");
+//		this.remove(cellList);
+//		
+//		administration.getAllItems(new GetAllItemsCallback());
+//		dataProvider.addDataDisplay(cellList);
+//		cellList.setRowData(0, dataProvider.getList());
+//		cellList.setRowCount(items.size(), true);
+		navigator.selectTab(1);
+
+		
 	}
 
 }
