@@ -331,7 +331,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 	 * @return Das in die Datenbank gespeicherte ListITemObjekt wird zurückgegeben
 	 */
 	
-	public ListItem createListItem(Item item, int buyerID, int storeID, int slID) throws IllegalArgumentException {
+	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, Unit unit) throws IllegalArgumentException {
 		
 		ListItem li = new ListItem();
 		
@@ -339,6 +339,10 @@ private ResponsibilityMapper responsibilityMapper = null;
 		li.setBuyerID(buyerID);
 		li.setStoreID(storeID);
 		li.setSlID(slID);
+		li.setGrID(grID);
+		li.setAmount(amount);
+		li.setUnit(unit);
+		li.setName(item.getName());
 		
 		/**
 		 * Setzen einer vorlÃ¤ufigen ID. Der Insert Aufruf liefert dann ein Objekt,
@@ -497,22 +501,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 		
 	}
 	
-	public ArrayList<ListItem> getAllListItemsByShoppingList(ShoppingList sl) throws IllegalArgumentException {
-		ArrayList<ListItem> li = new ArrayList();
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		if (sl == )
-			
-			li.add(e);
-	}
+	public ArrayList<ListItem> findAllListItemsby(ShoppingList)
 	
 	// Methode um ein ListItem einer ShoppingList hinzuzufügen
 
