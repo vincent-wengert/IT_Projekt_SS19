@@ -43,6 +43,7 @@ public class NewShoppingListForm extends VerticalPanel {
 	private Boolean editable;
 	
 	private NewShoppingListForm newShoppingListForm;
+	private AllShoppingListsCellList aslcl = new AllShoppingListsCellList();
 
 	public NewShoppingListForm() {
 
@@ -133,11 +134,9 @@ public class NewShoppingListForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			RootPanel.get("Details").clear();		
-
+			RootPanel.get("Details").clear();
 			administration.createShoppingList(1, shoppinglistNameBox.getText(), 2, new CreateShoppinglistCallback());
-			
-			
+
 		}
 	}
 	
@@ -156,6 +155,7 @@ public class NewShoppingListForm extends VerticalPanel {
 		public void onSuccess(ShoppingList shoppingList) {
 			//add item to cellist
 			Notification.show("Einkaufsliste wurde erstellt");
+			aslcl.setSelectedShoppingList(shoppingList);
 		}
 	}
 }
