@@ -27,7 +27,7 @@ import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import java_cup.version;
 
-public class AllItemssCellList extends VerticalPanel{
+public class AllItemsCellList extends VerticalPanel{
 	private NavigatorPanel navigator;
 	
 	ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();

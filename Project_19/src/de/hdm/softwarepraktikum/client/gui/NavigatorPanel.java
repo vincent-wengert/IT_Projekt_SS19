@@ -28,7 +28,7 @@ private VerticalPanel contentPanelShoppinglists = new VerticalPanel();
 private VerticalPanel contentPanelStores = new VerticalPanel();
 private VerticalPanel contentPanelArticles = new VerticalPanel();
 
-private AllItemssCellList aicl = new AllItemssCellList();
+private AllItemsCellList aicl = new AllItemsCellList();
 
 private ItemForm itemForm = new ItemForm();
 

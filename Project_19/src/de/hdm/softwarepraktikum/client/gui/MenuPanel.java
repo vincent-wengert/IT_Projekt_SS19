@@ -27,7 +27,7 @@ public class MenuPanel extends VerticalPanel{
 	
 	private NewShoppingListForm newShoppingListForm;
 	
-	private AllItemssCellList aicl = new AllItemssCellList();
+	private AllItemsCellList aicl = new AllItemsCellList();
 	
 	private Button createGroupButton = new Button ();
 	private Button createShoppinglistButton = new Button ();

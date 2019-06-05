@@ -49,6 +49,7 @@ public class ItemForm extends VerticalPanel{
 	private Boolean editable;
 	private Boolean initial;
 	private static ItemForm itemForm;
+	private static AllItemsCellList allItemsCellList;
 
 	public ItemForm() {
 		editButton.addClickHandler(new EditClickHandler());
@@ -131,6 +132,17 @@ public class ItemForm extends VerticalPanel{
 	public void setItemForm(ItemForm itemForm) {
 
 		this.itemForm = itemForm;
+	}
+	
+	/**
+	 * Methode um die aktuelle <code>NewShowItemForm</code> Instanz zu setzen.
+	 * Diese Instanz wird für das Aktualisieren nach dem Anlegen eines Items benötigt.
+	 * 
+	 * @param newShowItemForm das zu setzende <code>newShowItemForm</code> Objekt.
+	 */
+	public void setAllItemsCelllist(AllItemsCellList allItemsCellist) {
+
+		this.allItemsCellList = allItemsCellist;
 	}
 	
 	public void setEditable(Boolean editable) {
