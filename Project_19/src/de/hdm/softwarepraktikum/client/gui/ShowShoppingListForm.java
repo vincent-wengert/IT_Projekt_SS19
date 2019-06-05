@@ -19,9 +19,6 @@ import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
-
-import de.hdm.softwarepraktikum.client.gui.ItemForm.CreateItemCallback;
-import de.hdm.softwarepraktikum.client.gui.ItemForm.EditClickHandler;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
@@ -31,7 +28,7 @@ public class ShowShoppingListForm extends VerticalPanel{
 	private HorizontalPanel shoppingListPanel = new HorizontalPanel();
 	private HorizontalPanel topButtonsPanel = new HorizontalPanel();
 	
-	private Button editButton;
+	private Button addListItemButton = new Button();
 	
 	private Label infoTitleLabel = new Label();
 	
@@ -41,30 +38,34 @@ public class ShowShoppingListForm extends VerticalPanel{
 	private MultiSelectionModel<ListItem> multiselectionModel = null;
 	private ArrayList<ListItem> productsToDisplay = null;
 	
-	public ShowShoppingListForm(){
-		editButton.addClickHandler(new AddListItemClickHandler());
-		topButtonsPanel.add(editButton);
+
+	public ShowShoppingListForm () {
+		addListItemButton.addClickHandler(new AddListItemClickHandler());
+		topButtonsPanel.add(addListItemButton);
 	}
 	
 	public void onLoad() {
 		this.setWidth("100%");
 		
-		editButton.setStylePrimaryName("addListItemButton");
+		addListItemButton.setStylePrimaryName("addListItemButton");
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
 	
-		editButton.setHeight("8vh");
-		editButton.setWidth("8vh");
+		addListItemButton.setHeight("8vh");
+		addListItemButton.setWidth("8vh");
 		
 		formHeaderPanel.setHeight("8vh");
 		formHeaderPanel.setWidth("100%");
 		
 		formHeaderPanel.add(infoTitleLabel);
+		formHeaderPanel.add(topButtonsPanel);
+		
+		
 		formHeaderPanel.setCellVerticalAlignment(infoTitleLabel, ALIGN_BOTTOM);
 		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
 		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
 		
-		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_CENTER);
+		topButtonsPanel.setCellHorizontalAlignment(addListItemButton, ALIGN_CENTER);
 		topButtonsPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		
 
@@ -144,6 +145,8 @@ public class ShowShoppingListForm extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 		Notification.show("neues Listitem wurde erstellt");
 		ListItem item = new ListItem();
+		dataProvider.getList().add(item);
+		dataProvider.refresh();
 		}
 	}
 	 

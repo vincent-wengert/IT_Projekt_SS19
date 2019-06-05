@@ -136,7 +136,6 @@ public class NewShoppingListForm extends VerticalPanel {
 
 			RootPanel.get("Details").clear();
 			administration.createShoppingList(1, shoppinglistNameBox.getText(), 2, new CreateShoppinglistCallback());
-
 		}
 	}
 	
@@ -156,6 +155,7 @@ public class NewShoppingListForm extends VerticalPanel {
 			//add item to cellist
 			Notification.show("Einkaufsliste wurde erstellt");
 			aslcl.setSelectedShoppingList(shoppingList);
+			
 		}
 	}
 }

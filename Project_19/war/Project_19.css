@@ -302,7 +302,6 @@ body{
 }
 
 .addListItemButton:hover{
-	
 	border:solid black 1px;
 	cursor: pointer;
 	background-color:#6f7277;
