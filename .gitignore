@@ -40,15 +40,16 @@ proguard/
 ################################################################################
 
 # gwt caches and compiled units #
-war/gwt_bree/
+Project_19/war/gwt_bree/
 gwt-unitCache/
+Project_19/war/project_19
 
 # boilerplate generated classes #
 .apt_generated/
 
 # more caches and things from deploy #
-war/WEB-INF/deploy/
-war/WEB-INF/classes/
+Project_19/war/WEB-INF/deploy/
+Project_19/war/WEB-INF/classes/
 /.factorypath
 .svn/
 /.settings
