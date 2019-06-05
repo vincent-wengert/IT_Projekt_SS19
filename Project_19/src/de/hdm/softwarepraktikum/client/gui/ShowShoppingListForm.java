@@ -17,20 +17,21 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 
-import de.hdm.softwarepraktikum.client.gui.AllShoppingListsCellList.DemoShoppingList;
-import de.hdm.softwarepraktikum.client.gui.AllShoppingListsCellList.ItemDemo;
+import de.hdm.softwarepraktikum.shared.bo.Item;
+import de.hdm.softwarepraktikum.shared.bo.ListItem;
+import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 public class ShowShoppingListForm extends VerticalPanel{
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel shoppingListPanel = new HorizontalPanel();
 	
-	private Label infoTitleLabel = new Label("Einkaufsliste");
+	private Label infoTitleLabel = new Label();
 	
-	private CellTable<ItemDemo> cellTable = null;
+	private CellTable<ListItem> cellTable = null;
 	private ProductKeyProvider keyProvider = null;
-	private ListDataProvider<ItemDemo> dataProvider = new ListDataProvider<ItemDemo>();
-	private MultiSelectionModel<ItemDemo> multiselectionModel = null;
-	private ArrayList<ItemDemo> productsToDisplay = null;
+	private ListDataProvider<ListItem> dataProvider = new ListDataProvider<ListItem>();
+	private MultiSelectionModel<ListItem> multiselectionModel = null;
+	private ArrayList<ListItem> productsToDisplay = null;
 	
 	public void onLoad() {
 		this.setWidth("100%");
@@ -48,32 +49,32 @@ public class ShowShoppingListForm extends VerticalPanel{
 		this.add(formHeaderPanel);
 		
 		keyProvider = new ProductKeyProvider();
-		multiselectionModel = new MultiSelectionModel<ItemDemo>(keyProvider);
-		cellTable = new CellTable<ItemDemo>();
+		multiselectionModel = new MultiSelectionModel<ListItem>(keyProvider);
+		cellTable = new CellTable<ListItem>();
 		dataProvider.addDataDisplay(cellTable);
 		
 		cellTable.setSelectionModel(multiselectionModel,
-			        DefaultSelectionEventManager.<ItemDemo> createCheckboxManager());
+			        DefaultSelectionEventManager.<ListItem> createCheckboxManager());
 		 
-		ListHandler<ItemDemo> sortHandler = new ListHandler<ItemDemo>(null);
+		ListHandler<ListItem> sortHandler = new ListHandler<ListItem>(null);
 		
-		TextColumn<ItemDemo> nameColumn = new TextColumn<ItemDemo>() {
+		TextColumn<ListItem> nameColumn = new TextColumn<ListItem>() {
 		      @Override
-		      public String getValue(ItemDemo p) {
-		        return p.getName();
+		      public String getValue(ListItem i) {
+		        return i.getName();
 		      }
 		    };
 		
-	    TextColumn<ItemDemo> amountColumn = new TextColumn<ItemDemo>() {
+	    TextColumn<ListItem> amountColumn = new TextColumn<ListItem>() {
 		      @Override
-		      public String getValue(ItemDemo p) {
-		        return Integer.toString(p.getAmount());
+		      public String getValue(ListItem i) {
+		        return Double.toString(i.getAmount());
 		      }
 		    };    
 		   
-	    Column<ItemDemo, Boolean> checkColumn = new Column<ItemDemo, Boolean>(new CheckboxCell(true, false)) {
+	    Column<ListItem, Boolean> checkColumn = new Column<ListItem, Boolean>(new CheckboxCell(true, false)) {
 		      @Override
-		      public Boolean getValue(ItemDemo object) {
+		      public Boolean getValue(ListItem object) {
 		        // Get the value from the selection model.
 		        return multiselectionModel.isSelected(object);
 		      }
@@ -91,24 +92,24 @@ public class ShowShoppingListForm extends VerticalPanel{
 	    this.add(shoppingListPanel);
 	}
 	
-	private class ProductKeyProvider implements ProvidesKey<ItemDemo>{
+	private class ProductKeyProvider implements ProvidesKey<ListItem>{
  		
 		@Override
-		public Object getKey(ItemDemo item) {
+		public Object getKey(ListItem item) {
 			  return (item == null) ? null : item.getId();
       }	
 	}
 
-	public void setSelected(DemoShoppingList sl) {
+	public void setSelected(ShoppingList sl) {
 		if(sl != null) {
 			//shoppingListToDisplay = sl;
-			productsToDisplay = sl.getProductsByList();
-			List<ItemDemo> list = dataProvider.getList();
-		    for (ItemDemo p : productsToDisplay) {
+			productsToDisplay = sl.getShoppinglist();
+			List<ListItem> list = dataProvider.getList();
+			infoTitleLabel.setText(sl.getTitle());
+		    for (ListItem p : productsToDisplay) {
 		    	list.add(p);
 		    }
-			dataProvider.flush();
-			}
 		}
+	}
 }
 

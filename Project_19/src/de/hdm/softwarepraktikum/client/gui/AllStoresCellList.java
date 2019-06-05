@@ -6,6 +6,7 @@ import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellList;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -64,6 +65,20 @@ public class AllStoresCellList extends VerticalPanel{
 		for (Store s: stores) {
 			  dataProvider.getList().add(s);
 		  }
+	}
+	
+	public void setStoreForm(StoreForm sf) {
+		this.sf = sf;
+	}
+	
+	public void updateCellList() {
+		Window.alert("test");
+		dataProvider.getList().clear();
+		administration.getAllStores(new GetAllStoresCallback());
+		dataProvider.refresh();
+		dataProvider.addDataDisplay(cellList);
+		cellList.setRowCount(stores.size(), true);
+		cellList.setRowData(0, dataProvider.getList());
 	}
 	
 	private class GetAllStoresCallback implements AsyncCallback<ArrayList<Store>> {

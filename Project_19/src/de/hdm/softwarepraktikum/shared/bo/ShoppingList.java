@@ -13,13 +13,19 @@ public class ShoppingList extends BusinessObject {
 	private int groupID;
 	
 	/**
-	   * Fremdschlüsselbeziehung zu einer Gruppe.
+	   * Fremdschlï¿½sselbeziehung zu einer Gruppe.
 	   */
+	
+	ArrayList<ListItem> shoppinglist = new ArrayList<ListItem>(); //* ersetzen durch shareable objects*/
+
+	public ShoppingList() {
+		
+	}
 
 	
-	
-	ArrayList<String> shoppinglist = new ArrayList<String>(); //* ersetzen durch shareable objects*/
-	
+	public ShoppingList(String title) {
+		this.title = title;
+	}
 	
     public String getTitle() {
         return title;
@@ -29,14 +35,20 @@ public class ShoppingList extends BusinessObject {
     	this.title = value;
     }
 
+
+    public ArrayList<ListItem> getShoppinglist() {
+		return shoppinglist;
+	}
+
+	public void setShoppinglist(ArrayList<ListItem> shoppinglist) {
+		this.shoppinglist = shoppinglist;
+	}
+
+
     /**
-	 * Auslesen des Fremdschlüssels zu einem Gruppenmitglied
+	 * Auslesen des Fremdschlï¿½ssels zu einem Gruppenmitglied
 	 * @return memberID
 	 */
-
-
-
-
 	public int getGroupID() {
 		return groupID;
 	}

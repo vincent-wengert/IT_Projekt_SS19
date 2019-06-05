@@ -17,6 +17,7 @@ import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.client.gui.Notification;
 import de.hdm.softwarepraktikum.shared.ReportGeneratorAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
+import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.report.HTMLReportWriter;
 import de.hdm.softwarepraktikum.shared.report.ItemsByGroupReport;
 
@@ -27,15 +28,18 @@ import de.hdm.softwarepraktikum.shared.report.ItemsByGroupReport;
  *
  */
 public class ReportbyGroup extends VerticalPanel{
+	/*
+	private Person p = CurrentReportPerson.getUser();
 	
-	
+	private Group g =
+	*/
 	private ReportGeneratorAsync report = ClientsideSettings.getReportGenerator();
 	private ReportEntry reportGenerator = new ReportEntry();
 	
 	private VerticalPanel selectionPanel = new VerticalPanel();
 	private HorizontalPanel reportHeaderPanel = new HorizontalPanel();
 	
-	private ArrayList<Group> GroupList = new ArrayList<Group>();
+	private ArrayList<Group> ListItemList = new ArrayList<Group>();
 	
 	private Label ILabel = new Label("Statistik der eingekauften Produkte der Gruppe");
 	private Button printReportButton = new Button("");
@@ -48,25 +52,56 @@ public class ReportbyGroup extends VerticalPanel{
 	 */
 	public void onLoad() {
 
-
-		back.setStylePrimaryName("back");
+		this.setWidth("100%");
+		
+		selectionPanel.setStylePrimaryName("selectionPanel");
 		reportHeaderPanel.setStylePrimaryName("reportHeaderPanel");
 		ILabel.setStylePrimaryName("infoLabel");
+		printReportButton.setStylePrimaryName("printReportButton");
+		back.setStylePrimaryName("back");
+		
+		selectionPanel.setWidth("100%");
+		selectionPanel.setHeight("100%");
 
 		reportHeaderPanel.add(back);
 		reportHeaderPanel.add(ILabel);
+		
+		printReportButton.setWidth("8vh");
+		printReportButton.setHeight("8vh");
 
 		back.setWidth("8vh");
 		back.setHeight("8vh");
+		
+		
 		reportHeaderPanel.setWidth("100%");
 		reportHeaderPanel.setHeight("8vh");
 
 		reportHeaderPanel.setCellVerticalAlignment(ILabel, null);
-
+		
+		printReportButton.addClickHandler(new OutputClickHandler());
 		back.addClickHandler(new BackClickHandler());
+		
+		report.getAllItems(p, new Groupstatisticcallback());
 
 		RootPanel.get("Selection").add(reportHeaderPanel);
 
+	}
+	
+	/**
+	 * 
+	 * @author Bruno Herceg
+	 *
+	 */
+	private class OutputClickHandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			
+			RootPanel.get("Result").clear();
+			
+			
+		}
+		
 	}
 
 	/**

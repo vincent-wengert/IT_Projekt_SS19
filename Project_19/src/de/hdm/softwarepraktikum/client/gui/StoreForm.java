@@ -29,6 +29,7 @@ public class StoreForm extends VerticalPanel{
 	private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings.getShoppinglistAdministration();
 
 	private Store storeToDisplay = null;
+	private AllStoresCellList ascl = new AllStoresCellList();
 
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
@@ -53,7 +54,7 @@ public class StoreForm extends VerticalPanel{
 	
 //	private FieldVerifier verifier = new FieldVerifier();
 
-	private StoreForm StoreForm;
+	private StoreForm sf;
 	private Boolean editable;
 	private Boolean initial;
 	
@@ -142,9 +143,12 @@ public class StoreForm extends VerticalPanel{
 
 	}
 	
-	public void setStoreForm(StoreForm StoreForm) {
-
-		this.StoreForm = StoreForm;
+	public void setStoreForm(StoreForm storeForm) {
+		this.sf = storeForm;
+	}
+	
+	public void setStoreCellList(AllStoresCellList ascl) {
+		this.ascl = ascl;
 	}
 	
 	public void setTableEditable(boolean editable) {
@@ -209,6 +213,8 @@ public class StoreForm extends VerticalPanel{
 
 			shoppinglistAdministration.createStore(storeNameBox.getText(), streetNameBox.getText(), Integer.parseInt(postCodeBox.getText()), cityNameBox.getText(), Integer.parseInt(houseNumberBox.getText()), new CreateStoreCallback());
 			setTableEditable(false);
+			ascl.updateCellList();
+			
 		}
 	}
 	

@@ -225,7 +225,7 @@ public class GroupMapper {
 	        Group g = new Group();
 	        g.setId(rs.getInt("Group_ID"));
 	        g.setTitle(rs.getString("Title"));
-	        g.setMemberID(rs.getInt("member"));
+	        g.setMemberID(rs.getInt("Person_ID"));
 
 	        // Hinzufügen des neuen Objekts zum Ergebnisvektor
 	        result.add(g);

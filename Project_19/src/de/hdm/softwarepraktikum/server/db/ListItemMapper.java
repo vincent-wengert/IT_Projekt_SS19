@@ -56,7 +56,7 @@ public class ListItemMapper {
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM listitem ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(ListItem_ID) AS maxid " + "FROM ListItem ");
 			
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
@@ -69,8 +69,8 @@ public class ListItemMapper {
 			stmt = con.createStatement();
 							
 			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-		//	stmt.executeUpdate("INSERT INTO listitem (id, item, amount, unit) " + "VALUES (" + li.getId() + ",'"
-		//			+ li.getIt() + "','" + li.getAmount() + "','" + li.getUnit() + "')");
+			stmt.executeUpdate("INSERT INTO ListItem (ListItem_ID, item, Amount, Unit, IsChecked) " + "VALUES (" + li.getId() + ",'"
+					+ li.getIt() + "','" + li.getAmount() + "','" + li.getUnit() +  "','" + li.isChecked() + "')");
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
