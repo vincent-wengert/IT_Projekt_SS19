@@ -331,7 +331,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 	 * @return Das in die Datenbank gespeicherte ListITemObjekt wird zurückgegeben
 	 */
 	
-	public ListItem createListItem(Item item, int buyerID, int storeID, int slID) throws IllegalArgumentException {
+	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, Unit unit) throws IllegalArgumentException {
 		
 		ListItem li = new ListItem();
 		
@@ -339,6 +339,10 @@ private ResponsibilityMapper responsibilityMapper = null;
 		li.setBuyerID(buyerID);
 		li.setStoreID(storeID);
 		li.setSlID(slID);
+		li.setGrID(grID);
+		li.setAmount(amount);
+		li.setUnit(unit);
+		li.setName(item.getName());
 		
 		/**
 		 * Setzen einer vorlÃ¤ufigen ID. Der Insert Aufruf liefert dann ein Objekt,
@@ -390,7 +394,8 @@ private ResponsibilityMapper responsibilityMapper = null;
 	}
 	
 	public ArrayList<ListItem> getAllCheckedItemsByGroup(Group g) throws IllegalArgumentException {
-		return this.groupMapper.
+		//return this.groupMapper.
+		return null;
 	}
 	
 	/*
@@ -488,31 +493,6 @@ private ResponsibilityMapper responsibilityMapper = null;
 		return this.shoppingListMapper.findByMember(p);
 	}
 
-
-	@Override
-	public ShoppingList getAllShoppingListsByGroup(Group g) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-		return this.shoppingListMapper.findByGroup(g);
-		
-	}
-	
-	public ArrayList<ListItem> getAllListItemsByShoppingList(ShoppingList sl) throws IllegalArgumentException {
-		ArrayList<ListItem> li = new ArrayList();
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		if (sl == )
-			
-			li.add(e);
-	}
 	
 	// Methode um ein ListItem einer ShoppingList hinzuzufügen
 
@@ -544,11 +524,12 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public void removeFavoriteItem(Item i, Person p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		personMapper.removeFavoriteItem();
+//		personMapper.removeFavoriteItem();
 	}
 
 	public ArrayList<Item> getFavItems(Person p) throws IllegalArgumentException {
-		return this.personMapper.findFav(p);
+//		return this.personMapper.findFav(p);
+		return null;
 	}
 	
 	/*
@@ -651,7 +632,36 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public void deleteGroupMembership(Person p, Group g) {
 		// TODO Auto-generated method stub
-		groupMapper.deleteMembership(g);
+		//groupMapper.deleteMembership(g);
+		return null;
+	}
+
+
+	@Override
+	public void updatePerson(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Person createPerson(Date creationDate, String gmail, String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ListItem createListItem(Item item, int buyerID, int storeID, int slID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ArrayList<ShoppingList> getAllShoppingListsByGroup(Group g) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	/*

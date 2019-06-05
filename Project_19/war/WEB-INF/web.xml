@@ -37,21 +37,16 @@
 
 
   
-<!--   <servlet>
-	<servlet-name>loginService</servlet-name>
-	<servlet-class>de.hdm.softwarePraktikum.server.LoginServiceImpl</servlet-class>
+  <servlet>
+	<servlet-name>login</servlet-name>
+	<servlet-class>de.hdm.softwarepraktikum.server.LoginImpl</servlet-class>
 	</servlet>
 	
 
 	<servlet-mapping>
-	<servlet-name>loginService</servlet-name>
-	<url-pattern>/it_projekt_ss18/login</url-pattern>
+	<servlet-name>login</servlet-name>
+	<url-pattern>/project_19/login</url-pattern>
 	</servlet-mapping>
-	
-	<servlet-mapping>
-	<servlet-name>loginService</servlet-name>
-	<url-pattern>/ReportGenerator/login</url-pattern>
-	</servlet-mapping> -->
   
   
   

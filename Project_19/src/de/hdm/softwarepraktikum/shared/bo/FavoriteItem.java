@@ -1,11 +1,14 @@
 package de.hdm.softwarepraktikum.shared.bo;
 
-public class FavoriteItem {
+public class FavoriteItem{
 	
 	private int groupiD;
 	private int itemID;
 	
 	
+	public FavoriteItem(){
+		
+	}
 	
 	public int getGroupiD() {
 		return groupiD;
