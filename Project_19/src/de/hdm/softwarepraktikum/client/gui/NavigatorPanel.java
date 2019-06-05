@@ -1,5 +1,7 @@
 package de.hdm.softwarepraktikum.client.gui;
 
+import org.apache.bcel.generic.IREM;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -27,6 +29,8 @@ private VerticalPanel contentPanelStores = new VerticalPanel();
 private VerticalPanel contentPanelArticles = new VerticalPanel();
 
 private AllItemssCellList aicl = new AllItemssCellList();
+
+private ItemForm itemForm = new ItemForm();
 
 private Grid itemsGrid = new Grid(2,2);
 private Grid storesGrid = new Grid(2,2);
@@ -66,8 +70,17 @@ public void onLoad() {
 	this.add(contentPanelStores, "Alle Händler");
 	this.add(contentPanelArticles, "Alle Artikel");
 	
+	aicl.setItemForm(itemForm);
+	itemForm.setAllItemsCelllist(aicl);
+	
 	itemsGrid.setWidget(1, 0, aicl);
 	contentPanelArticles.add(itemsGrid);
+	
+	
+	
+	
+	
+	
 	
     // Create a model for the tree.
     TreeViewModel model = new CustomTreeModel();
