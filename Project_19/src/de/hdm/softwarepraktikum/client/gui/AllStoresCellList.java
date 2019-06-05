@@ -31,6 +31,8 @@ public class AllStoresCellList extends VerticalPanel{
 	private ListDataProvider<Store> dataProvider = new ListDataProvider<Store>();
 	private ArrayList<Store> stores = new ArrayList<Store>();
 	private StoreForm sf = null;
+	private Store storeToDisplay = null;
+	private Boolean initial = true;
 	
 	public void onLoad() {
 		getAllStores();
@@ -46,7 +48,7 @@ public class AllStoresCellList extends VerticalPanel{
 	}
 	
 	public void setSelectedStore(Store s) {
-		//selectedShoppingList = c;
+		storeToDisplay = s;
 		RootPanel.get("Details").clear();
 		Notification.show("clear Details");
 		sf = new StoreForm();
@@ -64,6 +66,10 @@ public class AllStoresCellList extends VerticalPanel{
 	
 	public void setStoreForm(StoreForm sf) {
 		this.sf = sf;
+	}
+	
+	public void setInitial(Boolean initial) {
+		this.initial = initial;
 	}
 	
 	public void updateCellList() {

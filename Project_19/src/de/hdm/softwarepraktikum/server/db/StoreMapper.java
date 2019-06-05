@@ -7,6 +7,8 @@ import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.Window;
+
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
@@ -16,8 +18,8 @@ public class StoreMapper {
 	   * Die Klasse StoreMapper wird nur einmal instantiiert. Man spricht hierbei
 	   * von einem sogenannten <b>Singleton</b>.
 	   * <p>
-	   * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal für
-	   * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	   * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal fÃ¼r
+	   * sÃ¤mtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	   * einzige Instanz dieser Klasse.
 	   * 
 	   * @author Peter Thies
@@ -27,7 +29,7 @@ public class StoreMapper {
 
 		
 		/**
-		 * Geschützter Konstruktor - verhindert die Möglichkeit, mit <code>new</code>
+		 * GeschÃ¼tzter Konstruktor - verhindert die MÃ¶glichkeit, mit <code>new</code>
 		 * neue Instanzen dieser Klasse zu erzeugen.
 		 */
 		protected StoreMapper() {
@@ -57,24 +59,24 @@ public class StoreMapper {
 				Statement stmt = con.createStatement();
 				
 				/*
-				 * Zunächst schauen wir nach, welches der momentan höchste
-				 * Primärschlüsselwert ist.
+				 * ZunÃ¤chst schauen wir nach, welches der momentan hÃ¶chste
+				 * PrimÃ¤rschlÃ¼sselwert ist.
 				 */
 				ResultSet rs = stmt.executeQuery("SELECT MAX(Store_id) AS id " + "FROM Store ");
 
-				// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+				// Wenn wir etwas zurÃ¼ckerhalten, kann dies nur einzeilig sein
 				
 				if (rs.next()) {
 				/* 
-				 * s erhält den bisher maximalen, nun um 1 inkrementierten
-				 * Primärschlüssel.
+				 * s erhÃ¤lt den bisher maximalen, nun um 1 inkrementierten
+				 * PrimÃ¤rschlÃ¼ssel.
 				 */
 					s.setId(rs.getInt("id") + 1);
 
 					stmt = con.createStatement();
 				}
 				
-				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
+				// Jetzt erst erfolgt die tatsÃ¤chliche EinfÃ¼geoperation
 				stmt.executeUpdate("INSERT INTO store (Store_id, Name, Street, Postcode, City, Housenumber, Creationdate, Changedate ) " + "VALUES (" + s.getId() + ",'"
 						+ s.getName() + "','" + s.getStreet() + " ','" + s.getPostcode()+ " ','" + s.getCity()+ " ','" + s.getHouseNumber() + "','" + s.getCreationdate()+ "','" + s.getChangedate() + "')");
 			
@@ -84,37 +86,43 @@ public class StoreMapper {
 			}
 			
 			/*
-			 * Rückgabe, der evtl. korrigierten Group.
+			 * RÃ¼ckgabe, der evtl. korrigierten Group.
 			 */
 			return s;
 				
 		}
 		
 		//Eigenschaften eines Stores aendern
-		public Store updateStore(Store r) {
-			
-			Connection con = DBConnection.connection();
-			
-			try {
-				Statement stmt = con.createStatement();
-				
-				stmt.executeUpdate("UPDATE Store " + "SET name=\"" + r.getName() + "\", " + "Street=\""
-						+ r.getStreet()+ "\" " + "Postcode=\""
-						+ r.getPostcode()+ "\" " +"City=\""
-						+ r.getCity()+ "\" " +"Changdate=\""
-						+ r.getChangedate()+ "\" " +"WHERE id=" + r.getId());
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			// Um Analogie zu insert(item r) zu wahren, wird i zurückgegeben
-					return r;
-		}
+				public Store updateStore(Store r) {
+					
+					Connection con = DBConnection.connection();
+					
+					try {
+//						Statement stmt = con.createStatement();
+//						
+//						stmt.executeUpdate("UPDATE Store " + "SET name=\"" + r.getName() + "\", " + "Street=\""
+//								+ r.getStreet()+ "\" " + "Postcode=\""
+//								+ r.getPostcode()+ "\" " +"City=\""
+//								+ r.getCity()+ "\" " +"Changdate=\""
+//								+ r.getChangedate()+ "\" " +"WHERE id=" + r.getId());
+						
+						
+						PreparedStatement st = con.prepareStatement("UPDATE Store SET Name = ? WHERE Store_ID = ?");
+						st.setString(1, r.getName());
+						st.setInt(2, r.getId());
+						st.executeUpdate();
+						
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					
+					// Um Analogie zu insert(item r) zu wahren, wird i zurï¿½ckgegeben
+							return r;
+				}
 		
 		
 		
-         //Store aus Datenbank löschen
+         //Store aus Datenbank lÃ¶schen
 			
 		public void deleteStore(Store s) {
 			
@@ -141,7 +149,7 @@ public class StoreMapper {
 				//leeres SQL-Statement (JDBC) anlegen
 				Statement stmt = con.createStatement();
 				
-				//Statement ausfüllen und als Query an die DB schicken
+				//Statement ausfÃ¼llen und als Query an die DB schicken
 				ResultSet rs = stmt.executeQuery("SELECT Store_id, Name, Street, Postcode, City, Creationdate, Changedate FROM Store "
 						+ " WHERE Store_ID = " +ID);
 				while (rs.next()) {
@@ -191,7 +199,7 @@ public class StoreMapper {
 					 s.setCreationdate(rs.getTimestamp("Creationdate"));
 					 s.setChangedate(rs.getTimestamp("Changedate"));
 					
-					//Hinzufügen des neuen Objekts zum Ergebnisvektor
+					//HinzufÃ¼gen des neuen Objekts zum Ergebnisvektor
 					result.add(s);
 
 				}

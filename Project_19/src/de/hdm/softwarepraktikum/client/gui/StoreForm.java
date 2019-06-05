@@ -2,6 +2,7 @@ package de.hdm.softwarepraktikum.client.gui;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
@@ -72,12 +73,14 @@ public class StoreForm extends VerticalPanel{
 	
 	public void setSelected(Store s) {
 		if(s != null) {
+			storeToDisplay = s;
 			storeNameBox.setText(s.getName());
 			postCodeBox.setText(Integer.toString(s.getPostcode()));
 			cityNameBox.setText(s.getCity());
 			streetNameBox.setText(s.getStreet());
 			houseNumberBox.setText(Integer.toString(s.getHouseNumber()));
 			infoTitleLabel.setText(s.getName());
+			Window.alert(Integer.toString(s.getId()));
 		}
 	}
 	/**
@@ -218,11 +221,15 @@ public class StoreForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-
-			shoppinglistAdministration.createStore(storeNameBox.getText(), streetNameBox.getText(), Integer.parseInt(postCodeBox.getText()), cityNameBox.getText(), Integer.parseInt(houseNumberBox.getText()), new CreateStoreCallback());
-			setTableEditable(false);
-			ascl.updateCellList();
-			
+			if(initial == false) {
+				shoppinglistAdministration.updateStore(storeToDisplay, new UpdateStoreCallback());
+				setTableEditable(false);
+				//ascl.updateCellList();
+			} else {
+				shoppinglistAdministration.createStore(storeNameBox.getText(), streetNameBox.getText(), Integer.parseInt(postCodeBox.getText()), cityNameBox.getText(), Integer.parseInt(houseNumberBox.getText()), new CreateStoreCallback());
+				setTableEditable(false);
+				ascl.updateCellList();
+			}
 		}
 	}
 	
@@ -231,6 +238,7 @@ public class StoreForm extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			Notification.show("edit");
+			setInitial(false);
 			setTableEditable(true);
 		}
 	}
@@ -248,5 +256,21 @@ public class StoreForm extends VerticalPanel{
 			Notification.show("Store wurde erstellt");
 
 		}
+	}
+	
+	private class UpdateStoreCallback implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show("Der Store konnte leider nicht überarbeitet werden:\n" + caught.toString());
+			
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			// TODO Auto-generated method stub
+			Notification.show("Store wurde überarbeitet");
+		}
+		
 	}
 }
