@@ -93,7 +93,31 @@ public class ShowShoppingListForm extends VerticalPanel{
 		      public String getValue(ListItem i) {
 		        return Double.toString(i.getAmount());
 		      }
-		    };    
+		    };   
+		    
+	    TextColumn<ListItem> unitColumn = new TextColumn<ListItem>() {
+		      @Override
+		      public String getValue(ListItem i) {
+		        return i.getUnit().toString();
+		      }
+		    };
+		    
+	    TextColumn<ListItem> storeColumn = new TextColumn<ListItem>() {
+		      @Override
+		      public String getValue(ListItem i) {
+		        return i.getUnit().toString();
+		      }
+		    };
+			    
+	    TextColumn<ListItem> personColumn = new TextColumn<ListItem>() {
+		      @Override
+		      public String getValue(ListItem i) {
+		        return i.getUnit().toString();
+		      }
+		    };
+
+
+			   
 		   
 	    Column<ListItem, Boolean> checkColumn = new Column<ListItem, Boolean>(new CheckboxCell(true, false)) {
 		      @Override
@@ -108,7 +132,10 @@ public class ShowShoppingListForm extends VerticalPanel{
 		    
 	    cellTable.addColumnSortHandler(sortHandler);
 	    cellTable.addColumn(nameColumn, "Name");
-	    cellTable.addColumn(amountColumn, "Amount");
+	    cellTable.addColumn(amountColumn, "Menge");
+	    cellTable.addColumn(unitColumn, "Einheit");
+	    cellTable.addColumn(storeColumn, "Laden");
+	    cellTable.addColumn(personColumn, "Verantwortlicher");
 	    nameColumn.setSortable(true);
 	    
 	    shoppingListPanel.add(cellTable);

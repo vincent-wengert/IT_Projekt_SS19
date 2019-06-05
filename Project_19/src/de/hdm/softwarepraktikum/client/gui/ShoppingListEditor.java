@@ -22,6 +22,15 @@ public class ShoppingListEditor {
 		RootPanel.get("Navigator").add(navigator);
 		RootPanel.get("Header").add(header);
 		
+		
+		
+		/**
+		 * Hiermit kann im Create-Panel die Celllist aktualisiert werden, damit neu
+		 * erstelle Item und Shoppinglisten angezeigt werden können. 
+		 */
+		menuPanel.setAllShoppinglistCelllist(navigator.getAllShoppingListsCellList());
+		menuPanel.setAllStoresCelllist(navigator.getAllStoresCellList());
+		menuPanel.setAllItemsCelllist(navigator.getAllItemsCellList());
 		menuPanel.setNavigator(navigator);
 	}
 

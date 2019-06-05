@@ -147,7 +147,7 @@ public class StoreForm extends VerticalPanel{
 		this.sf = storeForm;
 	}
 	
-	public void setStoreCellList(AllStoresCellList ascl) {
+	public void setAllStoresCellList(AllStoresCellList ascl) {
 		this.ascl = ascl;
 	}
 	

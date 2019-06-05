@@ -105,6 +105,17 @@ public class NewShoppingListForm extends VerticalPanel {
 
 		this.newShoppingListForm = newShoppingListForm;
 	}
+	
+	/**
+	 * Methode um die aktuelle <code>AllShoppingListsCellList</code> Instanz zu setzen.
+	 * Diese Instanz wird für das Aktualisieren nach dem Anlegen einer Einkaufliste benötigt.
+	 * 
+	 * @param newShoppingListForm das zu setzende <code>AllShoppingListsCellList</code> Objekt.
+	 */
+	public void setAllShoppingListCelllist(AllShoppingListsCellList allShoppingListsCellList) {
+
+		this.aslcl = aslcl;
+	}
 
 	
 	/**

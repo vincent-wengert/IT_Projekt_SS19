@@ -93,7 +93,33 @@ public void onLoad() {
    
 	}
 
+/**
+ * Methode um das ContactListContactTreeViewModel abzufragen.
+ * 
+ * @return Das ContactListContactTreeViewModel wird zurückgegeben.
+ */
+public AllItemsCellList getAllItemsCellList() {
+	return aicl;
+}
 
+/**
+ * Methode um das ContactListContactTreeViewModel abzufragen.
+ * 
+ * @return Das ContactListContactTreeViewModel wird zurückgegeben.
+ */
+public AllStoresCellList getAllStoresCellList() {
+	return ascl;
+}
+
+ /**
+ * Methode um die AllContactsForm abzufragen.
+ * 
+ * @return Die AllContactsForm wird zurückgegeben.
+ */
+public AllShoppingListsCellList getAllShoppingListsCellList() {
+	return aslcl;
+
+}
 
 /**
 * In dieser Methode wird das Design des NavigatorPanels und der Buttons festgelegt.

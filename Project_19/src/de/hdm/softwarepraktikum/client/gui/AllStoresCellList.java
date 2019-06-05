@@ -31,11 +31,6 @@ public class AllStoresCellList extends VerticalPanel{
 	private ListDataProvider<Store> dataProvider = new ListDataProvider<Store>();
 	private ArrayList<Store> stores = new ArrayList<Store>();
 	private StoreForm sf = null;
-
-//	DemoStore s1 = new DemoStore("Lidl", 70597, "Stuttgart", "Coole Straﬂe", 31);
-//	DemoStore s2 = new DemoStore("Penny", 12345, "Berlin", "Uncoole Straﬂe", 32);
-//	DemoStore s3 = new DemoStore("Rewe", 40997, "Hannover", "Andere Straﬂe", 33);
-//	DemoStore s4 = new DemoStore("Edeka", 69420, "Amsterdam", "van Gogh Straﬂe", 34);
 	
 	public void onLoad() {
 		getAllStores();
@@ -72,13 +67,10 @@ public class AllStoresCellList extends VerticalPanel{
 	}
 	
 	public void updateCellList() {
-		Window.alert("test");
 		dataProvider.getList().clear();
 		administration.getAllStores(new GetAllStoresCallback());
 		dataProvider.refresh();
-		dataProvider.addDataDisplay(cellList);
-		cellList.setRowCount(stores.size(), true);
-		cellList.setRowData(0, dataProvider.getList());
+
 	}
 	
 	private class GetAllStoresCallback implements AsyncCallback<ArrayList<Store>> {
@@ -93,6 +85,7 @@ public class AllStoresCellList extends VerticalPanel{
 			// TODO Auto-generated method stub
 			stores = result;
 			getAllStores();
+			dataProvider.refresh();
 		}
 	}
 	
@@ -122,86 +115,5 @@ public class AllStoresCellList extends VerticalPanel{
 	        }
 	    }
 	}
-	
-//	public class DemoStore{
-//		//private static int counter = 0;
-//		private int id;
-//	    private String name;
-//	    private int postLeitZahl;
-//		private String ort;
-//		private String strasse;
-//		private int hausNummer;
-//		
-//		public DemoStore(String name, int plz, String ort, String strasse, int hausNr) {
-//			this.name = name;
-//			this.postLeitZahl = plz;
-//			this.ort = ort;
-//			this.strasse = strasse;
-//			this.hausNummer = hausNr;
-//			
-//		}
-//		
-//		public int getPostleitZahl() {
-//			return postLeitZahl;
-//		}
-//
-//
-//		public void setPostleitZahl(int postleitZahl) {
-//			this.postLeitZahl = postleitZahl;
-//		}
-//
-//
-//		public String getOrt() {
-//			return ort;
-//		}
-//
-//
-//		public void setOrt(String ort) {
-//			this.ort = ort;
-//		}
-//
-//
-//		public String getStrasse() {
-//			return strasse;
-//		}
-//
-//
-//		public void setStrasse(String strasse) {
-//			this.strasse = strasse;
-//		}
-//
-//
-//		public int getHausNummer() {
-//			return hausNummer;
-//		}
-//
-//
-//		public void setHausNummer(int hausNummer) {
-//			this.hausNummer = hausNummer;
-//		}
-//	    
-//	    public String getName() {
-//			return name;
-//		}
-//	    
-//	    
-//		public void setName(String name) {
-//			this.name = name;
-//		}
-//
-//	    public DemoStore(String name) {
-////	    	counter++;
-////	    	this.id = counter;
-//	    	this.name = name;
-//	    }
-//
-//		@Override
-//		public String toString() {
-//			return "Store [id=" + id + ", name=" + name + "]";
-//		}
-//
-//		public int getId() {
-//			return id;
-//		}
-//	}
+
 }

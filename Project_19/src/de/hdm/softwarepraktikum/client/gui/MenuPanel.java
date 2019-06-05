@@ -18,6 +18,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class MenuPanel extends VerticalPanel{
 	
+	private AllItemsCellList allItemsCellList;
+	private AllStoresCellList allStoresCellList;
+	private AllShoppingListsCellList allShoppingListsCellList;
 	private NewGroupForm newGroupForm;
 
 	private ItemForm itemForm;
@@ -90,6 +93,36 @@ public class MenuPanel extends VerticalPanel{
 		logoutButton.setTitle("Abmelden");
 	}
 	
+	
+	
+	
+	
+	/**
+	 * Setzen des NewStoreForm innerhalb des MenuPanels
+	 * 
+	 * @param das zu setzende NewStoreForm
+	 */
+	public void setAllItemsCelllist(AllItemsCellList allItemsCellList) {
+		this.allItemsCellList = allItemsCellList;
+	}
+	
+	/**
+	 * Setzen des NewStoreForm innerhalb des MenuPanels
+	 * 
+	 * @param das zu setzende NewStoreForm
+	 */
+	public void setAllShoppinglistCelllist(AllShoppingListsCellList allShoppingListsCellList) {
+		this.allShoppingListsCellList = allShoppingListsCellList;
+	}
+	
+	/**
+	 * Setzen des NewStoreForm innerhalb des MenuPanels
+	 * 
+	 * @param das zu setzende NewStoreForm
+	 */
+	public void setAllStoresCelllist(AllStoresCellList allStoresCellList) {
+		this.allStoresCellList = allStoresCellList;
+	}
 	/**
 	 * Setzen des NavigatorPanels innerhalb des MenuPanels
 	 * 
@@ -159,7 +192,7 @@ public class MenuPanel extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			RootPanel.get("Details").clear();
 			newShoppingListForm = new NewShoppingListForm();
-			newShoppingListForm.setNewShoppingListForm(newShoppingListForm);
+			newShoppingListForm.setAllShoppingListCelllist(allShoppingListsCellList);
 			RootPanel.get("Details").add(newShoppingListForm);
 			navigator.selectTab(1);
 		}	
@@ -194,10 +227,11 @@ public class MenuPanel extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			navigator.selectTab(2);
 			RootPanel.get("Details").clear();
+			
 			storeForm = new StoreForm();
+			storeForm.setAllStoresCellList(allStoresCellList);
 			storeForm.setEditable(true);
 			storeForm.setInitial(true);
-			storeForm.setStoreForm(storeForm);
 			RootPanel.get("Details").add(storeForm);
 		}	
 	}
