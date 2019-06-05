@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import de.hdm.softwarepraktikum.shared.bo.FavoriteItem;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
@@ -63,12 +64,12 @@ public class FavoriteItemMapper {
 		 * i erhï¿½lt den bisher maximalen, nun um 1 inkrementierten
 		 * Primï¿½rschlï¿½ssel.
 		 */
-		fi.setId(rs.getInt("maxid") + 1);
+		//fi.setId(rs.getInt("maxid") + 1);
 				
 		stmt = con.createStatement();
 						
 		// Jetzt erst erfolgt die tatsï¿½chliche Einfï¿½geoperation
-		stmt.executeUpdate("INSERT INTO favoriteItem (FavoriteItem_ID) " + "VALUES (" +fi.getId() + ",'");
+		//stmt.executeUpdate("INSERT INTO favoriteItem (FavoriteItem_ID) " + "VALUES (" +fi.getId() + ",'");
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
@@ -78,7 +79,8 @@ public class FavoriteItemMapper {
 		/*
 		 * Rï¿½ckgabe des evtl. korrigierten Items.
 		 */
-		return i;
+		//return i;
+		return null;
 	}
 	
 	
@@ -134,13 +136,13 @@ public class FavoriteItemMapper {
 		      ResultSet rs = stmt.executeQuery("SELECT item FROM group "
 		          + "WHERE groupid =" + sl.getGroupID());
 
-		      // Für jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
+		      // Fï¿½r jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
 		      while (rs.next()) {
 		    	Item i = new Item();
 		        i.setId(rs.getInt("id"));
 		      
 
-		        // Hinzufügen des neuen Items zum Ergebnisvektor
+		        // Hinzufï¿½gen des neuen Items zum Ergebnisvektor
 		        favItems.add(i);
 		      }
 		    }
@@ -148,7 +150,7 @@ public class FavoriteItemMapper {
 		      e2.printStackTrace();
 		    }
 
-		    // Ergebnisvektor zurückgeben
+		    // Ergebnisvektor zurï¿½ckgeben
 		    return favItems;
 		    
 	}

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
+import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 
 public class ListItemMapper {
 	
@@ -15,8 +16,8 @@ public class ListItemMapper {
 	   * Die Klasse ListItemMapper wird nur einmal instantiiert. Man spricht hierbei
 	   * von einem sogenannten <b>Singleton</b>.
 	   * <p>
-	   * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal für
-	   * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	   * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal fï¿½r
+	   * sï¿½mtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	   * einzige Instanz dieser Klasse.
 	   * 
 	   * @author Peter Thies
@@ -25,7 +26,7 @@ public class ListItemMapper {
 	private static ListItemMapper listItemMapper = null;
 	
 	/**
-	   * Geschützter Konstruktor - verhindert die Möglichkeit, mit <code>new</code>
+	   * Geschï¿½tzter Konstruktor - verhindert die Mï¿½glichkeit, mit <code>new</code>
 	   * neue Instanzen dieser Klasse zu erzeugen.
 	   */
 	
@@ -46,6 +47,7 @@ public class ListItemMapper {
 		return listItemMapper;
 	}
 	
+
 	public ListItem insert(ListItem li) {
 		Connection con = DBConnection.connection();
 		
@@ -53,22 +55,22 @@ public class ListItemMapper {
 			Statement stmt = con.createStatement();
 			
 			/*
-			 * Zunächst schauen wir nach, welches der momentan höchste
-			 * Primärschlüsselwert ist.
+			 * Zunï¿½chst schauen wir nach, welches der momentan hï¿½chste
+			 * Primï¿½rschlï¿½sselwert ist.
 			 */
 			ResultSet rs = stmt.executeQuery("SELECT MAX(ListItem_ID) AS maxid " + "FROM ListItem ");
 			
-			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+			// Wenn wir etwas zurï¿½ckerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
 			/*
-			 * li erhält den bisher maximalen, nun um 1 inkrementierten
-			 * Primärschlüssel.
+			 * li erhï¿½lt den bisher maximalen, nun um 1 inkrementierten
+			 * Primï¿½rschlï¿½ssel.
 			 */
 			li.setId(rs.getInt("maxid") + 1);
 					
 			stmt = con.createStatement();
 							
-			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
+			// Jetzt erst erfolgt die tatsï¿½chliche Einfï¿½geoperation
 			stmt.executeUpdate("INSERT INTO ListItem (ListItem_ID, item, Amount, Unit, IsChecked) " + "VALUES (" + li.getId() + ",'"
 					+ li.getIt() + "','" + li.getAmount() + "','" + li.getUnit() +  "','" + li.isChecked() + "')");
 		}
@@ -77,7 +79,7 @@ public class ListItemMapper {
 	}
 		
 		/*
-		 * Rückgabe des evtl. korrigierten ListItems.
+		 * Rï¿½ckgabe des evtl. korrigierten ListItems.
 		 */
 		return li;
 	}
@@ -87,7 +89,7 @@ public class ListItemMapper {
 	 * 
 	 * @param li
 	 *            das Objekt, das in die DB geschrieben werden soll
-	 * @return das als Parameter übergebene Objekt
+	 * @return das als Parameter ï¿½bergebene Objekt
 	 */
 	
 	public ListItem update(ListItem li) {
@@ -103,11 +105,11 @@ public class ListItemMapper {
 			e.printStackTrace();
 		}
 		
-		// Um Analogie zu insert(listitem li) zu wahren, wird li zurückgegeben
+		// Um Analogie zu insert(listitem li) zu wahren, wird li zurï¿½ckgegeben
 				return li;
 	}
 	
-	//Löschung eines Listitems
+	//Lï¿½schung eines Listitems
 		public void delete(ListItem li) {
 			Connection con = DBConnection.connection();
 			
@@ -135,12 +137,12 @@ public class ListItemMapper {
 				//leeres SQL-Statement (JDBC) anlegen
 				Statement stmt = con.createStatement();
 		
-				//Statement ausfüllen und als Query an die DB schicken
+				//Statement ausfï¿½llen und als Query an die DB schicken
 				ResultSet rs = stmt.executeQuery("Select id, amount, responsibility, unit, ischecked" + "WHERE id= " + id);
 		
 				/*
-				 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-				 * werden. Prüfe, ob ein Ergebnis vorliegt.
+				 * Da id Primï¿½rschlï¿½ssel ist, kann max. nur ein Tupel zurï¿½ckgegeben
+				 * werden. Prï¿½fe, ob ein Ergebnis vorliegt.
 				 */
 				if (rs.next()) {
 					//Ergebnis-Tupel in Objekt umwandeln
@@ -172,7 +174,7 @@ public class ListItemMapper {
 			//leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 			
-			//Statement ausfüllen und als Query an die DB schicken
+			//Statement ausfï¿½llen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery("SELECT * FROM listitem");
 			
 			while (rs.next()){
@@ -183,7 +185,7 @@ public class ListItemMapper {
 				//li.setUnit(rs.getInt("Unit"));
 				li.setChecked(rs.getBoolean("iscchecked"));
 				
-				//Hinzufügen des neuen Objekts zur ArrayList
+				//Hinzufï¿½gen des neuen Objekts zur ArrayList
 				result.add(li);
 			}
 		}catch (SQLException e) {

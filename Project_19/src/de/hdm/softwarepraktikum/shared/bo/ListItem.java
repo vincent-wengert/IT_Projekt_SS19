@@ -1,5 +1,7 @@
 package de.hdm.softwarepraktikum.shared.bo;
 
+import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
+
 public class ListItem extends BusinessObject{
 
 	/**
@@ -25,6 +27,17 @@ public class ListItem extends BusinessObject{
 	public ListItem() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Unit getItemUnit (String unit) {
+		if (unit == "L") {
+			return Unit.L;
+				}
+		else if(unit == "KG") {
+			return Unit.KG;
+			} else {
+		return Unit.ST;
+			}
+		}
 
 	public enum Unit{
 		KG, ST, L;
