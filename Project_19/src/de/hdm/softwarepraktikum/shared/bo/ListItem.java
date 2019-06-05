@@ -16,6 +16,7 @@ public class ListItem extends BusinessObject{
 	private int buyerID;
 	private int storeID;
 	private int slID;
+	private int grID;
 	
 	
 	public ListItem(String name, Unit unit, double amount) {
@@ -104,6 +105,11 @@ public class ListItem extends BusinessObject{
 		this.slID = slID;
 	}
 	
+	public int getGrID() {
+		return grID;
+	}
 	
-	
+	public void setGrID(int grID) {
+		this.grID = grID;
+	}
 }

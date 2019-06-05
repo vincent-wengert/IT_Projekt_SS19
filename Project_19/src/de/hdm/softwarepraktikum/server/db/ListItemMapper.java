@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
+import de.hdm.softwarepraktikum.shared.bo.Item;
+import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 public class ListItemMapper {
 	
@@ -71,8 +73,10 @@ public class ListItemMapper {
 			stmt = con.createStatement();
 							
 			// Jetzt erst erfolgt die tats�chliche Einf�geoperation
-			stmt.executeUpdate("INSERT INTO ListItem (ListItem_ID, item, Amount, Unit, IsChecked) " + "VALUES (" + li.getId() + ",'"
-					+ li.getIt() + "','" + li.getAmount() + "','" + li.getUnit() +  "','" + li.isChecked() + "')");
+
+			stmt.executeUpdate("INSERT INTO ListItem (ListItem_ID, name, amount, unit, ischecked, buyerID, storeID, slID, grID) " + "VALUES (" + li.getId() + ",'"
+					+ li.getName() + "','" + li.getAmount() + "','" + li.getUnit().toString() +  "','" + li.isChecked() + "','" + li.getBuyerID() + "','" + li.getStoreID() + 
+					"','" + li.getSlID() + "','" + li.getGrID() + "')");
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
@@ -199,6 +203,40 @@ public class ListItemMapper {
 			
 		}
 		
-		
-		
+		public ArrayList<ListItem> findAllListItemsby(ShoppingList sl) {
+			Connection con = DBConnection.connection();
+			
+			ArrayList<ListItem> listItems = new ArrayList<ListItem>();
+	
+			String st = "SELECT * from listitem WHERE slID=" + sl.getId();
+			
+			try {
+				
+				Statement stmt = con.createStatement();
+				
+				ResultSet rs = stmt.executeQuery(st);
+				
+				while (rs.next()) {
+					ListItem listItem = new ListItem();
+					listItem.setId(rs.getInt("ListItem_ID"));
+					listItem.setName(rs.getString("name"));
+					listItem.setAmount(rs.getDouble("amount"));
+					listItem.setUnit(listItem.getItemUnit(rs.getString("unit")));
+					listItem.setBuyerID(rs.getInt("buyerID"));
+					listItem.setChecked(rs.getBoolean("ischecked"));
+					listItem.setGrID(rs.getInt("grID"));
+					listItem.setSlID(rs.getInt("slID"));
+					listItem.setStoreID(rs.getInt("storeID"));
+					
+					listItems.add(listItem);
+				}
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+					}
+				
+				return listItems;
+				
+			}
+			
 }
