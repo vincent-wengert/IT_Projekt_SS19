@@ -2,6 +2,7 @@ package de.hdm.softwarepraktikum.client.gui;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -9,6 +10,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
+import de.hdm.softwarepraktikum.shared.bo.Item;
+import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 /**
  * Die Klasse <code>NewGroupForm</code> ist eine Form die verschiedene Methoden und Widgets zur Erstellung
  * einer neuen <code>Gruppe</code> bietet.
@@ -18,6 +24,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 
 public class NewShoppingListForm extends VerticalPanel {
+	
+	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
@@ -122,6 +130,25 @@ public class NewShoppingListForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
+			administration.createShoppingList(1, shoppinglistNameBox.getText(), 2, new CreateShoppinglistCallback());
+		}
+	}
+	
+	/**
+	 * Nachdem ein neues <code>Shoppinglist</code> Objekt erstellt wurde, wird dieses der Liste der aktuellen
+	 *  <code>AllShoppinglistsCelllist</code> Instanz hinzugefügt.
+	 */
+	private class CreateShoppinglistCallback implements AsyncCallback<ShoppingList> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show("Die Einkaufsliste konnte leider nicht erstellt werden:\n" + caught.toString());
+		}
+
+		@Override
+		public void onSuccess(ShoppingList shoppingList) {
+			//add item to cellist
+			Notification.show("Einkaufsliste wurde erstellt");
 
 		}
 	}
