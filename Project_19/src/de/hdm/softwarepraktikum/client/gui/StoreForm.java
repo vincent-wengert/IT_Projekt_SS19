@@ -34,6 +34,7 @@ public class StoreForm extends VerticalPanel{
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
 	private HorizontalPanel topButtonsPanel = new HorizontalPanel();
+	private HorizontalPanel streetHouseNumberPanel = new HorizontalPanel();
 
 	private Label infoTitleLabel = new Label("Store");
 	private Label storeNameLabel = new Label("Name des Stores");
@@ -101,6 +102,9 @@ public class StoreForm extends VerticalPanel{
 		cancelButton.setPixelSize(130, 40);
 		confirmButton.setPixelSize(130, 40);
 		
+		houseNumberBox.setWidth("42%");
+		streetNameBox.setWidth("95%");
+		
 		editButton.setHeight("8vh");
 		editButton.setWidth("8vh");
 		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_CENTER);
@@ -116,6 +120,9 @@ public class StoreForm extends VerticalPanel{
 		topButtonsPanel.add(editButton);
 
 		bottomButtonsPanel.setSpacing(20);
+		
+		streetHouseNumberPanel.add(streetNameBox);
+		streetHouseNumberPanel.add(houseNumberBox);
 
 		this.add(formHeaderPanel);
 		this.add(storeGrid);
@@ -133,8 +140,7 @@ public class StoreForm extends VerticalPanel{
 		storeGrid.setWidget(0, 1, storeNameBox);
 		storeGrid.setWidget(1, 1, postCodeBox);
 		storeGrid.setWidget(2, 1, cityNameBox);
-		storeGrid.setWidget(3, 1, streetNameBox);
-		storeGrid.setWidget(3, 2, houseNumberBox);
+		storeGrid.setWidget(3, 1, streetHouseNumberPanel);
 
 		this.add(bottomButtonsPanel);
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
@@ -157,6 +163,7 @@ public class StoreForm extends VerticalPanel{
 			postCodeBox.setEnabled(true);
 			cityNameBox.setEnabled(true);
 			streetNameBox.setEnabled(true);
+			houseNumberBox.setEnabled(true);
 			topButtonsPanel.setVisible(false);
 			bottomButtonsPanel.setVisible(true);
 		}else {
@@ -164,6 +171,7 @@ public class StoreForm extends VerticalPanel{
 			postCodeBox.setEnabled(false);
 			cityNameBox.setEnabled(false);
 			streetNameBox.setEnabled(false);
+			houseNumberBox.setEnabled(false);
 			topButtonsPanel.setVisible(true);
 			bottomButtonsPanel.setVisible(false);
 		}
