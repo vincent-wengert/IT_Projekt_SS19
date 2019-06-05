@@ -136,6 +136,8 @@ public class NewShoppingListForm extends VerticalPanel {
 			RootPanel.get("Details").clear();		
 
 			administration.createShoppingList(1, shoppinglistNameBox.getText(), 2, new CreateShoppinglistCallback());
+			
+			
 		}
 	}
 	

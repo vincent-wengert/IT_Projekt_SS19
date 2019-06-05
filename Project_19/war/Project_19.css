@@ -292,6 +292,24 @@ body{
 	background-position: center center;
 }
 
+.addListItemButton{
+	outline:none !important;
+	border: none;
+	background: transparent;
+	background-image: url("images/editButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+.addListItemButton:hover{
+	
+	border:solid black 1px;
+	cursor: pointer;
+	background-color:#6f7277;
+	background-image: url("images/editButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
 
 .deleteButton{
 	border: none;
