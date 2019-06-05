@@ -113,7 +113,6 @@ public class AllShoppingListsCellList extends VerticalPanel{
 	
 	public void setSelectedShoppingList(ShoppingList sl) {
 		//selectedShoppingList = c;
-		
 		RootPanel.get("Details").clear();
 		Notification.show("clear Details");
 		sslf = new ShowShoppingListForm();

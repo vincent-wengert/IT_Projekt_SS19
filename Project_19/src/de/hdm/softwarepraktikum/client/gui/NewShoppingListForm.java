@@ -9,6 +9,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 /**
  * Die Klasse <code>NewGroupForm</code> ist eine Form die verschiedene Methoden und Widgets zur Erstellung
  * einer neuen <code>Gruppe</code> bietet.
@@ -18,6 +21,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 
 public class NewShoppingListForm extends VerticalPanel {
+	
+	private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings.getShoppinglistAdministration();
 
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
@@ -30,6 +35,8 @@ public class NewShoppingListForm extends VerticalPanel {
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
 	private Grid shoppinglistGrid = new Grid(2, 2);
+	
+	private Boolean editable;
 	
 	private NewShoppingListForm newShoppingListForm;
 
@@ -121,7 +128,8 @@ public class NewShoppingListForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-
+			RootPanel.get("Details").clear();
+			
 		}
 	}
 }
