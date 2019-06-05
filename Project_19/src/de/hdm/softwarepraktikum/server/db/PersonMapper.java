@@ -19,7 +19,7 @@ public class PersonMapper{
 	/**
 	 * Sicherstellung der Singleton-Eigenschaft der Mapperklasse.
 	 * 
-	 * @return Gibt den Person Mapper zurück.
+	 * @return Gibt den Person Mapper zurï¿½ck.
 	 */
 	public static PersonMapper personMapper() {
 		if (personMapper == null) {
@@ -30,9 +30,9 @@ public class PersonMapper{
 }
 	
 	/**
-	 * Delete Methode, um ein<code>Person</code>-Objekt aus der Datenbank zu löschen.
+	 * Delete Methode, um ein<code>Person</code>-Objekt aus der Datenbank zu lï¿½schen.
 	 * 
-	 * @param person, das aus der Datenbank zu löschende Objekt.
+	 * @param person, das aus der Datenbank zu lï¿½schende Objekt.
 	 */
 	public void delete(Person person) {
 
@@ -51,7 +51,7 @@ public class PersonMapper{
 	/**
 	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
 	 * @param person, das Objekt das in die Datenbank geschrieben werden soll.
-	 * @return das als Parameter übergebene Objekt
+	 * @return das als Parameter ï¿½bergebene Objekt
 	 */
 	public Person update(Person person) {
 		Connection con = DBConnection.connection();
@@ -69,14 +69,14 @@ public class PersonMapper{
 			e.printStackTrace();
 		}
 		
-		//um Analogie zu insert(Person person) zu wahren, geben wir person zurück.
+		//um Analogie zu insert(Person person) zu wahren, geben wir person zurï¿½ck.
 		return person;
 }
 	/**
-	 * Insert Methode, um eine neue <codee>Person</code> der Datenbank hinzuzufügen.
+	 * Insert Methode, um eine neue <codee>Person</code> der Datenbank hinzuzufï¿½gen.
 	 * 
-	 * @param person Die Person wird übergeben.
-	 * @return Die gespeicherte Person wird zurückgegeben.
+	 * @param person Die Person wird ï¿½bergeben.
+	 * @return Die gespeicherte Person wird zurï¿½ckgegeben.
 	 */
 	public Person insert(Person person) {
 		Connection con = DBConnection.connection();
@@ -91,7 +91,7 @@ public class PersonMapper{
 
 				person.setId(rs.getInt("maxid") + 1);
 			
-			//Setzt den AutoCommit auf false, um das sichere Schreiben in die Datenbank zu gewährleisten.
+			//Setzt den AutoCommit auf false, um das sichere Schreiben in die Datenbank zu gewï¿½hrleisten.
 			con.setAutoCommit(false);
 			
 			PreparedStatement stmt2 = con.prepareStatement("INSERT INTO Person (Person_ID, Creationdate, Changedate, Name, Gmail) "+ "VALUES (?, ?, ?, ? ?)",
@@ -118,8 +118,8 @@ public class PersonMapper{
 	/**
 	 * Suchen einer Person mit einer entsprechenden Id.
 	 * 
-	 * @param id Die id wird übergeben.
-	 * @return Liefert die Person mit der übergebenen Contact_BO_ID zurück.
+	 * @param id Die id wird ï¿½bergeben.
+	 * @return Liefert die Person mit der ï¿½bergebenen Contact_BO_ID zurï¿½ck.
 	 */
 	public Person findById(int id) {
 
@@ -190,9 +190,45 @@ public class PersonMapper{
 	}
 	
 	/**
+	 * Member mittels der GMail Adresse finden .
+	 *
+	 * @param gmail Die gmail wird Ã¼bergeben des Users. 
+	 * @return Der User der anhand der gmail gefunden wurde, wird zurÃ¼ckgegeben.
+	 */
+	public Person findByGmail(String gmail) {
+
+		Connection con = DBConnection.connection();
+
+		try {
+
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+					"SELECT PersonID, Gmail, Name"
+							+ " FROM Person" 
+							+ " WHERE Gmail ='" + gmail +"'");
+
+			if (rs.next()) {
+			
+				Person person = new Person();
+				person.setId(rs.getInt("PersonID"));
+				person.setGmail(rs.getString("Gmail"));
+				person.setName(rs.getString("Name"));
+				
+				return person;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return null;
+	}
+	
+	/**
 	 * Finden einer Person anhand von ihrem Namen.
 	 * @param name
-	 * @return eine Arraylist mit Personen, deren Name der Eingabe ähnelt
+	 * @return eine Arraylist mit Personen, deren Name der Eingabe ï¿½hnelt
 	 */
 	public ArrayList<Person> findByName(String name){
 		Connection con = DBConnection.connection();
@@ -203,25 +239,25 @@ public class PersonMapper{
 			
 			ResultSet rs = stmt.executeQuery("SELECT Person_ID, Name " + "FROM Person " + "WHERE Name = '" + name + "'");
 			
-			//Für jeden Eintrag im Suchergebnis wird ein Person-Objekt erstellt.
+			//Fï¿½r jeden Eintrag im Suchergebnis wird ein Person-Objekt erstellt.
 			while(rs.next()) {
 				Person p = new Person();
 				p.setId(rs.getInt("id"));
 				p.setName(rs.getString("name"));
 				
-				//Neues Objekt zur ArrayList hinzufügen
+				//Neues Objekt zur ArrayList hinzufï¿½gen
 				result.add(p);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		//Ergebnis zurückgeben
+		//Ergebnis zurï¿½ckgeben
 		return result;
 	}
 	
 	/**
-	 * Auslesen der zugehörigen <code>Group</code>-Objekte zu einer gegebenen Person.
+	 * Auslesen der zugehï¿½rigen <code>Group</code>-Objekte zu einer gegebenen Person.
 	 * @param p
 	 * @return
 	 */
@@ -229,7 +265,7 @@ public class PersonMapper{
 		
 		/*
 		 * Hier wird auf den GroupMapper zugegriffen, welchem der im Person-Objekt
-		 * enthaltende Primärschlüssel übergeben wird. Der PersonMapper löst die ID
+		 * enthaltende Primï¿½rschlï¿½ssel ï¿½bergeben wird. Der PersonMapper lï¿½st die ID
 		 * in eine Reihe von Group-Objekten auf.
 		 */
 		
@@ -237,7 +273,7 @@ public class PersonMapper{
 		}
 	
 	/**
-	 * Auslesen der zugehörigen <code>ShoppingList</code>-Objekte zu einer gegebenen Person.
+	 * Auslesen der zugehï¿½rigen <code>ShoppingList</code>-Objekte zu einer gegebenen Person.
 	 * @param p
 	 * @return
 	 */
@@ -245,7 +281,7 @@ public class PersonMapper{
 		
 		/*
 		 * Hier wird auf den ShoppingListMapper zugegriffen, welchem der im Person-Objekt
-		 * enthaltende Primärschlüssel übergeben wird. Der PersonMapper löst die ID
+		 * enthaltende Primï¿½rschlï¿½ssel ï¿½bergeben wird. Der PersonMapper lï¿½st die ID
 		 * in eine Reihe von ShoppingList-Objekten auf.
 		 */
 		return ShoppingListMapper.shoppinglistMapper().findByMember(p);
