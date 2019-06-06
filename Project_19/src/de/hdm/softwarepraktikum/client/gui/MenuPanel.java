@@ -30,8 +30,6 @@ public class MenuPanel extends VerticalPanel{
 	
 	private NewShoppingListForm newShoppingListForm;
 	
-	private AllItemsCellList aicl = new AllItemsCellList();
-	
 	private Button createGroupButton = new Button ();
 	private Button createShoppinglistButton = new Button ();
 	private Button createArticleButton = new Button ();
@@ -209,8 +207,8 @@ public class MenuPanel extends VerticalPanel{
 			navigator.selectTab(3);
 			RootPanel.get("Details").clear();
 			itemForm = new ItemForm();
-			itemForm.setAllItemsCelllist(aicl);
-			aicl.setItemForm(itemForm);
+			itemForm.setAllItemsCelllist(allItemsCellList);
+			allItemsCellList.setItemForm(itemForm);
 			
 			itemForm.setEditable(true);
 			itemForm.setInitial(true);

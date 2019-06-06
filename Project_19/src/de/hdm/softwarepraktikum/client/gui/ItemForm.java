@@ -50,7 +50,7 @@ public class ItemForm extends VerticalPanel{
 	private Boolean editable;
 	private Boolean initial;
 	private static ItemForm itemForm;
-	private static AllItemsCellList allItemsCellList;
+	private AllItemsCellList aicl = new AllItemsCellList();;
 
 	public ItemForm() {
 		editButton.addClickHandler(new EditClickHandler());
@@ -150,7 +150,7 @@ public class ItemForm extends VerticalPanel{
 	 */
 	public void setAllItemsCelllist(AllItemsCellList allItemsCellist) {
 
-		this.allItemsCellList = allItemsCellist;
+		this.aicl = allItemsCellist;
 	}
 	
 	public void setEditable(Boolean editable) {
@@ -234,6 +234,7 @@ public class ItemForm extends VerticalPanel{
 			shoppinglistAdministration.updateItem(itemToDisplayProduct, new UpdateItemCallback());	
 			}
 			setTableEditable(false);
+			aicl.updateCellList();
 		}
 	}
 	 

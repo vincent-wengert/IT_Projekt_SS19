@@ -70,9 +70,6 @@ public void onLoad() {
 	this.add(contentPanelStores, "Alle Händler");
 	this.add(contentPanelArticles, "Alle Artikel");
 	
-	aicl.setItemForm(itemForm);
-	itemForm.setAllItemsCelllist(aicl);
-	
 	itemsGrid.setWidget(1, 0, aicl);
 	contentPanelArticles.add(itemsGrid);
 
@@ -94,27 +91,27 @@ public void onLoad() {
 	}
 
 /**
- * Methode um das ContactListContactTreeViewModel abzufragen.
+ * Methode um die AllItemsCellList abzufragen.
  * 
- * @return Das ContactListContactTreeViewModel wird zurückgegeben.
+ * @return Die AllItemsCellList wird zurückgegeben.
  */
 public AllItemsCellList getAllItemsCellList() {
 	return aicl;
 }
 
 /**
- * Methode um das ContactListContactTreeViewModel abzufragen.
+ * Methode um die AllStoresCellList abzufragen.
  * 
- * @return Das ContactListContactTreeViewModel wird zurückgegeben.
+ * @return Die AllStoresCellList wird zurückgegeben.
  */
 public AllStoresCellList getAllStoresCellList() {
 	return ascl;
 }
 
  /**
- * Methode um die AllContactsForm abzufragen.
+ * Methode um die AllShoppingListsCellList abzufragen.
  * 
- * @return Die AllContactsForm wird zurückgegeben.
+ * @return Die AllShoppingListsCellList wird zurückgegeben.
  */
 public AllShoppingListsCellList getAllShoppingListsCellList() {
 	return aslcl;
