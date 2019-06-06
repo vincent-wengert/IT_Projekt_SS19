@@ -50,6 +50,7 @@ public class StoreForm extends VerticalPanel{
 	private TextBox houseNumberBox = new TextBox();
 
 	private Button editButton = new Button();
+	private Button deleteButton = new Button();
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
 	private Grid storeGrid = new Grid(4, 3);
@@ -69,6 +70,7 @@ public class StoreForm extends VerticalPanel{
 		bottomButtonsPanel.add(cancelButton);
 		
 		editButton.addClickHandler(new EditClickHandler());
+		deleteButton.addClickHandler(new DeleteClickHandler());
 	}
 	
 	public void setSelected(Store s) {
@@ -94,6 +96,7 @@ public class StoreForm extends VerticalPanel{
 //		postCodeLabel.setStylePrimaryName("textLabel");
 //		storeNameLabel.setStylePrimaryName("textLabel");
 		editButton.setStylePrimaryName("editButton");
+		deleteButton.setStylePrimaryName("deleteButton");
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
 		bottomButtonsPanel.setStylePrimaryName("bottomButtonsPanel");
@@ -110,7 +113,10 @@ public class StoreForm extends VerticalPanel{
 		
 		editButton.setHeight("8vh");
 		editButton.setWidth("8vh");
-		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_CENTER);
+		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_LEFT);
+		deleteButton.setHeight("8vh");
+		deleteButton.setWidth("8vh");
+		topButtonsPanel.setCellHorizontalAlignment(deleteButton, ALIGN_RIGHT);
 
 		formHeaderPanel.add(infoTitleLabel);
 		formHeaderPanel.add(topButtonsPanel);
@@ -121,6 +127,7 @@ public class StoreForm extends VerticalPanel{
 		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
 		
 		topButtonsPanel.add(editButton);
+		topButtonsPanel.add(deleteButton);
 
 		bottomButtonsPanel.setSpacing(20);
 		
@@ -204,7 +211,7 @@ public class StoreForm extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			
 			if(initial==true) {
-				Notification.show("Cancel");
+				Notification.show("Erstellen abgebrochen");
 				RootPanel.get("Details").clear();
 			}else {
 				setTableEditable(false); 		//store wird neu geladen
@@ -243,6 +250,15 @@ public class StoreForm extends VerticalPanel{
 		}
 	}
 	
+	private class DeleteClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			//check Window alert if true
+			shoppinglistAdministration.deleteStore(storeToDisplay, new DeleteStoreCallback());
+		}
+	}
+	
 	private class CreateStoreCallback implements AsyncCallback<Store> {
 
 		@Override
@@ -262,14 +278,30 @@ public class StoreForm extends VerticalPanel{
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Notification.show("Der Store konnte leider nicht überarbeitet werden:\n" + caught.toString());
+			Notification.show("Der Store konnte leider nicht aktualisiert werden:\n" + caught.toString());
 			
 		}
 
 		@Override
 		public void onSuccess(Void result) {
 			// TODO Auto-generated method stub
-			Notification.show("Store wurde überarbeitet");
+			Notification.show("Store wurde aktualisiert");
+		}
+		
+	}
+	
+	private class DeleteStoreCallback implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show("Der Store konnte leider nicht entfernt werden:\n" + caught.toString());
+			
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			// TODO Auto-generated method stub
+			Notification.show("Store wurde entfernt");
 		}
 		
 	}

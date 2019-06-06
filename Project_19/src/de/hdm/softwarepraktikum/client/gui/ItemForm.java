@@ -44,6 +44,7 @@ public class ItemForm extends VerticalPanel{
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
 	private Button editButton = new Button();
+	private Button deleteButton = new Button();
 	private Grid itemGrid = new Grid(2,2);
 
 	private Boolean editable;
@@ -54,6 +55,9 @@ public class ItemForm extends VerticalPanel{
 	public ItemForm() {
 		editButton.addClickHandler(new EditClickHandler());
 		topButtonsPanel.add(editButton);
+		
+		deleteButton.addClickHandler(new DeleteClickHandler());
+		topButtonsPanel.add(deleteButton);
 
 		confirmButton.addClickHandler(new CreateClickHandler());
 		bottomButtonsPanel.add(confirmButton);
@@ -74,6 +78,7 @@ public class ItemForm extends VerticalPanel{
 
 		this.setWidth("100%");
 		editButton.setStylePrimaryName("editButton");
+		deleteButton.setStylePrimaryName("deleteButton");
 		itemNameLabel.setStylePrimaryName("textLabel");
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
@@ -82,8 +87,13 @@ public class ItemForm extends VerticalPanel{
 		confirmButton.setStylePrimaryName("confirmButton");
 
 		
-		editButton.setWidth("8vh");
 		editButton.setHeight("8vh");
+		editButton.setWidth("8vh");
+		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_LEFT);
+		deleteButton.setHeight("8vh");
+		deleteButton.setWidth("8vh");
+		topButtonsPanel.setCellHorizontalAlignment(deleteButton, ALIGN_RIGHT);
+		
 		formHeaderPanel.setHeight("8vh");
 		formHeaderPanel.setWidth("100%");
 		infoTitleLabel.setWidth("100%");
@@ -101,8 +111,6 @@ public class ItemForm extends VerticalPanel{
 		this.add(formHeaderPanel);
 		this.add(itemGrid);
 		this.setCellHorizontalAlignment(itemGrid, ALIGN_CENTER);
-		
-		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_CENTER);
 		
 		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
 		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
@@ -193,6 +201,8 @@ public class ItemForm extends VerticalPanel{
 			setTableEditable(true);
 		}
 	}
+	
+
 
 	/**
 	 * Hiermit wird der Änderungsvorgang eines Items abbgebrochen.
@@ -218,11 +228,25 @@ public class ItemForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
+			if (initial == true) {
 			shoppinglistAdministration.createItem(itemNameBox.getText(), true, new CreateItemCallback());
+			} else {
+			shoppinglistAdministration.updateItem(itemToDisplayProduct, new UpdateItemCallback());	
+			}
 			setTableEditable(false);
 		}
 	}
 	 
+		/**
+		 * EditClickHandler der das Loschen des Items ermöglicht.
+		 */
+		private class DeleteClickHandler implements ClickHandler {
+			@Override
+			public void onClick(ClickEvent event) {
+				shoppinglistAdministration.deleteItem(itemToDisplayProduct, new DeleteItemCallback());
+			}
+		}
+		
 		/**
 		 * Nachdem ein neues <code>Item</code> Objekt erstellt wurde, wird dieses der Liste der aktuellen
 		 *  <code>AllItemsCelllist</code> Instanz hinzugefügt.
@@ -238,6 +262,43 @@ public class ItemForm extends VerticalPanel{
 			public void onSuccess(Item item) {
 				//add item to cellist
 				Notification.show("Artikel wurde erstellt");
+
+			}
+		}
+		
+		/**
+		 * Nachdem ein neues <code>Item</code> Objekt erstellt wurde, wird dieses der Liste der aktuellen
+		 *  <code>AllItemsCelllist</code> Instanz hinzugefügt.
+		 */
+		private class UpdateItemCallback implements AsyncCallback<Void> {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Notification.show("Der Artikel konnte leider nicht aktualisiert werden:\n" + caught.toString());
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				// TODO Auto-generated method stub
+				Notification.show("Artikel wurde aktualisiert");
+			}
+		}
+		
+		/**
+		 * Hiermit kann <code>Item</code> Objekt geloscht werden und aus der 
+		 *  <code>AllItemsCelllist</code> Instanz entfernt werden.
+		 */
+		private class DeleteItemCallback implements AsyncCallback<Void> {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Notification.show("Der Artikel konnte leider nicht entfernt werden:\n" + caught.toString());
+			}
+
+			@Override
+			public void onSuccess(Void item) {
+				//add item to cellist
+				Notification.show("Artikel wurde entfernt");
 
 			}
 		}
