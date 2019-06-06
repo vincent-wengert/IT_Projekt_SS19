@@ -9,6 +9,19 @@ public class Store extends BusinessObject{
 	private String city;
 	private int houseNumber;
 	
+	public Store() {
+		
+	}
+	
+	
+	public Store(String name, Integer postcode, String city, String street, Integer housenumber) {
+		this.name = name;
+		this.postcode = postcode;
+		this.city = city;
+		this.street = street;
+		this.houseNumber = housenumber;
+	}
+	
 	public int getHouseNumber() {
 		return this.houseNumber;
 	}

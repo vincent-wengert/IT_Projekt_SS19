@@ -229,13 +229,20 @@ public class StoreForm extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			if(initial == false) {
+				storeToDisplay.setCity(cityNameBox.getText());
+				storeToDisplay.setPostcode(Integer.parseInt(postCodeBox.getText()));
+				storeToDisplay.setStreet(streetNameBox.getText());
+				storeToDisplay.setHouseNumber(Integer.parseInt(houseNumberBox.getText()));
+				storeToDisplay.setName(storeNameBox.getText());
 				shoppinglistAdministration.updateStore(storeToDisplay, new UpdateStoreCallback());
 				setTableEditable(false);
+				ascl.updateCellList();
 				//ascl.updateCellList();
 			} else {
 				shoppinglistAdministration.createStore(storeNameBox.getText(), streetNameBox.getText(), Integer.parseInt(postCodeBox.getText()), cityNameBox.getText(), Integer.parseInt(houseNumberBox.getText()), new CreateStoreCallback());
 				setTableEditable(false);
 				ascl.updateCellList();
+				
 			}
 		}
 	}
@@ -301,6 +308,7 @@ public class StoreForm extends VerticalPanel{
 		@Override
 		public void onSuccess(Void result) {
 			// TODO Auto-generated method stub
+			
 			Notification.show("Store wurde entfernt");
 		}
 		

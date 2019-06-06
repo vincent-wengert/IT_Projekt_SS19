@@ -93,50 +93,56 @@ public class StoreMapper {
 		}
 		
 		//Eigenschaften eines Stores aendern
-				public Store updateStore(Store r) {
-					
-					Connection con = DBConnection.connection();
-					
-					try {
-//						Statement stmt = con.createStatement();
-//						
-//						stmt.executeUpdate("UPDATE Store " + "SET name=\"" + r.getName() + "\", " + "Street=\""
-//								+ r.getStreet()+ "\" " + "Postcode=\""
-//								+ r.getPostcode()+ "\" " +"City=\""
-//								+ r.getCity()+ "\" " +"Changdate=\""
-//								+ r.getChangedate()+ "\" " +"WHERE id=" + r.getId());
-						
-						
-						PreparedStatement st = con.prepareStatement("UPDATE Store SET Name = ? WHERE Store_ID = ?");
-						st.setString(1, r.getName());
-						st.setInt(2, r.getId());
-						st.executeUpdate();
-						
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-					
-					// Um Analogie zu insert(item r) zu wahren, wird i zur�ckgegeben
-							return r;
-				}
-		
-		
-		
-         //Store aus Datenbank löschen
-			
-		public void deleteStore(Store s) {
+		public Store updateStore(Store r) {
 			
 			Connection con = DBConnection.connection();
-
+			
 			try {
 				Statement stmt = con.createStatement();
-
-				stmt.executeUpdate("DELETE * FROM Store WHERE id=" + "'" + s.getId() + "'");
-
+				
+//				stmt.executeUpdate("UPDATE Store " + "SET name=\"" + r.getName() + "\", " + "Street=\""
+//					    + r.getStreet()+ "\" " + "Postcode=\""
+//						+ r.getPostcode()+ "\" " +"City=\""
+//						+ r.getCity()+ "\" " +"Changdate=\""
+//						+ r.getChangedate()+ "\" " +"WHERE id=" + r.getId());
+				
+				
+				PreparedStatement st = con.prepareStatement("UPDATE Store SET Name = ?, Street = ?, Postcode = ?, City = ?,"
+						+ " Changedate = ? WHERE Store_ID = ?");
+				
+				st.setString(1, r.getName());
+				st.setString(2, r.getStreet());
+				st.setInt(3, r.getPostcode());
+				st.setString(4, r.getCity());
+				st.setTimestamp(5, r.getChangedate());
+				st.setInt(6, r.getId());
+				st.executeUpdate();
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			
+			// Um Analogie zu insert(item r) zu wahren, wird i zurï¿½ckgegeben
+					return r;
 		}
+
+
+
+ //Store aus Datenbank lÃ¶schen
+	
+public void deleteStore(Store s) {
+	
+	Connection con = DBConnection.connection();
+
+	try {
+		Statement stmt = con.createStatement();
+
+		stmt.executeUpdate("DELETE FROM Store WHERE Store_ID =" + s.getId());
+
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+}
 				
 		
 	

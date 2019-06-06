@@ -10,14 +10,19 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
+
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
@@ -34,7 +39,7 @@ public class ShowShoppingListForm extends VerticalPanel{
 	private CellTable<ListItem> cellTable = null;
 	private ProductKeyProvider keyProvider = null;
 	private ListDataProvider<ListItem> dataProvider = new ListDataProvider<ListItem>();
-	private MultiSelectionModel<ListItem> multiselectionModel = null;
+	private SingleSelectionModel<ListItem> singleSelectionModel = null;
 	private ArrayList<ListItem> productsToDisplay = null;
 
 	
@@ -72,12 +77,25 @@ public class ShowShoppingListForm extends VerticalPanel{
 		this.add(formHeaderPanel);
 		
 		keyProvider = new ProductKeyProvider();
-		multiselectionModel = new MultiSelectionModel<ListItem>(keyProvider);
+		singleSelectionModel = new SingleSelectionModel<ListItem>(keyProvider);
 		cellTable = new CellTable<ListItem>();
 		dataProvider.addDataDisplay(cellTable);
 		
-		cellTable.setSelectionModel(multiselectionModel,
+		cellTable.setSelectionModel(singleSelectionModel,
 			        DefaultSelectionEventManager.<ListItem> createCheckboxManager());
+		
+	
+		singleSelectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+			
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				// TODO Auto-generated method stub
+			      ListItem selected = singleSelectionModel.getSelectedObject();
+			        if (selected != null) {
+			          Window.alert("You selected: " + selected.getName());
+			        }
+			}
+		});
 		 
 		ListHandler<ListItem> sortHandler = new ListHandler<ListItem>(null);
 		
@@ -123,7 +141,7 @@ public class ShowShoppingListForm extends VerticalPanel{
 		      @Override
 		      public Boolean getValue(ListItem object) {
 		        // Get the value from the selection model.
-		        return multiselectionModel.isSelected(object);
+		        return singleSelectionModel.isSelected(object);
 		      }
 		    };
 		    
@@ -138,6 +156,8 @@ public class ShowShoppingListForm extends VerticalPanel{
 	    cellTable.addColumn(storeColumn, "Laden");
 	    cellTable.addColumn(personColumn, "Verantwortlicher");
 	    nameColumn.setSortable(true);
+	    
+	    
 	    
 	    shoppingListPanel.add(cellTable);
 	    this.add(shoppingListPanel);
@@ -172,10 +192,7 @@ public class ShowShoppingListForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-		Notification.show("neues Listitem wurde erstellt");
-		ListItem li1 = new ListItem("Bier", Unit.L, 10);
-		dataProvider.getList().add(li1);
-		dataProvider.refresh();
+			ListItemDialog lid = new ListItemDialog();
 		}
 	}
 	 
