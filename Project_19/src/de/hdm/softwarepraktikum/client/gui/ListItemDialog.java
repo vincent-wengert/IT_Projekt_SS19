@@ -127,7 +127,7 @@ public class ListItemDialog extends PopupPanel{
 
 	
 	/**
-	 * Load Methode, damit werden alle User mittels der contactAdministration
+	 * Load Methode, damit werden alle Items and Stores mittels der shoppinglistAdministration
 	 * geladen
 	 */
 	private void load() {
