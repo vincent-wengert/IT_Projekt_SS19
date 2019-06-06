@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.google.appengine.api.search.query.ExpressionParser.index_return;
 import com.google.gwt.aria.client.AlertdialogRole;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell.Context;
@@ -66,6 +65,7 @@ public class AllItemsCellList extends VerticalPanel{
 		for (Item p: items) {
 			  dataProvider.getList().add(p);
 		  }
+		dataProvider.refresh();
 	}
 	
 	/**
@@ -82,6 +82,12 @@ public class AllItemsCellList extends VerticalPanel{
 		this.itemForm = itemForm;
 	}
 	
+	public void updateCellList() {
+		dataProvider.getList().clear();
+		administration.getAllItems(new GetAllItemsCallback());
+		dataProvider.refresh();
+	}
+	
 	
 	private class GetAllItemsCallback implements AsyncCallback<ArrayList<Item>> {
 
@@ -95,6 +101,8 @@ public class AllItemsCellList extends VerticalPanel{
 			// TODO Auto-generated method stub
 			items = result;
 			getAllItems();
+			dataProvider.refresh();
+
 		}
 	}
 	
