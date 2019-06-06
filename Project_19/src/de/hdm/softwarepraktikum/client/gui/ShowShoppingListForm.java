@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.cell.client.CheckboxCell;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -19,8 +18,8 @@ import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
-import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
+import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 public class ShowShoppingListForm extends VerticalPanel{
@@ -37,12 +36,13 @@ public class ShowShoppingListForm extends VerticalPanel{
 	private ListDataProvider<ListItem> dataProvider = new ListDataProvider<ListItem>();
 	private MultiSelectionModel<ListItem> multiselectionModel = null;
 	private ArrayList<ListItem> productsToDisplay = null;
-	
 
+	
 	public ShowShoppingListForm () {
 		addListItemButton.addClickHandler(new AddListItemClickHandler());
 		topButtonsPanel.add(addListItemButton);
 	}
+	
 	
 	public void onLoad() {
 		this.setWidth("100%");
@@ -128,7 +128,8 @@ public class ShowShoppingListForm extends VerticalPanel{
 		    };
 		    
 		cellTable.addColumn(checkColumn, "Eingekauft");
-		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
+		//cellTable.setColumnWidth(checkColumn, 40,);
+		cellTable.setColumnWidth(checkColumn, "10");
 		    
 	    cellTable.addColumnSortHandler(sortHandler);
 	    cellTable.addColumn(nameColumn, "Name");
@@ -168,11 +169,12 @@ public class ShowShoppingListForm extends VerticalPanel{
 	 */
 	 class AddListItemClickHandler implements ClickHandler {
 
+
 		@Override
 		public void onClick(ClickEvent event) {
 		Notification.show("neues Listitem wurde erstellt");
-		ListItem item = new ListItem();
-		dataProvider.getList().add(item);
+		ListItem li1 = new ListItem("Bier", Unit.L, 10);
+		dataProvider.getList().add(li1);
 		dataProvider.refresh();
 		}
 	}
