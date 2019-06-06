@@ -186,7 +186,7 @@ public class StoreMapper {
 			try {
 				Statement stmt = con.createStatement();
 				
-				ResultSet rs = stmt.executeQuery("SELECT Store_id, Name, Street, Postcode, City, Creationdate, Changedate FROM Store "+ "ORDER BY Name");
+				ResultSet rs = stmt.executeQuery("SELECT Store_id, Name, Street, Housenumber, Postcode, City, Creationdate, Changedate FROM Store "+ "ORDER BY Name");
 						
 				while (rs.next()) {
 					
@@ -194,6 +194,8 @@ public class StoreMapper {
 					 Store s = new Store();
 					 s.setId(rs.getInt("Store_id"));
 					 s.setName(rs.getString("Name"));
+					 s.setStreet(rs.getString("Street"));
+					 s.setHouseNumber(rs.getInt("Housenumber"));
 					 s.setPostcode(rs.getInt("Postcode"));
 					 s.setCity(rs.getString("City"));
 					 s.setCreationdate(rs.getTimestamp("Creationdate"));
