@@ -99,7 +99,7 @@ public class Project_19 implements EntryPoint {
 		 */
 		@Override
 		public void onFailure(Throwable caught) {
-			Notification.show(caught.toString());
+			//Notification.show(caught.toString());
 			ShoppingListEditor editor = new ShoppingListEditor();
 			editor.loadForms();
 			}

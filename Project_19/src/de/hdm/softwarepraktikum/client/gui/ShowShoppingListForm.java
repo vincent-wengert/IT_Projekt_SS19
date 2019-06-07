@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.google.gwt.cell.client.CheckboxCell;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -16,13 +15,17 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
-import de.hdm.softwarepraktikum.shared.bo.Item;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
+
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
+import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 public class ShowShoppingListForm extends VerticalPanel{
@@ -37,14 +40,15 @@ public class ShowShoppingListForm extends VerticalPanel{
 	private CellTable<ListItem> cellTable = null;
 	private ProductKeyProvider keyProvider = null;
 	private ListDataProvider<ListItem> dataProvider = new ListDataProvider<ListItem>();
-	private MultiSelectionModel<ListItem> multiselectionModel = null;
+	private SingleSelectionModel<ListItem> singleSelectionModel = null;
 	private ArrayList<ListItem> productsToDisplay = null;
-	
 
+	
 	public ShowShoppingListForm () {
 		addListItemButton.addClickHandler(new AddListItemClickHandler());
 		topButtonsPanel.add(addListItemButton);
 	}
+	
 	
 	public void onLoad() {
 		this.setWidth("100%");
@@ -74,12 +78,27 @@ public class ShowShoppingListForm extends VerticalPanel{
 		this.add(formHeaderPanel);
 		
 		keyProvider = new ProductKeyProvider();
-		multiselectionModel = new MultiSelectionModel<ListItem>(keyProvider);
+		singleSelectionModel = new SingleSelectionModel<ListItem>(keyProvider);
 		cellTable = new CellTable<ListItem>();
 		dataProvider.addDataDisplay(cellTable);
 		
-		cellTable.setSelectionModel(multiselectionModel,
-			        DefaultSelectionEventManager.<ListItem> createCheckboxManager());
+		cellTable.setSelectionModel(singleSelectionModel,
+		DefaultSelectionEventManager.<ListItem> createCheckboxManager());
+
+		singleSelectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+			
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				// TODO Auto-generated method stub
+			      ListItem selected = singleSelectionModel.getSelectedObject();
+			        if (selected != null) {
+			          Window.alert("You selected: " + selected.getName());
+			        }
+			}
+		});
+		 
+		ListHandler<ListItem> sortHandler = new ListHandler<ListItem>(null);
+
 		
 		TextColumn<ListItem> nameColumn = new TextColumn<ListItem>() {
 		      @Override
@@ -120,12 +139,13 @@ public class ShowShoppingListForm extends VerticalPanel{
 		      @Override
 		      public Boolean getValue(ListItem object) {
 		        // Get the value from the selection model.
-		        return multiselectionModel.isSelected(object);
+		        return singleSelectionModel.isSelected(object);
 		      }
 		    };
 		    
 		cellTable.addColumn(checkColumn, "Eingekauft");
-		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
+		//cellTable.setColumnWidth(checkColumn, 40,);
+		cellTable.setColumnWidth(checkColumn, "10");
 		    
 	    cellTable.addColumn(nameColumn, "Name");
 	    cellTable.addColumn(amountColumn, "Menge");
@@ -134,6 +154,7 @@ public class ShowShoppingListForm extends VerticalPanel{
 	    cellTable.addColumn(personColumn, "Verantwortlicher");
 	    nameColumn.setSortable(true);
 	    
+
 	    ListHandler<ListItem> columnSortHandler = new ListHandler<ListItem>(dataProvider.getList());
 	    columnSortHandler.setComparator(nameColumn,
 	            new Comparator<ListItem>() {
@@ -157,6 +178,7 @@ public class ShowShoppingListForm extends VerticalPanel{
 	    cellTable.addColumnSortHandler(columnSortHandler);
 	    
 	    cellTable.getColumnSortList().push(nameColumn);
+
 	    
 	    shoppingListPanel.add(cellTable);
 	    this.add(shoppingListPanel);
@@ -188,12 +210,10 @@ public class ShowShoppingListForm extends VerticalPanel{
 	 */
 	 class AddListItemClickHandler implements ClickHandler {
 
+
 		@Override
 		public void onClick(ClickEvent event) {
-		Notification.show("neues Listitem wurde erstellt");
-		ListItem item = new ListItem();
-		dataProvider.getList().add(item);
-		dataProvider.refresh();
+			ListItemDialog lid = new ListItemDialog();
 		}
 	}
 	 
