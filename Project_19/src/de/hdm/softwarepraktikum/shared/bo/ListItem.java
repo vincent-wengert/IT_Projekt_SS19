@@ -7,6 +7,7 @@ public class ListItem extends BusinessObject{
 	/**
 	 * 
 	 */
+	private static int count=0;
 	private int tempID;
 	private String name;
 	private static final long serialVersionUID = 1L;
@@ -20,13 +21,13 @@ public class ListItem extends BusinessObject{
 	private int grID;
 	
 	
-	public ListItem(String name, Unit unit, double amount, int id) {
+	public ListItem(String name, Unit unit, double amount) {
 		this.name = name;
 		this.unit = unit;
 		this.amount = amount;
-		this.tempID = id;
+		this.tempID = count;
+		count++;
 	}
-	
 	public ListItem() {
 		// TODO Auto-generated constructor stub
 	}
