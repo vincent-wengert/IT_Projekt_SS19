@@ -183,6 +183,12 @@ public class ShowShoppingListForm extends VerticalPanel{
 		}
 	}
 	
+
+	public void AddListItem (ListItem li) {
+		dataProvider.getList().add(li);
+		dataProvider.refresh();
+	}
+	
 	/**
 	 * Sobald der Button ausgewahlt wird werden neue <code>ListItem</code> Objekte erzeugt und 
 	 * der Shoppinglist hinzugefugt.
@@ -192,7 +198,9 @@ public class ShowShoppingListForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			ListItemDialog lid = new ListItemDialog();
+			ListItemDialog li = new ListItemDialog();
+			li.setShowShoppingListForm(ShowShoppingListForm.this);
+			li.show();
 		}
 	}
 	 
