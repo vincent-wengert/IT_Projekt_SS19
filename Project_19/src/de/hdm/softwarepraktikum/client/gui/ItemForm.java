@@ -164,6 +164,7 @@ public class ItemForm extends VerticalPanel{
 	}
 	
 	public void setSelected(Item i) {
+		itemToDisplayProduct =i;
 		if(i != null) {
 			infoTitleLabel.setText("Ausgewählter Artikel: " + i.getName());
 			itemNameBox.setText(i.getName());
@@ -228,6 +229,8 @@ public class ItemForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
+			itemToDisplayProduct.setName(itemNameBox.getText());
+			
 			if (initial == true) {
 			shoppinglistAdministration.createItem(itemNameBox.getText(), true, new CreateItemCallback());
 			} else {
