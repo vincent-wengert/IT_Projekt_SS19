@@ -172,9 +172,21 @@ public class ListItemDialog extends PopupPanel{
 		loadListBox();
 	}
 	
-	
-
-	
+	public void displayListItem(ListItem li) {
+		
+		itemLabel.setText("Artikel bearbeiten");
+		existingButton.setVisible(false);
+		newButton.setVisible(false);
+		existingLabel.setVisible(false);
+		newLabel.setVisible(false);
+		
+		itemListBox.setVisible(false);
+		itemTextBox.setVisible(true);
+		itemTextBox.setEnabled(false);
+		
+		itemTextBox.setText(li.getName());
+		amountTextBox.setText(Double.toString(li.getAmount()));	
+	}
 	/**
 	 * Implementierung der ListBox, wird bei der Instanziierung augfgerufen
 	 */

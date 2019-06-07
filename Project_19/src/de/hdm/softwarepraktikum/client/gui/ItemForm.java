@@ -229,15 +229,14 @@ public class ItemForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			itemToDisplayProduct.setName(itemNameBox.getText());
-			
+		
 			if (initial == true) {
 			shoppinglistAdministration.createItem(itemNameBox.getText(), true, new CreateItemCallback());
 			} else {
+			itemToDisplayProduct.setName(itemNameBox.getText());
 			shoppinglistAdministration.updateItem(itemToDisplayProduct, new UpdateItemCallback());	
 			}
 			setTableEditable(false);
-			aicl.updateCellList();
 		}
 	}
 	 
@@ -284,6 +283,7 @@ public class ItemForm extends VerticalPanel{
 			@Override
 			public void onSuccess(Void result) {
 				// TODO Auto-generated method stub
+	
 				Notification.show("Artikel wurde aktualisiert");
 			}
 		}
@@ -302,6 +302,7 @@ public class ItemForm extends VerticalPanel{
 			@Override
 			public void onSuccess(Void item) {
 				//add item to cellist
+				aicl.updateCellList();
 				Notification.show("Artikel wurde entfernt");
 
 			}
