@@ -32,6 +32,7 @@ public class AllShoppingListsCellList extends VerticalPanel{
 	private ListDataProvider<ShoppingList> dataProvider = new ListDataProvider<ShoppingList>();
 	private ArrayList<ShoppingList> shoppingLists = new ArrayList<ShoppingList>();
 	private ShowShoppingListForm sslf;
+	private ListItemDialog lid;
 	
 	/**
 	 * Erstellen von Demo-Objekten
