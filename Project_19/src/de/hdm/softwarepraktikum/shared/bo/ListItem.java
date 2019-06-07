@@ -7,6 +7,7 @@ public class ListItem extends BusinessObject{
 	/**
 	 * 
 	 */
+	private int tempID;
 	private String name;
 	private static final long serialVersionUID = 1L;
 	private boolean isChecked = false;
@@ -19,14 +20,19 @@ public class ListItem extends BusinessObject{
 	private int grID;
 	
 	
-	public ListItem(String name, Unit unit, double amount) {
+	public ListItem(String name, Unit unit, double amount, int id) {
 		this.name = name;
 		this.unit = unit;
 		this.amount = amount;
+		this.tempID = id;
 	}
 	
 	public ListItem() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public int getTempID() {
+		return this.tempID;
 	}
 	
 	public Unit getItemUnit (String unit) {

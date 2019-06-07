@@ -1,6 +1,7 @@
 package de.hdm.softwarepraktikum.client.gui;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import com.google.gwt.cell.client.CheckboxCell;
@@ -11,6 +12,7 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -78,8 +80,6 @@ public class ShowShoppingListForm extends VerticalPanel{
 		
 		cellTable.setSelectionModel(multiselectionModel,
 			        DefaultSelectionEventManager.<ListItem> createCheckboxManager());
-		 
-		ListHandler<ListItem> sortHandler = new ListHandler<ListItem>(null);
 		
 		TextColumn<ListItem> nameColumn = new TextColumn<ListItem>() {
 		      @Override
@@ -115,9 +115,6 @@ public class ShowShoppingListForm extends VerticalPanel{
 		        return i.getUnit().toString();
 		      }
 		    };
-
-
-			   
 		   
 	    Column<ListItem, Boolean> checkColumn = new Column<ListItem, Boolean>(new CheckboxCell(true, false)) {
 		      @Override
@@ -130,13 +127,36 @@ public class ShowShoppingListForm extends VerticalPanel{
 		cellTable.addColumn(checkColumn, "Eingekauft");
 		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
 		    
-	    cellTable.addColumnSortHandler(sortHandler);
 	    cellTable.addColumn(nameColumn, "Name");
 	    cellTable.addColumn(amountColumn, "Menge");
 	    cellTable.addColumn(unitColumn, "Einheit");
 	    cellTable.addColumn(storeColumn, "Laden");
 	    cellTable.addColumn(personColumn, "Verantwortlicher");
 	    nameColumn.setSortable(true);
+	    
+	    ListHandler<ListItem> columnSortHandler = new ListHandler<ListItem>(dataProvider.getList());
+	    columnSortHandler.setComparator(nameColumn,
+	            new Comparator<ListItem>() {
+	    	@Override
+	              public int compare(ListItem o1, ListItem o2) {
+	                if (o1 == o2) {
+	                  return 0;
+	                }
+
+	                // Compare the name columns.
+	                if (o1 != null) {
+	                  if(o2 != null) {
+	                	  return o1.getName().compareTo(o2.getName());
+	                  } else {
+	                	  return 1;
+	                  }
+	                }
+	                return -1;
+	              }
+	            });
+	    cellTable.addColumnSortHandler(columnSortHandler);
+	    
+	    cellTable.getColumnSortList().push(nameColumn);
 	    
 	    shoppingListPanel.add(cellTable);
 	    this.add(shoppingListPanel);
@@ -146,7 +166,7 @@ public class ShowShoppingListForm extends VerticalPanel{
  		
 		@Override
 		public Object getKey(ListItem item) {
-			  return (item == null) ? null : item.getId();
+			  return (item == null) ? null : item.getTempID();
       }	
 	}
 
@@ -176,6 +196,11 @@ public class ShowShoppingListForm extends VerticalPanel{
 		dataProvider.refresh();
 		}
 	}
+	 
+	 /**
+	  * ListHandler mit dem in der CellTable die Liste sortiert wird
+	  */
+	 
 	 
 }
 

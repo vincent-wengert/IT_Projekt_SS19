@@ -43,16 +43,16 @@ public class AllShoppingListsCellList extends VerticalPanel{
 	ShoppingList sl5 = new ShoppingList("Noch eine");
 	ShoppingList sl6 = new ShoppingList("Und noch eine");
 	
-	ListItem li1 = new ListItem("Bier", Unit.L, 10);
-	ListItem li2 = new ListItem("Orangensaft", Unit.L, 12);
-	ListItem li3 = new ListItem("Cola", Unit.L, 5);
-	ListItem li4 = new ListItem("Croissant", Unit.ST, 4);
-	ListItem li5 = new ListItem("Wassermelone", Unit.KG, 3.5);
-	ListItem li6 = new ListItem("Wasser", Unit.L, 20);
-	ListItem li7 = new ListItem("Chips", Unit.ST, 1);
-	ListItem li8 = new ListItem("Guacamole", Unit.ST, 2);
-	ListItem li9 = new ListItem("Pizza", Unit.ST, 8);
-	ListItem li10 = new ListItem("Radler", Unit.L, 10);
+	ListItem li1 = new ListItem("Bier", Unit.L, 10,1);
+	ListItem li2 = new ListItem("Orangensaft", Unit.L, 12,2);
+	ListItem li3 = new ListItem("Cola", Unit.L, 5,3);
+	ListItem li4 = new ListItem("Croissant", Unit.ST, 4,4);
+	ListItem li5 = new ListItem("Wassermelone", Unit.KG, 3.5,5);
+	ListItem li6 = new ListItem("Wasser", Unit.L, 20,6);
+	ListItem li7 = new ListItem("Chips", Unit.ST, 1,7);
+	ListItem li8 = new ListItem("Guacamole", Unit.ST, 2,8);
+	ListItem li9 = new ListItem("Pizza", Unit.ST, 8,9);
+	ListItem li10 = new ListItem("Radler", Unit.L, 10,10);
 	
 	public void onLoad(){
 		getAllShoppingLists();
