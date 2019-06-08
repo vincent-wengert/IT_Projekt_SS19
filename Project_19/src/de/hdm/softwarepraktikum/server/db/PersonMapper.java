@@ -91,8 +91,8 @@ public class PersonMapper{
 
 				person.setId(rs.getInt("maxid") + 1);
 			
-			//Setzt den AutoCommit auf false, um das sichere Schreiben in die Datenbank zu gew�hrleisten.
-			con.setAutoCommit(false);
+//			//Setzt den AutoCommit auf false, um das sichere Schreiben in die Datenbank zu gew�hrleisten.
+//			con.setAutoCommit(false);
 			
 			PreparedStatement stmt2 = con.prepareStatement("INSERT INTO Person (PersonID, Creationdate, Changedate, Name, Gmail) "+ "VALUES (?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
