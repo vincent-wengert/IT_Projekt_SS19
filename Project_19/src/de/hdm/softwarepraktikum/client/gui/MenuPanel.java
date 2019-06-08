@@ -173,10 +173,12 @@ public class MenuPanel extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			RootPanel.get("Details").clear();
-			newGroupForm = new NewGroupForm();
-			newGroupForm.setNewGroupForm(newGroupForm);
-			RootPanel.get("Details").add(newGroupForm);
 			navigator.selectTab(0);
+			newGroupForm = new NewGroupForm();
+			
+			newGroupForm.setEditable(true);
+			newGroupForm.setInitial(true);
+			RootPanel.get("Details").add(newGroupForm);
 		}	
 	}
 	

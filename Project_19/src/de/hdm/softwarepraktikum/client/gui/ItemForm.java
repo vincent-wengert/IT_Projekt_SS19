@@ -122,10 +122,7 @@ public class ItemForm extends VerticalPanel{
 		itemGrid.setWidget(0, 1, itemNameBox);
 
 		this.add(bottomButtonsPanel);
-		
-		
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
-		
 
 		setTableEditable(editable);
 

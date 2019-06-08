@@ -212,6 +212,7 @@ public class ListItemDialog extends PopupPanel{
 		public void onClick(ClickEvent event) {
 			if (existingButton.getValue()==true) {
 				ListItem li = new ListItem(itemListBox.getSelectedItemText(), getItemUnit(unitListBox.getSelectedItemText()) , Integer.parseInt(amountTextBox.getText()));	
+				Window.alert(Integer.toString(li.getTempID()));
 				sslf.AddListItem(li);
 			}
 			else {

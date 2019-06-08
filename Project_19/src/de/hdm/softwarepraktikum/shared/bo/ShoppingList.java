@@ -7,10 +7,12 @@ public class ShoppingList extends BusinessObject {
 	/**
 	 * 
 	 */
+	private static int nextID;
 	private static final long serialVersionUID = 1L;
 	private String title;
 	private int ownerID;
 	private int groupID;
+	private int tempID;
 	
 	/**
 	   * Fremdschl�sselbeziehung zu einer Gruppe.
@@ -25,6 +27,12 @@ public class ShoppingList extends BusinessObject {
 	
 	public ShoppingList(String title) {
 		this.title = title;
+		this.tempID = nextID;
+		nextID++;
+	}
+	
+	public int getTempID() {
+		return this.tempID;
 	}
 	
     public String getTitle() {

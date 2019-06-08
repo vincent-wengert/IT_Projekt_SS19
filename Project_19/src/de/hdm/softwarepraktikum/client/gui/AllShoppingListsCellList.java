@@ -20,10 +20,9 @@ import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
-
-public class AllShoppingListsCellList extends VerticalPanel{
+public class AllShoppingListsCellList extends VerticalPanel {
 	ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
-	
+
 	private static int itemCounter = 1;
 	private static int listCounter = 1;
 	private ShoppingListKeyProvider keyProvider = null;
@@ -33,7 +32,7 @@ public class AllShoppingListsCellList extends VerticalPanel{
 	private ArrayList<ShoppingList> shoppingLists = new ArrayList<ShoppingList>();
 	private ShowShoppingListForm sslf;
 	private ListItemDialog lid;
-	
+
 	/**
 	 * Erstellen von Demo-Objekten
 	 */
@@ -43,7 +42,7 @@ public class AllShoppingListsCellList extends VerticalPanel{
 	ShoppingList sl4 = new ShoppingList("Noch eine");
 	ShoppingList sl5 = new ShoppingList("Noch eine");
 	ShoppingList sl6 = new ShoppingList("Und noch eine");
-	
+
 	ListItem li1 = new ListItem("Bier", Unit.L, 10);
 	ListItem li2 = new ListItem("Orangensaft", Unit.L, 12);
 	ListItem li3 = new ListItem("Cola", Unit.L, 5);
@@ -54,8 +53,8 @@ public class AllShoppingListsCellList extends VerticalPanel{
 	ListItem li8 = new ListItem("Guacamole", Unit.ST, 2);
 	ListItem li9 = new ListItem("Pizza", Unit.ST, 8);
 	ListItem li10 = new ListItem("Radler", Unit.L, 10);
-	
-	public void onLoad(){
+
+	public void onLoad() {
 		getAllShoppingLists();
 		keyProvider = new ShoppingListKeyProvider();
 		selectionModel = new SingleSelectionModel<ShoppingList>();
@@ -65,9 +64,10 @@ public class AllShoppingListsCellList extends VerticalPanel{
 		cellList.setRowCount(shoppingLists.size(), true);
 		cellList.setRowData(0, dataProvider.getList());
 		this.add(cellList);
-		//administration.getAllShoppingListsByGroup(g, new GetAllShoppingListsCallback());
+		// administration.getAllShoppingListsByGroup(g, new
+		// GetAllShoppingListsCallback());
 	}
-	
+
 	public void getAllShoppingLists() {
 		shoppingLists.add(sl1);
 		shoppingLists.add(sl2);
@@ -75,45 +75,45 @@ public class AllShoppingListsCellList extends VerticalPanel{
 		shoppingLists.add(sl4);
 		shoppingLists.add(sl5);
 		shoppingLists.add(sl6);
-		
+
 		sl1.getShoppinglist().add(li1);
 		sl1.getShoppinglist().add(li2);
 		sl1.getShoppinglist().add(li7);
 		sl1.getShoppinglist().add(li8);
 		sl1.getShoppinglist().add(li9);
 		sl1.getShoppinglist().add(li10);
-		
+
 		sl2.getShoppinglist().add(li2);
 		sl2.getShoppinglist().add(li5);
 		sl2.getShoppinglist().add(li6);
 		sl2.getShoppinglist().add(li7);
-		
+
 		sl3.getShoppinglist().add(li1);
 		sl3.getShoppinglist().add(li2);
 		sl3.getShoppinglist().add(li3);
 		sl3.getShoppinglist().add(li4);
 		sl3.getShoppinglist().add(li5);
-		
+
 		sl4.getShoppinglist().add(li5);
 		sl4.getShoppinglist().add(li6);
 		sl4.getShoppinglist().add(li7);
 		sl4.getShoppinglist().add(li1);
 		sl4.getShoppinglist().add(li2);
-		
+
 		sl5.getShoppinglist().add(li2);
 		sl5.getShoppinglist().add(li3);
 		sl5.getShoppinglist().add(li4);
-		
+
 		sl6.getShoppinglist().add(li7);
 		sl6.getShoppinglist().add(li8);
-		
-		for (ShoppingList sl: shoppingLists) {
-			  dataProvider.getList().add(sl);
-		  }
+
+		for (ShoppingList sl : shoppingLists) {
+			dataProvider.getList().add(sl);
+		}
 	}
-	
+
 	public void setSelectedShoppingList(ShoppingList sl) {
-		//selectedShoppingList = c;
+		// selectedShoppingList = c;
 		RootPanel.get("Details").clear();
 		Notification.show("clear Details");
 		sslf = new ShowShoppingListForm();
@@ -121,14 +121,14 @@ public class AllShoppingListsCellList extends VerticalPanel{
 		Notification.show(sl.getTitle());
 		RootPanel.get("Details").add(sslf);
 	}
-	
+
 	private class GetAllShoppingListsCallback implements AsyncCallback<ArrayList<ShoppingList>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
 			Notification.show(caught.toString());
 		}
-		
+
 		@Override
 		public void onSuccess(ArrayList<ShoppingList> result) {
 			// TODO Auto-generated method stub
@@ -136,31 +136,31 @@ public class AllShoppingListsCellList extends VerticalPanel{
 			getAllShoppingLists();
 		}
 	}
-	
-	private class ShoppingListKeyProvider implements ProvidesKey<ShoppingList>{
+
+	private class ShoppingListKeyProvider implements ProvidesKey<ShoppingList> {
 		@Override
 		public Object getKey(ShoppingList item) {
-			return (item == null) ? null: item.getId();
+			return (item == null) ? null : item.getId();
 		}
-		
+
 	}
-	
+
 	private class SelectionChangeEventHandler implements SelectionChangeEvent.Handler {
 		@Override
 		public void onSelectionChange(SelectionChangeEvent event) {
 			ShoppingList selection = selectionModel.getSelectedObject();
-			if(selection!=null) {
-			setSelectedShoppingList(selection);
+			if (selection != null) {
+				setSelectedShoppingList(selection);
 			}
-		} 
+		}
 	}
-	
-	private class ShoppingListCell extends AbstractCell<ShoppingList>{
+
+	private class ShoppingListCell extends AbstractCell<ShoppingList> {
 		@Override
-	    public void render(Context context, ShoppingList key, SafeHtmlBuilder sb) {
-	      if (context != null) {
-	        sb.appendHtmlConstant(key.getTitle());
-	        }
-	    }
+		public void render(Context context, ShoppingList key, SafeHtmlBuilder sb) {
+			if (context != null) {
+				sb.appendHtmlConstant(key.getTitle());
+			}
+		}
 	}
 }
