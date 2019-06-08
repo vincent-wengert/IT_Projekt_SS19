@@ -1,5 +1,7 @@
 package de.hdm.softwarepraktikum.shared.bo;
 
+import org.eclipse.jdt.core.compiler.IScanner;
+
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 
 public class ListItem extends BusinessObject{
@@ -21,11 +23,12 @@ public class ListItem extends BusinessObject{
 	private int grID;
 	
 	
-	public ListItem(String name, Unit unit, double amount) {
+	public ListItem(String name, Unit unit, double amount, Boolean isChecked) {
 		this.name = name;
 		this.unit = unit;
 		this.amount = amount;
 		this.tempID = count;
+		this.isChecked = isChecked;
 		count++;
 	}
 	public ListItem() {
