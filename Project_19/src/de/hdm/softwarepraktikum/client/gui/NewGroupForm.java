@@ -2,6 +2,8 @@ package de.hdm.softwarepraktikum.client.gui;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -11,6 +13,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
+import de.hdm.softwarepraktikum.shared.bo.Person;
 
 /**
  * Die Klasse <code>NewGroupForm</code> ist eine Form die verschiedene Methoden und Widgets zur Erstellung
@@ -22,6 +28,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class NewGroupForm extends VerticalPanel {
 
+	ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
+	
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
 
@@ -147,6 +155,10 @@ public class NewGroupForm extends VerticalPanel {
 
 	@SuppressWarnings("deprecation")
 	public void onLoad() {
+		
+
+		
+		
 	
 		searchTextBox.setSize("300px", "27px");
 		cancelButton.setPixelSize(30, 30);
@@ -158,7 +170,39 @@ public class NewGroupForm extends VerticalPanel {
 		searchGridPersons.setWidget(0, 1, addButton);
 		searchGridPersons.setWidget(0, 2, cancelButton);
 		
+		cancelButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				administration.createPerson("Thomas.muller@gmx.de", "Hans Muller", new CreatePersonCallback());
+//				administration.createPerson("hans.wurst@gmx.de", "Hans Wurst", new CreatePersonCallback());
+//				administration.createPerson("Mark.muster@gmx.de", "Mark Muster", new CreatePersonCallback());
+			}
+		});
+		
 		this.add(searchGridPersons);
 	}
 }
+	
+	/**
+	 * Hiermit kann <code>Item</code> Objekt geloscht werden und aus der 
+	 *  <code>AllItemsCelllist</code> Instanz entfernt werden.
+	 */
+	private class CreatePersonCallback implements AsyncCallback<Person> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show("Die Person konnte leider nicht erstellt werden:\n" + caught.toString());
+		}
+
+		@Override
+		public void onSuccess(Person person) {
+			//add item to cellist
+			//aicl.updateCellList();
+			Notification.show("Person wurde erstellt");
+
+		}
+	}
 }
+

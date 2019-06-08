@@ -24,6 +24,12 @@ public class Person extends BusinessObject implements IsSerializable{
 	public Person(){
 	}
 	
+	public Person(String gmail, String name){
+		this.gmail = gmail;
+		this.name = name;	
+	}
+	
+	
 	/**
 	*
 	*	Gibt die Gmail der Person zurueck.
