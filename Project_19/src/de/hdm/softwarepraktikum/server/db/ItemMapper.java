@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Person;
-
+import de.hdm.softwarepraktikum.shared.bo.Store;
 
 import java.util.ArrayList;
 
@@ -94,27 +94,26 @@ public class ItemMapper {
 	}
 	
 	
-	/*
-	 * Update Methode, um einen Artikel erneut zu schreiben.
-	 */
-	
-	public Item update(Item i) {
-		
-		Connection con = DBConnection.connection();
-		
-		try {
-			Statement stmt = con.createStatement();
-			
-			stmt.executeUpdate("UPDATE Item " + "SET Name=\"" + i.getName() + "\", " + "globalid=\""
-					+ i.getIsGlobal() + "\" " + "WHERE id=" + i.getId());
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		// Um Analogie zu insert(item i) zu wahren, wird i zur�ckgegeben
-				return i;
-	}
+	//Eigenschaften eines Stores aendern
+			public Item update(Item i) {
+				
+				Connection con = DBConnection.connection();
+				try {
+					PreparedStatement st = con.prepareStatement("UPDATE Item SET Name = ?, Creationdate = ?, Changedate = ? WHERE Item_ID = ?");
+					
+					st.setString(1, i.getName());
+					st.setTimestamp(2, i.getCreationdate());
+					st.setTimestamp(3, i.getChangedate());
+					st.setInt(4, i.getId());
+					st.executeUpdate();
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				// Um Analogie zu insert(item i) zu wahren, wird i zurï¿½ckgegeben
+						return i;
+			}
 	
 	
 	/*
@@ -127,7 +126,7 @@ public class ItemMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE FROM groups " + "WHERE id=" + i.getId());
+			stmt.executeUpdate("DELETE FROM Item " + "WHERE Item_ID=" + i.getId());
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}

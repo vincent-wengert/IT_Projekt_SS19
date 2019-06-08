@@ -7,6 +7,8 @@ import java.util.List;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -92,7 +94,9 @@ public class ShowShoppingListForm extends VerticalPanel{
 				// TODO Auto-generated method stub
 			      ListItem selected = singleSelectionModel.getSelectedObject();
 			        if (selected != null) {
-			          Window.alert("You selected: " + selected.getName());
+			        	ListItemDialog lid = new ListItemDialog();
+			        	lid.displayListItem(selected);
+			        	lid.show();
 			        }
 			}
 		});

@@ -135,6 +135,7 @@ public class AllItemsCellList extends VerticalPanel{
 	
 	public void setSelectedItem(Item i){
 		RootPanel.get("Details").clear();
+		ItemForm itemForm = new ItemForm();
 		itemForm.setSelected(i);
 		itemForm.setEditable(false);
 		itemForm.setInitial(false);
