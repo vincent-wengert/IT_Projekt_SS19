@@ -21,7 +21,7 @@ public class MenuPanel extends VerticalPanel{
 	private AllItemsCellList allItemsCellList;
 	private AllStoresCellList allStoresCellList;
 	private AllShoppingListsCellList allShoppingListsCellList;
-	private NewGroupForm newGroupForm;
+	private GroupForm newGroupForm;
 
 	private ItemForm itemForm;
 	private StoreForm storeForm;
@@ -161,7 +161,7 @@ public class MenuPanel extends VerticalPanel{
 	 * 
 	 * @param die zu setzende NewGroupForm
 	 */
-	public void setNewGroupForm(NewGroupForm newGroupForm) {
+	public void setNewGroupForm(GroupForm newGroupForm) {
 		this.newGroupForm = newGroupForm;
 	}
 	
@@ -174,7 +174,7 @@ public class MenuPanel extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			RootPanel.get("Details").clear();
 			navigator.selectTab(0);
-			newGroupForm = new NewGroupForm();
+			newGroupForm = new GroupForm();
 			
 			newGroupForm.setEditable(true);
 			newGroupForm.setInitial(true);

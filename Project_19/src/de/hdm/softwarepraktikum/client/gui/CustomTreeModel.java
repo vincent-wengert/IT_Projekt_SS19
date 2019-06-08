@@ -23,7 +23,7 @@ public class CustomTreeModel implements TreeViewModel {
 	private ObjectKeyProvider boKeyProvider = new ObjectKeyProvider();
 	private SingleSelectionModel<Object> selectionModel = new SingleSelectionModel<Object>(boKeyProvider);
 
-	private NewGroupForm gf;
+	private GroupForm gf;
 
 	private ShoppingList shoppingListToDisplay = null;
 	private Group groupToDisplay = null;
@@ -98,7 +98,7 @@ public class CustomTreeModel implements TreeViewModel {
 
 	public void setSelectedGroup(Group g) {
 		groupToDisplay = g;
-		gf = new NewGroupForm();
+		gf = new GroupForm();
 		gf.setEditable(false);
 		gf.setInitial(false);
 		RootPanel.get("Details").clear();

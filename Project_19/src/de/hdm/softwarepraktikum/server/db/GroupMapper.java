@@ -24,8 +24,8 @@ public class GroupMapper {
 	   * Die Klasse GroupMapper wird nur einmal instantiiert. Man spricht hierbei
 	   * von einem sogenannten <b>Singleton</b>.
 	   * <p>
-	   * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal für
-	   * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	   * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal fï¿½r
+	   * sï¿½mtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	   * einzige Instanz dieser Klasse.
 	   * 
 	   * @author Bruno Herceg
@@ -34,7 +34,7 @@ public class GroupMapper {
 	private static GroupMapper groupMapper = null;
 	
 	/**
-	   * Geschützter Konstruktor - verhindert die Möglichkeit, mit <code>new</code>
+	   * Geschï¿½tzter Konstruktor - verhindert die Mï¿½glichkeit, mit <code>new</code>
 	   * neue Instanzen dieser Klasse zu erzeugen.
 	   */
 	
@@ -57,7 +57,7 @@ public class GroupMapper {
 	
 	
 	/*
-	 * Einkäufergruppe anhand ihrer Id suchen.
+	 * Einkï¿½ufergruppe anhand ihrer Id suchen.
 	 */
 	
 	public Group findById(int id) {
@@ -69,12 +69,12 @@ public class GroupMapper {
 			//leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 			
-			//Statement ausfüllen und als Query an die DB schicken
+			//Statement ausfï¿½llen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery("Select Group_ID, Title, user FROM Group" + "WHERE Group_ID= " + id);
 			
 			/*
-		     * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-		     * werden. Prüfe, ob ein Ergebnis vorliegt.group
+		     * Da id Primï¿½rschlï¿½ssel ist, kann max. nur ein Tupel zurï¿½ckgegeben
+		     * werden. Prï¿½fe, ob ein Ergebnis vorliegt.group
 		     */
 			if (rs.next()) {
 				//Ergebnis-Tupel in Objekt umwandeln
@@ -99,22 +99,22 @@ public class GroupMapper {
 			Statement stmt = con.createStatement();
 			
 			/*
-			 * Zunächst schauen wir nach, welches der momentan höchste
-			 * Primärschlüsselwert ist.
+			 * Zunï¿½chst schauen wir nach, welches der momentan hï¿½chste
+			 * Primï¿½rschlï¿½sselwert ist.
 			 */
 			ResultSet rs = stmt.executeQuery("SELECT MAX(Group_ID) AS maxid " + "FROM Group ");
 			
-			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+			// Wenn wir etwas zurï¿½ckerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
 			/*
-			 * g erhält den bisher maximalen, nun um 1 inkrementierten
-			 * Primärschlüssel.
+			 * g erhï¿½lt den bisher maximalen, nun um 1 inkrementierten
+			 * Primï¿½rschlï¿½ssel.
 			 */
 			g.setId(rs.getInt("maxid") + 1);
 					
 			stmt = con.createStatement();
 							
-			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
+			// Jetzt erst erfolgt die tatsï¿½chliche Einfï¿½geoperation
 			stmt.executeUpdate("INSERT INTO Group (Group_ID, Title, user) " + "VALUES (" + g.getId() + ",'"
 					+ g.getTitle() + "','" + g.getMember() + "')");
 		}
@@ -123,7 +123,7 @@ public class GroupMapper {
 	}
 		
 		/*
-		 * Rückgabe, der evtl. korrigierten Group.
+		 * Rï¿½ckgabe, der evtl. korrigierten Group.
 		 */
 		return g;
 	}
@@ -133,7 +133,7 @@ public class GroupMapper {
 	 * 
 	 * @param g
 	 *            das Objekt, das in die DB geschrieben werden soll
-	 * @return das als Parameter übergebene Objekt
+	 * @return das als Parameter ï¿½bergebene Objekt
 	 */
 	
 	public Group update(Group g) {
@@ -149,11 +149,11 @@ public class GroupMapper {
 			e.printStackTrace();
 		}
 		
-		// Um Analogie zu insert(Group g) zu wahren, wird g zurückgegeben
+		// Um Analogie zu insert(Group g) zu wahren, wird g zurï¿½ckgegeben
 				return g;
 	}
 	
-	//Löschung einer Gruppe
+	//Lï¿½schung einer Gruppe
 	public void delete(Group g) {
 		Connection con = DBConnection.connection();
 		
@@ -184,7 +184,7 @@ public class GroupMapper {
 			ResultSet rs = stmt
 					.executeQuery("SELECT Group_ID, Title, member " + "FROM Group " + "ORDER BY Title");
 			
-			// Für jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
+			// Fï¿½r jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
 			while(rs.next()) {
 				Group g = new Group();
 				g.setId(rs.getInt("Group_ID"));
@@ -192,19 +192,19 @@ public class GroupMapper {
 				g.setMember((ArrayList<Person>)rs.getArray("member"));
 				
 				
-				//Hinzufügen des neuen Objekts zum Ergebnisvektor
+				//Hinzufï¿½gen des neuen Objekts zum Ergebnisvektor
 				result.add(g);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		//Ergebnis zurückgeben
+		//Ergebnis zurï¿½ckgeben
 		return result;
 	}
 	
 	/**
-	 * Auslesen aller Gruppen eines durch Fremdschlüssel (id) gegebenen
+	 * Auslesen aller Gruppen eines durch Fremdschlï¿½ssel (id) gegebenen
 	 * Kunden.
 	 * @param memberID
 	 * @return
@@ -220,14 +220,14 @@ public class GroupMapper {
 	    		  + " JOIN Group ON Participant.Group_ID = Group_ID"
 	    		  + " WHERE Participant.Person_ID =" + memberID);
 	    		  
-	      // Für jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
+	      // Fï¿½r jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
 	      while (rs.next()) {
 	        Group g = new Group();
 	        g.setId(rs.getInt("Group_ID"));
 	        g.setTitle(rs.getString("Title"));
 	        g.setMemberID(rs.getInt("Person_ID"));
 
-	        // Hinzufügen des neuen Objekts zum Ergebnisvektor
+	        // Hinzufï¿½gen des neuen Objekts zum Ergebnisvektor
 	        result.add(g);
 	      }
 	    }
@@ -235,7 +235,7 @@ public class GroupMapper {
 	      e2.printStackTrace();
 	    }
 
-	    // Ergebnisvektor zurückgeben
+	    // Ergebnisvektor zurï¿½ckgeben
 	    return result;
 	  }
 	
@@ -248,7 +248,7 @@ public class GroupMapper {
 	 public ArrayList<Group> findByMember(Person member) {
 
 		    /*
-		     * Wir lesen einfach die id (Primärschlüssel) des Person-Objekts
+		     * Wir lesen einfach die id (Primï¿½rschlï¿½ssel) des Person-Objekts
 		     * aus und delegieren die weitere Bearbeitung an findByMember(int memberID).
 		     */
 		    return findByMember(member.getId());

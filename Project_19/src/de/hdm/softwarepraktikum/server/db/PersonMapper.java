@@ -166,13 +166,14 @@ public class PersonMapper{
 
 			//Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden. 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT * FROM person ORDER BY Name ASC ");
+					"SELECT * FROM Person ORDER BY Name ASC ");
 
 			while (rs.next()) {
 
 				//Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden. 
 				Person person = new Person();
 				person.setId(rs.getInt("PersonID"));
+				person.setGmail(rs.getString("Gmail"));
 				person.setName(rs.getString("Name"));
 				person.setCreationdate(rs.getTimestamp("Creationdate"));
 				person.setChangedate(rs.getTimestamp("Changedate"));

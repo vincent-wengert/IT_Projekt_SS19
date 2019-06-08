@@ -34,7 +34,7 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
  * @version 1.0
  */
 
-public class NewGroupForm extends VerticalPanel {
+public class GroupForm extends VerticalPanel {
 
 	ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	
@@ -62,9 +62,9 @@ public class NewGroupForm extends VerticalPanel {
 	private Boolean initial;
 	private Boolean editable;
 
-	private NewGroupForm newGroupForm;
+	private GroupForm newGroupForm;
 
-	public NewGroupForm() {
+	public GroupForm() {
 		editButton.addClickHandler(new EditClickHandler());
 		deleteButton.addClickHandler(new DeleteClickHandler());
 		
@@ -180,9 +180,9 @@ public class NewGroupForm extends VerticalPanel {
 	/**
 	 * Methode um die aktuelle <code>NewGroupForm</code> Instanz zu setzen.
 	 * 
-	 * @param NewGroupForm die zu setzende <code>Group</code> Objekt.
+	 * @param GroupForm die zu setzende <code>Group</code> Objekt.
 	 */
-	public void setNewGroupForm(NewGroupForm newGroupForm) {
+	public void setNewGroupForm(GroupForm newGroupForm) {
 
 		this.newGroupForm = newGroupForm;
 	}
