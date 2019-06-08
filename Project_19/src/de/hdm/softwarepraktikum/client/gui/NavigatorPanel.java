@@ -150,16 +150,16 @@ public void onLoad() {
 	this.add(searchGridArticles);
 	
     // Create a model for the tree.
-    TreeViewModel model = new CustomTreeModel();
-
-    /*
-     * Create the tree using the model. We specify the default value of the
-     * hidden root node as "Item 1".
-     */
-    CellTree tree = new CellTree(model, "Gruppe");
-
-    // Add the tree to the root layout panel.
-    contentPanelGroups.add(tree);
+//    TreeViewModel model = new CustomTreeModel();
+//
+//    /*
+//     * Create the tree using the model. We specify the default value of the
+//     * hidden root node as "Item 1".
+//     */
+//    CellTree tree = new CellTree(model, "Gruppe");
+//
+//    // Add the tree to the root layout panel.
+//    contentPanelGroups.add(tree);
 	}
 }
 

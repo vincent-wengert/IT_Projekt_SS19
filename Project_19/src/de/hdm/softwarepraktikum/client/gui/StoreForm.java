@@ -82,7 +82,6 @@ public class StoreForm extends VerticalPanel{
 			streetNameBox.setText(s.getStreet());
 			houseNumberBox.setText(Integer.toString(s.getHouseNumber()));
 			infoTitleLabel.setText(s.getName());
-			Window.alert(Integer.toString(s.getId()));
 		}
 	}
 	/**

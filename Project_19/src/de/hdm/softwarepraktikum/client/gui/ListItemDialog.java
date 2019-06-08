@@ -224,6 +224,7 @@ public class ListItemDialog extends PopupPanel{
 		public void onClick(ClickEvent event) {
 			if (existingButton.getValue()==true) {
 				ListItem li = new ListItem(itemListBox.getSelectedItemText(), getItemUnit(unitListBox.getSelectedItemText()) , Integer.parseInt(amountTextBox.getText()), false);	
+
 				sslf.AddListItem(li);
 			}
 			else {
