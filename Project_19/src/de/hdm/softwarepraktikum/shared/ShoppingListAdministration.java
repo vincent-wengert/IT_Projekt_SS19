@@ -24,6 +24,8 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public Person createPerson(String gmail, String name);
 	
+	public ArrayList<Person> getAllPersons();
+	
 	public Item createItem(String name, boolean value);
 	
 	public void updateItem(Item i);
@@ -44,7 +46,7 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ListItem getListItem(int id);
 	
-	public void createGroup(String title);
+	public void createGroup(Group g);
 	
 	public void updateGroup(Group g);
 	

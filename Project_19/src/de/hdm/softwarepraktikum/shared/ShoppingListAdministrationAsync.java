@@ -22,11 +22,13 @@ public interface ShoppingListAdministrationAsync {
 
 	void updatePerson(String name, AsyncCallback<Void> callback);
 
+	void getAllPersons(AsyncCallback<ArrayList<Person>> callback);
+
 	void addFavoriteItem(Item i, Person p, AsyncCallback<Void> callback);
 
 	void checkListItem(ListItem li, AsyncCallback<Void> callback);
 
-	void createGroup(String title, AsyncCallback<Void> callback);
+	void createGroup(Group g, AsyncCallback<Void> callback);
 
 	void createListItem(Item item, int buyerID, int storeID, int slID, AsyncCallback<ListItem> callback);
 

@@ -219,9 +219,9 @@ private ResponsibilityMapper responsibilityMapper = null;
 	 * @throws IllegalArgumentException
 	 */
 	
-	 // public ArrayList<Person> getAllPersons() throws IllegalArgumentException {
-//		return this.personMapper.findAll();
-//	}
+	  public ArrayList<Person> getAllPersons() throws IllegalArgumentException {
+		return this.personMapper.findAll();
+	}
 	
 	/*
 	   * ***************************************************************************
@@ -410,19 +410,9 @@ private ResponsibilityMapper responsibilityMapper = null;
 	   * ***************************************************************************
 	   */
 
-	public void createGroup(String title) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		Group g = new Group();
-		
-		g.setTitle(title);
-		
-		/**
-		 * Setzen einer vorlÃ¤ufigen ID. Der Insert Aufruf liefert dann ein Objekt,
-		 * dessen Nummer mit der Datenbank konsistent ist.
-		 */
-		
-		g.setId(1);
-		
+	public void createGroup(Group g) throws IllegalArgumentException {
+
+		groupMapper.insert(g);
 	}
 
 	public void updateGroup(Group g) throws IllegalArgumentException {
@@ -632,8 +622,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public void deleteGroupMembership(Person p, Group g) {
 		// TODO Auto-generated method stub
-		//groupMapper.deleteMembership(g);
-		return null;
+		groupMapper.deleteMembership(g);
 	}
 
 
@@ -641,13 +630,6 @@ private ResponsibilityMapper responsibilityMapper = null;
 	public void updatePerson(String name) {
 		// TODO Auto-generated method stub
 		
-	}
-
-
-	@Override
-	public Person createPerson(Date creationDate, String gmail, String name) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 
