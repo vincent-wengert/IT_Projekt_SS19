@@ -54,6 +54,8 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ArrayList<Person> getAllGroupMembers(Group g);
 	
+	public ArrayList<Group> getAllGroupsByPerson(Person p);
+	
 	public void deleteGroupMembership(Person p, Group g);
 	
 	public ShoppingList createShoppingList(int ownerid, String title, int groupID);

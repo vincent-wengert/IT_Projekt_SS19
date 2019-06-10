@@ -60,7 +60,9 @@ public class ItemMapper {
 		 * Zun�chst schauen wir nach, welches der momentan h�chste
 		 * Prim�rschl�sselwert ist.
 		 */
-		ResultSet rs = stmt.executeQuery("SELECT MAX(Item_ID) AS maxid " + "FROM Item ");
+			
+			
+		ResultSet rs = stmt.executeQuery("SELECT MAX(Item_ID) AS maxid " + "FROM Item");
 		
 		// Wenn wir etwas zur�ckerhalten, kann dies nur einzeilig sein
 		if (rs.next()) {

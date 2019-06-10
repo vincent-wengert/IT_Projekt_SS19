@@ -211,8 +211,10 @@ public class GroupForm extends VerticalPanel {
 		for (Person p : allPersons) {
 
 			if (p.getGmail().equals(value)) {
-
-				selectedPerson = p;
+				membersList.add(p);
+				personSuggestBox.setText(null);
+				Notification.show(p.getName() + " wurde zur Auswahl hinzugefügt.");
+				showGroupMembers();
 			}
 		}
 	}
@@ -321,13 +323,7 @@ public class GroupForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			if (personSuggestBox.getValue() != null) {
-				membersList.add(selectedPerson);
-				// personSearchBar.clear();
-				personSuggestBox.setText(null);
-				Notification.show(selectedPerson.getName() + " wurde zur Auswahl hinzugefügt.");
-				// loadSearchbar();
-				showGroupMembers();
-				selectedPerson = null;
+
 			}
 		}
 	}
@@ -338,11 +334,7 @@ public class GroupForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 
 			if (personSuggestBox.getValue() != null) {
-				membersList.add(selectedPerson);
 				personSuggestBox.setText(null);
-				// personSearchBar.clear();
-				Notification.show(selectedPerson.getName() + " wurde zur Auswahl hinzugefügt.");
-				// loadSearchbar();
 				selectedPerson = null;
 			}
 		}

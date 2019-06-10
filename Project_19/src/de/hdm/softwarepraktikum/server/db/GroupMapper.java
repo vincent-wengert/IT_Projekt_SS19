@@ -9,6 +9,8 @@ import java.util.*;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import com.gargoylesoftware.htmlunit.javascript.host.Console;
+
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Person;
@@ -93,39 +95,46 @@ public class GroupMapper {
 	}
 	
 	public Group insert(Group g) {
+		
+		
 		Connection con = DBConnection.connection();
 		
 		try {
+			
 			Statement stmt = con.createStatement();
 			
-			/*
-			 * Zun�chst schauen wir nach, welches der momentan h�chste
-			 * Prim�rschl�sselwert ist.
-			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(Group_ID) AS maxid " + "FROM Group ");
+		/*
+		 * Zun�chst schauen wir nach, welches der momentan h�chste
+		 * Prim�rschl�sselwert ist.
+		 */
 			
-			// Wenn wir etwas zur�ckerhalten, kann dies nur einzeilig sein
-			if (rs.next()) {
-			/*
-			 * g erh�lt den bisher maximalen, nun um 1 inkrementierten
-			 * Prim�rschl�ssel.
-			 */
-			g.setId(rs.getInt("maxid") + 1);
-					
-			stmt = con.createStatement();
-							
-			// Jetzt erst erfolgt die tats�chliche Einf�geoperation
-			stmt.executeUpdate("INSERT INTO Group (Group_ID, Title) " + "VALUES (" + g.getId() + ",'"
-					+ g.getTitle() +"')");
 			
+		ResultSet rs = stmt.executeQuery("SELECT MAX(Group_ID) AS maxid " + "FROM `Group` ");
 		
-			
-
+		// Wenn wir etwas zur�ckerhalten, kann dies nur einzeilig sein
+		if (rs.next()) {
+		/*
+		 * i erh�lt den bisher maximalen, nun um 1 inkrementierten
+		 * Prim�rschl�ssel.
+		 */
+		g.setId(rs.getInt("maxid") + 1);
+				
+		PreparedStatement stmt2 = con.prepareStatement(
+				"INSERT INTO `Group` (Group_ID, Title, Creationdate, Changedate) " + "VALUES (?, ?, ?, ?)",
+				Statement.RETURN_GENERATED_KEYS);
+		
+		stmt2.setInt(1, g.getId());
+		stmt2.setString(2, g.getTitle());
+		stmt2.setTimestamp(3, g.getCreationdate());
+		stmt2.setTimestamp(4, g.getChangedate());
+		System.out.println(stmt2);
+		stmt2.executeUpdate();
+		
 		}
 	} catch (SQLException e) {
-		e.printStackTrace();
-	}
-		
+	e.printStackTrace();
+		}
+			
 		/*
 		 * R�ckgabe, der evtl. korrigierten Group.
 		 */
@@ -146,7 +155,7 @@ public class GroupMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE Group " + "SET Title=\"" + g.getTitle() + "\", " + "user=\""
+			stmt.executeUpdate("UPDATE `Group` " + "SET Title=\"" + g.getTitle() + "\", " + "user=\""
 					+ g.getMember() + "\" " + "WHERE Group_ID=" + g.getId());
 			
 		} catch (SQLException e) {
@@ -164,7 +173,7 @@ public class GroupMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE FROM Group " + "WHERE Group_ID=" + g.getId());
+			stmt.executeUpdate("DELETE FROM `Group` " + "WHERE Group_ID=" + g.getId());
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -186,7 +195,7 @@ public class GroupMapper {
 			Statement stmt = con.createStatement();
 			
 			ResultSet rs = stmt
-					.executeQuery("SELECT Group_ID, Title, member " + "FROM Group " + "ORDER BY Title");
+					.executeQuery("SELECT Group_ID, Title, member " + "FROM `Group` " + "ORDER BY Title");
 			
 			// F�r jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
 			while(rs.next()) {
@@ -221,8 +230,8 @@ public class GroupMapper {
 	      Statement stmt = con.createStatement();
 
 	      ResultSet rs = stmt.executeQuery("SELECT * FROM Participant"
-	    		  + " JOIN Group ON Participant.Group_ID = Group_ID"
-	    		  + " WHERE Participant.Person_ID =" + memberID);
+	    		  + " JOIN `Group` ON Participant.Group_Group_ID = Group_ID"
+	    		  + " WHERE Participant.Person_PersonID =" + memberID);
 	    		  
 	      // F�r jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
 	      while (rs.next()) {
@@ -265,7 +274,7 @@ public class GroupMapper {
 			try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("INSERT INTO Participant (Group_GroupID, Person_PersonID) " + "VALUES (" + g.getId() + ","
+			stmt.executeUpdate("INSERT INTO Participant (Group_Group_ID, Person_PersonID) " + "VALUES (" + g.getId() + ","
 					+ p.getId() +");");
 			}
 			catch(SQLException e2) {

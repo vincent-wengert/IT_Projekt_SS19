@@ -419,10 +419,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 		for (Person m : member) {
 			
 			groupMapper.addMembership(m, g);
-		}
-		
-	
-		
+		}	
 		
 	}
 
@@ -431,8 +428,9 @@ private ResponsibilityMapper responsibilityMapper = null;
 	}
 
 
-	public void getGroup(ShoppingList sl) throws IllegalArgumentException {
-		
+	public ArrayList<Group>  getAllGroupsByPerson(Person p) throws IllegalArgumentException {
+		Integer id = p.getId();
+		return this.groupMapper.findByMember(id);
 	}
 
 
