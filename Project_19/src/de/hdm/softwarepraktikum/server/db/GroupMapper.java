@@ -115,8 +115,12 @@ public class GroupMapper {
 			stmt = con.createStatement();
 							
 			// Jetzt erst erfolgt die tats�chliche Einf�geoperation
-			stmt.executeUpdate("INSERT INTO Group (Group_ID, Title, user) " + "VALUES (" + g.getId() + ",'"
-					+ g.getTitle() + "','" + g.getMember() + "')");
+			stmt.executeUpdate("INSERT INTO Group (Group_ID, Title) " + "VALUES (" + g.getId() + ",'"
+					+ g.getTitle() +"')");
+			
+		
+			
+
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
@@ -225,7 +229,6 @@ public class GroupMapper {
 	        Group g = new Group();
 	        g.setId(rs.getInt("Group_ID"));
 	        g.setTitle(rs.getString("Title"));
-	        g.setMemberID(rs.getInt("Person_ID"));
 
 	        // Hinzuf�gen des neuen Objekts zum Ergebnisvektor
 	        result.add(g);
@@ -253,6 +256,22 @@ public class GroupMapper {
 		     */
 		    return findByMember(member.getId());
 		  }
+	 
+	 public void addMembership(Person p, Group g) {
+	 
+		 Connection con = DBConnection.connection();
+			
+			
+			try {
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("INSERT INTO Participant (Group_GroupID, Person_PersonID) " + "VALUES (" + g.getId() + ","
+					+ p.getId() +");");
+			}
+			catch(SQLException e2) {
+				e2.printStackTrace();
+			}
+	 }
 
 	public void deleteMembership(Person p) {
 		

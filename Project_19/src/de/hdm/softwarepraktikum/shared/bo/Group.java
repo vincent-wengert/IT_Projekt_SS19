@@ -21,10 +21,7 @@ public class Group extends BusinessObject {
 	
 	private ArrayList<ShoppingList> shoppingLists;
 
-	/**
-	   * Fremdschl�sselbeziehung zu einem Mitglied der Gruppe.
-	   */
-	private int memberID;
+	
 	
 	public Group() {
 		this.tempID = nextId;
@@ -70,21 +67,7 @@ public class Group extends BusinessObject {
 		this.favoriteitem = favoriteitem;
 	}
 
-	/**
-	 * Auslesen des Fremdschl�ssels zu einem Gruppenmitglied
-	 * @return memberID
-	 */
-	public int getMemberID() {
-		return memberID;
-	}
 
-	/**
-	 * Setzen des Fremdschl�ssels zu einem Gruppenmitglied
-	 * @param memberID
-	 */
-	public void setMemberID(int memberID) {
-		this.memberID = memberID;
-	}
 	
 	
 	
