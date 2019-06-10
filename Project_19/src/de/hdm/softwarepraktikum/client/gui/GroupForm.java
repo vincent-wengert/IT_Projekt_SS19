@@ -291,7 +291,7 @@ public class GroupForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 			RootPanel.get("Details").clear();
 			if (initial == true) {
-				administration.createGroup(group, new createGroupCallback());
+				administration.createGroup(groupNameBox.getText(),membersList, new createGroupCallback());
 			} else {
 				// update group
 			}

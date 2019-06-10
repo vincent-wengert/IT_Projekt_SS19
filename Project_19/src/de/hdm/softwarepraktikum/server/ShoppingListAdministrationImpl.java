@@ -410,14 +410,19 @@ private ResponsibilityMapper responsibilityMapper = null;
 	   * ***************************************************************************
 	   */
 
-	public void createGroup(String title, Person p) throws IllegalArgumentException {
+	public void createGroup(String title, ArrayList<Person> member) throws IllegalArgumentException {
 		Group g = new Group();
-		ArrayList<Person> memberList = new ArrayList<Person>();
-		memberList.add(p);
+		g.setMember(member);
 		g.setTitle(title);
-		g.setMember(memberList);
 		groupMapper.insert(g);
-		groupMapper.addMembership(p, g);
+		
+		for (Person m : member) {
+			
+			groupMapper.addMembership(m, g);
+		}
+		
+	
+		
 		
 	}
 

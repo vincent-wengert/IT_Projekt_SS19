@@ -28,7 +28,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void checkListItem(ListItem li, AsyncCallback<Void> callback);
 
-	void createGroup(String title, Person p, AsyncCallback<Void> callback);
+	void createGroup(String title, ArrayList<Person> member, AsyncCallback<Void> callback);
 
 	void createListItem(Item item, int buyerID, int storeID, int slID, AsyncCallback<ListItem> callback);
 
