@@ -46,7 +46,7 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ListItem getListItem(int id);
 	
-	public void createGroup(Group g);
+	public void createGroup(String title, Person p);
 	
 	public void updateGroup(Group g);
 	
