@@ -1,10 +1,10 @@
 package de.hdm.softwarepraktikum.client.gui;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.cell.client.Cell;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -18,15 +18,12 @@ import com.google.gwt.view.client.TreeViewModel;
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
-import de.hdm.softwarepraktikum.shared.bo.Item;
-import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
-import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 
 public class CustomTreeModel implements TreeViewModel {
 	
-	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
+	private ShoppingListAdministrationAsync administration = null;
 
 	private ObjectKeyProvider boKeyProvider = new ObjectKeyProvider();
 	private SingleSelectionModel<Object> selectionModel = new SingleSelectionModel<Object>(boKeyProvider);
@@ -37,7 +34,19 @@ public class CustomTreeModel implements TreeViewModel {
 	private ShoppingList shoppingListToDisplay = null;
 	private Group groupToDisplay = null;
 	private ArrayList<Group> groups = new ArrayList<Group>();
+	private ArrayList<ShoppingList> shoppinglists = new ArrayList<ShoppingList>();
+	
+	ListDataProvider<Group> groupsDataProvider = new ListDataProvider<Group>();
+	/**
+	 * Wird eine <code>Group</code> innerhalb des <code>CustomTreeModel</code> expandiert, 
+	 * so werden die darin enthaltenen <code>ShoppingList</code> hier vermerkt. 
+	 * Sie müssen bei erneutem erweitern des Baumes somit nicht erneut generiert werden.
+	*/
 
+	private Map<Group, ListDataProvider<ShoppingList>> shoppingListHolderDataProviders = null;
+
+	Person p = new Person();
+	
 	/**
 	 * This selection model is shared across all leaf nodes. A selection model can
 	 * also be shared across all nodes in the tree, or each set of child nodes can
@@ -46,20 +55,31 @@ public class CustomTreeModel implements TreeViewModel {
 	 */
 
 	public CustomTreeModel() {
-		this.loadGroups();
-		selectionModel.addSelectionChangeHandler(new SelectionChangeEventHandler());
-		Person p = new Person();
 		p.setId(1);
-		administration.getAllGroupsByPerson(p, new getAllGroupsByPersonCallback());
+		administration = ClientsideSettings.getShoppinglistAdministration();
+		selectionModel.addSelectionChangeHandler(new SelectionChangeEventHandler());
+		shoppingListHolderDataProviders = new HashMap<Group, ListDataProvider<ShoppingList>>();
 	}
 	
-	public void loadGroups(){
-		Person p = new Person();
-		p.setId(1);
-		administration.getAllGroupsByPerson(p, new getAllGroupsByPersonCallback());
-
+	/**
+	 * Auslesen aller <code>Group</code> der <code>Person</code> innerhalb des <code>CustomTreeModel</code>
+	 * 
+	 *  @return Alle <code>Group</code> des <code>Person</code>
+	 */
+	public ArrayList<Group> getPersonGroups() {
+		return groups;
+	}
+	
+	/**
+	 * Auslesen aller <code>Group</code> der <code>Person</code> innerhalb des <code>CustomTreeModel</code>
+	 * 
+	 *  @return Alle <code>Group</code> des <code>Person</code>
+	 */
+	public ArrayList<ShoppingList> getShoppingListsInGroups() {
+		return shoppinglists;
 	}
 
+	
 	public void setSelectedGroup(Group g) {
 		groupToDisplay = g;
 		gf = new GroupForm();
@@ -83,7 +103,11 @@ public class CustomTreeModel implements TreeViewModel {
 //	public void setSelectedShoppingList(ShoppingList sl) {
 //		shoppingListToDisplay = sl;
 //	}
-
+	
+	public void getGroupShoppingLists(Group g) {
+		administration.getAllShoppingListsByGroup(g, new getGroupShoppingListsCallback());
+	}
+	
 	/**
 	 * Check if the specified value represents a leaf node. Leaf nodes cannot be
 	 * opened.
@@ -91,7 +115,7 @@ public class CustomTreeModel implements TreeViewModel {
 	@Override
 	public boolean isLeaf(Object value) {
 		// The leaf nodes are the songs, which are Strings.
-		if (value instanceof Person) {
+		if (value instanceof ShoppingList) {
 			return true;
 		}
 		return false;
@@ -102,42 +126,56 @@ public class CustomTreeModel implements TreeViewModel {
 	 */
 	public <T> NodeInfo<?> getNodeInfo(T value) {
 		if (value == null) {
-			// LEVEL 0.
-			// We passed null as the root value. Return the groups.
+			
+			administration.getAllGroupsByPerson(p, new AsyncCallback<ArrayList<Group>>() {
 
-			// Create a data provider that contains the list of groups.
-			ListDataProvider<Group> dataProvider = new ListDataProvider<Group>(groups);
-			// Create a cell to display a group.
-			AbstractCell<Group> cell = new AbstractCell<Group>() {
 				@Override
-				public void render(Context context, Group value, SafeHtmlBuilder sb) {
-					if (value != null) {
-						sb.appendEscaped(value.getTitle());
-					}
-				}
-			};
-
-			// Return a node info that pairs the data provider and the cell.
-			return new DefaultNodeInfo<Group>(dataProvider, cell, selectionModel, null);
-
-		} else if (value instanceof Group) {
-
-			// LEVEL 1.
-			// We want the children of the composer. Return the Person in the Group, later
-			// the Shoppinglists.
-			ListDataProvider<Person> dataProvider = new ListDataProvider<Person>(
-					((Group) value).getMember());
-
-			Cell<Person> cell = new AbstractCell<Person>() {
-				@Override
-				public void render(Context context, Person value, SafeHtmlBuilder sb) {
+				public void onFailure(Throwable caught) {
 					// TODO Auto-generated method stub
-					if (value != null) {
-						sb.appendEscaped(value.getName());
+					Notification.show("Es ist ein Fehler aufgetreten! +\n"+ caught.toString());
+				}
+
+				@Override
+				public void onSuccess(ArrayList<Group> groups) {
+					// TODO Auto-generated method stub
+					for (Group g: groups) {
+						CustomTreeModel.this.getPersonGroups().add(g);
+						groupsDataProvider.getList().add(g);
 					}
 				}
-			};
-			return new DefaultNodeInfo<Person>(dataProvider, cell, selectionModel, null);
+			});
+			// Return a node info that pairs the data provider and the cell.
+			return new DefaultNodeInfo<Group>(groupsDataProvider, new GroupListCell(), selectionModel, null);
+
+		} 
+		
+		if (value instanceof Group) {
+			
+			final ListDataProvider<ShoppingList> shoppinglistProvider = new ListDataProvider<ShoppingList>();
+			
+			shoppingListHolderDataProviders.put((Group)value, shoppinglistProvider); 
+			
+			administration.getAllShoppingListsByGroup((Group)value, new AsyncCallback<ArrayList<ShoppingList>>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					Notification.show("Fehler: " + caught.toString());
+				}
+
+				@Override
+				public void onSuccess(ArrayList<ShoppingList> shoppinglists) {
+					// TODO Auto-generated method stub
+					for (ShoppingList sl : shoppinglists ) {
+						ShoppingList shoppingList = new ShoppingList();
+						shoppingList.setTitle(sl.getTitle());
+						shoppingList.setId(sl.getId());
+						shoppinglistProvider.getList().add(sl);
+					}
+				}
+			});
+			   
+			return new DefaultNodeInfo<ShoppingList>(shoppinglistProvider, new ShoppingListCell(), selectionModel, null);
 		}
 		return null;
 	}
@@ -149,11 +187,11 @@ public class CustomTreeModel implements TreeViewModel {
 			if (object == null) {
 				return null;
 			}
-			if (object instanceof Group) {
-				return ((Group) object).getTempID();
+			else if (object instanceof Group) {
+				return ((Group) object).getId();
 			}
-			if (object instanceof Person) {
-				return ((Person) object).getId();
+			else if (object instanceof ShoppingList) {
+				return ((ShoppingList) object).getId();
 			}
 			return null;
 		}
@@ -172,8 +210,8 @@ public class CustomTreeModel implements TreeViewModel {
 			if (selection instanceof Group) {
 				setSelectedGroup((Group) selection);
 
-			} else if (selection instanceof Person) {
-				//setSelectedShoppingList((Person) selection);
+			} else if (selection instanceof ShoppingList) {
+				setSelectedShoppingList((ShoppingList) selection);
 			}
 		}
 	}
@@ -184,7 +222,7 @@ public class CustomTreeModel implements TreeViewModel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Notification.show("Die Person konnte leider nicht erstellt werden:\n" + caught.toString());
+			Notification.show("Es wurden keine Gruppen gefunden:\n" + caught.toString());
 		}
 
 		@Override
@@ -192,8 +230,54 @@ public class CustomTreeModel implements TreeViewModel {
 			// add item to cellist
 			// aicl.updateCellList();
 			groups = result;
-			Notification.show("Gruppe wurde erstellt");
+			Notification.show("Gruppen wurden fur die ausgewahlte Einkaufsliste hinzugefugt");
 
 		}
 	}
+	private class getGroupShoppingListsCallback implements AsyncCallback<ArrayList<ShoppingList>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show("Es wurden keine Gruppen gefunden:\n" + caught.toString());
+		}
+
+		@Override
+		public void onSuccess(ArrayList<ShoppingList> sl) {
+			// add item to cellist
+			// aicl.updateCellList();
+			shoppinglists = sl;
+			Notification.show("Gruppen wurden gefunden");
+
+		}
+	}
+	
+	public class GroupListCell extends AbstractCell<Group>{
+
+		@Override
+		public void render(Context context, Group g, SafeHtmlBuilder sb) {
+			if (g != null) {
+				
+				sb.appendHtmlConstant("<div>");
+				sb.appendHtmlConstant(g.getTitle());
+				sb.appendHtmlConstant("</div>");
+			
+			}
+		}	
+	}	
+	
+	
+	public class ShoppingListCell extends AbstractCell<ShoppingList>{
+
+		@Override
+		public void render(Context context, ShoppingList s, SafeHtmlBuilder sb) {
+			if (s != null) {
+				
+				sb.appendHtmlConstant("<div>");
+				sb.appendHtmlConstant(s.getTitle());
+				sb.appendHtmlConstant("</div>");
+			
+			}
+		}	
+	}
+	
 }

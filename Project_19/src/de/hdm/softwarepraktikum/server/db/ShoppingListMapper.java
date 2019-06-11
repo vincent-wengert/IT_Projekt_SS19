@@ -125,14 +125,13 @@ public class ShoppingListMapper {
 	    try {
 	      Statement stmt = con.createStatement();
 
-	      ResultSet rs = stmt.executeQuery("SELECT id, title, FROM shoppinglist "
-	          + "WHERE GroupID=" + groupID + "ORDER BY title");
+	      ResultSet rs = stmt.executeQuery("SELECT ShoppingList_ID, Title FROM ShoppingList WHERE Group_ID = " + groupID);
 
 	      // F�r jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
 	      while (rs.next()) {
 	    	ShoppingList sl = new ShoppingList();
-	        sl.setId(rs.getInt("id"));
-	        sl.setTitle(rs.getString("title"));
+	        sl.setId(rs.getInt("ShoppingList_ID"));
+	        sl.setTitle(rs.getString("Title"));
 
 	        // Hinzuf�gen des neuen Objekts zum Ergebnisvektor
 	        result.add(sl);

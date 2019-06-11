@@ -238,7 +238,6 @@ public class GroupMapper {
 	        Group g = new Group();
 	        g.setId(rs.getInt("Group_ID"));
 	        g.setTitle(rs.getString("Title"));
-	        System.out.println(rs.getString("Title"));
 
 	        // Hinzuf�gen des neuen Objekts zum Ergebnisvektor
 	        result.add(g);
