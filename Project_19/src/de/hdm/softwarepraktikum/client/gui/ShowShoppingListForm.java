@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
@@ -31,18 +32,30 @@ import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
+import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 public class ShowShoppingListForm extends VerticalPanel {
+	
+	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
+	
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel shoppingListPanel = new HorizontalPanel();
 	private HorizontalPanel topButtonsPanel = new HorizontalPanel();
+	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
+	private HorizontalPanel addListItemPanel = new HorizontalPanel();
 
 	private Button addListItemButton = new Button();
+	private Button editListNameButton = new Button();
+	private Button confirmButton = new Button("\u2714");
+	private Button cancelButton = new Button("\u2716");
 
 	private Label infoTitleLabel = new Label();
+	
+	private TextBox shoppinglistNameBox = new TextBox();
 
 	private CellTable<ListItem> cellTable = null;
 	private ProductKeyProvider keyProvider = null;
@@ -52,21 +65,50 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 	public ShowShoppingListForm() {
 		addListItemButton.addClickHandler(new AddListItemClickHandler());
-		topButtonsPanel.add(addListItemButton);
+		editListNameButton.addClickHandler(new EditListNameClickHandler());
+		confirmButton.addClickHandler(new ConfirmClickHandler());
+		cancelButton.addClickHandler(new CancelClickHandler());
+		topButtonsPanel.add(editListNameButton);
+		formHeaderPanel.add(shoppinglistNameBox);
+		addListItemPanel.add(addListItemButton);
+		bottomButtonsPanel.add(confirmButton);
+		bottomButtonsPanel.add(cancelButton);
 	}
 
 	public void onLoad() {
 		this.setWidth("100%");
 
-		addListItemButton.setStylePrimaryName("addListItemButton");
+		
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
+		bottomButtonsPanel.setStylePrimaryName("bottomButtonsPanel");
+		addListItemPanel.setStylePrimaryName("addListItemPanel");
+		
+		bottomButtonsPanel.setSpacing(20);
 
+		addListItemButton.setStylePrimaryName("addListItemButton");
+		editListNameButton.setStylePrimaryName("editListNameButton");
 		addListItemButton.setHeight("8vh");
 		addListItemButton.setWidth("8vh");
+		addListItemButton.setVisible(false);
+		
+		editListNameButton.setWidth("8vh");
+		editListNameButton.setHeight("8vh");
 
 		formHeaderPanel.setHeight("8vh");
 		formHeaderPanel.setWidth("100%");
+		
+		shoppinglistNameBox.setMaxLength(10);
+		shoppinglistNameBox.setVisible(false);
+		shoppinglistNameBox.setStylePrimaryName("shoppinglistNameBox");
+		
+		confirmButton.setVisible(false);
+		cancelButton.setVisible(false);
+		cancelButton.setStylePrimaryName("cancelButton");
+		confirmButton.setStylePrimaryName("confirmButton");
+		cancelButton.setPixelSize(130, 40);
+		confirmButton.setPixelSize(130, 40);
+		
 
 		formHeaderPanel.add(infoTitleLabel);
 		formHeaderPanel.add(topButtonsPanel);
@@ -75,9 +117,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
 		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
 
-		topButtonsPanel.setCellHorizontalAlignment(addListItemButton, ALIGN_CENTER);
-		topButtonsPanel.setHorizontalAlignment(ALIGN_RIGHT);
-
+		topButtonsPanel.setCellHorizontalAlignment(editListNameButton, ALIGN_RIGHT);
+		
 		this.add(formHeaderPanel);
 
 		keyProvider = new ProductKeyProvider();
@@ -195,6 +236,12 @@ public class ShowShoppingListForm extends VerticalPanel {
 				}
 			}
 		});
+		
+		this.add(addListItemPanel);
+		this.setCellHorizontalAlignment(addListItemPanel, ALIGN_CENTER);
+		
+		this.add(bottomButtonsPanel);
+		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
 	}
 
 	private class ProductKeyProvider implements ProvidesKey<ListItem> {
@@ -233,6 +280,55 @@ public class ShowShoppingListForm extends VerticalPanel {
 			ListItemDialog li = new ListItemDialog();
 			li.setShowShoppingListForm(ShowShoppingListForm.this);
 			li.show();
+		}
+	}
+	
+	
+	
+	public class EditListNameClickHandler implements ClickHandler{
+
+		public void onClick(ClickEvent event) {
+			shoppinglistNameBox.setVisible(true);
+			shoppinglistNameBox.setText(infoTitleLabel.getText());
+			infoTitleLabel.setVisible(false);
+			
+			addListItemButton.setVisible(true);
+			confirmButton.setVisible(true);
+			cancelButton.setVisible(true);
+			editListNameButton.setVisible(false);
+			
+			formHeaderPanel.setCellVerticalAlignment(shoppinglistNameBox, ALIGN_BOTTOM);
+			formHeaderPanel.setCellHorizontalAlignment(shoppinglistNameBox, ALIGN_LEFT);
+			
+		}
+		
+	}
+	
+	class ConfirmClickHandler implements ClickHandler {
+		
+		public void onClick(ClickEvent event) {
+			infoTitleLabel.setText(shoppinglistNameBox.getText());
+			
+			shoppinglistNameBox.setVisible(false);
+			infoTitleLabel.setVisible(true);
+			addListItemButton.setVisible(false);
+			confirmButton.setVisible(false);
+			cancelButton.setVisible(false);
+			editListNameButton.setVisible(true);
+		}
+	}
+	
+	class CancelClickHandler implements ClickHandler {
+		
+		public void onClick(ClickEvent event) {
+			shoppinglistNameBox.setVisible(false);
+			infoTitleLabel.setVisible(true);
+			
+			addListItemButton.setVisible(false);
+			confirmButton.setVisible(false);
+			cancelButton.setVisible(false);
+			editListNameButton.setVisible(true);
+			
 		}
 	}
 
