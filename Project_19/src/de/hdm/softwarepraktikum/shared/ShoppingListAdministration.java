@@ -68,9 +68,9 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ArrayList<ShoppingList> getAllShoppingListsByGroup(Group g);
 	
-	public void addFavoriteItem(Item i, Person p);
+	public void addFavoriteItem(Item i, Person p, Group g);
 	
-	public void removeFavoriteItem(Item i, Person p);
+	public void removeFavoriteItem(Item i, Person p, Group g);
 	
 	public Store createStore(String name, String street, int postcode, String city, int housenumber);
 	
