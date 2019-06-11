@@ -132,7 +132,6 @@ public class ShoppingListMapper {
 	      while (rs.next()) {
 	    	ShoppingList sl = new ShoppingList();
 	        sl.setId(rs.getInt("id"));
-	      
 
 	        // Hinzuf�gen des neuen Objekts zum Ergebnisvektor
 	        result.add(sl);
@@ -189,7 +188,7 @@ Connection con = DBConnection.connection();
 		      }
 		      
 		      PreparedStatement stmt2 = con.prepareStatement(
-			"INSERT INTO Shoppinglist (Shoppinglist_ID,Creationdate,Changedate,Title,Group_ID) VALUES (?, ?, ?,?, ?)",
+			"INSERT INTO Shoppinglist (Shoppinglist_ID,Creationdate,Changedate,Title,Group_ID) VALUES (?, ?, ?, ?, ?)",
 						Statement.RETURN_GENERATED_KEYS);
 
 				stmt2.setInt(1, sl.getId());
