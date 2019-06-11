@@ -169,13 +169,14 @@ public class GroupForm extends VerticalPanel {
 	}
 
 	private VerticalPanel showGroupMembers() {
+		tempString = " ";
 		if (initial == false) {
 			for (Person p : group.getMember()) {
 				vp.add(new HTML(p.getName()));
 			}
 		} else if (initial == true) {
 			for (Person p : membersList) {
-				tempString = tempString + p.getName();
+				tempString = tempString +  p.getName() + " ";
 				tempGroupMembersLabel.setText(tempString);
 			}
 		}

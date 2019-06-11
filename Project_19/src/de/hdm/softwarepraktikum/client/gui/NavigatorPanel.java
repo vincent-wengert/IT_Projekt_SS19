@@ -24,7 +24,6 @@ public class NavigatorPanel extends TabPanel {
 	
 
 private VerticalPanel contentPanelGroups = new VerticalPanel();
-private VerticalPanel contentPanelShoppinglists = new VerticalPanel();
 private VerticalPanel contentPanelStores = new VerticalPanel();
 private VerticalPanel contentPanelArticles = new VerticalPanel();
 
@@ -61,14 +60,11 @@ public void onLoad() {
 
 	this.setWidth("35vw");
 	this.setAnimationEnabled(true);
-	
-	contentPanelShoppinglists.add(aslcl);
 
 	this.add(contentPanelGroups, "Gruppen");
 	this.selectTab(0);
-	this.add(contentPanelShoppinglists, "Einkaufslisten");
-	this.add(contentPanelStores, "Alle Händler");
 	this.add(contentPanelArticles, "Alle Artikel");
+	this.add(contentPanelStores, "Alle Händler");
 	
 	itemsGrid.setWidget(1, 0, aicl);
 	contentPanelArticles.add(itemsGrid);

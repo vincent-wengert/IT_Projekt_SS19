@@ -15,8 +15,11 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.TreeViewModel;
 
 import de.hdm.softwarepraktikum.shared.bo.Group;
+import de.hdm.softwarepraktikum.shared.bo.Item;
+import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
+import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 
 public class CustomTreeModel implements TreeViewModel {
 
@@ -24,6 +27,7 @@ public class CustomTreeModel implements TreeViewModel {
 	private SingleSelectionModel<Object> selectionModel = new SingleSelectionModel<Object>(boKeyProvider);
 
 	private GroupForm gf;
+	private ShowShoppingListForm sslf;
 
 	private ShoppingList shoppingListToDisplay = null;
 	private Group groupToDisplay = null;
@@ -49,6 +53,8 @@ public class CustomTreeModel implements TreeViewModel {
 
 		ArrayList<ShoppingList> lists = new ArrayList<ShoppingList>();
 		ShoppingList sl1 = new ShoppingList("Einkauf");
+		ListItem i1 = new ListItem("Apfel", Unit.ST, 12, false);
+		sl1.getShoppinglist().add(i1);
 		lists.add(sl1);
 
 		ArrayList<Person> persons = new ArrayList<Person>();
@@ -105,10 +111,20 @@ public class CustomTreeModel implements TreeViewModel {
 		gf.setSelected(g);
 		RootPanel.get("Details").add(gf);
 	}
-
+	
 	public void setSelectedShoppingList(ShoppingList sl) {
-		shoppingListToDisplay = sl;
+		//shoppingListToDisplay = sl;
+		//sslf = new ShowShoppingListForm();
+		RootPanel.get("Details").clear();
+		sslf = new ShowShoppingListForm();
+		sslf.setSelected(sl);
+		Notification.show(sl.getTitle());
+		RootPanel.get("Details").add(sslf);
 	}
+
+//	public void setSelectedShoppingList(ShoppingList sl) {
+//		shoppingListToDisplay = sl;
+//	}
 
 	/**
 	 * Check if the specified value represents a leaf node. Leaf nodes cannot be
