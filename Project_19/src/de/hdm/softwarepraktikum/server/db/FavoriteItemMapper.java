@@ -1,14 +1,16 @@
 package de.hdm.softwarepraktikum.server.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import de.hdm.softwarepraktikum.shared.bo.FavoriteItem;
+import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
+import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 public class FavoriteItemMapper {
@@ -43,44 +45,23 @@ public class FavoriteItemMapper {
 	 * Insert Methode, um einen neuen Artikel der Datenbank hinzuzufuegen.
 	 */
 	
-	public FavoriteItem insert(FavoriteItem fi) {
+	public void insert(Item i, Person p, Group g) {
 		
-		Connection con = DBConnection.connection();
+Connection con = DBConnection.connection();
 		
-		
+
 		try {
-			
+
 			Statement stmt = con.createStatement();
+			stmt.executeUpdate("INSERT INTO FavoriteItem (itemID, personID, groupID) " + "VALUES (" + i.getId() + ",'"
+							+ p.getId() + "','" + g.getId() + "')");		
 			
-		/*
-		 * Zun�chst schauen wir nach, welches der momentan h�chste
-		 * Prim�rschl�sselwert ist.
-		 */
-		ResultSet rs = stmt.executeQuery("SELECT MAX(FavoriteItem_ID) AS maxid " + "FROM FavoriteItem ");
-		
-		// Wenn wir etwas zur�ckerhalten, kann dies nur einzeilig sein
-		if (rs.next()) {
-		/*
-		 * i erh�lt den bisher maximalen, nun um 1 inkrementierten
-		 * Prim�rschl�ssel.
-		 */
-		//fi.setId(rs.getInt("maxid") + 1);
-				
-		stmt = con.createStatement();
-						
-		// Jetzt erst erfolgt die tats�chliche Einf�geoperation
-		//stmt.executeUpdate("INSERT INTO favoriteItem (FavoriteItem_ID) " + "VALUES (" +fi.getId() + ",'");
 		}
-	} catch (SQLException e) {
-		e.printStackTrace();
-		System.out.println("connection");
-	}
+		catch (SQLException e) {
+			e.printStackTrace();
+
+		}
 		
-		/*
-		 * R�ckgabe des evtl. korrigierten Items.
-		 */
-		//return i;
-		return null;
 	}
 	
 	
@@ -124,7 +105,7 @@ public class FavoriteItemMapper {
 	}
 	
 	
-	public ArrayList<Item> findFavItems(ShoppingList sl) {
+	public ArrayList<Item> findFavItems(Group g) {
 		// TODO Auto-generated method stub
 		
 		Connection con = DBConnection.connection();
@@ -134,7 +115,7 @@ public class FavoriteItemMapper {
 		      Statement stmt = con.createStatement();
 
 		      ResultSet rs = stmt.executeQuery("SELECT item FROM group "
-		          + "WHERE groupid =" + sl.getGroupID());
+		          + "WHERE groupid =" + g.getId());
 
 		      // F�r jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
 		      while (rs.next()) {

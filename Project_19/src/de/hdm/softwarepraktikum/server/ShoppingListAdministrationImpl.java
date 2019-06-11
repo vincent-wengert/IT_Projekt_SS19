@@ -10,6 +10,7 @@ import de.hdm.softwarepraktikum.server.db.ResponsibilityMapper;
 import de.hdm.softwarepraktikum.server.db.ShoppingListMapper;
 import de.hdm.softwarepraktikum.server.db.StoreMapper;
 import de.hdm.softwarepraktikum.client.gui.Notification;
+import de.hdm.softwarepraktikum.server.db.FavoriteItemMapper;
 import de.hdm.softwarepraktikum.server.db.GroupMapper;
 import de.hdm.softwarepraktikum.server.db.ItemMapper;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministration;
@@ -80,7 +81,7 @@ private GroupMapper groupMapper = null;
  */
 private ResponsibilityMapper responsibilityMapper = null;
 
-
+private FavoriteItemMapper favoriteItemMapper = null;
 
 /*
  * ***************************************************************************
@@ -508,27 +509,28 @@ private ResponsibilityMapper responsibilityMapper = null;
 	   */
 
 	@Override
-	public void addFavoriteItem(Item i, Person p) throws IllegalArgumentException {
+	public void addFavoriteItem(Item i, Person p, Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+		
 		
 		personMapper.findByName(p.getName());
 		
 		ArrayList<Item> favItem = personMapper.allFavoriteItems();
 		favItem.add(i);
 		
-		personMapper.update(p);
+		favoriteItemMapper.insert(i, p, g);
 	}
 
 
 	@Override
-	public void removeFavoriteItem(Item i, Person p) throws IllegalArgumentException {
+	public void removeFavoriteItem(Item i, Person p, Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-//		personMapper.removeFavoriteItem();
+		favoriteItemMapper.delete(i);
 	}
 
-	public ArrayList<Item> getFavItems(Person p) throws IllegalArgumentException {
+	public ArrayList<Item> getFavItems(Group g) throws IllegalArgumentException {
 //		return this.personMapper.findFav(p);
-		return null;
+		return favoriteItemMapper.findFavItems(g);
 	}
 	
 	/*
@@ -631,7 +633,7 @@ private ResponsibilityMapper responsibilityMapper = null;
 	@Override
 	public void deleteGroupMembership(Person p, Group g) {
 		// TODO Auto-generated method stub
-		groupMapper.deleteMembership(g);
+		groupMapper.deleteMembership(p);
 	}
 
 

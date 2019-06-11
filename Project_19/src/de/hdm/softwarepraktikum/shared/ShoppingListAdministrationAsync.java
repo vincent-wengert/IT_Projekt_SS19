@@ -24,7 +24,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void getAllPersons(AsyncCallback<ArrayList<Person>> callback);
 
-	void addFavoriteItem(Item i, Person p, AsyncCallback<Void> callback);
+	void addFavoriteItem(Item i, Person p, Group g, AsyncCallback<Void> callback);
 
 	void checkListItem(ListItem li, AsyncCallback<Void> callback);
 
@@ -60,7 +60,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void updateGroup(Group g, AsyncCallback<Void> callback);
 
-	void removeFavoriteItem(Item i, Person p, AsyncCallback<Void> callback);
+	void removeFavoriteItem(Item i, Person p, Group g, AsyncCallback<Void> callback);
 
 	void updateItem(Item i, AsyncCallback<Void> callback);
 
