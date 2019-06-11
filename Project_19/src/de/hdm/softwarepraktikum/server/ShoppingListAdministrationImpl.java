@@ -81,6 +81,10 @@ private GroupMapper groupMapper = null;
  */
 private ResponsibilityMapper responsibilityMapper = null;
 
+/*
+ * Referenz auf den favoriteItemMapper
+  */
+
 private FavoriteItemMapper favoriteItemMapper = null;
 
 /*
@@ -111,6 +115,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		this.storeMapper = StoreMapper.storeMapper();
 		this.groupMapper = GroupMapper.groupMapper();
 		this.responsibilityMapper = ResponsibilityMapper.responsibilityMapper();
+		this.favoriteItemMapper = FavoriteItemMapper.favoriteItemMapper();
 		
 		
 	}
@@ -525,7 +530,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	@Override
 	public void removeFavoriteItem(Item i, Person p, Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		favoriteItemMapper.delete(i);
+		favoriteItemMapper.delete(i, g);
 	}
 
 	public ArrayList<Item> getFavItems(Group g) throws IllegalArgumentException {
@@ -637,11 +642,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	}
 
 
-	@Override
-	public void updatePerson(String name) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 
 	@Override
