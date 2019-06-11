@@ -24,13 +24,13 @@ public interface ShoppingListAdministrationAsync {
 
 	void getAllPersons(AsyncCallback<ArrayList<Person>> callback);
 
-	void addFavoriteItem(Item i, Person p, AsyncCallback<Void> callback);
+	void addFavoriteItem(Item i, Person p, Group g, AsyncCallback<Void> callback);
 
 	void checkListItem(ListItem li, AsyncCallback<Void> callback);
 
 	void createGroup(String title, ArrayList<Person> member, AsyncCallback<Void> callback);
 
-	void createListItem(Item item, int buyerID, int storeID, int slID, AsyncCallback<ListItem> callback);
+	void createListItem(ListItem li, AsyncCallback<ListItem> callback);
 
 	void createPerson(String gmail, String name, AsyncCallback<Person> callback);
 
@@ -60,7 +60,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void updateGroup(Group g, AsyncCallback<Void> callback);
 
-	void removeFavoriteItem(Item i, Person p, AsyncCallback<Void> callback);
+	void removeFavoriteItem(Item i, Person p, Group g, AsyncCallback<Void> callback);
 
 	void updateItem(Item i, AsyncCallback<Void> callback);
 

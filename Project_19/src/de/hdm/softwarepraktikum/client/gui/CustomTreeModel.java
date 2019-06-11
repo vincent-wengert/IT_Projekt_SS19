@@ -18,8 +18,11 @@ import com.google.gwt.view.client.TreeViewModel;
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
+import de.hdm.softwarepraktikum.shared.bo.Item;
+import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
+import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 
 public class CustomTreeModel implements TreeViewModel {
 	
@@ -29,6 +32,7 @@ public class CustomTreeModel implements TreeViewModel {
 	private SingleSelectionModel<Object> selectionModel = new SingleSelectionModel<Object>(boKeyProvider);
 
 	private GroupForm gf;
+	private ShowShoppingListForm sslf;
 
 	private ShoppingList shoppingListToDisplay = null;
 	private Group groupToDisplay = null;
@@ -47,66 +51,13 @@ public class CustomTreeModel implements TreeViewModel {
 		Person p = new Person();
 		p.setId(1);
 		administration.getAllGroupsByPerson(p, new getAllGroupsByPersonCallback());
-
-//		// add demo groups and persons
-//		Group group1 = new Group();
-//		Group group2 = new Group();
-//		Group group3 = new Group();
-//		Group group4 = new Group();
-//
-//		ArrayList<ShoppingList> lists = new ArrayList<ShoppingList>();
-//		ShoppingList sl1 = new ShoppingList("Einkauf");
-//		lists.add(sl1);
-//
-//		ArrayList<Person> persons = new ArrayList<Person>();
-//
-//		Person p1 = new Person();
-//		p1.setName("Thomas Muller");
-//
-//		Person p2 = new Person();
-//		p2.setName("Hans Schneider");
-//
-//		Person p3 = new Person();
-//		p3.setName("Markus Eiersalat");
-//
-//		Person p4 = new Person();
-//		p4.setName("Wurst Kartofell");
-//
-//		Person p5 = new Person();
-//		p5.setName("Munkel Maknel");
-//
-//		persons.add(p1);
-//		persons.add(p2);
-//		persons.add(p3);
-//		persons.add(p4);
-//		persons.add(p5);
-//
-//		group1.setTitle("Familie");
-//		group2.setTitle("Uni");
-//		group3.setTitle("WG");
-//		group4.setTitle("Kindergarten");
-//
-//		group1.setMember(persons);
-//		group2.setMember(persons);
-//		group3.setMember(persons);
-//		group4.setMember(persons);
-//
-//		group1.setShoppingLists(lists);
-//		group2.setShoppingLists(lists);
-//		group3.setShoppingLists(lists);
-//		group4.setShoppingLists(lists);
-//
-//		groups.add(group1);
-//		groups.add(group2);
-//		groups.add(group3);
-//		groups.add(group4);
-
 	}
 	
 	public void loadGroups(){
 		Person p = new Person();
 		p.setId(1);
 		administration.getAllGroupsByPerson(p, new getAllGroupsByPersonCallback());
+
 	}
 
 	public void setSelectedGroup(Group g) {
@@ -118,10 +69,20 @@ public class CustomTreeModel implements TreeViewModel {
 		gf.setSelected(g);
 		RootPanel.get("Details").add(gf);
 	}
-
+	
 	public void setSelectedShoppingList(ShoppingList sl) {
-		shoppingListToDisplay = sl;
+		//shoppingListToDisplay = sl;
+		//sslf = new ShowShoppingListForm();
+		RootPanel.get("Details").clear();
+		sslf = new ShowShoppingListForm();
+		sslf.setSelected(sl);
+		Notification.show(sl.getTitle());
+		RootPanel.get("Details").add(sslf);
 	}
+
+//	public void setSelectedShoppingList(ShoppingList sl) {
+//		shoppingListToDisplay = sl;
+//	}
 
 	/**
 	 * Check if the specified value represents a leaf node. Leaf nodes cannot be

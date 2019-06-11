@@ -194,7 +194,7 @@ public class MenuPanel extends VerticalPanel{
 			newShoppingListForm = new NewShoppingListForm();
 			newShoppingListForm.setAllShoppingListCelllist(allShoppingListsCellList);
 			RootPanel.get("Details").add(newShoppingListForm);
-			navigator.selectTab(1);
+			navigator.selectTab(0);
 		}	
 	}
 	
@@ -206,7 +206,7 @@ public class MenuPanel extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			navigator.selectTab(3);
+			navigator.selectTab(2);
 			RootPanel.get("Details").clear();
 			itemForm = new ItemForm();
 			itemForm.setAllItemsCelllist(allItemsCellList);
@@ -225,7 +225,7 @@ public class MenuPanel extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			navigator.selectTab(2);
+			navigator.selectTab(3);
 			RootPanel.get("Details").clear();
 			
 			storeForm = new StoreForm();
