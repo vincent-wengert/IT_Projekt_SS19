@@ -30,7 +30,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void createGroup(String title, ArrayList<Person> member, AsyncCallback<Void> callback);
 
-	void createListItem(Item item, int buyerID, int storeID, int slID, AsyncCallback<ListItem> callback);
+	void createListItem(ListItem li, AsyncCallback<ListItem> callback);
 
 	void createPerson(String gmail, String name, AsyncCallback<Person> callback);
 

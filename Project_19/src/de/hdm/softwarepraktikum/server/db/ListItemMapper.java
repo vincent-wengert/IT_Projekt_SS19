@@ -238,5 +238,41 @@ public class ListItemMapper {
 				return listItems;
 				
 			}
+
+		public ArrayList<ListItem> findAllCheckedListItems(ShoppingList sl) {
+			// TODO Auto-generated method stub
+			Connection con = DBConnection.connection();
+			
+			ArrayList<ListItem> allCheckedListItems = new ArrayList<ListItem>();
+	
+			String st = "SELECT * from listitem WHERE slID=" + sl.getId() + "AND isChecked = 'True'";
+			
+			try {
+				
+				Statement stmt = con.createStatement();
+				
+				ResultSet rs = stmt.executeQuery(st);
+				
+				while (rs.next()) {
+					ListItem listItem = new ListItem();
+					listItem.setId(rs.getInt("ListItem_ID"));
+					listItem.setName(rs.getString("name"));
+					listItem.setAmount(rs.getDouble("amount"));
+					listItem.setUnit(listItem.getItemUnit(rs.getString("unit")));
+					listItem.setBuyerID(rs.getInt("buyerID"));
+					listItem.setChecked(rs.getBoolean("ischecked"));
+					listItem.setGrID(rs.getInt("grID"));
+					listItem.setSlID(rs.getInt("slID"));
+					listItem.setStoreID(rs.getInt("storeID"));
+					
+					listItems.add(listItem);
+				}
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+					}
+				
+				return listItems;
+		}
 			
 }
