@@ -9,9 +9,7 @@ import java.util.ArrayList;
 
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
-import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.Person;
-import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 public class FavoriteItemMapper {
 	
@@ -53,7 +51,7 @@ Connection con = DBConnection.connection();
 		try {
 
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("INSERT INTO FavoriteItem (itemID, personID, groupID) " + "VALUES (" + i.getId() + ",'"
+			stmt.executeUpdate("INSERT INTO FavoriteItems (itemID, personID, groupID) " + "VALUES (" + i.getId() + ",'"
 							+ p.getId() + "','" + g.getId() + "')");		
 			
 		}
@@ -92,13 +90,13 @@ Connection con = DBConnection.connection();
 	 * Delete Methode, um einen Artikel aus der Datenbank zu entfernen.
 	 */
 	
-	public void delete(Item i) {
+	public void delete(Item i, Group g) {
 		Connection con = DBConnection.connection();
 		
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE FROM groups " + "WHERE id=" + i.getId());
+			stmt.executeUpdate("DELETE FROM FavoriteItems " + "WHERE item_id=" + i.getId() + "AND group_id="+ g.getId());
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -114,13 +112,13 @@ Connection con = DBConnection.connection();
 		 try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT item FROM group "
-		          + "WHERE groupid =" + g.getId());
+		      ResultSet rs = stmt.executeQuery("SELECT FavoriteItem.item_id, Item.name FROM FavoriteItem INNER JOIN item ON FavoriteItem.item_id = item.item_id WHERE groupid =" + g.getId());
 
 		      // F�r jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
 		      while (rs.next()) {
 		    	Item i = new Item();
 		        i.setId(rs.getInt("id"));
+		        i.setName(rs.getString("name"));
 		      
 
 		        // Hinzuf�gen des neuen Items zum Ergebnisvektor
