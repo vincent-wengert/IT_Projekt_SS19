@@ -399,9 +399,11 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		return this.listItemMapper.findById(id);
 	}
 	
-	public ArrayList<ListItem> getAllCheckedItemsByGroup(Group g) throws IllegalArgumentException {
+	public ArrayList<ListItem> getAllCheckedItemsBySL(ShoppingList sl) throws IllegalArgumentException {
 		//return this.groupMapper.
-		return null;
+		ArrayList<ListItem> allCheckedItems = listItemMapper.findAllCheckedListItems(sl);
+		
+		return allCheckedItems;
 	}
 	
 	/*
@@ -576,7 +578,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	}
 	
 	public Store getStore(int id) throws IllegalArgumentException {
-		return null;
+		return storeMapper.findByID(id);
 	}
 	
 	public ArrayList<Store> getAllStores() throws IllegalArgumentException{
@@ -646,16 +648,28 @@ private FavoriteItemMapper favoriteItemMapper = null;
 
 
 	@Override
-	public ListItem createListItem(Item item, int buyerID, int storeID, int slID) {
-		// TODO Auto-generated method stub
-		return null;
+	public ListItem createListItem(ListItem li) {
+		return listItemMapper.insert(li);
 	}
 
 
 	@Override
 	public ArrayList<ShoppingList> getAllShoppingListsByGroup(Group g) {
+		return this.shoppingListMapper.findByGroup(g);
+	}
+
+
+	@Override
+	public void updatePerson(String name) {
 		// TODO Auto-generated method stub
-		return null;
+		
+	}
+
+
+	@Override
+	public void getGroup(ShoppingList sl) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
