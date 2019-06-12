@@ -168,6 +168,7 @@ public class ListItemDialog extends PopupPanel{
 		itemTextBox.setVisible(false);
 		administration.getAllItems(new GetAllItemsCallback());
 		administration.getAllStores(new GetAllStoresCallback());
+		administration.getAllPersons(new GetAllGroupMembersCallback());
 		//administration.getAllGroupMembers(g, new GetAllGroupMembersCallback());
 		loadListBox();
 	}
@@ -185,7 +186,7 @@ public class ListItemDialog extends PopupPanel{
 		itemTextBox.setEnabled(false);
 		
 		itemTextBox.setText(li.getName());
-		amountTextBox.setText(Double.toString(li.getAmount()));	
+		amountTextBox.setText(Double.toString(li.getAmount()));
 	}
 	/**
 	 * Implementierung der ListBox, wird bei der Instanziierung augfgerufen
