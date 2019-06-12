@@ -252,8 +252,8 @@ public class ListItemDialog extends PopupPanel{
 			if (existingButton.getValue()==true) {
 				getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
 				ListItem li = new ListItem(itemListBox.getSelectedItemText(), getItemUnit(unitListBox.getSelectedItemText()) , Integer.parseInt(amountTextBox.getText()), false);	
-
-				sslf.AddListItem(li);
+				administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), 1, 1, Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new createListItemCallback());
+				//sslf.AddListItem(li);
 			}
 			else {
 				ListItem li = new ListItem(itemTextBox.getText(), getItemUnit(unitListBox.getSelectedItemText()) ,
@@ -339,6 +339,21 @@ public class ListItemDialog extends PopupPanel{
 
 		}
 	}
+	
+	private class createListItemCallback implements AsyncCallback<ListItem> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show(caught.toString());
+		}
+		
+		@Override
+		public void onSuccess(ListItem result) {
+			// TODO Auto-generated method stub
+
+		}
+	}
+	
 	
 	public Unit getItemUnit (String unit) {
 		if (unit == "L") {

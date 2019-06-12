@@ -93,19 +93,19 @@ public class ResponsibilityMapper {
 			//leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 			
-			//Statement ausfüllen und als Query an die DB schicken
+			//Statement ausfï¿½llen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery("Select Responsibilty_id,Store_ID FROM Responsibility" + "WHERE Store_id= " + s.getId());
 			
 			/*
-		     * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-		     * werden. Prüfe, ob ein Ergebnis vorliegt.
+		     * Da id Primï¿½rschlï¿½ssel ist, kann max. nur ein Tupel zurï¿½ckgegeben
+		     * werden. Prï¿½fe, ob ein Ergebnis vorliegt.
 		     */
 			while(rs.next()) {
 				Responsibility r = new Responsibility();
 				r.setId(rs.getInt("Responsibility_id"));
 				r.setStoreID(rs.getInt("Store_id"));
 				
-				//Hinzufügen des neuen Objekts zum Ergebnisvektor
+				//Hinzufï¿½gen des neuen Objekts zum Ergebnisvektor
 				result.add(r);
 	}
 		}catch (SQLException e) {
@@ -131,19 +131,19 @@ public class ResponsibilityMapper {
 			//leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 			
-			//Statement ausfüllen und als Query an die DB schicken
+			//Statement ausfï¿½llen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery("Select Responsibilty_id,Store_ID FROM Responsibility" + "WHERE Person_ID_id= " + p.getId());
 			
 			/*
-		     * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-		     * werden. Prüfe, ob ein Ergebnis vorliegt.
+		     * Da id Primï¿½rschlï¿½ssel ist, kann max. nur ein Tupel zurï¿½ckgegeben
+		     * werden. Prï¿½fe, ob ein Ergebnis vorliegt.
 		     */
 			while(rs.next()) {
 				Responsibility r = new Responsibility();
 				r.setId(rs.getInt("Responsibility_id"));
 				r.setBuyerID(rs.getInt("Person_id"));
 				
-				//Hinzufügen des neuen Objekts zum Ergebnisvektor
+				//Hinzufï¿½gen des neuen Objekts zum Ergebnisvektor
 				result.add(r);
 	}
 		}catch (SQLException e) {
@@ -212,7 +212,7 @@ public class ResponsibilityMapper {
 			 
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT MAX(Responisbility_ID) AS maxid " + "FROM Responsibility");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(Responsibility_ID) AS maxid " + "FROM Responsibility");
 
 
 		      if (rs.next()) {
