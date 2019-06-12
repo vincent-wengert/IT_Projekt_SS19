@@ -155,8 +155,7 @@ public class GroupMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE `Group` " + "SET Title=\"" + g.getTitle() + "\", " + "person=\""
-					+ g.getMember() + "\" " + "WHERE Group_ID=" + g.getId());
+			stmt.executeUpdate("UPDATE `Group` " + "SET Title=\"" + g.getTitle() + "\" " + "WHERE Group_ID=" + g.getId());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

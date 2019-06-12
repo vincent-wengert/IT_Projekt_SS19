@@ -292,7 +292,7 @@ body{
 	background-repeat:no-repeat;
 	background-position: center center;
 	background-size: cover;
-}
+
 
 .favButton:hover{
 	
@@ -302,6 +302,7 @@ body{
 	background-image: url("images/favButton.png");
 	background-repeat:no-repeat;
 	background-position: center center;
+	background-size: 60%;
 }
 
 .favButtonClick{

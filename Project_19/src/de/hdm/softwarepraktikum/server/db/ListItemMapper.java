@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
+import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
@@ -50,7 +51,7 @@ public class ListItemMapper {
 	}
 	
 
-	public ListItem insert(ListItem li) {
+	public ListItem insert(ListItem li, Responsibility res) {
 		Connection con = DBConnection.connection();
 		
 		try {
@@ -74,9 +75,8 @@ public class ListItemMapper {
 							
 			// Jetzt erst erfolgt die tats�chliche Einf�geoperation
 
-			stmt.executeUpdate("INSERT INTO ListItem (ListItem_ID, name, amount, unit, ischecked, buyerID, storeID, slID, grID) " + "VALUES (" + li.getId() + ",'"
-					+ li.getName() + "','" + li.getAmount() + "','" + li.getUnit().toString() +  "','" + li.isChecked() + "','" + li.getBuyerID() + "','" + li.getStoreID() + 
-					"','" + li.getSlID() + "','" + li.getGrID() + "')");
+			stmt.executeUpdate("INSERT INTO ListItem (ListItem_ID, Unit, Amount, IsChecked, Responsibility_ID, Item_ID) " + "VALUES (" + li.getId() + ",'"
+					+ li.getUnit() + "','" + li.getAmount() + "','" + li.getChecked() +  "','" + res.getId() + "','" + li.getItemId() +  "')");
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
@@ -102,7 +102,7 @@ public class ListItemMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE listitems " + "SET item=\"" + li.getIt() + "\", " + "amount=\""
+			stmt.executeUpdate("UPDATE listitems " + "SET item=\"" + li.getItemId() + "\", " + "amount=\""
 					+ li.getAmount() + "\" " + "WHERE id=" + li.getId());
 			
 		} catch (SQLException e) {
@@ -265,14 +265,14 @@ public class ListItemMapper {
 					listItem.setSlID(rs.getInt("slID"));
 					listItem.setStoreID(rs.getInt("storeID"));
 					
-					listItems.add(listItem);
+					allCheckedListItems.add(listItem);
 				}
 					
 				} catch (SQLException e) {
 					e.printStackTrace();
 					}
 				
-				return listItems;
+				return allCheckedListItems;
 		}
 			
 }

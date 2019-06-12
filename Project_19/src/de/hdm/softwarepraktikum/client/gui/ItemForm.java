@@ -208,6 +208,8 @@ public class ItemForm extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			setTableEditable(false);
 			favButton.setStylePrimaryName("favButtonClick");
+
+			Notification.show("Artikel wurde zu den Favoriten hinzugef&uuml;gt");
 		}
 	}
 	

@@ -172,7 +172,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			public Boolean getValue(ListItem object) {
 				// Get the value from the selection model.
 				//return singleSelectionModel.isSelected(object);
-				if (object.isChecked() == true){
+				if (object.getChecked() == true){
 					return true;
 				} else {
 				return false;

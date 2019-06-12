@@ -15,7 +15,7 @@ public class ListItem extends BusinessObject{
 	private static final long serialVersionUID = 1L;
 	private boolean isChecked = false;
 	private double amount;
-	private Item It;
+	private int itemId;
 	private Unit unit;
 	private int buyerID;
 	private int storeID;
@@ -70,7 +70,7 @@ public class ListItem extends BusinessObject{
 		unit = input;
 	}
 	
-	public boolean isChecked() {
+	public boolean getChecked() {
 		return isChecked;
 	}
 	public void setChecked(boolean isChecked) {
@@ -84,11 +84,11 @@ public class ListItem extends BusinessObject{
 		this.amount = amount;
 	}
 	
-	public Item getIt() {
-		return It;
+	public int getItemId() {
+		return itemId;
 	}
-	public void setIt(Item it) {
-		this.It = it;
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
 	}
 
 	public int getBuyerID() {
