@@ -207,6 +207,7 @@ public class ItemForm extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			setTableEditable(false);
+			favButton.setStylePrimaryName("favButtonClick");
 		}
 	}
 	

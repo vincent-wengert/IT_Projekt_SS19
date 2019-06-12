@@ -161,6 +161,7 @@ body{
 	background-image: url("images/group.png");
 	background-repeat:no-repeat;
 	background-position: center center;
+	background-size: cover;
 }
 .createGroupButton:hover{
 	background-color: grey;
@@ -170,6 +171,7 @@ body{
 	color: white;
 	border:solid black 1px;
 	background-image: url("images/group.png");
+	background-size: cover;
 	
 }
 						
@@ -184,6 +186,7 @@ body{
 	background-image: url("images/shoppinglist.png");
 	background-repeat:no-repeat;
 	background-position: center center;
+	background-size: cover;
 }
 
 .createShoppinglistButton:hover{
@@ -194,6 +197,7 @@ body{
 	color: white;
 	border:solid black 1px;
 	background-image: url("images/shoppinglist.png");
+	background-size: cover;
 }
 
 .createArticleButton{		
@@ -207,6 +211,7 @@ body{
 	background-image: url("images/article.png");
 	background-repeat:no-repeat;
 	background-position: center center;
+	background-size: cover;
 }
 
 .createArticleButton:hover{
@@ -217,6 +222,7 @@ body{
 	color: white;
 	border:solid black 1px;
 	background-image: url("images/article.png");
+	background-size: cover;
 }
 
 .createStoreButton{	
@@ -230,6 +236,7 @@ body{
 	background-image: url("images/store.png");
 	background-repeat:no-repeat;
 	background-position: center center;
+	background-size: cover;
 }
 
 .createStoreButton:hover{	
@@ -240,6 +247,7 @@ body{
 	color: white;
 	border:solid black 1px;
 	background-image: url("images/store.png");
+	background-size: cover;
 }
 
 
@@ -255,7 +263,10 @@ body{
 	background-image: url("images/logout.png");
 	background-repeat:no-repeat;
 	background-position: center center;
-    background-size: 50%;
+    background-size: cover;
+    height: 5px;
+    width: 5px;
+    background-margin: 2px;
 }
 
 .logoutButton:hover {
@@ -266,7 +277,9 @@ body{
 	color: white;
 	border:solid black 1px;
 	background-image: url("images/logout.png");	
-	background-size: 50%;
+	background-size: cover;
+	height: 10px;
+	width: 10px;
 	
 }
 
@@ -278,7 +291,7 @@ body{
 	background-image: url("images/favButton.png");
 	background-repeat:no-repeat;
 	background-position: center center;
-	background-size: 50%;
+	background-size: cover;
 }
 
 .favButton:hover{
@@ -289,6 +302,17 @@ body{
 	background-image: url("images/favButton.png");
 	background-repeat:no-repeat;
 	background-position: center center;
+}
+
+.favButtonClick{
+	
+	outline:none !important;
+	border: none;
+	background: transparent;
+	background-image: url("images/favButtonClick.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+	background-size: cover;
 }
 
 .editButton{
