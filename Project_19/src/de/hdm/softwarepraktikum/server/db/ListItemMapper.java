@@ -76,7 +76,7 @@ public class ListItemMapper {
 		li.setId(rs.getInt("maxid") + 1);
 				
 		PreparedStatement stmt2 = con.prepareStatement(
-				"INSERT INTO ListItem (ListItem_ID, Unit, Amount, IsChecked, Responsibility_ID, Item_ID) " + "VALUES (?, ?, ?, ?, ?. ?)",
+				"INSERT INTO ListItem (ListItem_ID, Unit, Amount, IsChecked, Responsibility_ID, Item_ID) " + "VALUES (?, ?, ?, ?, ?, ?)",
 				Statement.RETURN_GENERATED_KEYS);
 		
 		stmt2.setInt(1, li.getId());
