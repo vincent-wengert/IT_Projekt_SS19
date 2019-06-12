@@ -21,7 +21,7 @@ public class MenuPanel extends VerticalPanel{
 	private AllItemsCellList allItemsCellList;
 	private AllStoresCellList allStoresCellList;
 	private AllShoppingListsCellList allShoppingListsCellList;
-	private GroupForm newGroupForm;
+	private GroupForm groupForm;
 
 	private ItemForm itemForm;
 	private StoreForm storeForm;
@@ -162,7 +162,7 @@ public class MenuPanel extends VerticalPanel{
 	 * @param die zu setzende NewGroupForm
 	 */
 	public void setNewGroupForm(GroupForm newGroupForm) {
-		this.newGroupForm = newGroupForm;
+		this.groupForm = newGroupForm;
 	}
 	
 	/**
@@ -174,11 +174,11 @@ public class MenuPanel extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			RootPanel.get("Details").clear();
 			navigator.selectTab(0);
-			newGroupForm = new GroupForm();
+			groupForm = new GroupForm();
 			
-			newGroupForm.setEditable(true);
-			newGroupForm.setInitial(true);
-			RootPanel.get("Details").add(newGroupForm);
+			groupForm.setEditable(true);
+			groupForm.setInitial(true);
+			RootPanel.get("Details").add(groupForm);
 		}	
 	}
 	
@@ -206,7 +206,7 @@ public class MenuPanel extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			navigator.selectTab(2);
+			navigator.selectTab(1);
 			RootPanel.get("Details").clear();
 			itemForm = new ItemForm();
 			itemForm.setAllItemsCelllist(allItemsCellList);
@@ -225,7 +225,7 @@ public class MenuPanel extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			navigator.selectTab(3);
+			navigator.selectTab(2);
 			RootPanel.get("Details").clear();
 			
 			storeForm = new StoreForm();
@@ -245,7 +245,7 @@ public class MenuPanel extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			Notification.show("Logout");
-			navigator.selectTab(2);
+//			navigator.selectTab(2);
 //			
 //			u.setLogoutUrl(u.getLogoutUrl());
 //			Window.open(u.getLogoutUrl(), "_self", "");

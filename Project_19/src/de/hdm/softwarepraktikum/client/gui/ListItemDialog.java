@@ -47,6 +47,12 @@ public class ListItemDialog extends PopupPanel{
 	private ArrayList<Item> allItems = new ArrayList<Item>();
 	private ArrayList<Store> allStores = new ArrayList<Store>();
 	private ArrayList<Person> allPersons = new ArrayList<Person>();
+	
+	private Person selectedPerson = null;
+	private Store selectedStore = null;
+	private Item selectedItem = null;
+	private ListItem selectedListItem = null;
+	
 
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button ("\u2716");
@@ -173,6 +179,27 @@ public class ListItemDialog extends PopupPanel{
 		loadListBox();
 	}
 	
+	public void getSelectedObjects(String person, String store, String item) {
+		
+		for (Person p : allPersons) {
+			if (p.getName().equals(person)) {
+				selectedPerson = p;
+			}
+		}
+		
+		for (Store s : allStores) {
+			if (s.getName().equals(store)) {
+				selectedStore = s ;
+			}
+		}
+		
+		for (Item i : allItems) {
+			if (i.getName().equals(item)) {
+				selectedItem = i;
+			}
+		}
+	}
+	
 	public void displayListItem(ListItem li) {
 		
 		itemLabel.setText("Artikel bearbeiten");
@@ -192,7 +219,6 @@ public class ListItemDialog extends PopupPanel{
 	 * Implementierung der ListBox, wird bei der Instanziierung augfgerufen
 	 */
 	public void loadListBox() {
-		unitListBox.addItem("");
 		unitListBox.addItem("KG");
 		unitListBox.addItem("L");
 		unitListBox.addItem("ML");
@@ -208,7 +234,6 @@ public class ListItemDialog extends PopupPanel{
 		
 		@Override
 		public void onSuccess(ArrayList<Item> result) {
-			// TODO Auto-generated method stub
 			allItems = result;
 			for (Item i : allItems) {
 				itemListBox.addItem(i.getName());
@@ -223,7 +248,9 @@ public class ListItemDialog extends PopupPanel{
 	private class ConfirmClickHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
+			
 			if (existingButton.getValue()==true) {
+				getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
 				ListItem li = new ListItem(itemListBox.getSelectedItemText(), getItemUnit(unitListBox.getSelectedItemText()) , Integer.parseInt(amountTextBox.getText()), false);	
 
 				sslf.AddListItem(li);

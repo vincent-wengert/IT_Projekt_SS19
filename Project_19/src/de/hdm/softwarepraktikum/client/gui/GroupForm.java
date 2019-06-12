@@ -64,7 +64,7 @@ public class GroupForm extends VerticalPanel {
 	private ArrayList<Person> membersList = new ArrayList<Person>();
 	private Person selectedPerson = null;
 
-	private Group group = null;
+	private Group groupToDisplay = null;
 
 	private Boolean initial;
 	private Boolean editable;
@@ -90,8 +90,7 @@ public class GroupForm extends VerticalPanel {
 
 		cancelButton.addClickHandler(new CancelClickHandler());
 		bottomButtonsPanel.add(cancelButton);
-
-		addButton.addClickHandler(new AddMemberClickHandler());
+		
 		cancelSearchButton.addClickHandler(new CancelSearchClickHandler());
 	}
 
@@ -171,7 +170,7 @@ public class GroupForm extends VerticalPanel {
 	private VerticalPanel showGroupMembers() {
 		tempString = " ";
 		if (initial == false) {
-			for (Person p : group.getMember()) {
+			for (Person p : groupToDisplay.getMember()) {
 				vp.add(new HTML(p.getName()));
 			}
 		} else if (initial == true) {
@@ -221,8 +220,8 @@ public class GroupForm extends VerticalPanel {
 	}
 
 	public void setSelected(Group g) {
-		group = g;
-		infoTitleLabel.setText(group.getTitle());
+		groupToDisplay = g;
+		infoTitleLabel.setText(groupToDisplay.getTitle());
 	}
 
 	public void setTableEditable(Boolean editable) {
@@ -280,7 +279,8 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			RootPanel.get("Details").clear();
+			setEditable(false);
+			setTableEditable(editable);
 		}
 	}
 
@@ -292,11 +292,14 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			RootPanel.get("Details").clear();
 			if (initial == true) {
 				administration.createGroup(groupNameBox.getText(),membersList, new createGroupCallback());
+				setEditable(false);
+				setTableEditable(editable);
 			} else {
-				// update group
+				administration.updateGroup(groupToDisplay, new updateGroupCallback());
+				setEditable(false);
+				setTableEditable(editable);
 			}
 
 		}
@@ -307,6 +310,7 @@ public class GroupForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			setEditable(true);
+			setTableEditable(editable);
 			setInitial(false);
 		}
 	}
@@ -315,17 +319,7 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
-		}
-	}
-
-	private class AddMemberClickHandler implements ClickHandler {
-
-		@Override
-		public void onClick(ClickEvent event) {
-			if (personSuggestBox.getValue() != null) {
-
-			}
+			//
 		}
 	}
 
@@ -390,7 +384,7 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Notification.show("Die Person konnte leider nicht erstellt werden:\n" + caught.toString());
+			Notification.show("Die Gruppe konnte leider nicht erstellt werden:\n" + caught.toString());
 		}
 
 		@Override
@@ -398,7 +392,20 @@ public class GroupForm extends VerticalPanel {
 			// add item to cellist
 			// aicl.updateCellList();
 			Notification.show("Gruppe wurde erstellt");
-
 		}
+	}
+	
+	private class updateGroupCallback implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show("Die Gruppe konnte leider nicht aktualisiert werden:\n" + caught.toString());
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			Notification.show("Die Gruppe wurde aktualisiert");
+		}
+		
 	}
 }
