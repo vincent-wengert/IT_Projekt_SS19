@@ -90,8 +90,7 @@ public class GroupForm extends VerticalPanel {
 
 		cancelButton.addClickHandler(new CancelClickHandler());
 		bottomButtonsPanel.add(cancelButton);
-
-		addButton.addClickHandler(new AddMemberClickHandler());
+		
 		cancelSearchButton.addClickHandler(new CancelSearchClickHandler());
 	}
 
@@ -320,17 +319,7 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
-		}
-	}
-
-	private class AddMemberClickHandler implements ClickHandler {
-
-		@Override
-		public void onClick(ClickEvent event) {
-			if (personSuggestBox.getValue() != null) {
-
-			}
+			//
 		}
 	}
 
