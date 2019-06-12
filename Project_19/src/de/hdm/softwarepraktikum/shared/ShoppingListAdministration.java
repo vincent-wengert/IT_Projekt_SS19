@@ -20,7 +20,7 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void init();
 	
-	public void updatePerson(String name);
+	public void updatePerson(Person p);
 	
 	public Person createPerson(String gmail, String name);
 	

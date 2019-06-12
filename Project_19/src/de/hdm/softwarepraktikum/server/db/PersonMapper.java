@@ -292,12 +292,7 @@ public class PersonMapper{
 		return null;
 		
 	}
-	public ArrayList<Item> allFavoriteItems() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	//RemovefavoriteItem machen, Item aus ArrayList entfernen
+
 
 	
 	

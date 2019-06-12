@@ -183,7 +183,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 */
 	
 	public Person getPerson(int id) throws IllegalArgumentException {
-		return personMapper.findById(id);
+		return this.personMapper.findById(id);
 	}
 	
 	/**
@@ -399,8 +399,9 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		return this.listItemMapper.findById(id);
 	}
 	
+	
 	public ArrayList<ListItem> getAllCheckedItemsBySL(ShoppingList sl) throws IllegalArgumentException {
-		//return this.groupMapper.
+		
 		ArrayList<ListItem> allCheckedItems = listItemMapper.findAllCheckedListItems(sl);
 		
 		return allCheckedItems;
@@ -518,13 +519,6 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	@Override
 	public void addFavoriteItem(Item i, Person p, Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
-		
-		personMapper.findByName(p.getName());
-		
-		ArrayList<Item> favItem = personMapper.allFavoriteItems();
-		favItem.add(i);
-		
 		favoriteItemMapper.insert(i, p, g);
 	}
 
@@ -536,8 +530,9 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	}
 
 	public ArrayList<Item> getFavItems(Group g) throws IllegalArgumentException {
-//		return this.personMapper.findFav(p);
-		return favoriteItemMapper.findFavItems(g);
+		
+		ArrayList<Item> favItems = favoriteItemMapper.findFavItems(g);
+		return favItems;
 	}
 	
 	/*
@@ -578,7 +573,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	}
 	
 	public Store getStore(int id) throws IllegalArgumentException {
-		return storeMapper.findByID(id);
+		return this.storeMapper.findByID(id);
 	}
 	
 	public ArrayList<Store> getAllStores() throws IllegalArgumentException{
@@ -649,7 +644,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 
 	@Override
 	public ListItem createListItem(ListItem li) {
-		return listItemMapper.insert(li);
+		return this.listItemMapper.insert(li);
 	}
 
 
@@ -658,12 +653,6 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		return this.shoppingListMapper.findByGroup(g);
 	}
 
-
-	@Override
-	public void updatePerson(String name) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	@Override
