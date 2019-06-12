@@ -1,6 +1,7 @@
 package de.hdm.softwarepraktikum.server.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -55,28 +56,38 @@ public class ListItemMapper {
 		Connection con = DBConnection.connection();
 		
 		try {
+			
 			Statement stmt = con.createStatement();
 			
-			/*
-			 * Zun�chst schauen wir nach, welches der momentan h�chste
-			 * Prim�rschl�sselwert ist.
-			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(ListItem_ID) AS maxid " + "FROM ListItem ");
+		/*
+		 * Zun�chst schauen wir nach, welches der momentan h�chste
+		 * Prim�rschl�sselwert ist.
+		 */
 			
-			// Wenn wir etwas zur�ckerhalten, kann dies nur einzeilig sein
-			if (rs.next()) {
-			/*
-			 * li erh�lt den bisher maximalen, nun um 1 inkrementierten
-			 * Prim�rschl�ssel.
-			 */
-			li.setId(rs.getInt("maxid") + 1);
-					
-			stmt = con.createStatement();
-							
-			// Jetzt erst erfolgt die tats�chliche Einf�geoperation
-
-			stmt.executeUpdate("INSERT INTO ListItem (ListItem_ID, Unit, Amount, IsChecked, Responsibility_ID, Item_ID) " + "VALUES (" + li.getId() + ",'"
-					+ li.getUnit() + "','" + li.getAmount() + "','" + li.getChecked() +  "','" + res.getId() + "','" + li.getItemId() +  "')");
+			
+		ResultSet rs = stmt.executeQuery("SELECT MAX(ListItem_ID) AS maxid " + "FROM ListItem");
+		
+		// Wenn wir etwas zur�ckerhalten, kann dies nur einzeilig sein
+		if (rs.next()) {
+		/*
+		 * i erh�lt den bisher maximalen, nun um 1 inkrementierten
+		 * Prim�rschl�ssel.
+		 */
+		li.setId(rs.getInt("maxid") + 1);
+				
+		PreparedStatement stmt2 = con.prepareStatement(
+				"INSERT INTO ListItem (ListItem_ID, Unit, Amount, IsChecked, Responsibility_ID, Item_ID) " + "VALUES (?, ?, ?, ?, ?. ?)",
+				Statement.RETURN_GENERATED_KEYS);
+		
+		stmt2.setInt(1, li.getId());
+		stmt2.setString(2, li.getUnit().toString());
+		stmt2.setDouble(3, li.getAmount());
+		stmt2.setBoolean(4, li.getChecked());
+		stmt2.setInt(5, res.getId());
+		stmt2.setInt(6, li.getItemId());
+		System.out.println(stmt2);
+		stmt2.executeUpdate();
+			
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
