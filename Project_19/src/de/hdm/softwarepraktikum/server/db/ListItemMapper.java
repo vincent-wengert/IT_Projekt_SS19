@@ -102,7 +102,7 @@ public class ListItemMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE listitems " + "SET item=\"" + li.getIt() + "\", " + "amount=\""
+			stmt.executeUpdate("UPDATE listitems " + "SET item=\"" + li.getItemId() + "\", " + "amount=\""
 					+ li.getAmount() + "\" " + "WHERE id=" + li.getId());
 			
 		} catch (SQLException e) {
@@ -265,14 +265,14 @@ public class ListItemMapper {
 					listItem.setSlID(rs.getInt("slID"));
 					listItem.setStoreID(rs.getInt("storeID"));
 					
-					listItems.add(listItem);
+					allCheckedListItems.add(listItem);
 				}
 					
 				} catch (SQLException e) {
 					e.printStackTrace();
 					}
 				
-				return listItems;
+				return allCheckedListItems;
 		}
 			
 }

@@ -250,7 +250,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * @throws IllegalArgumentException
 	 */
 	
-	public void createItem(String name, boolean value) throws IllegalArgumentException {
+	public Item createItem(String name, boolean value) throws IllegalArgumentException {
 		
 		Item i = new Item();
 		
@@ -268,7 +268,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		 * Objekt in Datenbank speichern.
 		 */
 		
-		this.itemMapper.insert(i);
+		return this.itemMapper.insert(i);
 		
 	}
 	
@@ -338,7 +338,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * @return Das in die Datenbank gespeicherte ListITemObjekt wird zurückgegeben
 	 */
 	
-	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, Unit unit) throws IllegalArgumentException {
+	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, Unit unit, Boolean isChecked) throws IllegalArgumentException {
 		
 		Responsibility res = new Responsibility();
 		res.setBuyerID(buyerID);
@@ -349,7 +349,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 		ListItem li = new ListItem();
 		
-		li.setIt(item);
+		li.setItemId(item.getId());
 		li.setBuyerID(buyerID);
 		li.setStoreID(storeID);
 		li.setSlID(slID);
@@ -357,6 +357,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		li.setAmount(amount);
 		li.setUnit(unit);
 		li.setName(item.getName());
+		li.setChecked(isChecked);
 		
 		/**
 		 * Setzen einer vorlÃ¤ufigen ID. Der Insert Aufruf liefert dann ein Objekt,
@@ -647,13 +648,6 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	}
 
 
-	
-
-
-	@Override
-	public ListItem createListItem(ListItem li) {
-		return this.listItemMapper.insert(li);
-	}
 
 
 	@Override

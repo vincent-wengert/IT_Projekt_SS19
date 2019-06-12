@@ -36,7 +36,7 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public Item getItem(int id);
 	
-	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, Unit unit);
+	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, Unit unit, Boolean isChecked);
 	
 	public void updateListItem(ListItem li);
 	
