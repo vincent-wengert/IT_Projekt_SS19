@@ -208,7 +208,6 @@ public class ListItemDialog extends PopupPanel{
 		
 		@Override
 		public void onSuccess(ArrayList<Item> result) {
-			// TODO Auto-generated method stub
 			allItems = result;
 			for (Item i : allItems) {
 				itemListBox.addItem(i.getName());
