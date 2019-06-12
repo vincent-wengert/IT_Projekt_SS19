@@ -252,7 +252,7 @@ public class ListItemDialog extends PopupPanel{
 			if (existingButton.getValue()==true) {
 				getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
 				ListItem li = new ListItem(itemListBox.getSelectedItemText(), getItemUnit(unitListBox.getSelectedItemText()) , Integer.parseInt(amountTextBox.getText()), false);	
-
+				administration.createListItem
 				sslf.AddListItem(li);
 			}
 			else {

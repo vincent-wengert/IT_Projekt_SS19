@@ -297,6 +297,8 @@ public class GroupForm extends VerticalPanel {
 				setEditable(false);
 				setTableEditable(editable);
 			} else {
+				Window.alert("update");
+				groupToDisplay.setTitle(groupNameBox.getText());
 				administration.updateGroup(groupToDisplay, new updateGroupCallback());
 				setEditable(false);
 				setTableEditable(editable);
