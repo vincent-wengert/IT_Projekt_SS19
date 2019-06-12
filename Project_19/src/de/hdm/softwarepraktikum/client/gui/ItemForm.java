@@ -207,6 +207,8 @@ public class ItemForm extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			setTableEditable(false);
+			Notification.show("Artikel wurde zu den Favoriten hinzugef&uuml;gt");
+			
 		}
 	}
 	
