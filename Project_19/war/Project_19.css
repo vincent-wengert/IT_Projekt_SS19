@@ -292,7 +292,32 @@ body{
 	background-position: center center;
 }
 
+.shoppinglistNameBox {
+	font-weight: bold;
+	font-size: 200% !important;
+	margin: 10px;
+}
+
 .addListItemButton{
+	background-color: #6f7277;
+	border: solid black 1px;
+	margin: 15px;
+	background-image: url("images/addListItem.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+.addListItemButton:hover{
+	border: solid white 2px;
+	cursor: pointer;
+	margin: 15px;
+	background-color:#6f7277;
+	background-image: url("images/addListItem.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+.editListNameButton{
 	outline:none !important;
 	border: none;
 	background: transparent;
@@ -301,7 +326,7 @@ body{
 	background-position: center center;
 }
 
-.addListItemButton:hover{
+.editListNameButton:hover{
 	border:solid black 1px;
 	cursor: pointer;
 	background-color:#6f7277;
@@ -441,9 +466,9 @@ body{
 
 .infoTitleLabel {
 	color:white;
-	margin-left:10px;
+	margin:10px;
 	font-weight: bold;
-	font-size: 250% !important;
+	font-size: 200% !important;
 	margin-Bottom:7px;
 	
 }
@@ -538,6 +563,10 @@ body{
 
 .bottomButtonsPanel{
 
+}
+
+.addListItemPanel {
+	
 }
 
 .refreshInfoLabel {
