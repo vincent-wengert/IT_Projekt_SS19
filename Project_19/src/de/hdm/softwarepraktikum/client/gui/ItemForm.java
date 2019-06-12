@@ -4,6 +4,7 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
@@ -43,6 +44,7 @@ public class ItemForm extends VerticalPanel{
 
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
+	private Button favButton = new Button();
 	private Button editButton = new Button();
 	private Button deleteButton = new Button();
 	private Grid itemGrid = new Grid(2,2);
@@ -53,6 +55,9 @@ public class ItemForm extends VerticalPanel{
 	private AllItemsCellList aicl = new AllItemsCellList();;
 
 	public ItemForm() {
+		favButton.addClickHandler(new FavClickHandler());
+		topButtonsPanel.add(favButton);
+		
 		editButton.addClickHandler(new EditClickHandler());
 		topButtonsPanel.add(editButton);
 		
@@ -77,6 +82,7 @@ public class ItemForm extends VerticalPanel{
 	public void onLoad() {
 
 		this.setWidth("100%");
+		favButton.setStylePrimaryName("favButton");
 		editButton.setStylePrimaryName("editButton");
 		deleteButton.setStylePrimaryName("deleteButton");
 		itemNameLabel.setStylePrimaryName("textLabel");
@@ -90,6 +96,9 @@ public class ItemForm extends VerticalPanel{
 		editButton.setHeight("8vh");
 		editButton.setWidth("8vh");
 		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_LEFT);
+		favButton.setHeight("8vh");
+		favButton.setWidth("8vh");
+		topButtonsPanel.setCellHorizontalAlignment(favButton, ALIGN_LEFT);
 		deleteButton.setHeight("8vh");
 		deleteButton.setWidth("8vh");
 		topButtonsPanel.setCellHorizontalAlignment(deleteButton, ALIGN_RIGHT);
@@ -193,6 +202,14 @@ public class ItemForm extends VerticalPanel{
 	 * EditClickHandler der das Bearbeiten des Items ermöglicht.
 	 * Durch diesen werden alle Textboxen aktiviert, sowie ein zusätzliches ButtonPanel angezeigt.
 	 */
+	
+	private class FavClickHandler implements ClickHandler {
+		@Override
+		public void onClick(ClickEvent event) {
+			setTableEditable(false);
+		}
+	}
+	
 	private class EditClickHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {

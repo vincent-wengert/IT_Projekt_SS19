@@ -216,24 +216,6 @@ public class CustomTreeModel implements TreeViewModel {
 		}
 	}
 	
-
-
-	private class getAllGroupsByPersonCallback implements AsyncCallback<ArrayList<Group>> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Notification.show("Es wurden keine Gruppen gefunden:\n" + caught.toString());
-		}
-
-		@Override
-		public void onSuccess(ArrayList<Group> result) {
-			// add item to cellist
-			// aicl.updateCellList();
-			groups = result;
-			Notification.show("Gruppen wurden fur die ausgewahlte Einkaufsliste hinzugefugt");
-
-		}
-	}
 	private class getGroupShoppingListsCallback implements AsyncCallback<ArrayList<ShoppingList>> {
 
 		@Override
