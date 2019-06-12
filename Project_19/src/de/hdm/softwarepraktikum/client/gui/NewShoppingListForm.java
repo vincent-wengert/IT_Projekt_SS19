@@ -253,9 +253,6 @@ public class NewShoppingListForm extends VerticalPanel {
 			//add item to cellist
 			groups = result;
 			loadSearchbar();
-			Notification.show("Einkaufsliste wurde erstellt");
-			
-			
 		}
 	}
 }

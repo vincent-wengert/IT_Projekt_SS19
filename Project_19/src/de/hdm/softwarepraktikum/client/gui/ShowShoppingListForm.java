@@ -308,7 +308,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 		
 		public void onClick(ClickEvent event) {
 			infoTitleLabel.setText(shoppinglistNameBox.getText());
-			
 			shoppinglistNameBox.setVisible(false);
 			infoTitleLabel.setVisible(true);
 			addListItemButton.setVisible(false);
@@ -323,12 +322,10 @@ public class ShowShoppingListForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 			shoppinglistNameBox.setVisible(false);
 			infoTitleLabel.setVisible(true);
-			
 			addListItemButton.setVisible(false);
 			confirmButton.setVisible(false);
 			cancelButton.setVisible(false);
 			editListNameButton.setVisible(true);
-			
 		}
 	}
 

@@ -144,18 +144,6 @@ public void onLoad() {
 	searchGridArticles.setWidget(0, 1, cancelButton);
 
 	this.add(searchGridArticles);
-	
-    // Create a model for the tree.
-//    TreeViewModel model = new CustomTreeModel();
-//
-//    /*
-//     * Create the tree using the model. We specify the default value of the
-//     * hidden root node as "Item 1".
-//     */
-//    CellTree tree = new CellTree(model, "Gruppe");
-//
-//    // Add the tree to the root layout panel.
-//    contentPanelGroups.add(tree);
 	}
 }
 
@@ -172,8 +160,6 @@ private class SearchFormStores extends VerticalPanel {
 	private Button cancelButton = new Button("\u2716");
 	private MultiWordSuggestOracle searchbar = new MultiWordSuggestOracle();
 	private SuggestBox searchTextBox = new SuggestBox(searchbar);
-	//private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings.getshoppingListAdministration();
-
 
 
 @SuppressWarnings("deprecation")
