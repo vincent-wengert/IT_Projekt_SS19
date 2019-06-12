@@ -270,6 +270,27 @@ body{
 	
 }
 
+.favButton{
+	
+	outline:none !important;
+	border: none;
+	background: transparent;
+	background-image: url("images/favButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+	background-size: 60%;
+}
+
+.favButton:hover{
+	
+	border:solid black 1px;
+	cursor: pointer;
+	background-color:#6f7277;
+	background-image: url("images/favButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+	background-size: 60%;
+}
 
 .editButton{
 	

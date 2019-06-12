@@ -250,7 +250,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * @throws IllegalArgumentException
 	 */
 	
-	public Item createItem(String name, boolean value) throws IllegalArgumentException {
+	public void createItem(String name, boolean value) throws IllegalArgumentException {
 		
 		Item i = new Item();
 		
@@ -268,7 +268,8 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		 * Objekt in Datenbank speichern.
 		 */
 		
-		return this.itemMapper.insert(i);
+		this.itemMapper.insert(i);
+		
 	}
 	
 	/**
@@ -339,6 +340,13 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	
 	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, Unit unit) throws IllegalArgumentException {
 		
+		Responsibility res = new Responsibility();
+		res.setBuyerID(buyerID);
+		res.setStoreID(storeID);
+		res.setSlID(slID);
+		
+		this.responsibilityMapper.insert(res); 
+		
 		ListItem li = new ListItem();
 		
 		li.setIt(item);
@@ -355,9 +363,9 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		 * dessen Nummer mit der Datenbank konsistent ist.
 		 */
 		
-		li.setId(1);
+		return this.listItemMapper.insert(li, res);
 		
-		return this.listItemMapper.insert(li);
+		
 	}
 	
 	/**

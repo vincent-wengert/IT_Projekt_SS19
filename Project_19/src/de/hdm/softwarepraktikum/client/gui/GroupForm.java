@@ -222,21 +222,28 @@ public class GroupForm extends VerticalPanel {
 	public void setSelected(Group g) {
 		groupToDisplay = g;
 		infoTitleLabel.setText(groupToDisplay.getTitle());
+		groupNameBox.setText(groupToDisplay.getTitle());
 	}
 
 	public void setTableEditable(Boolean editable) {
 		if (editable == true) {
 			groupNameBox.setEnabled(true);
 			groupNameBox.setFocus(true);
-			personSuggestBox.setEnabled(true);
+			groupGrid.setWidget(1, 0, groupMembersLabel);
+			groupGrid.setWidget(1, 1, searchGridPersons);
 			bottomButtonsPanel.setVisible(true);
 			topButtonsPanel.setVisible(false);
+			groupGrid.setWidget(2, 0, addedGroupMembersLabel);
+			groupGrid.setWidget(2, 1, tempGroupMembersLabel);
 		} else {
 			groupNameBox.setEnabled(false);
 			groupNameBox.setFocus(false);
-			personSuggestBox.setEnabled(false);
+			groupMembersLabel.removeFromParent();
+			searchGridPersons.removeFromParent();
 			bottomButtonsPanel.setVisible(false);
 			topButtonsPanel.setVisible(true);
+			groupGrid.setWidget(1, 0, addedGroupMembersLabel);
+			groupGrid.setWidget(1, 1, tempGroupMembersLabel);
 		}
 	}
 
