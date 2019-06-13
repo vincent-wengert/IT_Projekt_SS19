@@ -35,8 +35,8 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
-import de.hdm.softwarepraktikum.client.gui.GroupForm.getAllPersonsCallback;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
+import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
@@ -69,10 +69,11 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private ArrayList<ListItem> productsToDisplay = null;
 	private ArrayList<Store> allStores = new ArrayList<Store>();
 	private ArrayList<Person> allPersons = new ArrayList<Person>();
+	private ArrayList<Item> allItems = new ArrayList<Item>();
+	
 	
 
 	public ShowShoppingListForm() {
-		Load();
 		addListItemButton.addClickHandler(new AddListItemClickHandler());
 		editListNameButton.addClickHandler(new EditListNameClickHandler());
 		confirmButton.addClickHandler(new ConfirmClickHandler());
@@ -85,6 +86,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		
 		administration.getAllStores(new getAllStoresCallback());
 		administration.getAllPersons(new getAllPersonsCallback());
+		administration.getAllItems(new getAllItemsCallback());
 	}
 
 	public void onLoad() {
@@ -146,8 +148,14 @@ public class ShowShoppingListForm extends VerticalPanel {
 		TextColumn<ListItem> nameColumn = new TextColumn<ListItem>() {
 			@Override
 			public String getValue(ListItem i) {
-				return i.getName();
-			}
+					String itemName = new String("leer");
+					for (Item item : allItems) {
+						if (item.getId() == i.getItemId()) {
+							itemName = item.getName();
+						}
+					}
+					return itemName;
+				}
 		};
 
 		TextColumn<ListItem> amountColumn = new TextColumn<ListItem>() {
@@ -169,7 +177,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 			public String getValue(ListItem i) {
 				String storeName = new String("leer");
 				for (Store s : allStores) {
-
 					if (s.getId() == i.getStoreID()) {
 						storeName = s.getName();
 					}
@@ -245,10 +252,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 		this.add(shoppingListPanel);
 		
-		private void load() {
-			administration.getL
-		}
-
 
 		cellTable.addCellPreviewHandler(new CellPreviewEvent.Handler<ListItem>() {
 			@Override
@@ -274,6 +277,14 @@ public class ShowShoppingListForm extends VerticalPanel {
 		this.add(bottomButtonsPanel);
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
 	}
+	
+
+	private void loadListitems() {
+		ShoppingList sl = new ShoppingList();
+		sl.setId(1);
+		administration.getAllListItemsByShoppingLists(sl, new getAllListItemsbyShoppingListCallback());
+	}
+
 
 	private class ProductKeyProvider implements ProvidesKey<ListItem> {
 
@@ -382,6 +393,24 @@ public class ShowShoppingListForm extends VerticalPanel {
 	/**
 	 * ListHandler mit dem in der CellTable die Liste sortiert wird
 	 */
+	private class getAllItemsCallback implements AsyncCallback<ArrayList<Item>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show(caught.toString());
+		}
+		
+		@Override
+		public void onSuccess(ArrayList<Item> result) {
+			// TODO Auto-generated method stub
+			allItems = result;
+			loadListitems();
+		}
+	}
+	
+	/**
+	 * ListHandler mit dem in der CellTable die Liste sortiert wird
+	 */
 	private class getAllPersonsCallback implements AsyncCallback<ArrayList<Person>> {
 
 		@Override
@@ -395,6 +424,26 @@ public class ShowShoppingListForm extends VerticalPanel {
 			allPersons = result;
 
 
+		}
+	}
+	
+	
+	/**
+	 * ListHandler mit dem in der CellTable die Liste sortiert wird
+	 */
+	private class getAllListItemsbyShoppingListCallback implements AsyncCallback<ArrayList<ListItem>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show(caught.toString());
+		}
+		
+		@Override
+		public void onSuccess(ArrayList<ListItem> result) {
+			// TODO Auto-generated method stub
+			for(ListItem l : result) {
+				dataProvider.getList().add(l);
+			}
 		}
 	}
 }
