@@ -671,6 +671,14 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	}
 
 
+	@Override
+	public ArrayList<ListItem> getAllCheckedItemsByGroup(Group g) {
+	     
+		
+		return null;
+	}
+
+
 
 	
 	/*
