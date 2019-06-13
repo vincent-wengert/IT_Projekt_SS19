@@ -219,6 +219,7 @@ public class ListItemMapper {
 			
 			ArrayList<ListItem> listItems = new ArrayList<ListItem>();
 	
+<<<<<<< HEAD
 			//String st = "SELECT * from ListItem WHERE slID=" + sl.getId();
 			
 			//ListItem_ID, unit, Amount, IsChecked, Item_ID, buyerID, StoreID
@@ -227,6 +228,13 @@ public class ListItemMapper {
 			   "from ListItem, Responsibility "+ 
 			   "WHERE slID= "+ sl.getId() +  "OR Responsibility_ID =" + rl.getId();
 			
+=======
+			String st = "SELECT * from ListItem JOIN Responsibility \r\n" + 
+					"					ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID JOIN  ShoppingList \r\n" + 
+					"					ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID WHERE ShoppingList.ShoppingList_ID=" +
+					sl.getId();
+//			String st = "SELECT * from ListItem WHERE ";
+>>>>>>> branch 'master' of https://github.com/vincent-wengert/IT_Projekt_SS19.git
 			try {
 				
 				Statement stmt = con.createStatement();
@@ -236,16 +244,15 @@ public class ListItemMapper {
 				while (rs.next()) {
 					ListItem listItem = new ListItem();
 					listItem.setId(rs.getInt("ListItem_ID"));
-					listItem.setUnit(listItem.getItemUnit(rs.getString("unit")));
+					listItem.setUnit(listItem.getItemUnit(rs.getString("Unit")));
 					listItem.setAmount(rs.getDouble("Amount"));
 					listItem.setChecked(rs.getBoolean("IsChecked"));
 					listItem.setItemId(rs.getInt("Item_ID"));
 					
 					//Ab hier Resposibility Tabelle eigentlich
-					listItem.setBuyerID(rs.getInt("buyerID"));
-					listItem.setGrID(rs.getInt("grID"));
-					listItem.setSlID(rs.getInt("slID"));
-					listItem.setStoreID(rs.getInt("storeID"));
+					listItem.setBuyerID(rs.getInt("Person_ID"));
+
+					listItem.setStoreID(rs.getInt("Store_ID"));
 					
 					listItems.add(listItem);
 				}
