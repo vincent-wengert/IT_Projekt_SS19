@@ -218,23 +218,12 @@ public class ListItemMapper {
 			Connection con = DBConnection.connection();
 			
 			ArrayList<ListItem> listItems = new ArrayList<ListItem>();
-	
-<<<<<<< HEAD
-			//String st = "SELECT * from ListItem WHERE slID=" + sl.getId();
-			
-			//ListItem_ID, unit, Amount, IsChecked, Item_ID, buyerID, StoreID
-			
-			String st = "SELECT * "   + 
-			   "from ListItem, Responsibility "+ 
-			   "WHERE slID= "+ sl.getId() +  "OR Responsibility_ID =" + rl.getId();
-			
-=======
+
 			String st = "SELECT * from ListItem JOIN Responsibility \r\n" + 
 					"					ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID JOIN  ShoppingList \r\n" + 
 					"					ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID WHERE ShoppingList.ShoppingList_ID=" +
 					sl.getId();
-//			String st = "SELECT * from ListItem WHERE ";
->>>>>>> branch 'master' of https://github.com/vincent-wengert/IT_Projekt_SS19.git
+
 			try {
 				
 				Statement stmt = con.createStatement();
