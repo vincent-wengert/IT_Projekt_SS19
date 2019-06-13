@@ -1,5 +1,8 @@
 package de.hdm.softwarepraktikum.client.gui.report;
 
+import java.util.ArrayList;
+
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -8,56 +11,101 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.client.gui.Notification;
+
 import de.hdm.softwarepraktikum.shared.ReportGeneratorAsync;
+import de.hdm.softwarepraktikum.shared.bo.Group;
+import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.report.HTMLReportWriter;
+import de.hdm.softwarepraktikum.shared.report.ItemsByGroupReport;
 import de.hdm.softwarepraktikum.shared.report.ItemsByPersonReport;
+import de.hdm.softwarepraktikum.shared.report.Report;
 
-public class ReportbyPerson {
+
+/**
+ * Die Klasse <code>ReportByGroup</code> ist eine Erstellungsform zur Erzeugung 
+ * eines neuen <code>ItemsByGroupReport</code>
+ * @author Niklas Öxle
+ *
+ */
+
+public class ReportbyPerson extends VerticalPanel {
 	
-	//private person p = CurrentReportUser.getUser();
-	private ReportGeneratorAsync report = ClientsideSettings.getReportGenerator();
-
+	
+	//private Person p = CurrentReportPerson.getUser();
+	
+	
+	
+	//private ReportGeneratorAsync report = ClientsideSettings.getReportGenerator();
 	private ReportEntry reportGenerator = new ReportEntry();
-	private HorizontalPanel ReportHeaderPanel = new HorizontalPanel();
 	
-	private Label ILabel = new Label("Einkaufsstattistik");
+	private VerticalPanel selectionPanel = new VerticalPanel();
+	private HorizontalPanel reportHeaderPanel = new HorizontalPanel();
+	
+	private ArrayList<Group> ListItemList = new ArrayList<Group>();
+	
+	private Label ILabel = new Label("Statistik der eingekauften Produkte der einzelnen Person");
+	private Button printReportButton = new Button("");
 	private Button back = new Button("");
 	
 	
 	public void onLoad() {
 
-		//this.setWidth("100vw");
+		this.setWidth("100%");
 		
-		
+		selectionPanel.setStylePrimaryName("selectionPanel");
+		reportHeaderPanel.setStylePrimaryName("reportHeaderPanel");
+		ILabel.setStylePrimaryName("infoLabel");
+		printReportButton.setStylePrimaryName("printReportButton");
 		back.setStylePrimaryName("back");
-		ReportHeaderPanel.setStylePrimaryName("ReportHeaderPanel");
-		ILabel.setStylePrimaryName("ILabel");
-
-		ReportHeaderPanel.add(back);
-		ReportHeaderPanel.add(ILabel);
 		
+		selectionPanel.setWidth("100%");
+		selectionPanel.setHeight("100%");
+
+		reportHeaderPanel.add(back);
+		reportHeaderPanel.add(ILabel);
+		
+		printReportButton.setWidth("8vh");
+		printReportButton.setHeight("8vh");
+
 		back.setWidth("8vh");
 		back.setHeight("8vh");
-		ReportHeaderPanel.setWidth("100%");
-		ReportHeaderPanel.setHeight("8vh");
 		
-		ReportHeaderPanel.setCellVerticalAlignment(ILabel, null);
-			
+		
+		reportHeaderPanel.setWidth("100%");
+		reportHeaderPanel.setHeight("8vh");
+
+		reportHeaderPanel.setCellVerticalAlignment(ILabel, null);
+		
+		printReportButton.addClickHandler(new OutputClickHandler());
+		
 		back.addClickHandler(new BackClickHandler());
 		
-		RootPanel.get("Selection").add(ReportHeaderPanel);
+		//report.getAllItems(p, new Personstatisticcallback());
 
-		
-		// Probleme mit Asynccallback
-		//report.createUserStatisticsReport(p,new ReportbyPersonCallback() );
-		
-		//report.createUserStatisticsReport(p, Personstatisticcallback);
-
+		RootPanel.get("Selection").add(reportHeaderPanel);
 	}
 	
+	
+	/**
+	 * 
+	 * @author Niklas Öxle
+	 *
+	 */
+	private class OutputClickHandler implements ClickHandler{
+
+		public void onClick(ClickEvent event) {
+			
+			RootPanel.get("Result").clear();
+			
+			
+		}
+	}
+
+
 	/**
 	 * Clickhandler um auf die Startseite des ReportGenerators zu gelangen 
 	 * 
@@ -92,9 +140,9 @@ public class ReportbyPerson {
 
 			RootPanel.get("Result").add(content);
 		}
-	}
+	}}
 	
-}
+
 	
 
 		
