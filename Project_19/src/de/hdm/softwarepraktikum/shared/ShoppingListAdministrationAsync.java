@@ -88,4 +88,6 @@ public interface ShoppingListAdministrationAsync {
 	void getAllGroupsByPerson(Person p, AsyncCallback<ArrayList<Group>> callback);
 
 	void getAllListItemsByShoppingLists(ShoppingList sl, AsyncCallback<ArrayList<ListItem>> callback);
+
+	void getAllCheckedItemsByGroup(Group g, AsyncCallback<ArrayList<ListItem>> callback);
 }
