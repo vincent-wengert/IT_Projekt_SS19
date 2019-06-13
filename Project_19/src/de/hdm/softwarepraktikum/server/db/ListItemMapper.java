@@ -219,7 +219,7 @@ public class ListItemMapper {
 			
 			ArrayList<ListItem> listItems = new ArrayList<ListItem>();
 	
-			String st = "SELECT * from listitem WHERE slID=" + sl.getId();
+			String st = "SELECT * from ListItem WHERE slID=" + sl.getId();
 			
 			try {
 				
@@ -230,11 +230,13 @@ public class ListItemMapper {
 				while (rs.next()) {
 					ListItem listItem = new ListItem();
 					listItem.setId(rs.getInt("ListItem_ID"));
-					listItem.setName(rs.getString("name"));
-					listItem.setAmount(rs.getDouble("amount"));
 					listItem.setUnit(listItem.getItemUnit(rs.getString("unit")));
+					listItem.setAmount(rs.getDouble("Amount"));
+					listItem.setChecked(rs.getBoolean("IsChecked"));
+					listItem.setItemId(rs.getInt("Item_ID"));
+					
+					//Ab hier Resposibility Tabelle eigentlich
 					listItem.setBuyerID(rs.getInt("buyerID"));
-					listItem.setChecked(rs.getBoolean("ischecked"));
 					listItem.setGrID(rs.getInt("grID"));
 					listItem.setSlID(rs.getInt("slID"));
 					listItem.setStoreID(rs.getInt("storeID"));

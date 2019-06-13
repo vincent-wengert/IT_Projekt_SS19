@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.dom.client.TableRowElement;
@@ -17,6 +18,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -33,10 +35,13 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.client.gui.GroupForm.getAllPersonsCallback;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
+import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
+import de.hdm.softwarepraktikum.shared.bo.Store;
 
 public class ShowShoppingListForm extends VerticalPanel {
 	
@@ -62,8 +67,12 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private ListDataProvider<ListItem> dataProvider = new ListDataProvider<ListItem>();
 	private SingleSelectionModel<ListItem> singleSelectionModel = null;
 	private ArrayList<ListItem> productsToDisplay = null;
+	private ArrayList<Store> allStores = new ArrayList<Store>();
+	private ArrayList<Person> allPersons = new ArrayList<Person>();
+	
 
 	public ShowShoppingListForm() {
+		Load();
 		addListItemButton.addClickHandler(new AddListItemClickHandler());
 		editListNameButton.addClickHandler(new EditListNameClickHandler());
 		confirmButton.addClickHandler(new ConfirmClickHandler());
@@ -73,6 +82,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 		addListItemPanel.add(addListItemButton);
 		bottomButtonsPanel.add(confirmButton);
 		bottomButtonsPanel.add(cancelButton);
+		
+		administration.getAllStores(new getAllStoresCallback());
+		administration.getAllPersons(new getAllPersonsCallback());
 	}
 
 	public void onLoad() {
@@ -155,14 +167,28 @@ public class ShowShoppingListForm extends VerticalPanel {
 		TextColumn<ListItem> storeColumn = new TextColumn<ListItem>() {
 			@Override
 			public String getValue(ListItem i) {
-				return i.getUnit().toString();
+				String storeName = new String("leer");
+				for (Store s : allStores) {
+
+					if (s.getId() == i.getStoreID()) {
+						storeName = s.getName();
+					}
+				}
+				return storeName;
 			}
 		};
 
 		TextColumn<ListItem> personColumn = new TextColumn<ListItem>() {
 			@Override
 			public String getValue(ListItem i) {
-				return i.getUnit().toString();
+				String personName = new String("leer");
+				for (Person p : allPersons) {
+
+					if (p.getId() == i.getBuyerID()) {
+						personName = p.getName();
+					}
+				}
+				return personName;
 			}
 		};
 		
@@ -218,6 +244,11 @@ public class ShowShoppingListForm extends VerticalPanel {
 		shoppingListPanel.add(cellTable);
 
 		this.add(shoppingListPanel);
+		
+		private void load() {
+			administration.getL
+		}
+
 
 		cellTable.addCellPreviewHandler(new CellPreviewEvent.Handler<ListItem>() {
 			@Override
@@ -332,5 +363,38 @@ public class ShowShoppingListForm extends VerticalPanel {
 	/**
 	 * ListHandler mit dem in der CellTable die Liste sortiert wird
 	 */
+	private class getAllStoresCallback implements AsyncCallback<ArrayList<Store>> {
 
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show(caught.toString());
+		}
+		
+		@Override
+		public void onSuccess(ArrayList<Store> result) {
+			// TODO Auto-generated method stub
+			allStores = result;
+
+
+		}
+	}
+	
+	/**
+	 * ListHandler mit dem in der CellTable die Liste sortiert wird
+	 */
+	private class getAllPersonsCallback implements AsyncCallback<ArrayList<Person>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show(caught.toString());
+		}
+		
+		@Override
+		public void onSuccess(ArrayList<Person> result) {
+			// TODO Auto-generated method stub
+			allPersons = result;
+
+
+		}
+	}
 }

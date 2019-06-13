@@ -253,7 +253,6 @@ public class ListItemDialog extends PopupPanel{
 				getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
 				ListItem li = new ListItem(itemListBox.getSelectedItemText(), getItemUnit(unitListBox.getSelectedItemText()) , Integer.parseInt(amountTextBox.getText()), false);	
 				administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), 1, 1, Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new createListItemCallback());
-				//sslf.AddListItem(li);
 			}
 			else {
 				ListItem li = new ListItem(itemTextBox.getText(), getItemUnit(unitListBox.getSelectedItemText()) ,
@@ -350,6 +349,8 @@ public class ListItemDialog extends PopupPanel{
 		@Override
 		public void onSuccess(ListItem result) {
 			// TODO Auto-generated method stub
+			sslf.AddListItem(result);
+			Notification.show("Artikel in der Einkaufsliste wurde erstellt");
 
 		}
 	}

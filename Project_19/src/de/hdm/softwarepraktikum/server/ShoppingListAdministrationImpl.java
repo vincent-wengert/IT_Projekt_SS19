@@ -409,6 +409,13 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	}
 	
 	
+	//hier noch anpassen
+	@Override
+	public ArrayList<ListItem> getAllListItemsByShoppingLists(ShoppingList sl) {
+		return this.listItemMapper.findAllListItemsby(sl);
+	}
+
+	
 	public ArrayList<ListItem> getAllCheckedItemsBySL(ShoppingList sl) throws IllegalArgumentException {
 		
 		ArrayList<ListItem> allCheckedItems = listItemMapper.findAllCheckedListItems(sl);
