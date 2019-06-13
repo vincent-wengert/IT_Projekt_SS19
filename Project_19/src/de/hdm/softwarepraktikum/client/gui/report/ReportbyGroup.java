@@ -54,6 +54,7 @@ public class ReportbyGroup extends VerticalPanel{
 
 		this.setWidth("100%");
 		
+		
 		selectionPanel.setStylePrimaryName("selectionPanel");
 		reportHeaderPanel.setStylePrimaryName("reportHeaderPanel");
 		ILabel.setStylePrimaryName("infoLabel");
