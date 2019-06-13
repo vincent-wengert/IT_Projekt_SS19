@@ -214,12 +214,18 @@ public class ListItemMapper {
 			
 		}
 		
-		public ArrayList<ListItem> findAllListItemsby(ShoppingList sl) {
+		public ArrayList<ListItem> findAllListItemsby(ShoppingList sl, Responsibility rl) {
 			Connection con = DBConnection.connection();
 			
 			ArrayList<ListItem> listItems = new ArrayList<ListItem>();
 	
-			String st = "SELECT * from ListItem WHERE slID=" + sl.getId();
+			//String st = "SELECT * from ListItem WHERE slID=" + sl.getId();
+			
+			//ListItem_ID, unit, Amount, IsChecked, Item_ID, buyerID, StoreID
+			
+			String st = "SELECT * "   + 
+			   "from ListItem, Responsibility "+ 
+			   "WHERE slID= "+ sl.getId() +  "OR Responsibility_ID =" + rl.getId();
 			
 			try {
 				
