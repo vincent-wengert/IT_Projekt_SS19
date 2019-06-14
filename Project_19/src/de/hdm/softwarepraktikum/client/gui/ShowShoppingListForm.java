@@ -4,10 +4,12 @@ package de.hdm.softwarepraktikum.client.gui;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.omg.CORBA.PUBLIC_MEMBER;
 
+import com.google.appengine.api.search.query.QueryParser.primitive_return;
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CheckboxCell;
@@ -18,6 +20,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -68,7 +71,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private TextBox shoppinglistNameBox = new TextBox();
 
 	private CellTable<ListItem> cellTable = null;
-	private ProductKeyProvider keyProvider = null;
+	private ListItemKeyProvider keyProvider = null;
 	private ListDataProvider<ListItem> dataProvider = new ListDataProvider<ListItem>();
 	private MultiSelectionModel<ListItem> multiSelectionModel = null;
 	private ArrayList<ListItem> productsToDisplay = null;
@@ -76,6 +79,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private ArrayList<Person> allPersons = new ArrayList<Person>();
 	private ArrayList<Item> allItems = new ArrayList<Item>();
 	private ArrayList<ListItem> allListItems = new ArrayList<ListItem>();
+	private ArrayList<ListItem> checkedListItems = new ArrayList<ListItem>();
 	
 	private Column<ListItem, String> editColumn;
 	private Column<ListItem, String> deleteColumn;
@@ -100,12 +104,12 @@ public class ShowShoppingListForm extends VerticalPanel {
 		administration.getAllStores(new getAllStoresCallback());
 		administration.getAllPersons(new getAllPersonsCallback());
 		administration.getAllItems(new getAllItemsCallback());
+		administration.getAllCheckedItemsByShoppingList(shoppingListToDisplay, new getAllCheckedListItemsCallback());
 	}
 
 	public void onLoad() {
 		this.setWidth("100%");
 
-		
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
 		bottomButtonsPanel.setStylePrimaryName("bottomButtonsPanel");
@@ -153,7 +157,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		
 		this.add(formHeaderPanel);
 
-		keyProvider = new ProductKeyProvider();
+		keyProvider = new ListItemKeyProvider();
 		multiSelectionModel = new MultiSelectionModel<ListItem>(keyProvider);
 		cellTable = new CellTable<ListItem>();
 		dataProvider.addDataDisplay(cellTable);
@@ -217,9 +221,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 			}
 		};
 		
-		
-
-		
 		ButtonCell editCell = new ButtonCell();
 		
 		editColumn = new Column<ListItem, String>(editCell) {
@@ -252,7 +253,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 		    return "Löschen";
 		  }
 		};
-		//table.addColumn(buttonColumn, "Action");
 		
 		
 		deleteColumn.setFieldUpdater(new FieldUpdater<ListItem, String>() {
@@ -266,16 +266,30 @@ public class ShowShoppingListForm extends VerticalPanel {
 		Column<ListItem, Boolean> checkColumn = new Column<ListItem, Boolean>( new CheckboxCell(true,false)) {
 			@Override
 			public Boolean getValue(ListItem object) {
-				// Get the value from the selection model.
-				return multiSelectionModel.isSelected(object);
-				//return object.getChecked();
+				// Get the value from the selection model
+				//return multiSelectionModel.isSelected(object);
+				return object.getChecked();
 				
 			}
 		};
+		checkColumn.setFieldUpdater(new FieldUpdater<ListItem, Boolean>() {
+	        @Override
+	        public void update(int index, ListItem object, Boolean value) {
+	            // TODO Auto-generated method stub
+	        	administration.checkListItem(object, value, new CheckListItemCallback());
+	        }
+	    });
+		
+		
+		
+			
+//			Dann, um einen Gegenstand zu wählen (und das zugehörige Markierungsfeld automatisch geprüft), müssen Sie einfach tun:
 
-		cellTable.addColumn(checkColumn, "");
-		// cellTable.setColumnWidth(checkColumn, 40,);
-		cellTable.setColumnWidth(checkColumn, "10");
+//			multiselectionModel.setSelected(item, true);
+//			und Sie können in ähnlicher Weise erhalten Sie die Menge aller ausgewählten Elemente mit selectionModel.getSelectedSet()
+		
+		cellTable.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
+		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
 		cellTable.addColumn(nameColumn, "Artikel");
 		cellTable.addColumn(amountColumn, "Menge");
 		cellTable.addColumn(unitColumn, "Einheit");
@@ -326,11 +340,10 @@ public class ShowShoppingListForm extends VerticalPanel {
 	}
 
 
-	private class ProductKeyProvider implements ProvidesKey<ListItem> {
-
+	private class ListItemKeyProvider implements ProvidesKey<ListItem> {
 		@Override
 		public Object getKey(ListItem item) {
-			return (item == null) ? null : item.getTempID();
+			return (item == null) ? null : item.getId();
 		}
 	}
 
@@ -426,6 +439,12 @@ public class ShowShoppingListForm extends VerticalPanel {
 			cellTable.removeColumn(editColumn);
 			cellTable.removeColumn(deleteColumn);
 			
+			
+			Set <ListItem> tempItems = multiSelectionModel.getSelectedSet();
+			for(ListItem i: tempItems) {
+				Window.alert(String.valueOf(i.getId()));
+			}
+			
 		}
 	}
 	
@@ -514,6 +533,41 @@ public class ShowShoppingListForm extends VerticalPanel {
 			allPersons = result;
 
 
+		}
+	}
+	
+	private class CheckListItemCallback implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show(caught.toString());
+		}
+		
+		@Override
+		public void onSuccess(Void result) {
+			// TODO Auto-generated method stub
+			Notification.show("Artikel wurde erfolgreich abgehakt");
+		}
+	}
+	
+	
+	
+	/**
+	 * ListHandler mit dem in der CellTable die Liste sortiert wird
+	 */
+	private class getAllCheckedListItemsCallback implements AsyncCallback<ArrayList<ListItem>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show(caught.toString());
+		}
+		
+		@Override
+		public void onSuccess(ArrayList<ListItem> result) {
+			// TODO Auto-generated method stub
+			checkedListItems = result;
+//			.alert(msg);
+			
 		}
 	}
 	

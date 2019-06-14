@@ -224,10 +224,23 @@ public class ListItemMapper {
 			} return result;
 		}
 
-		public void checkListItem(ListItem li) {
-			// TODO Auto-generated method stub
-			
-		}
+		public void checkListItem(ListItem li, Boolean isChecked) {
+			// TODO Auto-generated method stu
+				
+				Connection con = DBConnection.connection();
+				try {
+					PreparedStatement st = con.prepareStatement("UPDATE ListItem SET IsChecked = ?, Creationdate = ?, Changedate = ? WHERE ListItem_ID = ?");
+					
+					st.setBoolean(1, isChecked);
+					st.setTimestamp(2, li.getCreationdate());
+					st.setTimestamp(3, li.getChangedate());
+					st.setInt(4, li.getId());
+					st.executeUpdate();
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		
 		public ArrayList<ListItem> findAllListItemsby(ShoppingList sl, Responsibility rl) {
 			Connection con = DBConnection.connection();
@@ -275,7 +288,7 @@ public class ListItemMapper {
 			
 			ArrayList<ListItem> allCheckedListItems = new ArrayList<ListItem>();
 	
-			String st = "SELECT * from listitem WHERE slID=" + sl.getId() + "AND isChecked = 'True'";
+			String st = "SELECT * from ListItem WHERE IsChecked = 'True'";
 			
 			try {
 				
@@ -286,15 +299,8 @@ public class ListItemMapper {
 				while (rs.next()) {
 					ListItem listItem = new ListItem();
 					listItem.setId(rs.getInt("ListItem_ID"));
-					listItem.setName(rs.getString("name"));
-					listItem.setAmount(rs.getDouble("amount"));
-					listItem.setUnit(listItem.getItemUnit(rs.getString("unit")));
-					listItem.setBuyerID(rs.getInt("buyerID"));
-					listItem.setChecked(rs.getBoolean("ischecked"));
-					listItem.setGrID(rs.getInt("grID"));
-					listItem.setSlID(rs.getInt("slID"));
-					listItem.setStoreID(rs.getInt("storeID"));
-					
+					listItem.setChecked(rs.getBoolean("IsChecked"));
+				
 					allCheckedListItems.add(listItem);
 				}
 					
