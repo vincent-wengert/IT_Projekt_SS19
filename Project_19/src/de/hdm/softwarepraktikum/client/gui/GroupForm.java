@@ -99,7 +99,7 @@ public class GroupForm extends VerticalPanel {
 	 * hier die Formatierungen der Widgets statt.
 	 */
 	public void onLoad() {
-
+		administration.getAllGroupMembers(groupToDisplay, new getAllGroupMembersCallback());
 		this.setWidth("100%");
 		this.load();
 		// groupNameLabel.setStylePrimaryName("textLabel");
@@ -165,13 +165,16 @@ public class GroupForm extends VerticalPanel {
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
 
 		setTableEditable(editable);
+
 	}
 
 	private VerticalPanel showGroupMembers() {
 		tempString = " ";
 		if (initial == false) {
+			Window.alert("test");
 			for (Person p : groupToDisplay.getMember()) {
-				vp.add(new HTML(p.getName()));
+				tempString = tempString +  p.getName() + " ";
+				tempGroupMembersLabel.setText(tempString);
 			}
 		} else if (initial == true) {
 			for (Person p : membersList) {
@@ -209,7 +212,6 @@ public class GroupForm extends VerticalPanel {
 	private void setSelectedUser(String value) {
 		// TODO Auto-generated method stub
 		for (Person p : allPersons) {
-
 			if (p.getGmail().equals(value)) {
 				membersList.add(p);
 				personSuggestBox.setText(null);
@@ -382,6 +384,20 @@ public class GroupForm extends VerticalPanel {
 			allPersons = result;
 			GroupForm.this.loadSearchbar();
 
+		}
+	}
+	
+	private class getAllGroupMembersCallback implements AsyncCallback<ArrayList<Person>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show("Die Gruppenmitglieder konnten leider nicht gefunden werden:\n" + caught.toString());
+		}
+
+		@Override
+		public void onSuccess(ArrayList<Person> result) {
+			groupToDisplay.setMember(result);
+			showGroupMembers();
 		}
 	}
 
