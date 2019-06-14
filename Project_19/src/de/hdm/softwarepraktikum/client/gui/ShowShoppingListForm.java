@@ -1,3 +1,4 @@
+
 package de.hdm.softwarepraktikum.client.gui;
 
 import java.util.ArrayList;
@@ -57,7 +58,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private HorizontalPanel addListItemPanel = new HorizontalPanel();
 
 	private Button addListItemButton = new Button();
-	private Button editListNameButton = new Button();
+	private Button editButton = new Button();
+	private Button deleteButton = new Button();
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
 
@@ -78,15 +80,18 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private Column<ListItem, String> editColumn;
 	private Column<ListItem, String> deleteColumn;
 
+	ShoppingList shoppingListToDisplay = new ShoppingList();
 	
 	
 
 	public ShowShoppingListForm() {
 		addListItemButton.addClickHandler(new AddListItemClickHandler());
-		editListNameButton.addClickHandler(new EditListNameClickHandler());
+		editButton.addClickHandler(new EditClickHandler());
 		confirmButton.addClickHandler(new ConfirmClickHandler());
 		cancelButton.addClickHandler(new CancelClickHandler());
-		topButtonsPanel.add(editListNameButton);
+		deleteButton.addClickHandler(new DeleteShoppingListClickHandler());
+		topButtonsPanel.add(editButton);
+		topButtonsPanel.add(deleteButton);
 		formHeaderPanel.add(shoppinglistNameBox);
 		addListItemPanel.add(addListItemButton);
 		bottomButtonsPanel.add(confirmButton);
@@ -109,13 +114,17 @@ public class ShowShoppingListForm extends VerticalPanel {
 		bottomButtonsPanel.setSpacing(20);
 
 		addListItemButton.setStylePrimaryName("addListItemButton");
-		editListNameButton.setStylePrimaryName("editListNameButton");
+		editButton.setStylePrimaryName("editButton");
+		deleteButton.setStylePrimaryName("deleteButton");
 		addListItemButton.setHeight("8vh");
 		addListItemButton.setWidth("8vh");
 		addListItemButton.setVisible(false);
 		
-		editListNameButton.setWidth("8vh");
-		editListNameButton.setHeight("8vh");
+		editButton.setWidth("8vh");
+		editButton.setHeight("8vh");
+		
+		deleteButton.setWidth("8vh");
+		deleteButton.setHeight("8vh");
 
 		formHeaderPanel.setHeight("8vh");
 		formHeaderPanel.setWidth("100%");
@@ -139,7 +148,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
 		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
 
-		topButtonsPanel.setCellHorizontalAlignment(editListNameButton, ALIGN_RIGHT);
+		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_LEFT);
+		topButtonsPanel.setCellHorizontalAlignment(deleteButton, ALIGN_RIGHT);
 		
 		this.add(formHeaderPanel);
 
@@ -312,9 +322,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	
 
 	private void loadListitems() {
-		ShoppingList sl = new ShoppingList();
-		sl.setId(1);
-		administration.getAllListItemsByShoppingLists(sl, new getAllListItemsbyShoppingListCallback());
+		administration.getAllListItemsByShoppingLists(shoppingListToDisplay, new getAllListItemsbyShoppingListCallback());
 	}
 
 
@@ -328,7 +336,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 	public void setSelected(ShoppingList sl) {
 		if (sl != null) {
-			// shoppingListToDisplay = sl;
+			shoppingListToDisplay = sl;
 			productsToDisplay = sl.getShoppinglist();
 			List<ListItem> list = dataProvider.getList();
 			infoTitleLabel.setText(sl.getTitle());
@@ -340,7 +348,22 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 	public void AddListItem(ListItem li) {
 		dataProvider.getList().add(li);
-		dataProvider.refresh();
+		allItems=null;
+		administration.getAllItems(new AsyncCallback<ArrayList<Item>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Item> result) {
+				// TODO Auto-generated method stub
+				allItems = result;
+				dataProvider.refresh();
+			}
+		});
 	}
 
 	/**
@@ -358,7 +381,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	}
 
 	
-	public class EditListNameClickHandler implements ClickHandler{
+	public class EditClickHandler implements ClickHandler{
 
 		public void onClick(ClickEvent event) {
 			shoppinglistNameBox.setVisible(true);
@@ -368,7 +391,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			addListItemButton.setVisible(true);
 			confirmButton.setVisible(true);
 			cancelButton.setVisible(true);
-			editListNameButton.setVisible(false);
+			editButton.setVisible(false);
 			
 			formHeaderPanel.setCellVerticalAlignment(shoppinglistNameBox, ALIGN_BOTTOM);
 			formHeaderPanel.setCellHorizontalAlignment(shoppinglistNameBox, ALIGN_LEFT);
@@ -381,6 +404,12 @@ public class ShowShoppingListForm extends VerticalPanel {
 		
 	}
 	
+	class DeleteShoppingListClickHandler implements ClickHandler {
+		
+		public void onClick(ClickEvent event) {
+			administration.deleteShoppingList(shoppingListToDisplay, new DeleteShoppinglistCallback());
+		}
+	}
 	
 	
 	class ConfirmClickHandler implements ClickHandler {
@@ -392,7 +421,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			addListItemButton.setVisible(false);
 			confirmButton.setVisible(false);
 			cancelButton.setVisible(false);
-			editListNameButton.setVisible(true);
+			editButton.setVisible(true);
 			
 			cellTable.removeColumn(editColumn);
 			cellTable.removeColumn(deleteColumn);
@@ -408,7 +437,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			addListItemButton.setVisible(false);
 			confirmButton.setVisible(false);
 			cancelButton.setVisible(false);
-			editListNameButton.setVisible(true);
+			editButton.setVisible(true);
 			
 			cellTable.removeColumn(editColumn);
 			cellTable.removeColumn(deleteColumn);
@@ -431,6 +460,23 @@ public class ShowShoppingListForm extends VerticalPanel {
 			allStores = result;
 
 
+		}
+	}
+	
+	/**
+	 * ListHandler mit dem in der CellTable die Liste sortiert wird
+	 */
+	private class DeleteShoppinglistCallback implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show(caught.toString());
+		}
+		
+		@Override
+		public void onSuccess(Void result) {
+			// TODO Auto-generated method stub
+			Notification.show("Einkaufsliste wurde erfolgreich entfernt");
 		}
 	}
 	

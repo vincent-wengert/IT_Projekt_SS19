@@ -252,10 +252,7 @@ public class ListItemDialog extends PopupPanel {
 				administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), 1, 1, Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new createListItemCallback());
 			}
 			else if (newButton.getValue()==true) {
-				Window.alert("update");
-				ListItem li = new ListItem(itemTextBox.getText(), getItemUnit(unitListBox.getSelectedItemText()) ,
-				Integer.parseInt(amountTextBox.getText()), false);	
-				sslf.AddListItem(li);
+				administration.createItem(itemTextBox.getText(), true, new CreateItemListItemCallback());
 			}
 			else if (update == true) {
 			Window.alert("updateCallback");
@@ -427,6 +424,38 @@ public class ListItemDialog extends PopupPanel {
 		}
 	}
 	
+	
+	private class CreateItemListItemCallback implements AsyncCallback<Item> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show(caught.toString());
+		}
+		
+		@Override
+		public void onSuccess(Item result) {
+			// TODO Auto-generated method stub
+			getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
+			administration.createListItem(result, selectedPerson.getId(), selectedStore.getId(), 1, 1, Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new AsyncCallback<ListItem>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onSuccess(ListItem result) {
+					// TODO Auto-generated method stub
+//					ListItem li = new ListItem(itemListBox.getSelectedItemText(), getItemUnit(unitListBox.getSelectedItemText()) , Integer.parseInt(amountTextBox.getText()), false);
+					sslf.AddListItem(result);
+					Notification.show("Ein neuer Artikel wurde erstellt und der Einkaufsliste hinzugefügt");	
+				}
+			});
+			
+
+		}
+	}
 	
 	public Unit getItemUnit (String unit) {
 		if (unit == "L") {
