@@ -7,7 +7,11 @@ import java.util.List;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.omg.CORBA.PUBLIC_MEMBER;
 
+import com.google.gwt.cell.client.ButtonCell;
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -39,7 +43,6 @@ import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.Person;
-import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
@@ -65,11 +68,16 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private CellTable<ListItem> cellTable = null;
 	private ProductKeyProvider keyProvider = null;
 	private ListDataProvider<ListItem> dataProvider = new ListDataProvider<ListItem>();
-	private SingleSelectionModel<ListItem> singleSelectionModel = null;
+	private MultiSelectionModel<ListItem> multiSelectionModel = null;
 	private ArrayList<ListItem> productsToDisplay = null;
 	private ArrayList<Store> allStores = new ArrayList<Store>();
 	private ArrayList<Person> allPersons = new ArrayList<Person>();
 	private ArrayList<Item> allItems = new ArrayList<Item>();
+	private ArrayList<ListItem> allListItems = new ArrayList<ListItem>();
+	
+	private Column<ListItem, String> editColumn;
+	private Column<ListItem, String> deleteColumn;
+
 	
 	
 
@@ -136,11 +144,11 @@ public class ShowShoppingListForm extends VerticalPanel {
 		this.add(formHeaderPanel);
 
 		keyProvider = new ProductKeyProvider();
-		singleSelectionModel = new SingleSelectionModel<ListItem>(keyProvider);
+		multiSelectionModel = new MultiSelectionModel<ListItem>(keyProvider);
 		cellTable = new CellTable<ListItem>();
 		dataProvider.addDataDisplay(cellTable);
 
-		cellTable.setSelectionModel(singleSelectionModel,
+		cellTable.setSelectionModel(multiSelectionModel,
 				DefaultSelectionEventManager.<ListItem>createCheckboxManager());
 
 		ListHandler<ListItem> sortHandler = new ListHandler<ListItem>(null);
@@ -200,27 +208,70 @@ public class ShowShoppingListForm extends VerticalPanel {
 		};
 		
 		
+
+		
+		ButtonCell editCell = new ButtonCell();
+		
+		editColumn = new Column<ListItem, String>(editCell) {
+		  @Override
+		  public String getValue(ListItem object) {
+		    // The value to display in the button.
+		    return "Bearbeiten";
+		  }
+		};
+		//table.addColumn(buttonColumn, "Action");
+		
+		
+		editColumn.setFieldUpdater(new FieldUpdater<ListItem, String>() {
+			  @Override
+			  public void update(int index, ListItem object, String value) {
+				  
+			    // The user clicked on the button for the passed auction.
+					ListItemDialog lid = new ListItemDialog();
+					lid.displayListItem(allListItems.get(index));
+					lid.show();
+			  }
+			});
+		
+		ButtonCell deleteCell = new ButtonCell();
+		
+		deleteColumn = new Column<ListItem, String>(deleteCell) {
+		  @Override
+		  public String getValue(ListItem object) {
+		    // The value to display in the button.
+		    return "Löschen";
+		  }
+		};
+		//table.addColumn(buttonColumn, "Action");
+		
+		
+		deleteColumn.setFieldUpdater(new FieldUpdater<ListItem, String>() {
+			  @Override
+			  public void update(int index, ListItem object, String value) {
+				  Window.alert("deleteCallback");
+			  }
+			});
+		
+		
 		Column<ListItem, Boolean> checkColumn = new Column<ListItem, Boolean>( new CheckboxCell(true,false)) {
 			@Override
 			public Boolean getValue(ListItem object) {
 				// Get the value from the selection model.
-				//return singleSelectionModel.isSelected(object);
-				if (object.getChecked() == true){
-					return true;
-				} else {
-				return false;
-				}
+				return multiSelectionModel.isSelected(object);
+				//return object.getChecked();
+				
 			}
 		};
 
-		cellTable.addColumn(checkColumn, "Eingekauft");
+		cellTable.addColumn(checkColumn, "");
 		// cellTable.setColumnWidth(checkColumn, 40,);
 		cellTable.setColumnWidth(checkColumn, "10");
-		cellTable.addColumn(nameColumn, "Name");
+		cellTable.addColumn(nameColumn, "Artikel");
 		cellTable.addColumn(amountColumn, "Menge");
 		cellTable.addColumn(unitColumn, "Einheit");
 		cellTable.addColumn(storeColumn, "Laden");
 		cellTable.addColumn(personColumn, "Verantwortlicher");
+		
 
 		nameColumn.setSortable(true);
 
@@ -251,26 +302,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		shoppingListPanel.add(cellTable);
 
 		this.add(shoppingListPanel);
-		
-
-		cellTable.addCellPreviewHandler(new CellPreviewEvent.Handler<ListItem>() {
-			@Override
-			public void onCellPreview(CellPreviewEvent<ListItem> event) {
-				if ("click".equals(event.getNativeEvent().getType())) {
-					ListItem firstRow = productsToDisplay.get(cellTable.getKeyboardSelectedRow());
-					singleSelectionModel.setSelected(firstRow, true);
-					ListItem selected = singleSelectionModel.getSelectedObject();
-
-					if (selected != null) {
-						// DO YOUR STUFF
-						ListItemDialog lid = new ListItemDialog();
-						lid.displayListItem(selected);
-						lid.show();
-					}
-				}
-			}
-		});
-		
+			
 		this.add(addListItemPanel);
 		this.setCellHorizontalAlignment(addListItemPanel, ALIGN_CENTER);
 		
@@ -324,8 +356,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			li.show();
 		}
 	}
-	
-	
+
 	
 	public class EditListNameClickHandler implements ClickHandler{
 
@@ -342,9 +373,15 @@ public class ShowShoppingListForm extends VerticalPanel {
 			formHeaderPanel.setCellVerticalAlignment(shoppinglistNameBox, ALIGN_BOTTOM);
 			formHeaderPanel.setCellHorizontalAlignment(shoppinglistNameBox, ALIGN_LEFT);
 			
+			//cellTable.setColumnWidth(editColumn, 0, Unit.PX);
+			
+			cellTable.addColumn(editColumn);
+			cellTable.addColumn(deleteColumn);
 		}
 		
 	}
+	
+	
 	
 	class ConfirmClickHandler implements ClickHandler {
 		
@@ -356,6 +393,10 @@ public class ShowShoppingListForm extends VerticalPanel {
 			confirmButton.setVisible(false);
 			cancelButton.setVisible(false);
 			editListNameButton.setVisible(true);
+			
+			cellTable.removeColumn(editColumn);
+			cellTable.removeColumn(deleteColumn);
+			
 		}
 	}
 	
@@ -368,6 +409,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 			confirmButton.setVisible(false);
 			cancelButton.setVisible(false);
 			editListNameButton.setVisible(true);
+			
+			cellTable.removeColumn(editColumn);
+			cellTable.removeColumn(deleteColumn);
 		}
 	}
 
@@ -441,6 +485,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		@Override
 		public void onSuccess(ArrayList<ListItem> result) {
 			// TODO Auto-generated method stub
+			allListItems = result;
 			for(ListItem l : result) {
 				dataProvider.getList().add(l);
 			}
