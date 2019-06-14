@@ -153,9 +153,16 @@ public class GroupMapper {
 		Connection con = DBConnection.connection();
 		
 		try {
-			Statement stmt = con.createStatement();
+			//Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE `Group` " + "SET Title=\"" + g.getTitle() + "\" " + "WHERE Group_ID=" + g.getId());
+			//stmt.executeUpdate("UPDATE `Group` " + "SET Title=\"" + g.getTitle() + "\" " + "WHERE Group_ID=" + g.getId());
+			
+			PreparedStatement st = con.prepareStatement("UPDATE Group SET Title = ?, Changedate = ? WHERE Group_ID = ?");
+			
+			st.setString(1, g.getTitle());
+			st.setTimestamp(2, g.getChangedate());
+			st.setInt(3, g.getId());
+			st.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -281,7 +288,7 @@ public class GroupMapper {
 			}
 	 }
 
-	public void deleteMembership(Person p) {
+	public void deleteMembership(Person p, Group g) {
 		
 		Connection con = DBConnection.connection();
 		
@@ -289,9 +296,13 @@ public class GroupMapper {
 		try {
 		Statement stmt = con.createStatement();
 		
-		ResultSet rs = stmt.executeQuery("DELETE * FROM Participant"
-							+ " JOIN Person ON Person.Person_ID = Person.Person_ID"
-							+ " WHERE Participant.Person_ID =" + p.getId());
+		//ResultSet rs = stmt.executeQuery("DELETE * FROM Participant"
+						//	+ " JOIN Person ON Person.Person_ID = Person.Person_ID"
+						//	+ " WHERE Participant.Person_ID =" + p.getId());
+		
+		stmt.executeUpdate(" DELETE * FROM Participant" 
+		+ " WHERE Group_Group_ID=" + g.getId()
+		+ " AND Person_PersonID=" + p.getId());
 		}
 		catch(SQLException e2) {
 			e2.printStackTrace();

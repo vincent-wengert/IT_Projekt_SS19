@@ -98,7 +98,7 @@ public class StoreMapper {
 			Connection con = DBConnection.connection();
 			
 			try {
-				Statement stmt = con.createStatement();
+//				Statement stmt = con.createStatement();
 				
 //				stmt.executeUpdate("UPDATE Store " + "SET name=\"" + r.getName() + "\", " + "Street=\""
 //					    + r.getStreet()+ "\" " + "Postcode=\""

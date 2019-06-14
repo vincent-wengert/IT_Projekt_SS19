@@ -286,6 +286,12 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		r.setImprint(imprint);
 		
 	}
+
+	@Override
+	public void AddImprint() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }
