@@ -174,11 +174,10 @@ public class GroupForm extends VerticalPanel {
 	}
 
 	private void showGroupMembers() {
-		if (initial == false) {
-			for (Person p : groupToDisplay.getMember()) {
-				groupMembersListBox.addItem(p.getName());
-			}
-		} 
+		
+		for (Person p : groupToDisplay.getMember()) {
+			groupMembersListBox.addItem(p.getName());
+		}
 		groupMembersListBox.setVisibleItemCount(groupToDisplay.getMember().size());
 	}
 
@@ -338,9 +337,15 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			
+			if (initial == true) {
+			setSelectedPerson(personSuggestBox.getValue());
+			membersList.add(selectedPerson);
+			groupMembersListBox.addItem(selectedPerson.getName());
+			groupMembersListBox.setVisibleItemCount(membersList.size()+1);
+			personSuggestBox.setText("");
+			}else {
 			administration.addGroupMembership(selectedPerson, groupToDisplay, new AddGroupMembershipCallback());
-
+			}
 		}
 	}
 	
@@ -373,7 +378,11 @@ public class GroupForm extends VerticalPanel {
 			// add item to cellist
 			// aicl.updateCellList();
 			allPersons = result;
+			if (initial == false){
 			administration.getAllGroupMembers(groupToDisplay.getId(), new getAllGroupMembersCallback());
+			}else {
+			loadSearchbar();
+			}
 		}
 	}
 	
