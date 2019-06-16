@@ -224,17 +224,15 @@ public class ListItemMapper {
 			} return result;
 		}
 
-		public void checkListItem(ListItem li, Boolean isChecked) {
-			// TODO Auto-generated method stu
-				
+		public void checkListItem(ListItem li) {
+			
 				Connection con = DBConnection.connection();
 				try {
-					PreparedStatement st = con.prepareStatement("UPDATE ListItem SET IsChecked = ?, Creationdate = ?, Changedate = ? WHERE ListItem_ID = ?");
+					PreparedStatement st = con.prepareStatement("UPDATE ListItem SET IsChecked = ? WHERE ListItem_ID = ?");
 					
-					st.setBoolean(1, isChecked);
-					st.setTimestamp(2, li.getCreationdate());
-					st.setTimestamp(3, li.getChangedate());
-					st.setInt(4, li.getId());
+					st.setBoolean(1, li.getChecked());
+					st.setInt(2, li.getId());
+					System.out.println(st);
 					st.executeUpdate();
 					
 				} catch (SQLException e) {
@@ -242,7 +240,7 @@ public class ListItemMapper {
 				}
 			}
 		
-		public ArrayList<ListItem> findAllListItemsby(ShoppingList sl, Responsibility rl) {
+		public ArrayList<ListItem> findAllListItemsby(ShoppingList sl) {
 			Connection con = DBConnection.connection();
 			
 			ArrayList<ListItem> listItems = new ArrayList<ListItem>();

@@ -111,7 +111,15 @@ public class AllItemsCellList extends VerticalPanel{
 	    @Override
 	    public void render(Context context, Item key, SafeHtmlBuilder sb) {
 	    	if (context != null) {
-	        sb.appendHtmlConstant(key.getName());										
+	       
+//	        if (key.isFavroite==true) {
+//	    		 sb.appendHtmlConstant("&#9733");
+	        	//9734 fur leeres
+	        //} else {
+//	    		 sb.appendHtmlConstant("&#9734");
+//	    	}
+	        	 sb.appendHtmlConstant(key.getName());
+	        	 sb.appendHtmlConstant("&#9733");
 	      }
 	    }
 	}

@@ -104,7 +104,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 		administration.getAllStores(new getAllStoresCallback());
 		administration.getAllPersons(new getAllPersonsCallback());
 		administration.getAllItems(new getAllItemsCallback());
-		administration.getAllCheckedItemsByShoppingList(shoppingListToDisplay, new getAllCheckedListItemsCallback());
+
+		//administration.getAllCheckedItemsByShoppingList(shoppingListToDisplay, new getAllCheckedListItemsCallback());
 	}
 
 	public void onLoad() {
@@ -267,8 +268,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 			@Override
 			public Boolean getValue(ListItem object) {
 				// Get the value from the selection model
-				//return multiSelectionModel.isSelected(object);
-				return object.getChecked();
+				return multiSelectionModel.isSelected(object);
+				//return object.getChecked();
 				
 			}
 		};
@@ -276,7 +277,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 	        @Override
 	        public void update(int index, ListItem object, Boolean value) {
 	            // TODO Auto-generated method stub
-	        	administration.checkListItem(object, value, new CheckListItemCallback());
+	        Window.alert(String.valueOf(object.getId()));
+	        object.setChecked(value);
+	        administration.checkListItem(object.getId(), value, new CheckListItemCallback());
 	        }
 	    });
 		
@@ -347,6 +350,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		}
 	}
 
+	
 	public void setSelected(ShoppingList sl) {
 		if (sl != null) {
 			shoppingListToDisplay = sl;
@@ -420,7 +424,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	class DeleteShoppingListClickHandler implements ClickHandler {
 		
 		public void onClick(ClickEvent event) {
-			administration.deleteShoppingList(shoppingListToDisplay, new DeleteShoppinglistCallback());
+			//administration.deleteShoppingList(shoppingListToDisplay, new DeleteShoppinglistCallback());
 		}
 	}
 	

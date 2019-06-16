@@ -40,7 +40,7 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void updateListItem(ListItem li);
 	
-	public void checkListItem(ListItem li);
+	public void checkListItem(Integer id, Boolean checked);
 	
 	public void deleteListItem(ListItem li);
 	

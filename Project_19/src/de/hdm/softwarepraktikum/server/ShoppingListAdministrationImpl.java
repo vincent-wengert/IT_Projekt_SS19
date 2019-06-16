@@ -24,7 +24,6 @@ import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -392,8 +391,12 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * Methode um ListItems als eingekauft zu merkieren
 	 * @param ListItem li
 	 */
-	
-	public void checkListItem(ListItem li) throws IllegalArgumentException {
+	@Override
+	public void checkListItem(Integer id, Boolean isChecked) {
+		// TODO Auto-generated method stub
+		ListItem li = new ListItem();
+		li.setId(id);
+		li.setChecked(isChecked);
 		this.listItemMapper.checkListItem(li);
 	}
 
@@ -677,6 +680,9 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 		return null;
 	}
+
+
+
 
 
 

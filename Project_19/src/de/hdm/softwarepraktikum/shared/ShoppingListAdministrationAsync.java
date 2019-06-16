@@ -26,7 +26,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void addFavoriteItem(Item i, Person p, Group g, AsyncCallback<Void> callback);
 
-	void checkListItem(ListItem li, AsyncCallback<Void> callback);
+	void checkListItem(Integer id, Boolean checked, AsyncCallback<Void> callback);
 
 	void createGroup(String title, ArrayList<Person> member, AsyncCallback<Void> callback);
 
