@@ -373,8 +373,14 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * Methode um Änderungen dem zu übergebenden ListItem Obejekt in die Datenbank zu schreiben
 	 */
 	
-	public void updateListItem(ListItem li) throws IllegalArgumentException {
-		listItemMapper.update(li);
+	public ListItem updateListItem(ListItem li) throws IllegalArgumentException {
+		Responsibility r = new Responsibility();
+		r.setBuyerID(li.getBuyerID());
+		r.setStoreID(li.getStoreID());
+		r.setSlID(li.getSlID());
+		responsibilityMapper.updateResponsibility(r);
+		
+		return listItemMapper.update(li);
 	}
 	
 	/**

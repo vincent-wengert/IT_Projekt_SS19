@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.apache.xerces.impl.dv.dtd.ListDatatypeValidator;
+import org.eclipse.jdt.internal.compiler.classfmt.NonNullDefaultAwareTypeAnnotationWalker;
 import org.omg.CORBA.PUBLIC_MEMBER;
 
 import com.google.appengine.api.search.query.QueryParser.primitive_return;
@@ -44,6 +46,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
+import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.Person;
@@ -83,8 +86,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 	
 	private Column<ListItem, String> editColumn;
 	private Column<ListItem, String> deleteColumn;
-
+	
 	ShoppingList shoppingListToDisplay = new ShoppingList();
+	Group group = new Group();
 	
 	
 
@@ -239,8 +243,11 @@ public class ShowShoppingListForm extends VerticalPanel {
 			  public void update(int index, ListItem object, String value) {
 				  
 			    // The user clicked on the button for the passed auction.
-					ListItemDialog lid = new ListItemDialog();
-					lid.displayListItem(allListItems.get(index));
+				  	ListItemDialog lid = new ListItemDialog();
+				  	lid.setGroup(group);
+					lid.setShoppingList(shoppingListToDisplay);
+					lid.setShowShoppingListForm(ShowShoppingListForm.this);
+					lid.displayListItem(allListItems.get(index), shoppingListToDisplay, group, true);
 					lid.show();
 			  }
 			});
@@ -348,6 +355,13 @@ public class ShowShoppingListForm extends VerticalPanel {
 		}
 	}
 
+	public void setGroup(Group g) {
+		this.group = g;
+	}
+	
+	public Group returnGroup() {
+		return this.group;
+	}
 	
 	public void setSelected(ShoppingList sl) {
 		if (sl != null) {
@@ -389,9 +403,11 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			ListItemDialog li = new ListItemDialog();
-			li.setShowShoppingListForm(ShowShoppingListForm.this);
-			li.show();
+			ListItemDialog lid = new ListItemDialog();
+			lid.setGroup(group);
+			lid.setShoppingList(shoppingListToDisplay);
+			lid.setShowShoppingListForm(ShowShoppingListForm.this);
+			lid.show();
 		}
 	}
 

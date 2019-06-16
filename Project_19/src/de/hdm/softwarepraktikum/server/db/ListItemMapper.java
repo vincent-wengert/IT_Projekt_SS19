@@ -112,23 +112,19 @@ public class ListItemMapper {
 		
 		try {
 			
-			//muss man noch verbessern zwecks responsibility
-			Statement stmt = con.createStatement();
+//			//muss man noch verbessern zwecks responsibility
+//			Statement stmt = con.createStatement();
+//			
+//			stmt.executeUpdate("UPDATE listitems " + "SET item=\"" + li.getItemId() + "\", " + "amount=\""
+//					+ li.getAmount() + "\" " + "WHERE id=" + li.getId());
 			
-			stmt.executeUpdate("UPDATE listitems " + "SET item=\"" + li.getItemId() + "\", " + "amount=\""
-					+ li.getAmount() + "\" " + "WHERE id=" + li.getId());
 			
+			PreparedStatement st = con.prepareStatement("UPDATE ListItem SET Unit = ?, Amount = ? WHERE ListItem_ID = ?");
 			
-			//PreparedStatement st = con.prepareStatement("UPDATE ListItem SET Name = ?, Street = ?, Postcode = ?, City = ?,"
-			//		+ " Changedate = ? WHERE Store_ID = ?");
-			
-			//st.setString(1, r.getName());
-			//st.setString(2, r.getStreet());
-			//st.setInt(3, r.getPostcode());
-			//st.setString(4, r.getCity());
-			//st.setTimestamp(5, r.getChangedate());
-			//st.setInt(6, r.getId());
-			//st.executeUpdate();
+			st.setString(1, li.getUnit().toString());
+			st.setDouble(2, li.getAmount());
+			st.setInt(3, li.getId());
+			st.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

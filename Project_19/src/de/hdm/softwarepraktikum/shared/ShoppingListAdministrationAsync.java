@@ -73,7 +73,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void getAllShoppingListsByPerson(Person p, AsyncCallback<ArrayList<ShoppingList>> callback);
 
-	void updateListItem(ListItem li, AsyncCallback<Void> callback);
+	void updateListItem(ListItem li, AsyncCallback<ListItem> callback);
 
 	void updateResponsibility(Responsibility r, AsyncCallback<Void> callback);
 
