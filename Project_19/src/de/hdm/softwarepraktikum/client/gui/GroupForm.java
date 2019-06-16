@@ -356,9 +356,16 @@ public class GroupForm extends VerticalPanel {
 			for (Person p : allPersons) {
 				if (p.getName().equals(groupMembersListBox.getSelectedItemText())) {
 					selectedPerson = p;
+					if(initial == true) {
+					groupMembersListBox.removeItem(groupMembersListBox.getSelectedIndex());
+					membersList.remove(p);
+					groupMembersListBox.setVisibleItemCount(membersList.size()+1);
+
+					}else {
 					administration.deleteGroupMembership(p, groupToDisplay , new RemoveGroupMembershipCallback());
+					}
 				}
-			}
+			}	
 		}
 	}
 
