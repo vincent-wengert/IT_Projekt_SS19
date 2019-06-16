@@ -19,6 +19,7 @@ import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
+import java_cup.internal_error;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
@@ -463,9 +464,11 @@ private FavoriteItemMapper favoriteItemMapper = null;
 
 
 	@Override
-	public ArrayList<Person> getAllGroupMembers(Group g) throws IllegalArgumentException {
+	public ArrayList<Person> getAllGroupMembers(int id) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return this.personMapper.findAllGroupMembers();
+		Group g = new Group();
+		g.setId(id);
+		return this.personMapper.findAllGroupMembers(g);
 	}
 	
 	/*

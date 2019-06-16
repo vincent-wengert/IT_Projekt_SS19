@@ -81,7 +81,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void updateStore(Store s, AsyncCallback<Void> callback);
 
-	void getAllGroupMembers(Group g, AsyncCallback<ArrayList<Person>> callback);
+	void getAllGroupMembers(int id, AsyncCallback<ArrayList<Person>> callback);
 	
 	void getAllStores(AsyncCallback<ArrayList<Store>> callback);
 

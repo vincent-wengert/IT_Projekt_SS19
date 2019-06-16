@@ -52,7 +52,7 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void getGroup(ShoppingList sl);
 	
-	public ArrayList<Person> getAllGroupMembers(Group g);
+	public ArrayList<Person> getAllGroupMembers(int id);
 	
 	public ArrayList<Group> getAllGroupsByPerson(Person p);
 	

@@ -99,9 +99,9 @@ public class GroupForm extends VerticalPanel {
 	 * hier die Formatierungen der Widgets statt.
 	 */
 	public void onLoad() {
-		administration.getAllGroupMembers(groupToDisplay, new getAllGroupMembersCallback());
-		this.setWidth("100%");
 		this.load();
+		
+		this.setWidth("100%");
 		// groupNameLabel.setStylePrimaryName("textLabel");
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
@@ -169,9 +169,8 @@ public class GroupForm extends VerticalPanel {
 	}
 
 	private VerticalPanel showGroupMembers() {
-		tempString = " ";
+		tempString = "";
 		if (initial == false) {
-			Window.alert("test");
 			for (Person p : groupToDisplay.getMember()) {
 				tempString = tempString +  p.getName() + " ";
 				tempGroupMembersLabel.setText(tempString);
@@ -383,6 +382,7 @@ public class GroupForm extends VerticalPanel {
 			// aicl.updateCellList();
 			allPersons = result;
 			GroupForm.this.loadSearchbar();
+			administration.getAllGroupMembers(groupToDisplay.getId(), new getAllGroupMembersCallback());
 
 		}
 	}
@@ -396,6 +396,14 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(ArrayList<Person> result) {
+			for (Person p : result) {
+				for(Person p1: allPersons) {
+					if(p.getId() == p1.getId()) {
+						p.setName(p1.getName());
+						Window.alert(p.getName());
+					}
+				}
+			}
 			groupToDisplay.setMember(result);
 			showGroupMembers();
 		}
