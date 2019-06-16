@@ -446,7 +446,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			
 			Set <ListItem> tempItems = multiSelectionModel.getSelectedSet();
 			for(ListItem i: tempItems) {
-				Window.alert(String.valueOf(i.getId()));
+				
 			}
 			
 		}

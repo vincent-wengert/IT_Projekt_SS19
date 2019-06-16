@@ -7,9 +7,6 @@ import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.Window;
-
-import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
 public class StoreMapper {
@@ -22,7 +19,7 @@ public class StoreMapper {
 	   * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	   * einzige Instanz dieser Klasse.
 	   * 
-	   * @author Peter Thies
+	   * @author Niklas �xle
 	   */
 	
 		private static StoreMapper storeMapper = null;
@@ -62,7 +59,7 @@ public class StoreMapper {
 				 * Zunächst schauen wir nach, welches der momentan höchste
 				 * Primärschlüsselwert ist.
 				 */
-				ResultSet rs = stmt.executeQuery("SELECT MAX(Store_id) AS id " + "FROM Store ");
+				ResultSet rs = stmt.executeQuery("SELECT MAX(Store_ID) AS maxid " + "FROM Store ");
 
 				// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 				
@@ -71,14 +68,32 @@ public class StoreMapper {
 				 * s erhält den bisher maximalen, nun um 1 inkrementierten
 				 * Primärschlüssel.
 				 */
-					s.setId(rs.getInt("id") + 1);
+					s.setId(rs.getInt("maxid") + 1);
 
-					stmt = con.createStatement();
+					//stmt = con.createStatement();
 				}
 				
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO store (Store_id, Name, Street, Postcode, City, Housenumber, Creationdate, Changedate ) " + "VALUES (" + s.getId() + ",'"
-						+ s.getName() + "','" + s.getStreet() + " ','" + s.getPostcode()+ " ','" + s.getCity()+ " ','" + s.getHouseNumber() + "','" + s.getCreationdate()+ "','" + s.getChangedate() + "')");
+				//stmt.executeUpdate("INSERT INTO Store (Store_ID, Name, Street, Postcode, City, Creationdate, Changedate ) " 
+				//+ "VALUES (" + s.getId() + ",'"
+				//+ s.getName() + "','" + s.getStreet() + " ','" 
+				//+ s.getPostcode()+ " ','" + s.getCity()
+				//+ " ','" + s.getCreationdate()+ "','" + s.getChangedate() + "')");
+				
+				PreparedStatement stmt2 = con.prepareStatement(
+				"INSERT INTO Store (Store_ID, Name, Street, Postcode, City, Creationdate, Changedate) VALUES (?, ?, ?, ?, ?, ?, ?)",
+				Statement.RETURN_GENERATED_KEYS);
+
+			    stmt2.setInt(1, s.getId());
+			    stmt2.setString(2, s.getName());
+			    stmt2.setString(3, s.getStreet());
+			    stmt2.setInt(4, s.getPostcode());
+			    stmt2.setString(5, s.getCity());
+				stmt2.setTimestamp(6, s.getCreationdate());
+				stmt2.setTimestamp(7, s.getChangedate());
+			
+								
+				stmt2.executeUpdate();
 			
 
 			} catch (SQLException e) {
@@ -156,12 +171,12 @@ public void deleteStore(Store s) {
 				Statement stmt = con.createStatement();
 				
 				//Statement ausfüllen und als Query an die DB schicken
-				ResultSet rs = stmt.executeQuery("SELECT Store_id, Name, Street, Postcode, City, Creationdate, Changedate FROM Store "
+				ResultSet rs = stmt.executeQuery("SELECT Store_ID, Name, Street, Postcode, City, Creationdate, Changedate FROM Store "
 						+ " WHERE Store_ID = " +ID);
 				while (rs.next()) {
 				//Ergebnis-Tupel in Objekt umwandeln
 				 Store s = new Store();
-				 s.setId(rs.getInt("Store_id"));
+				 s.setId(rs.getInt("Store_ID"));
 				 s.setName(rs.getString("Name"));
 				 s.setPostcode(rs.getInt("Postcode"));
 				 s.setCity(rs.getString("City"));
@@ -192,16 +207,15 @@ public void deleteStore(Store s) {
 			try {
 				Statement stmt = con.createStatement();
 				
-				ResultSet rs = stmt.executeQuery("SELECT Store_id, Name, Street, Housenumber, Postcode, City, Creationdate, Changedate FROM Store "+ "ORDER BY Name");
+				ResultSet rs = stmt.executeQuery("SELECT Store_ID, Name, Street, Postcode, City, Creationdate, Changedate FROM Store "+ "ORDER BY Name");
 						
 				while (rs.next()) {
 					
 					//Ergebnis-Tupel in Objekt umwandeln
 					 Store s = new Store();
-					 s.setId(rs.getInt("Store_id"));
+					 s.setId(rs.getInt("Store_ID"));
 					 s.setName(rs.getString("Name"));
 					 s.setStreet(rs.getString("Street"));
-					 s.setHouseNumber(rs.getInt("Housenumber"));
 					 s.setPostcode(rs.getInt("Postcode"));
 					 s.setCity(rs.getString("City"));
 					 s.setCreationdate(rs.getTimestamp("Creationdate"));
