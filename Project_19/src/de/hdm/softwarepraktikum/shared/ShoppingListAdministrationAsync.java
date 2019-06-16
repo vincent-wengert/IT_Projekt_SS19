@@ -41,6 +41,8 @@ public interface ShoppingListAdministrationAsync {
 
 	void createStore(String name, String street, int postcode, String city, int housenumber, AsyncCallback<Store> callback);
 
+	void addGroupMembership(Person p, Group g, AsyncCallback<Void> callback);
+	
 	void deleteGroupMembership(Person p, Group g, AsyncCallback<Void> callback);
 
 	void deleteItem(Item i, AsyncCallback<Void> callback);

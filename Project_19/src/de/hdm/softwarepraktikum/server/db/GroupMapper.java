@@ -296,21 +296,12 @@ public class GroupMapper {
 		try {
 		Statement stmt = con.createStatement();
 		
-		//ResultSet rs = stmt.executeQuery("DELETE * FROM Participant"
-						//	+ " JOIN Person ON Person.Person_ID = Person.Person_ID"
-						//	+ " WHERE Participant.Person_ID =" + p.getId());
-		
-		stmt.executeUpdate(" DELETE * FROM Participant" 
-		+ " WHERE Group_Group_ID=" + g.getId()
-		+ " AND Person_PersonID=" + p.getId());
+		stmt.executeUpdate("DELETE FROM Participant WHERE Group_Group_ID=" + g.getId() + " AND Person_PersonID=" + p.getId());
+		System.out.println(stmt);
 		}
 		catch(SQLException e2) {
 			e2.printStackTrace();
-		}
-
-
-
-			
+		}	
 	}
 	
 	

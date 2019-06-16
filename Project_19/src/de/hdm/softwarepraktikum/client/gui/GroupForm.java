@@ -61,7 +61,7 @@ public class GroupForm extends VerticalPanel {
 
 	private ArrayList<Person> allPersons = new ArrayList<Person>();
 	private ArrayList<Person> membersList = new ArrayList<Person>();
-	private Person selectedPerson = null;
+	private Person selectedPerson = new Person();
 
 	private Group groupToDisplay = null;
 
@@ -90,6 +90,7 @@ public class GroupForm extends VerticalPanel {
 		cancelButton.addClickHandler(new CancelClickHandler());
 		bottomButtonsPanel.add(cancelButton);
 		
+		addGroupMember.addClickHandler(new AddGroupMemberClickHandler());
 		removeGroupMember.addClickHandler(new RemoveGroupMemberClickHandler());
 	}
 
@@ -154,7 +155,7 @@ public class GroupForm extends VerticalPanel {
 		addGroupMember.setStylePrimaryName("addPersonButton");
 
 		searchGridPersons.setWidget(0, 0, personSuggestBox);
-		//searchGridPersons.setWidget(0, 1, addGroupMember);
+		searchGridPersons.setWidget(0, 1, addGroupMember);
 		
 
 		groupGrid.setWidget(1, 1, searchGridPersons);
@@ -186,13 +187,11 @@ public class GroupForm extends VerticalPanel {
 	}
 
 	public void loadSearchbar() {
-		for (Person p : allPersons) {
-
-			personSearchBar.add(p.getGmail());
+		
+		for(Person person : allPersons) {
+			personSearchBar.add(person.getGmail());
 		}
-
 		personSuggestBox.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
-
 			@Override
 			public void onSelection(SelectionEvent<Suggestion> arg0) {
 				setSelectedPerson(personSuggestBox.getValue());
@@ -208,11 +207,8 @@ public class GroupForm extends VerticalPanel {
 	private void setSelectedPerson(String value) {
 		// TODO Auto-generated method stub
 		for (Person p : allPersons) {
-			if (p.getGmail().equals(value)) {
-				membersList.add(p);
-				personSuggestBox.setText(null);
-				Notification.show(p.getName() + " wurde zur Auswahl hinzugefügt.");
-				groupMembersListBox.addItem(p.getName());
+			if (p.getGmail() == value) {
+				selectedPerson = p;
 			}
 		}
 	}
@@ -307,7 +303,6 @@ public class GroupForm extends VerticalPanel {
 				setEditable(false);
 				setTableEditable(editable);
 			} else {
-				Window.alert("update");
 				groupToDisplay.setTitle(groupNameBox.getText());
 				administration.updateGroup(groupToDisplay, new updateGroupCallback());
 				setEditable(false);
@@ -335,41 +330,33 @@ public class GroupForm extends VerticalPanel {
 		}
 	}
 
-	private class RemoveGroupMemberClickHandler implements ClickHandler {
+	
+	
+	
+	
+	private class AddGroupMemberClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
 			
+			administration.addGroupMembership(selectedPerson, groupToDisplay, new AddGroupMembershipCallback());
+
+		}
+	}
+	
+	private class RemoveGroupMemberClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
 			for (Person p : allPersons) {
 				if (p.getName().equals(groupMembersListBox.getSelectedItemText())) {
-					groupMembersListBox.removeItem(groupMembersListBox.getSelectedIndex());
-					groupToDisplay.getMember().remove(p);
-					//administration.deleteGroupMembership(p, groupToDisplay , new RemoveGroupMembershipCallback());
+					selectedPerson = p;
+					administration.deleteGroupMembership(p, groupToDisplay , new RemoveGroupMembershipCallback());
 				}
 			}
 		}
 	}
 
-	/**
-	 * Hiermit kann <code>Item</code> Objekt geloscht werden und aus der
-	 * <code>AllItemsCelllist</code> Instanz entfernt werden.
-	 */
-	private class CreatePersonCallback implements AsyncCallback<Person> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Notification.show("Die Person konnte leider nicht erstellt werden:\n" + caught.toString());
-		}
-
-		@Override
-		public void onSuccess(Person person) {
-			// add item to cellist
-			// aicl.updateCellList();
-			Notification.show("Person wurde erstellt");
-
-		}
-	}
-	
 
 	/**
 	 * Hiermit können alle <code>Person</code> Objekt aus der Datenbank geladen werden.
@@ -386,9 +373,49 @@ public class GroupForm extends VerticalPanel {
 			// add item to cellist
 			// aicl.updateCellList();
 			allPersons = result;
-			GroupForm.this.loadSearchbar();
 			administration.getAllGroupMembers(groupToDisplay.getId(), new getAllGroupMembersCallback());
+		}
+	}
+	
+	
+	
+	private class AddGroupMembershipCallback implements AsyncCallback<Void> {
 
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show("Die Gruppenmitglieder konnten leider nicht gefunden werden:\n" + caught.toString());
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			Notification.show(selectedPerson.getName() + " wurde der Gruppe hinzugefügt");
+			personSuggestBox.setText(null);
+			
+			groupMembersListBox.addItem(selectedPerson.getName());
+			groupToDisplay.getMember().add(selectedPerson);
+			
+			personSearchBar.clear();
+			loadSearchbar();
+		}
+	}
+	
+	
+	private class RemoveGroupMembershipCallback implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show("Die Gruppenmitglieder konnten leider nicht entfernt werden:\n" + caught.toString());
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			Notification.show(selectedPerson.getName() + " wurde aus der Gruppe entfernt");
+		
+			groupMembersListBox.removeItem(groupMembersListBox.getSelectedIndex());
+			groupToDisplay.getMember().remove(selectedPerson);
+			
+			personSearchBar.clear();
+			loadSearchbar();
 		}
 	}
 	
@@ -410,6 +437,7 @@ public class GroupForm extends VerticalPanel {
 			}
 			groupToDisplay.setMember(result);
 			showGroupMembers();
+			GroupForm.this.loadSearchbar();
 		}
 	}
 

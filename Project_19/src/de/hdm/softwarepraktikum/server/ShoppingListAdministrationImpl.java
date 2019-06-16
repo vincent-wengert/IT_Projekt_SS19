@@ -653,11 +653,17 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	   * ***************************************************************************
 	   */
 
+	@Override
+	public void addGroupMembership(Person p, Group g) {
+		// TODO Auto-generated method stub
+		groupMapper.addMembership(p,g);
+	}
 
+	
 	@Override
 	public void deleteGroupMembership(Person p, Group g) {
 		// TODO Auto-generated method stub
-		groupMapper.deleteMembership(p);
+		groupMapper.deleteMembership(p,g);
 	}
 
 
