@@ -30,7 +30,7 @@ public class StoreForm extends VerticalPanel{
 	private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings.getShoppinglistAdministration();
 
 	private Store storeToDisplay = null;
-	private AllStoresCellList ascl = new AllStoresCellList();
+	private AllStoresCellList ascl = null;
 
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
@@ -235,13 +235,9 @@ public class StoreForm extends VerticalPanel{
 				storeToDisplay.setName(storeNameBox.getText());
 				shoppinglistAdministration.updateStore(storeToDisplay, new UpdateStoreCallback());
 				setTableEditable(false);
-				ascl.updateCellList();
-				//ascl.updateCellList();
 			} else {
 				shoppinglistAdministration.createStore(storeNameBox.getText(), streetNameBox.getText(), Integer.parseInt(postCodeBox.getText()), cityNameBox.getText(), Integer.parseInt(houseNumberBox.getText()), new CreateStoreCallback());
 				setTableEditable(false);
-				ascl.updateCellList();
-				
 			}
 		}
 	}
@@ -278,7 +274,7 @@ public class StoreForm extends VerticalPanel{
 			//add item to cellist
 			Notification.show("Store wurde erstellt");
 			RootPanel.get("Details").clear();
-
+			ascl.updateCellList();
 		}
 	}
 	
@@ -294,6 +290,7 @@ public class StoreForm extends VerticalPanel{
 			// TODO Auto-generated method stub
 			Notification.show("Store wurde aktualisiert");
 			RootPanel.get("Details").clear();
+			ascl.updateCellList();
 		}
 		
 	}
@@ -309,6 +306,7 @@ public class StoreForm extends VerticalPanel{
 		public void onSuccess(Void result) {
 			// TODO Auto-generated method stub
 			Notification.show("Store wurde entfernt");
+			RootPanel.get("Details").clear();
 			ascl.updateCellList();
 		}
 		

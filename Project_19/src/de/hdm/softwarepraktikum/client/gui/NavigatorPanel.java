@@ -30,6 +30,8 @@ private VerticalPanel contentPanelArticles = new VerticalPanel();
 
 private AllItemsCellList aicl = new AllItemsCellList();
 private ItemForm itemForm = new ItemForm();
+private StoreForm storeForm = new StoreForm();
+
 private AllShoppingListsCellList aslcl = new AllShoppingListsCellList();
 private AllStoresCellList ascl = new AllStoresCellList();
 
@@ -83,7 +85,12 @@ public void onLoad() {
 
     // Add the tree to the root layout panel.
     contentPanelGroups.add(tree);
-   
+    
+    aicl.setItemForm(itemForm);
+    itemForm.setAllItemsCelllist(aicl);
+    ascl.setStoreForm(storeForm);
+    storeForm.setAllStoresCellList(ascl);
+    
 	}
 
 /**
@@ -144,6 +151,8 @@ public void onLoad() {
 	searchGridArticles.setWidget(0, 1, cancelButton);
 
 	this.add(searchGridArticles);
+	
+	
 	}
 }
 
