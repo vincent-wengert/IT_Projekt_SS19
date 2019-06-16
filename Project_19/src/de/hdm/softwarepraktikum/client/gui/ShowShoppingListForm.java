@@ -276,8 +276,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 		checkColumn.setFieldUpdater(new FieldUpdater<ListItem, Boolean>() {
 	        @Override
 	        public void update(int index, ListItem object, Boolean value) {
-	            // TODO Auto-generated method stub
-	        Window.alert(String.valueOf(object.getId()));
 	        object.setChecked(value);
 	        administration.checkListItem(object.getId(), value, new CheckListItemCallback());
 	        }
@@ -443,12 +441,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 			cellTable.removeColumn(editColumn);
 			cellTable.removeColumn(deleteColumn);
 			
-			
-			Set <ListItem> tempItems = multiSelectionModel.getSelectedSet();
-			for(ListItem i: tempItems) {
-				
-			}
-			
 		}
 	}
 	
@@ -592,6 +584,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 			allListItems = result;
 			for(ListItem l : result) {
 				dataProvider.getList().add(l);
+				if(l.getChecked() == true) {
+					multiSelectionModel.setSelected(l, true);
+				}
 			}
 		}
 	}
