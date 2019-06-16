@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -44,13 +45,11 @@ public class GroupForm extends VerticalPanel {
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
 	private HorizontalPanel topButtonsPanel = new HorizontalPanel();
-	VerticalPanel vp = new VerticalPanel();
 
 	private Label infoTitleLabel = new Label("Neue Gruppe erstellen");
 	private Label groupNameLabel = new Label("Name der Gruppe");
 	private Label groupMembersLabel = new Label("Mitglieder");
 	private Label addedGroupMembersLabel = new Label("Mitglieder der Gruppe");
-	private Label tempGroupMembersLabel = new Label("");
 
 	private TextBox groupNameBox = new TextBox();
 
@@ -71,15 +70,15 @@ public class GroupForm extends VerticalPanel {
 
 	private MultiWordSuggestOracle personSearchBar = new MultiWordSuggestOracle();
 	private final SuggestBox personSuggestBox = new SuggestBox(personSearchBar);
-	String tempString = new String();
-
-	private GroupForm newGroupForm;
+	
+	private ListBox groupMembersListBox = new ListBox();
 
 	// SearchForm
 	private Grid searchGridPersons = new Grid(1, 3);
-
-	private Button addButton = new Button("\u271A");
-	private Button cancelSearchButton = new Button("\u2716");
+	private Button addGroupMember = new Button("\u271A");
+	private Button removeGroupMember = new Button("\u2716");
+	
+	private GroupForm newGroupForm;
 
 	public GroupForm() {
 		editButton.addClickHandler(new EditClickHandler());
@@ -91,7 +90,7 @@ public class GroupForm extends VerticalPanel {
 		cancelButton.addClickHandler(new CancelClickHandler());
 		bottomButtonsPanel.add(cancelButton);
 		
-		cancelSearchButton.addClickHandler(new CancelSearchClickHandler());
+		removeGroupMember.addClickHandler(new RemoveGroupMemberClickHandler());
 	}
 
 	/**
@@ -137,29 +136,34 @@ public class GroupForm extends VerticalPanel {
 		bottomButtonsPanel.setSpacing(20);
 
 		this.add(formHeaderPanel);
-		this.add(groupGrid);
-		this.setCellHorizontalAlignment(groupGrid, ALIGN_CENTER);
 
 		groupNameBox.setMaxLength(10);
 
 		groupGrid.setCellSpacing(10);
+		
 		groupGrid.setWidget(0, 0, groupNameLabel);
 		groupGrid.setWidget(0, 1, groupNameBox);
 		groupGrid.setWidget(1, 0, groupMembersLabel);
+		
+		groupMembersListBox.setWidth("300px");
 
 		personSuggestBox.setSize("300px", "27px");
-		cancelSearchButton.setPixelSize(30, 30);
+		removeGroupMember.setPixelSize(30, 30);
 		personSuggestBox.getElement().setPropertyString("placeholder", "Mitgliedernamen eingeben...");
-		cancelSearchButton.setStylePrimaryName("cancelSearchButton");
-		addButton.setStylePrimaryName("addPersonButton");
+		removeGroupMember.setStylePrimaryName("cancelSearchButton");
+		addGroupMember.setStylePrimaryName("addPersonButton");
 
 		searchGridPersons.setWidget(0, 0, personSuggestBox);
-		searchGridPersons.setWidget(0, 1, addButton);
-		searchGridPersons.setWidget(0, 2, cancelSearchButton);
+		//searchGridPersons.setWidget(0, 1, addGroupMember);
+		
 
 		groupGrid.setWidget(1, 1, searchGridPersons);
 		groupGrid.setWidget(2, 0, addedGroupMembersLabel);
-		groupGrid.setWidget(2, 1, tempGroupMembersLabel);
+		groupGrid.setWidget(2, 1, groupMembersListBox);
+		groupGrid.setWidget(2, 2, removeGroupMember);
+		
+		this.add(groupGrid);
+		this.setCellHorizontalAlignment(groupGrid, ALIGN_CENTER);
 
 		this.add(bottomButtonsPanel);
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
@@ -168,20 +172,13 @@ public class GroupForm extends VerticalPanel {
 
 	}
 
-	private VerticalPanel showGroupMembers() {
-		tempString = "";
+	private void showGroupMembers() {
 		if (initial == false) {
 			for (Person p : groupToDisplay.getMember()) {
-				tempString = tempString +  p.getName() + " ";
-				tempGroupMembersLabel.setText(tempString);
+				groupMembersListBox.addItem(p.getName());
 			}
-		} else if (initial == true) {
-			for (Person p : membersList) {
-				tempString = tempString +  p.getName() + " ";
-				tempGroupMembersLabel.setText(tempString);
-			}
-		}
-		return vp;
+		} 
+		groupMembersListBox.setVisibleItemCount(groupToDisplay.getMember().size());
 	}
 
 	private void load() {
@@ -198,7 +195,7 @@ public class GroupForm extends VerticalPanel {
 
 			@Override
 			public void onSelection(SelectionEvent<Suggestion> arg0) {
-				setSelectedUser(personSuggestBox.getValue());
+				setSelectedPerson(personSuggestBox.getValue());
 			}
 		});
 	}
@@ -208,14 +205,14 @@ public class GroupForm extends VerticalPanel {
 	 * 
 	 * @param gMail Die Email-Adresse des selektierten <code>Person</code>
 	 */
-	private void setSelectedUser(String value) {
+	private void setSelectedPerson(String value) {
 		// TODO Auto-generated method stub
 		for (Person p : allPersons) {
 			if (p.getGmail().equals(value)) {
 				membersList.add(p);
 				personSuggestBox.setText(null);
 				Notification.show(p.getName() + " wurde zur Auswahl hinzugefügt.");
-				showGroupMembers();
+				groupMembersListBox.addItem(p.getName());
 			}
 		}
 	}
@@ -234,17 +231,22 @@ public class GroupForm extends VerticalPanel {
 			groupGrid.setWidget(1, 1, searchGridPersons);
 			bottomButtonsPanel.setVisible(true);
 			topButtonsPanel.setVisible(false);
+			removeGroupMember.setVisible(true);
 			groupGrid.setWidget(2, 0, addedGroupMembersLabel);
-			groupGrid.setWidget(2, 1, tempGroupMembersLabel);
+			groupGrid.setWidget(2, 1, groupMembersListBox);
+			groupGrid.setWidget(2, 2, removeGroupMember);
 		} else {
 			groupNameBox.setEnabled(false);
 			groupNameBox.setFocus(false);
 			groupMembersLabel.removeFromParent();
 			searchGridPersons.removeFromParent();
+			removeGroupMember.removeFromParent();
 			bottomButtonsPanel.setVisible(false);
 			topButtonsPanel.setVisible(true);
+			removeGroupMember.setVisible(false);
 			groupGrid.setWidget(1, 0, addedGroupMembersLabel);
-			groupGrid.setWidget(1, 1, tempGroupMembersLabel);
+			groupGrid.setWidget(1, 1, groupMembersListBox);
+			groupMembersListBox.setFocus(false);
 		}
 	}
 
@@ -333,14 +335,17 @@ public class GroupForm extends VerticalPanel {
 		}
 	}
 
-	private class CancelSearchClickHandler implements ClickHandler {
+	private class RemoveGroupMemberClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-
-			if (personSuggestBox.getValue() != null) {
-				personSuggestBox.setText(null);
-				selectedPerson = null;
+			
+			for (Person p : allPersons) {
+				if (p.getName().equals(groupMembersListBox.getSelectedItemText())) {
+					groupMembersListBox.removeItem(groupMembersListBox.getSelectedIndex());
+					groupToDisplay.getMember().remove(p);
+					//administration.deleteGroupMembership(p, groupToDisplay , new RemoveGroupMembershipCallback());
+				}
 			}
 		}
 	}
@@ -364,10 +369,10 @@ public class GroupForm extends VerticalPanel {
 
 		}
 	}
+	
 
 	/**
-	 * Hiermit kann <code>Item</code> Objekt geloscht werden und aus der
-	 * <code>AllItemsCelllist</code> Instanz entfernt werden.
+	 * Hiermit können alle <code>Person</code> Objekt aus der Datenbank geladen werden.
 	 */
 	private class getAllPersonsCallback implements AsyncCallback<ArrayList<Person>> {
 
@@ -400,7 +405,6 @@ public class GroupForm extends VerticalPanel {
 				for(Person p1: allPersons) {
 					if(p.getId() == p1.getId()) {
 						p.setName(p1.getName());
-						Window.alert(p.getName());
 					}
 				}
 			}
