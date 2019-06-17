@@ -86,15 +86,12 @@ public class ShowShoppingListForm extends VerticalPanel {
 	
 	private Column<ListItem, String> editColumn;
 	private Column<ListItem, String> deleteColumn;
-<<<<<<< HEAD
 
 	private CustomTreeModel ctm = null;
-=======
+
 	
 	ShoppingList shoppingListToDisplay = new ShoppingList();
 	Group group = new Group();
-	
->>>>>>> refs/heads/master
 	
 
 	public ShowShoppingListForm() {

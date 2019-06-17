@@ -46,10 +46,8 @@ public class GroupForm extends VerticalPanel {
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
 	private HorizontalPanel topButtonsPanel = new HorizontalPanel();
-<<<<<<< HEAD
 	private VerticalPanel vp = new VerticalPanel();
-=======
->>>>>>> refs/heads/master
+
 
 	private Label infoTitleLabel = new Label("Neue Gruppe erstellen");
 	private Label groupNameLabel = new Label("Name der Gruppe");
