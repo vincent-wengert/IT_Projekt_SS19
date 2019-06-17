@@ -89,20 +89,19 @@ public void onLoad() {
     // Add the tree to the root layout panel.
     contentPanelGroups.add(tree);
     
-<<<<<<< HEAD
     model.setGroupForm(gf);
     gf.setCtm(model);
     model.setShoppingListForm(sslf);
     sslf.setCtm(model);
     model.setNewShoppingListForm(nslf);
     nslf.setCtm(model);
-=======
+
     aicl.setItemForm(itemForm);
     itemForm.setAllItemsCelllist(aicl);
     ascl.setStoreForm(storeForm);
     storeForm.setAllStoresCellList(ascl);
     
->>>>>>> refs/heads/master
+
 	}
 
 /**

@@ -206,12 +206,9 @@ public class GroupForm extends VerticalPanel {
 	 * 
 	 * @param gMail Die Email-Adresse des selektierten <code>Person</code>
 	 */
-<<<<<<< HEAD
-	private void setSelectedUser(String value) {
-=======
+
 	private void setSelectedPerson(String value) {
 		// TODO Auto-generated method stub
->>>>>>> refs/heads/master
 		for (Person p : allPersons) {
 			if (p.getGmail() == value) {
 				selectedPerson = p;
