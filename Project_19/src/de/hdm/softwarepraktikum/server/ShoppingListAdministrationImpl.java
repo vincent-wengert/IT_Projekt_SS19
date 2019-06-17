@@ -19,12 +19,12 @@ import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
+import java_cup.internal_error;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -373,8 +373,14 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * Methode um Änderungen dem zu übergebenden ListItem Obejekt in die Datenbank zu schreiben
 	 */
 	
-	public void updateListItem(ListItem li) throws IllegalArgumentException {
-		listItemMapper.update(li);
+	public ListItem updateListItem(ListItem li) throws IllegalArgumentException {
+		Responsibility r = new Responsibility();
+		r.setBuyerID(li.getBuyerID());
+		r.setStoreID(li.getStoreID());
+		r.setSlID(li.getSlID());
+		responsibilityMapper.updateResponsibility(r);
+		
+		return listItemMapper.update(li);
 	}
 	
 	/**
@@ -392,8 +398,12 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * Methode um ListItems als eingekauft zu merkieren
 	 * @param ListItem li
 	 */
-	
-	public void checkListItem(ListItem li) throws IllegalArgumentException {
+	@Override
+	public void checkListItem(Integer id, Boolean isChecked) {
+		// TODO Auto-generated method stub
+		ListItem li = new ListItem();
+		li.setId(id);
+		li.setChecked(isChecked);
 		this.listItemMapper.checkListItem(li);
 	}
 
@@ -461,9 +471,11 @@ private FavoriteItemMapper favoriteItemMapper = null;
 
 
 	@Override
-	public ArrayList<Person> getAllGroupMembers(Group g) throws IllegalArgumentException {
+	public ArrayList<Person> getAllGroupMembers(int id) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return this.personMapper.findAllGroupMembers();
+		Group g = new Group();
+		g.setId(id);
+		return this.personMapper.findAllGroupMembers(g);
 	}
 	
 	/*
@@ -534,14 +546,14 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	   */
 
 	@Override
-	public void addFavoriteItem(Item i, Person p, Group g) throws IllegalArgumentException {
+	public void addFavoriteItem(Item i, Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		favoriteItemMapper.insert(i, p, g);
+		favoriteItemMapper.insert(i, g);
 	}
 
 
 	@Override
-	public void removeFavoriteItem(Item i, Person p, Group g) throws IllegalArgumentException {
+	public void removeFavoriteItem(Item i, Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		favoriteItemMapper.delete(i, g);
 	}
@@ -648,11 +660,17 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	   * ***************************************************************************
 	   */
 
+	@Override
+	public void addGroupMembership(Person p, Group g) {
+		// TODO Auto-generated method stub
+		groupMapper.addMembership(p,g);
+	}
 
+	
 	@Override
 	public void deleteGroupMembership(Person p, Group g) {
 		// TODO Auto-generated method stub
-		groupMapper.deleteMembership(p);
+		groupMapper.deleteMembership(p,g);
 	}
 
 
@@ -678,6 +696,9 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 		return null;
 	}
+
+
+
 
 
 

@@ -25,11 +25,13 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
+import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import java_cup.internal_error;
 import de.hdm.softwarepraktikum.shared.bo.Person;
+import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
 /**
@@ -42,7 +44,7 @@ import de.hdm.softwarepraktikum.shared.bo.Store;
  */
 
 public class ListItemDialog extends PopupPanel {
-	private ShowShoppingListForm sslf;
+	private ShowShoppingListForm sslf = null;
 
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 
@@ -55,6 +57,8 @@ public class ListItemDialog extends PopupPanel {
 	private Item selectedItem = null;
 	private ListItem selectedListItem = null;
 
+	private Group group = new Group();
+	private ShoppingList shoppingList = new ShoppingList();
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
 
@@ -85,7 +89,7 @@ public class ListItemDialog extends PopupPanel {
 	private TextBox amountTextBox = new TextBox();
 	private TextBox itemTextBox = new TextBox();
 	
-	private Boolean update;
+	private Boolean updateItem = false;
 
 	/**
 	 * Bei der Instanziierung der Dialogbox werden alle <code>Item</code>,
@@ -165,12 +169,23 @@ public class ListItemDialog extends PopupPanel {
 	public void setShowShoppingListForm(ShowShoppingListForm sslf) {
 		this.sslf = sslf;
 	}
+	
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+	
+	public void setShoppingList(ShoppingList sl) {
+		this.shoppingList = sl;
+	}
 
 	/**
 	 * Load Methode, damit werden alle Items and Stores mittels der
 	 * shoppinglistAdministration geladen
 	 */
 	private void load() {
+		Window.alert(String.valueOf("sl id" + shoppingList.getId() + "grID" + group.getId()));
+
+		
 		existingButton.setValue(true);
 		newButton.setValue(false);
 		itemTextBox.setVisible(false);
@@ -202,10 +217,15 @@ public class ListItemDialog extends PopupPanel {
 		}
 	}
 
-	public void displayListItem(ListItem li) {
+	public void displayListItem(ListItem li, ShoppingList shoppingList, Group group, Boolean update) {
+		Window.alert(String.valueOf("sl id" + shoppingList.getId() + "grID" + group.getId()));
+		
+		this.group = group;
+		this.shoppingList = shoppingList;
+		this.updateItem = update;
+		
 		existingButton.setValue(false);
 		newButton.setValue(false);
-		this.update = true;
 		this.selectedListItem = li;
 		itemLabel.setText("Artikel bearbeiten");
 		existingButton.setVisible(false);
@@ -246,22 +266,28 @@ public class ListItemDialog extends PopupPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			
-			if (existingButton.getValue()==true) {
+			if(updateItem == false) {
+			if (existingButton.getValue()==true ) {
 				getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
-				ListItem li = new ListItem(itemListBox.getSelectedItemText(), getItemUnit(unitListBox.getSelectedItemText()) , Integer.parseInt(amountTextBox.getText()), false);	
-				administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), 1, 1, Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new createListItemCallback());
+				administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new createListItemCallback());
+				//administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), 1, 1, Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new createListItemCallback());
 			}
-			else if (newButton.getValue()==true) {
-				Window.alert("update");
-				ListItem li = new ListItem(itemTextBox.getText(), getItemUnit(unitListBox.getSelectedItemText()) ,
-				Integer.parseInt(amountTextBox.getText()), false);	
-				sslf.AddListItem(li);
-			}
-			else if (update == true) {
-			Window.alert("updateCallback");
-			}
+			else if (newButton.getValue()==true ) {
+				administration.createItem(itemTextBox.getText(), true, new CreateItemListItemCallback());
+			}}
+			else  {
+			getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
+			
+			selectedListItem.setAmount(Integer.parseInt(amountTextBox.getText()));
+			selectedListItem.setStoreID(selectedStore.getId());
+			selectedListItem.setBuyerID(selectedPerson.getId());
+			selectedListItem.setUnit(getItemUnit(unitListBox.getSelectedItemText()));
 			
 			
+			
+			administration.updateListItem(selectedListItem, new UpdateListItemCallback());
+			}
+
 			ListItemDialog.this.hide();
 		}
 	}
@@ -319,6 +345,7 @@ public class ListItemDialog extends PopupPanel {
 			for (Item i : allItems) {
 				itemListBox.addItem(i.getName());
 					}
+			
 			if (ListItemDialog.this.selectedListItem != null) {
 			ListItem li = ListItemDialog.this.selectedListItem;
 			for (Item item : allItems) {
@@ -425,8 +452,54 @@ public class ListItemDialog extends PopupPanel {
 			Notification.show("Artikel in der Einkaufsliste wurde erstellt");
 
 		}
+	} 
+	
+	private class UpdateListItemCallback implements AsyncCallback<ListItem> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show(caught.toString());
+		}
+		
+		@Override
+		public void onSuccess(ListItem result) {
+			// TODO Auto-generated method stub
+			Notification.show("Artikel in der Einkaufsliste wurde aktualisiert");
+
+		}
 	}
 	
+	private class CreateItemListItemCallback implements AsyncCallback<Item> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show(caught.toString());
+		}
+		
+		@Override
+		public void onSuccess(Item result) {
+			// TODO Auto-generated method stub
+			getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
+			administration.createListItem(result, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new AsyncCallback<ListItem>() {
+			//administration.createListItem(result, selectedPerson.getId(), selectedStore.getId(), 1, 1, Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new AsyncCallback<ListItem>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onSuccess(ListItem result) {
+					// TODO Auto-generated method stub
+					sslf.AddListItem(result);
+					Notification.show("Ein neuer Artikel wurde erstellt und der Einkaufsliste hinzugefügt");	
+				}
+			});
+			
+
+		}
+	}
 	
 	public Unit getItemUnit (String unit) {
 		if (unit == "L") {

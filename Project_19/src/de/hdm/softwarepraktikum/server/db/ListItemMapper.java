@@ -112,23 +112,19 @@ public class ListItemMapper {
 		
 		try {
 			
-			//muss man noch verbessern zwecks responsibility
-			Statement stmt = con.createStatement();
+//			//muss man noch verbessern zwecks responsibility
+//			Statement stmt = con.createStatement();
+//			
+//			stmt.executeUpdate("UPDATE listitems " + "SET item=\"" + li.getItemId() + "\", " + "amount=\""
+//					+ li.getAmount() + "\" " + "WHERE id=" + li.getId());
 			
-			stmt.executeUpdate("UPDATE listitems " + "SET item=\"" + li.getItemId() + "\", " + "amount=\""
-					+ li.getAmount() + "\" " + "WHERE id=" + li.getId());
 			
+			PreparedStatement st = con.prepareStatement("UPDATE ListItem SET Unit = ?, Amount = ? WHERE ListItem_ID = ?");
 			
-			//PreparedStatement st = con.prepareStatement("UPDATE ListItem SET Name = ?, Street = ?, Postcode = ?, City = ?,"
-			//		+ " Changedate = ? WHERE Store_ID = ?");
-			
-			//st.setString(1, r.getName());
-			//st.setString(2, r.getStreet());
-			//st.setInt(3, r.getPostcode());
-			//st.setString(4, r.getCity());
-			//st.setTimestamp(5, r.getChangedate());
-			//st.setInt(6, r.getId());
-			//st.executeUpdate();
+			st.setString(1, li.getUnit().toString());
+			st.setDouble(2, li.getAmount());
+			st.setInt(3, li.getId());
+			st.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -225,11 +221,22 @@ public class ListItemMapper {
 		}
 
 		public void checkListItem(ListItem li) {
-			// TODO Auto-generated method stub
 			
-		}
+				Connection con = DBConnection.connection();
+				try {
+					PreparedStatement st = con.prepareStatement("UPDATE ListItem SET IsChecked = ? WHERE ListItem_ID = ?");
+					
+					st.setBoolean(1, li.getChecked());
+					st.setInt(2, li.getId());
+					System.out.println(st);
+					st.executeUpdate();
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		
-		public ArrayList<ListItem> findAllListItemsby(ShoppingList sl, Responsibility rl) {
+		public ArrayList<ListItem> findAllListItemsby(ShoppingList sl) {
 			Connection con = DBConnection.connection();
 			
 			ArrayList<ListItem> listItems = new ArrayList<ListItem>();
@@ -275,7 +282,7 @@ public class ListItemMapper {
 			
 			ArrayList<ListItem> allCheckedListItems = new ArrayList<ListItem>();
 	
-			String st = "SELECT * from listitem WHERE slID=" + sl.getId() + "AND isChecked = 'True'";
+			String st = "SELECT * from ListItem WHERE IsChecked = 'True'";
 			
 			try {
 				
@@ -286,15 +293,8 @@ public class ListItemMapper {
 				while (rs.next()) {
 					ListItem listItem = new ListItem();
 					listItem.setId(rs.getInt("ListItem_ID"));
-					listItem.setName(rs.getString("name"));
-					listItem.setAmount(rs.getDouble("amount"));
-					listItem.setUnit(listItem.getItemUnit(rs.getString("unit")));
-					listItem.setBuyerID(rs.getInt("buyerID"));
-					listItem.setChecked(rs.getBoolean("ischecked"));
-					listItem.setGrID(rs.getInt("grID"));
-					listItem.setSlID(rs.getInt("slID"));
-					listItem.setStoreID(rs.getInt("storeID"));
-					
+					listItem.setChecked(rs.getBoolean("IsChecked"));
+				
 					allCheckedListItems.add(listItem);
 				}
 					
@@ -308,41 +308,41 @@ public class ListItemMapper {
 		
 		///TO_DO mit Joins""
 		
-		public ArrayList<ListItem> allcheckedListItemsbyGroup(Group g) {
-			// TODO Auto-generated method stub
-			Connection con = DBConnection.connection();
-			
-			ArrayList<ListItem> allCheckedListItems = new ArrayList<ListItem>();
-	
-			String st = "SELECT * from listitem WHERE slID=" + sl.getId() + "AND isChecked = 'True'";
-			
-			try {
-				
-				Statement stmt = con.createStatement();
-				
-				ResultSet rs = stmt.executeQuery(st);
-				
-				while (rs.next()) {
-					ListItem listItem = new ListItem();
-					listItem.setId(rs.getInt("ListItem_ID"));
-					listItem.setName(rs.getString("name"));
-					listItem.setAmount(rs.getDouble("amount"));
-					listItem.setUnit(listItem.getItemUnit(rs.getString("unit")));
-					listItem.setBuyerID(rs.getInt("buyerID"));
-					listItem.setChecked(rs.getBoolean("ischecked"));
-					listItem.setGrID(rs.getInt("grID"));
-					listItem.setSlID(rs.getInt("slID"));
-					listItem.setStoreID(rs.getInt("storeID"));
-					
-					allCheckedListItems.add(listItem);
-				}
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-					}
-				
-				return allCheckedListItems;
-		}
+//		public ArrayList<ListItem> allcheckedListItemsbyGroup(Group g) {
+//			// TODO Auto-generated method stub
+//			Connection con = DBConnection.connection();
+//			
+//			ArrayList<ListItem> allCheckedListItems = new ArrayList<ListItem>();
+//	
+//			//String st = "SELECT * from listitem WHERE slID=" + sl.getId() + "AND isChecked = 'True'";
+//			
+//			try {
+//				
+//				Statement stmt = con.createStatement();
+//				
+//				ResultSet rs = stmt.executeQuery(st);
+//				
+//				while (rs.next()) {
+//					ListItem listItem = new ListItem();
+//					listItem.setId(rs.getInt("ListItem_ID"));
+//					listItem.setName(rs.getString("name"));
+//					listItem.setAmount(rs.getDouble("amount"));
+//					listItem.setUnit(listItem.getItemUnit(rs.getString("unit")));
+//					listItem.setBuyerID(rs.getInt("buyerID"));
+//					listItem.setChecked(rs.getBoolean("ischecked"));
+//					listItem.setGrID(rs.getInt("grID"));
+//					listItem.setSlID(rs.getInt("slID"));
+//					listItem.setStoreID(rs.getInt("storeID"));
+//					
+//					allCheckedListItems.add(listItem);
+//				}
+//					
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//					}
+//				
+//				return allCheckedListItems;
+//		}
 		
 			
 }

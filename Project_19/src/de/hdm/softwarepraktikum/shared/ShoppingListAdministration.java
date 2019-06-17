@@ -38,9 +38,9 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, Unit unit, Boolean isChecked);
 	
-	public void updateListItem(ListItem li);
+	public ListItem updateListItem(ListItem li);
 	
-	public void checkListItem(ListItem li);
+	public void checkListItem(Integer id, Boolean checked);
 	
 	public void deleteListItem(ListItem li);
 	
@@ -52,9 +52,11 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void getGroup(ShoppingList sl);
 	
-	public ArrayList<Person> getAllGroupMembers(Group g);
+	public ArrayList<Person> getAllGroupMembers(int id);
 	
 	public ArrayList<Group> getAllGroupsByPerson(Person p);
+	
+	public void addGroupMembership(Person p, Group g);
 	
 	public void deleteGroupMembership(Person p, Group g);
 	
@@ -70,9 +72,9 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ArrayList<ListItem> getAllListItemsByShoppingLists(ShoppingList sl);
 	
-	public void addFavoriteItem(Item i, Person p, Group g);
+	public void addFavoriteItem(Item i, Group g);
 	
-	public void removeFavoriteItem(Item i, Person p, Group g);
+	public void removeFavoriteItem(Item i, Group g);
 	
 	public Store createStore(String name, String street, int postcode, String city, int housenumber);
 	

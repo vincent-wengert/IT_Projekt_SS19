@@ -29,5 +29,5 @@
 	<!-- allow Super Dev Mode -->
 	<add-linker name="xsiframe" />
 	<entry-point
-		class="de.hdm.softwarepraktikum.client.gui.report.ReportEntry" />
+		class="de.hdm.softwarepraktikum.client.ReportEntry" />
 </module>

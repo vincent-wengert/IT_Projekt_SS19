@@ -24,9 +24,9 @@ public interface ShoppingListAdministrationAsync {
 
 	void getAllPersons(AsyncCallback<ArrayList<Person>> callback);
 
-	void addFavoriteItem(Item i, Person p, Group g, AsyncCallback<Void> callback);
+	void addFavoriteItem(Item i, Group g, AsyncCallback<Void> callback);
 
-	void checkListItem(ListItem li, AsyncCallback<Void> callback);
+	void checkListItem(Integer id, Boolean checked, AsyncCallback<Void> callback);
 
 	void createGroup(String title, ArrayList<Person> member, AsyncCallback<Group> callback);
 
@@ -41,6 +41,8 @@ public interface ShoppingListAdministrationAsync {
 
 	void createStore(String name, String street, int postcode, String city, int housenumber, AsyncCallback<Store> callback);
 
+	void addGroupMembership(Person p, Group g, AsyncCallback<Void> callback);
+	
 	void deleteGroupMembership(Person p, Group g, AsyncCallback<Void> callback);
 
 	void deleteItem(Item i, AsyncCallback<Void> callback);
@@ -61,7 +63,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void updateGroup(Group g, AsyncCallback<Void> callback);
 
-	void removeFavoriteItem(Item i, Person p, Group g, AsyncCallback<Void> callback);
+	void removeFavoriteItem(Item i, Group g, AsyncCallback<Void> callback);
 
 	void updateItem(Item i, AsyncCallback<Void> callback);
 
@@ -71,7 +73,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void getAllShoppingListsByPerson(Person p, AsyncCallback<ArrayList<ShoppingList>> callback);
 
-	void updateListItem(ListItem li, AsyncCallback<Void> callback);
+	void updateListItem(ListItem li, AsyncCallback<ListItem> callback);
 
 	void updateResponsibility(Responsibility r, AsyncCallback<Void> callback);
 
@@ -81,7 +83,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void updateStore(Store s, AsyncCallback<Void> callback);
 
-	void getAllGroupMembers(Group g, AsyncCallback<ArrayList<Person>> callback);
+	void getAllGroupMembers(int id, AsyncCallback<ArrayList<Person>> callback);
 	
 	void getAllStores(AsyncCallback<ArrayList<Store>> callback);
 

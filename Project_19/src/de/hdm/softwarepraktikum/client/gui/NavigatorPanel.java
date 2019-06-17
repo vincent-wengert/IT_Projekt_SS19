@@ -30,6 +30,8 @@ private VerticalPanel contentPanelArticles = new VerticalPanel();
 
 private AllItemsCellList aicl = new AllItemsCellList();
 private ItemForm itemForm = new ItemForm();
+private StoreForm storeForm = new StoreForm();
+
 private AllShoppingListsCellList aslcl = new AllShoppingListsCellList();
 private AllStoresCellList ascl = new AllStoresCellList();
 private GroupForm gf = new GroupForm();
@@ -87,12 +89,20 @@ public void onLoad() {
     // Add the tree to the root layout panel.
     contentPanelGroups.add(tree);
     
+<<<<<<< HEAD
     model.setGroupForm(gf);
     gf.setCtm(model);
     model.setShoppingListForm(sslf);
     sslf.setCtm(model);
     model.setNewShoppingListForm(nslf);
     nslf.setCtm(model);
+=======
+    aicl.setItemForm(itemForm);
+    itemForm.setAllItemsCelllist(aicl);
+    ascl.setStoreForm(storeForm);
+    storeForm.setAllStoresCellList(ascl);
+    
+>>>>>>> refs/heads/master
 	}
 
 /**
@@ -157,6 +167,8 @@ public void onLoad() {
 	searchGridArticles.setWidget(0, 1, cancelButton);
 
 	this.add(searchGridArticles);
+	
+	
 	}
 }
 

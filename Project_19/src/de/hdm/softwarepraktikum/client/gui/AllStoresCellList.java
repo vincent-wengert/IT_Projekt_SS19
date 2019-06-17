@@ -30,12 +30,12 @@ public class AllStoresCellList extends VerticalPanel{
 	private SingleSelectionModel<Store> selectionModel = null;
 	private ListDataProvider<Store> dataProvider = new ListDataProvider<Store>();
 	private ArrayList<Store> stores = new ArrayList<Store>();
-	private StoreForm sf = null;
+	private StoreForm sf = new StoreForm();
 	private Store storeToDisplay = null;
 	private Boolean initial = true;
 	
 	public void onLoad() {
-		getAllStores();
+		administration.getAllStores(new GetAllStoresCallback());
 		keyProvider = new StoreKeyProvider();
 		selectionModel = new SingleSelectionModel<Store>();
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEventHandler());
@@ -44,25 +44,18 @@ public class AllStoresCellList extends VerticalPanel{
 		cellList.setRowCount(stores.size(), true);
 		cellList.setRowData(0, dataProvider.getList());
 		this.add(cellList);
-		administration.getAllStores(new GetAllStoresCallback());
 	}
 	
 	public void setSelectedStore(Store s) {
 		storeToDisplay = s;
 		RootPanel.get("Details").clear();
 		Notification.show("clear Details");
-		sf = new StoreForm();
 		sf.setSelected(s);
 		sf.setEditable(false);
 		sf.setInitial(false);
 		RootPanel.get("Details").add(sf);
 	}
-	
-	public void getAllStores() {
-		for (Store s: stores) {
-			  dataProvider.getList().add(s);
-		  }
-	}
+
 	
 	public void setStoreForm(StoreForm sf) {
 		this.sf = sf;
@@ -73,11 +66,9 @@ public class AllStoresCellList extends VerticalPanel{
 	}
 	
 	public void updateCellList() {
-		dataProvider.getList().clear();
 		administration.getAllStores(new GetAllStoresCallback());
-		dataProvider.refresh();
-
 	}
+	
 	
 	private class GetAllStoresCallback implements AsyncCallback<ArrayList<Store>> {
 
@@ -90,7 +81,10 @@ public class AllStoresCellList extends VerticalPanel{
 		public void onSuccess(ArrayList<Store> result) {
 			// TODO Auto-generated method stub
 			stores = result;
-			getAllStores();
+			dataProvider.getList().clear();
+				for (Store s: stores) {
+					  dataProvider.getList().add(s);
+				  }
 			dataProvider.refresh();
 		}
 	}

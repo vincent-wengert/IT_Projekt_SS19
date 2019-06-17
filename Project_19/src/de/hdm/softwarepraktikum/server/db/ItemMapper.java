@@ -73,13 +73,15 @@ public class ItemMapper {
 		i.setId(rs.getInt("maxid") + 1);
 				
 		PreparedStatement stmt2 = con.prepareStatement(
-				"INSERT INTO Item (Item_ID, Name, Creationdate, Changedate) " + "VALUES (?, ?, ?, ?)",
+				"INSERT INTO Item (Item_ID, Name, Creationdate, Changedate, Owner_Group) " + "VALUES (?, ?, ?, ?, ?)",
 				Statement.RETURN_GENERATED_KEYS);
 		
 		stmt2.setInt(1, i.getId());
 		stmt2.setString(2, i.getName());
 		stmt2.setTimestamp(3, i.getCreationdate());
 		stmt2.setTimestamp(4, i.getChangedate());
+		//Group ID hinzufugen
+		stmt2.setInt(5, 1);
 		System.out.println(stmt2);
 		stmt2.executeUpdate();
 		

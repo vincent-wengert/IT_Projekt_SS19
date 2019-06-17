@@ -35,7 +35,7 @@ public class AllItemsCellList extends VerticalPanel{
 	private ItemDemoKeyProvider keyProvider= null; 
 	private CellList<Item> cellList = new CellList<Item>(new ItemCell(), keyProvider);
 	
-	private ItemForm itemForm = null;
+	private ItemForm itemForm = new ItemForm();
 	
 	private ListDataProvider<Item> dataProvider = new ListDataProvider<Item>();
 	
@@ -82,12 +82,11 @@ public class AllItemsCellList extends VerticalPanel{
 		this.itemForm = itemForm;
 	}
 	
-	public void updateCellList() {
-		dataProvider.getList().clear();
+	public void removeItem(Item i) {
 		administration.getAllItems(new GetAllItemsCallback());
+		dataProvider.getList().remove(i);
 		dataProvider.refresh();
 	}
-	
 	
 	private class GetAllItemsCallback implements AsyncCallback<ArrayList<Item>> {
 
@@ -111,7 +110,15 @@ public class AllItemsCellList extends VerticalPanel{
 	    @Override
 	    public void render(Context context, Item key, SafeHtmlBuilder sb) {
 	    	if (context != null) {
-	        sb.appendHtmlConstant(key.getName());										
+	       
+//	        if (key.isFavroite==true) {
+//	    		 sb.appendHtmlConstant("&#9733");
+	        	//9734 fur leeres
+	        //} else {
+//	    		 sb.appendHtmlConstant("&#9734");
+//	    	}
+	        	 sb.appendHtmlConstant(key.getName());
+	        	 sb.appendHtmlConstant("&#9733");
 	      }
 	    }
 	}
@@ -135,24 +142,18 @@ public class AllItemsCellList extends VerticalPanel{
 	
 	public void setSelectedItem(Item i){
 		RootPanel.get("Details").clear();
-		ItemForm itemForm = new ItemForm();
 		itemForm.setSelected(i);
 		itemForm.setEditable(false);
 		itemForm.setInitial(false);
 		RootPanel.get("Details").add(itemForm);
 	}
 	
-	public void updateCelllist(Item i) {
-		Notification.show("liste aktualisieren");
-//		this.remove(cellList);
-//		
-//		administration.getAllItems(new GetAllItemsCallback());
-//		dataProvider.addDataDisplay(cellList);
-//		cellList.setRowData(0, dataProvider.getList());
-//		cellList.setRowCount(items.size(), true);
-		navigator.selectTab(1);
-
-		
+	public void updateCelllist() {
+		dataProvider.getList().clear();
+		administration.getAllItems(new GetAllItemsCallback());
+		dataProvider.refresh();
+		//setSelectedItem(i);
+		//navigator.selectTab(1)
 	}
-
+	
 }
