@@ -267,6 +267,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 			  @Override
 			  public void update(int index, ListItem object, String value) {
 				  Window.alert("deleteCallback");
+				  administration.deleteListItem(object, new deleteListItemCallback());
+				  //cellTable.removeColumn(object);
 			  }
 			});
 		
@@ -606,4 +608,20 @@ public class ShowShoppingListForm extends VerticalPanel {
 			}
 		}
 	}
-}
+	
+	/**
+	 * ListHandler mit dem in der CellTable die Liste sortiert wird
+	 */
+	private class deleteListItemCallback implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show(caught.toString());
+		}
+		
+		@Override
+		public void onSuccess(Void result) {
+			Window.alert("Wegda");
+			}
+		}
+	}

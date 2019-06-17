@@ -259,6 +259,7 @@ public class ListItemMapper {
 					listItem.setAmount(rs.getDouble("Amount"));
 					listItem.setChecked(rs.getBoolean("IsChecked"));
 					listItem.setItemId(rs.getInt("Item_ID"));
+					listItem.setResID(rs.getInt("Responsibility_ID"));
 					
 					//Ab hier Resposibility Tabelle eigentlich
 					listItem.setBuyerID(rs.getInt("Person_ID"));
