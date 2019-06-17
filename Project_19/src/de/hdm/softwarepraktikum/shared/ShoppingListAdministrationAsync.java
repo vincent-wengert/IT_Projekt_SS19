@@ -92,4 +92,6 @@ public interface ShoppingListAdministrationAsync {
 	void getAllListItemsByShoppingLists(ShoppingList sl, AsyncCallback<ArrayList<ListItem>> callback);
 
 	void getAllCheckedItemsByGroup(Group g, AsyncCallback<ArrayList<ListItem>> callback);
+
+	void deleteGroup(Group g, AsyncCallback<Void> callback);
 }

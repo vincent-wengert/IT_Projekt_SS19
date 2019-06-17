@@ -275,7 +275,8 @@ public class ListItemDialog extends PopupPanel {
 			else if (newButton.getValue()==true ) {
 				administration.createItem(itemTextBox.getText(), true, new CreateItemListItemCallback());
 			}}
-			else  {
+			else if( updateItem == true) {
+		    Window.alert("ausgeführt");
 			getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
 			
 			selectedListItem.setAmount(Integer.parseInt(amountTextBox.getText()));
