@@ -545,14 +545,14 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	   */
 
 	@Override
-	public void addFavoriteItem(Item i, Person p, Group g) throws IllegalArgumentException {
+	public void addFavoriteItem(Item i, Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		favoriteItemMapper.insert(i, p, g);
+		favoriteItemMapper.insert(i, g);
 	}
 
 
 	@Override
-	public void removeFavoriteItem(Item i, Person p, Group g) throws IllegalArgumentException {
+	public void removeFavoriteItem(Item i, Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		favoriteItemMapper.delete(i, g);
 	}

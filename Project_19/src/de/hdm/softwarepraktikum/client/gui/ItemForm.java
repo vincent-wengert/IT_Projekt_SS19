@@ -51,6 +51,7 @@ public class ItemForm extends VerticalPanel{
 
 	private Boolean editable;
 	private Boolean initial;
+	private Boolean isFavorite = false;
 	private static ItemForm itemForm = null;
 	private AllItemsCellList aicl = null;
 
@@ -209,7 +210,14 @@ public class ItemForm extends VerticalPanel{
 			setTableEditable(false);
 			favButton.setStylePrimaryName("favButtonClick");
 
-			Notification.show("Artikel wurde zu den Favoriten hinzugef&uuml;gt");
+			if(isFavorite = true) {
+				//shoppinglistAdministration.addFavoriteItem(i, g, callback);
+				Notification.show("Artikel wurde zu den Favoriten hinzugefügt.");	
+			} else {
+				//shoppinglistAdministration.removeFavoriteItem(i, g, callback);
+				Notification.show("Artikel wurde aus den Favoriten entfernt.");
+			}
+			
 		}
 	}
 	
