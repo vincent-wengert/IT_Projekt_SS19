@@ -252,7 +252,7 @@ Connection con = DBConnection.connection();
 			try {
 				Statement stmt = con.createStatement();
 				
-				stmt.executeUpdate("DELETE * FROM ShoppingList " + "WHERE ShoppingList_ID=" + sl.getId());
+				stmt.executeUpdate("DELETE FROM ShoppingList " + "WHERE ShoppingList_ID=" + sl.getId());
 
 			} catch(SQLException e) {
 				e.printStackTrace();

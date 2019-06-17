@@ -525,7 +525,19 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	@Override
 	public void deleteShoppingList(ShoppingList sl) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+		
+		ArrayList<ListItem> listitems =listItemMapper.findAllListItemsby(sl);
+		
+		for(ListItem li:listitems) {
+			listItemMapper.delete(li);
+			
+		}
+		int shoppinglist = sl.getId();
+		responsibilityMapper.deletebySLID(shoppinglist);
+		
+		
 		shoppingListMapper.delete(sl);
+		
 	}
 
 

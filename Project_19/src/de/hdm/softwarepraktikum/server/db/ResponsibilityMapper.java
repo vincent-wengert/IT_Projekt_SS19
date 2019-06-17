@@ -187,6 +187,21 @@ public void deletebyID(int id) {
       	}
 	}
 	
+
+public void deletebySLID(int id) {
+	
+	Connection con = DBConnection.connection();
+	
+	  try {
+		Statement stmt = con.createStatement();
+	stmt.executeUpdate("DELETE FROM Responsibility "+ "WHERE Shoppinglist_ID = " + id);
+		
+	  	}
+	  catch(SQLException e) {
+  		e.printStackTrace();
+  	}
+}
+
 	/*
 	 * Update Methode, um einen Artikel erneut zu schreiben.
 	 */

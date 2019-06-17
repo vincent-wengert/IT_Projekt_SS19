@@ -258,7 +258,7 @@ public class StoreForm extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			//check Window alert if true
 			shoppinglistAdministration.deleteStore(storeToDisplay, new DeleteStoreCallback());
-			ascl.updateCellList();
+			ascl.updateCellList(null);
 		}
 	}
 	
@@ -274,7 +274,7 @@ public class StoreForm extends VerticalPanel{
 			//add item to cellist
 			Notification.show("Store wurde erstellt");
 			RootPanel.get("Details").clear();
-			ascl.updateCellList();
+			ascl.updateCellList(store);
 		}
 	}
 	
@@ -290,7 +290,7 @@ public class StoreForm extends VerticalPanel{
 			// TODO Auto-generated method stub
 			Notification.show("Store wurde aktualisiert");
 			RootPanel.get("Details").clear();
-			ascl.updateCellList();
+			ascl.updateCellList(null);
 		}
 		
 	}
@@ -307,7 +307,7 @@ public class StoreForm extends VerticalPanel{
 			// TODO Auto-generated method stub
 			Notification.show("Store wurde entfernt");
 			RootPanel.get("Details").clear();
-			ascl.updateCellList();
+			ascl.updateCellList(null);
 		}
 		
 	}
