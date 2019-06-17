@@ -340,7 +340,7 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			//
+			administration.deleteGroup(groupToDisplay, new deleteGroupCallback());
 		}
 	}
 
@@ -511,4 +511,20 @@ public class GroupForm extends VerticalPanel {
 		}
 		
 	}
+	
+	private class deleteGroupCallback implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show("Die Gruppe konnte leider nicht gelöscht werden:\n" + caught.toString());
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			Notification.show("Die Gruppe wurde gelöscht");
+			RootPanel.get("Details").clear();
+		}
+		
+	}
+
 }

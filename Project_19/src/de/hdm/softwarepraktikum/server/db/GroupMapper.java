@@ -325,7 +325,7 @@ public class GroupMapper {
 			Statement stmt = con.createStatement();
 			
 			//Statement ausf�llen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("Select FROM ShoppingList" + "WHERE Group_ID= " + g.getId());
+			ResultSet rs = stmt.executeQuery("SELECT * FROM ShoppingList WHERE Group_ID=" + g.getId());
 			
 			while(rs.next()) {
 				ShoppingList sl = new ShoppingList();
