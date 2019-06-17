@@ -198,9 +198,9 @@ public class GroupForm extends VerticalPanel {
 		}
 		for(Person person : groupToDisplay.getMember()) {
 			for (Person person1 : allPersons) {
-			if(person.getName() == person1.getName())
-			Window.alert("test");
+			if(person.getName() == person1.getName()) {
 			addMemberListBox.removeItem(allPersons.indexOf(person1));
+			}
 		}
 	}
 }
@@ -493,9 +493,6 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Group result) {
-			// add item to cellist
-			// aicl.updateCellList();
-			Window.alert(ctm.toString());
 			ctm.updateAddedGroup(result);
 			Notification.show("Gruppe wurde erstellt");
 		}

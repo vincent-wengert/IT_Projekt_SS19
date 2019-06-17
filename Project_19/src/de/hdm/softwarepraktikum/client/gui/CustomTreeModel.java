@@ -2,6 +2,7 @@ package de.hdm.softwarepraktikum.client.gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.cell.client.AbstractCell;
@@ -14,7 +15,6 @@ import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.TreeViewModel;
-
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
@@ -32,7 +32,7 @@ public class CustomTreeModel implements TreeViewModel {
 	private ShowShoppingListForm sslf;
 	private NewShoppingListForm nslf;
 
-	private ShoppingList shoppingListToDisplay = null;
+	private ShoppingList selectedShoppingList = null;
 	private Group groupToDisplay = null;
 	private ArrayList<Group> groups = new ArrayList<Group>();
 	private ArrayList<ShoppingList> shoppinglists = new ArrayList<ShoppingList>();
@@ -99,20 +99,22 @@ public class CustomTreeModel implements TreeViewModel {
 		RootPanel.get("Details").clear();
 		gf.setSelected(g);
 		RootPanel.get("Details").add(gf);
+		
 	}
 	
+	
+	
 	public void setSelectedShoppingList(ShoppingList sl) {
-		//shoppingListToDisplay = sl;
-		//sslf = new ShowShoppingListForm();
 		RootPanel.get("Details").clear();
+		selectedShoppingList = sl;
 		sslf.setSelected(sl);
-		Notification.show(sl.getTitle());
 		RootPanel.get("Details").add(sslf);
+		selectedShoppingList=null;
 	}
 
-//	public void setSelectedShoppingList(ShoppingList sl) {
-//		shoppingListToDisplay = sl;
-//	}
+	public ShoppingList getSelectedShoppingList() {
+		return selectedShoppingList;
+	}
 	
 	public void getGroupShoppingLists(Group g) {
 		administration.getAllShoppingListsByGroup(g, new getGroupShoppingListsCallback());
@@ -126,26 +128,35 @@ public class CustomTreeModel implements TreeViewModel {
 	}
 	
 	public void updateAdddedShoppingList(ShoppingList sl, Group g) {
-//		g.getShoppingLists().add(sl);
-//		shoppingListHolderDataProviders.get(g).setList(g.getShoppingLists());
-//		shoppingListHolderDataProviders.get(g).refresh();
-//		selectionModel.setSelected(sl, true);
-		
-		administration.getAllShoppingListsByGroup(g, new AsyncCallback<ArrayList<ShoppingList>>() {
+		this.selectedShoppingList = sl;
+		Window.alert(sl.getTitle());
+		Window.alert(g.getTitle());
+		if (shoppingListHolderDataProviders.containsKey(selectedShoppingList)) {
+			return;
+		}
+		 administration.getAllShoppingListsByGroup(g, new AsyncCallback<ArrayList<ShoppingList>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Notification.show("Es ist ein Fehler aufgetreten! +\n"+ caught.toString());
+				// TODO Auto-generated method stub
+				
 			}
 
 			@Override
 			public void onSuccess(ArrayList<ShoppingList> result) {
-				//g.getShoppingLists().add(sl);
-				Window.alert("on success");
+				// TODO Auto-generated method stub
+				ListDataProvider<ShoppingList> shoppingListProvider = shoppingListHolderDataProviders.get(selectedShoppingList);
+				for(ShoppingList sl : result) {
+					ShoppingList sl1 = new ShoppingList();
+					sl1 = sl;
+					shoppingListProvider.getList().add(sl1);
+				}
+				selectionModel.setSelected(shoppingListProvider.getList().get(shoppingListProvider.getList().size()), true);
+				shoppingListHolderDataProviders.get(selectedShoppingList).refresh();
 			}
-			
-		});
+		});	
 	}
+		
 	/**
 	 * Check if the specified value represents a leaf node. Leaf nodes cannot be
 	 * opened.

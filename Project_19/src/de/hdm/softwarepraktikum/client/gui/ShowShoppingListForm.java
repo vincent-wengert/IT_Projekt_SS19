@@ -3,46 +3,28 @@ package de.hdm.softwarepraktikum.client.gui;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
 
-import org.apache.commons.io.filefilter.TrueFileFilter;
-import org.apache.xerces.impl.dv.dtd.ListDatatypeValidator;
-import org.eclipse.jdt.internal.compiler.classfmt.NonNullDefaultAwareTypeAnnotationWalker;
-import org.omg.CORBA.PUBLIC_MEMBER;
-
-import com.google.appengine.api.search.query.QueryParser.primitive_return;
 import com.google.gwt.cell.client.ButtonCell;
-import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
@@ -90,7 +72,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private CustomTreeModel ctm = null;
 
 	
-	ShoppingList shoppingListToDisplay = new ShoppingList();
+	ShoppingList shoppingListToDisplay = null;
+	Integer selectedListitemIndex = null;
 	Group group = new Group();
 	
 
@@ -106,17 +89,12 @@ public class ShowShoppingListForm extends VerticalPanel {
 		addListItemPanel.add(addListItemButton);
 		bottomButtonsPanel.add(confirmButton);
 		bottomButtonsPanel.add(cancelButton);
-		
-		administration.getAllStores(new getAllStoresCallback());
-		administration.getAllPersons(new getAllPersonsCallback());
-		administration.getAllItems(new getAllItemsCallback());
-
-		//administration.getAllCheckedItemsByShoppingList(shoppingListToDisplay, new getAllCheckedListItemsCallback());
 	}
 
 	public void onLoad() {
+		
+		loadListitems();
 		this.setWidth("100%");
-
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
 		bottomButtonsPanel.setStylePrimaryName("bottomButtonsPanel");
@@ -168,7 +146,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		multiSelectionModel = new MultiSelectionModel<ListItem>(keyProvider);
 		cellTable = new CellTable<ListItem>();
 		dataProvider.addDataDisplay(cellTable);
-
+	
 		cellTable.setSelectionModel(multiSelectionModel,
 				DefaultSelectionEventManager.<ListItem>createCheckboxManager());
 
@@ -268,9 +246,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 		deleteColumn.setFieldUpdater(new FieldUpdater<ListItem, String>() {
 			  @Override
 			  public void update(int index, ListItem object, String value) {
-				  Window.alert("deleteCallback");
 				  administration.deleteListItem(object, new deleteListItemCallback());
-				  //cellTable.removeColumn(object);
+				  selectedListitemIndex = index;
 			  }
 			});
 		
@@ -348,8 +325,10 @@ public class ShowShoppingListForm extends VerticalPanel {
 	
 
 	private void loadListitems() {
-		administration.getAllListItemsByShoppingLists(shoppingListToDisplay, new getAllListItemsbyShoppingListCallback());
-	}
+		administration.getAllStores(new getAllStoresCallback());
+		administration.getAllPersons(new getAllPersonsCallback());
+		administration.getAllItems(new getAllItemsCallback());
+		}
 
 
 	private class ListItemKeyProvider implements ProvidesKey<ListItem> {
@@ -369,13 +348,13 @@ public class ShowShoppingListForm extends VerticalPanel {
 	
 	public void setSelected(ShoppingList sl) {
 		if (sl != null) {
+			ShowShoppingListForm.this.shoppingListPanel.clear();
+			dataProvider.getList().clear();
 			shoppingListToDisplay = sl;
-			productsToDisplay = sl.getShoppinglist();
-			List<ListItem> list = dataProvider.getList();
 			infoTitleLabel.setText(sl.getTitle());
-			for (ListItem p : productsToDisplay) {
-				list.add(p);
-			}
+			//loadListitems();
+		} else {
+			this.clear();
 		}
 	}
 
@@ -529,7 +508,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		public void onSuccess(ArrayList<Item> result) {
 			// TODO Auto-generated method stub
 			allItems = result;
-			loadListitems();
+			administration.getAllListItemsByShoppingLists(shoppingListToDisplay, new getAllListItemsbyShoppingListCallback());	
 		}
 	}
 	
@@ -608,6 +587,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 					multiSelectionModel.setSelected(l, true);
 				}
 			}
+			dataProvider.refresh();
 		}
 	}
 
@@ -624,7 +604,14 @@ public class ShowShoppingListForm extends VerticalPanel {
 		
 		@Override
 		public void onSuccess(Void result) {
-			Window.alert("Wegda");
+			if (selectedListitemIndex != null) {
+				dataProvider.getList().remove(selectedListitemIndex);
+				dataProvider.refresh();
+				cellTable.redraw();
+				
+				selectedListitemIndex = null;
+			}
+			Notification.show("Artikel wurde entfernt.");
 			}
 		}
 	

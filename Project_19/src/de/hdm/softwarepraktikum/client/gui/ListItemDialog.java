@@ -183,9 +183,6 @@ public class ListItemDialog extends PopupPanel {
 	 * shoppinglistAdministration geladen
 	 */
 	private void load() {
-		Window.alert(String.valueOf("sl id" + shoppingList.getId() + "grID" + group.getId()));
-
-		
 		existingButton.setValue(true);
 		newButton.setValue(false);
 		itemTextBox.setVisible(false);
@@ -218,8 +215,6 @@ public class ListItemDialog extends PopupPanel {
 	}
 
 	public void displayListItem(ListItem li, ShoppingList shoppingList, Group group, Boolean update) {
-		Window.alert(String.valueOf("sl id" + shoppingList.getId() + "grID" + group.getId()));
-		
 		this.group = group;
 		this.shoppingList = shoppingList;
 		this.updateItem = update;
@@ -270,12 +265,11 @@ public class ListItemDialog extends PopupPanel {
 			if (existingButton.getValue()==true ) {
 				getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
 				administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new createListItemCallback());
-				//administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), 1, 1, Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new createListItemCallback());
 			}
 			else if (newButton.getValue()==true ) {
 				administration.createItem(itemTextBox.getText(), true, new CreateItemListItemCallback());
 			}}
-			else  {
+			else if (updateItem == true) {
 			getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
 			
 			selectedListItem.setAmount(Integer.parseInt(amountTextBox.getText()));
