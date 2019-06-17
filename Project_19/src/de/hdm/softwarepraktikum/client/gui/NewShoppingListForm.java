@@ -40,7 +40,8 @@ public class NewShoppingListForm extends VerticalPanel {
 	
 
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
-
+	private CustomTreeModel ctm = null; 
+	
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
 
@@ -59,6 +60,7 @@ public class NewShoppingListForm extends VerticalPanel {
 	private final SuggestBox groupSuggestBox = new SuggestBox(groupSearchBar);
 	
 	private ArrayList<Group> groups = new ArrayList<Group>();
+	private Group groupToDisplay = new Group();
 	
 	private Boolean editable;
 	private Integer groupID;
@@ -143,7 +145,10 @@ public class NewShoppingListForm extends VerticalPanel {
 
 		this.aslcl = aslcl;
 	}
-
+	
+	public void setCtm(CustomTreeModel ctm) {
+		this.ctm = ctm;
+	}
 	
 	/**
 	 * Setzt die aktuell ausgewählte Gruppe
@@ -156,6 +161,7 @@ public class NewShoppingListForm extends VerticalPanel {
 
 			if (g.getTitle().equals(value)) {
 				groupID = g.getId();
+				groupToDisplay = g;
 			}
 		}
 	}
@@ -213,6 +219,7 @@ public class NewShoppingListForm extends VerticalPanel {
 			if(groupID != null && shoppinglistNameBox.getText() != null) {
 			RootPanel.get("Details").clear();
 			administration.createShoppingList(1, shoppinglistNameBox.getText(), groupID, new CreateShoppinglistCallback());
+			
 			}
 		}
 	}
@@ -232,8 +239,9 @@ public class NewShoppingListForm extends VerticalPanel {
 		public void onSuccess(ShoppingList shoppingList) {
 			//add item to cellist
 			Notification.show("Einkaufsliste wurde erstellt");
-			aslcl.setSelectedShoppingList(shoppingList);
-			
+			Window.alert(shoppingList.getTitle());
+			Window.alert(groupToDisplay.getTitle());
+			//ctm.updateAdddedShoppingList(shoppingList, groupToDisplay);
 		}
 	}
 	

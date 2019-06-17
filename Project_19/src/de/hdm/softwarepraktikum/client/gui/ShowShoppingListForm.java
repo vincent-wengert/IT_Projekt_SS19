@@ -78,7 +78,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private Column<ListItem, String> editColumn;
 	private Column<ListItem, String> deleteColumn;
 
-	
+	private CustomTreeModel ctm = null;
 	
 
 	public ShowShoppingListForm() {
@@ -490,5 +490,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 				dataProvider.getList().add(l);
 			}
 		}
+	}
+
+	public void setCtm(CustomTreeModel model) {
+		this.ctm = model;
 	}
 }

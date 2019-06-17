@@ -435,7 +435,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	   * ***************************************************************************
 	   */
 
-	public void createGroup(String title, ArrayList<Person> member) throws IllegalArgumentException {
+	public Group createGroup(String title, ArrayList<Person> member) throws IllegalArgumentException {
 		Group g = new Group();
 		g.setMember(member);
 		g.setTitle(title);
@@ -446,6 +446,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 			groupMapper.addMembership(m, g);
 		}	
 		
+		return g;
 	}
 
 	public void updateGroup(Group g) throws IllegalArgumentException {

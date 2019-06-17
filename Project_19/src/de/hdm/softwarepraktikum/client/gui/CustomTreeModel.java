@@ -30,6 +30,7 @@ public class CustomTreeModel implements TreeViewModel {
 
 	private GroupForm gf;
 	private ShowShoppingListForm sslf;
+	private NewShoppingListForm nslf;
 
 	private ShoppingList shoppingListToDisplay = null;
 	private Group groupToDisplay = null;
@@ -78,11 +79,21 @@ public class CustomTreeModel implements TreeViewModel {
 	public ArrayList<ShoppingList> getShoppingListsInGroups() {
 		return shoppinglists;
 	}
-
+	
+	public void setGroupForm(GroupForm groupForm) {
+		this.gf = groupForm;
+	}
+	
+	public void setShoppingListForm(ShowShoppingListForm sslf) {
+		this.sslf = sslf;
+	}
+	
+	public void setNewShoppingListForm(NewShoppingListForm nslf) {
+		this.nslf = nslf;
+	}
 	
 	public void setSelectedGroup(Group g) {
 		groupToDisplay = g;
-		gf = new GroupForm();
 		gf.setEditable(false);
 		gf.setInitial(false);
 		RootPanel.get("Details").clear();
@@ -94,7 +105,6 @@ public class CustomTreeModel implements TreeViewModel {
 		//shoppingListToDisplay = sl;
 		//sslf = new ShowShoppingListForm();
 		RootPanel.get("Details").clear();
-		sslf = new ShowShoppingListForm();
 		sslf.setSelected(sl);
 		Notification.show(sl.getTitle());
 		RootPanel.get("Details").add(sslf);
@@ -108,6 +118,34 @@ public class CustomTreeModel implements TreeViewModel {
 		administration.getAllShoppingListsByGroup(g, new getGroupShoppingListsCallback());
 	}
 	
+	public void updateAddedGroup(Group g) { 
+		this.getPersonGroups().add(g);
+		groupsDataProvider.setList(this.getPersonGroups());
+		groupsDataProvider.refresh();
+		selectionModel.setSelected(g, true);
+	}
+	
+	public void updateAdddedShoppingList(ShoppingList sl, Group g) {
+//		g.getShoppingLists().add(sl);
+//		shoppingListHolderDataProviders.get(g).setList(g.getShoppingLists());
+//		shoppingListHolderDataProviders.get(g).refresh();
+//		selectionModel.setSelected(sl, true);
+		
+		administration.getAllShoppingListsByGroup(g, new AsyncCallback<ArrayList<ShoppingList>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Notification.show("Es ist ein Fehler aufgetreten! +\n"+ caught.toString());
+			}
+
+			@Override
+			public void onSuccess(ArrayList<ShoppingList> result) {
+				//g.getShoppingLists().add(sl);
+				Window.alert("on success");
+			}
+			
+		});
+	}
 	/**
 	 * Check if the specified value represents a leaf node. Leaf nodes cannot be
 	 * opened.

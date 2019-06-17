@@ -39,12 +39,13 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 
 public class GroupForm extends VerticalPanel {
 
-	ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
+	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
+	private CustomTreeModel ctm = null;
 
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
 	private HorizontalPanel topButtonsPanel = new HorizontalPanel();
-	VerticalPanel vp = new VerticalPanel();
+	private VerticalPanel vp = new VerticalPanel();
 
 	private Label infoTitleLabel = new Label("Neue Gruppe erstellen");
 	private Label groupNameLabel = new Label("Name der Gruppe");
@@ -207,7 +208,6 @@ public class GroupForm extends VerticalPanel {
 	 * @param gMail Die Email-Adresse des selektierten <code>Person</code>
 	 */
 	private void setSelectedUser(String value) {
-		// TODO Auto-generated method stub
 		for (Person p : allPersons) {
 
 			if (p.getGmail().equals(value)) {
@@ -271,6 +271,14 @@ public class GroupForm extends VerticalPanel {
 
 	public void setEditable(Boolean editable) {
 		this.editable = editable;
+	}
+	
+	public CustomTreeModel getCtm() {
+		return ctm;
+	}
+	
+	public void setCtm(CustomTreeModel ctm) {
+		this.ctm = ctm;
 	}
 
 	/**
@@ -389,7 +397,7 @@ public class GroupForm extends VerticalPanel {
 	 * Hiermit kann <code>Item</code> Objekt geloscht werden und aus der
 	 * <code>AllItemsCelllist</code> Instanz entfernt werden.
 	 */
-	private class createGroupCallback implements AsyncCallback<Void> {
+	private class createGroupCallback implements AsyncCallback<Group> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -397,9 +405,11 @@ public class GroupForm extends VerticalPanel {
 		}
 
 		@Override
-		public void onSuccess(Void result) {
+		public void onSuccess(Group result) {
 			// add item to cellist
 			// aicl.updateCellList();
+			Window.alert(ctm.toString());
+			ctm.updateAddedGroup(result);
 			Notification.show("Gruppe wurde erstellt");
 		}
 	}
