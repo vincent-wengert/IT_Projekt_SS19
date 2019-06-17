@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.client.ReportEntry;
 import de.hdm.softwarepraktikum.client.gui.Notification;
 
 import de.hdm.softwarepraktikum.shared.ReportGeneratorAsync;

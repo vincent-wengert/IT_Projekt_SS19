@@ -1,4 +1,4 @@
-package de.hdm.softwarepraktikum.client.gui.report;
+package de.hdm.softwarepraktikum.client;
 
 import com.google.gwt.core.client.EntryPoint;
 
