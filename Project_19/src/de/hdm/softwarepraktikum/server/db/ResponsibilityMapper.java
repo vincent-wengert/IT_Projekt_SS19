@@ -94,7 +94,7 @@ public class ResponsibilityMapper {
 			Statement stmt = con.createStatement();
 			
 			//Statement ausf�llen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("Select Responsibilty_id,Store_ID FROM Responsibility" + "WHERE Store_id= " + s.getId());
+			ResultSet rs = stmt.executeQuery("Select Responsibilty_ID,Store_ID FROM Responsibility" + "WHERE Store_ID= " + s.getId());
 			
 			/*
 		     * Da id Prim�rschl�ssel ist, kann max. nur ein Tupel zur�ckgegeben
@@ -102,8 +102,8 @@ public class ResponsibilityMapper {
 		     */
 			while(rs.next()) {
 				Responsibility r = new Responsibility();
-				r.setId(rs.getInt("Responsibility_id"));
-				r.setStoreID(rs.getInt("Store_id"));
+				r.setId(rs.getInt("Responsibility_ID"));
+				r.setStoreID(rs.getInt("Store_ID"));
 				
 				//Hinzuf�gen des neuen Objekts zum Ergebnisvektor
 				result.add(r);
@@ -132,7 +132,7 @@ public class ResponsibilityMapper {
 			Statement stmt = con.createStatement();
 			
 			//Statement ausf�llen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("Select Responsibilty_id,Store_ID FROM Responsibility" + "WHERE Person_ID_id= " + p.getId());
+			ResultSet rs = stmt.executeQuery("Select Responsibilty_ID,Store_ID FROM Responsibility" + "WHERE Person_ID= " + p.getId());
 			
 			/*
 		     * Da id Prim�rschl�ssel ist, kann max. nur ein Tupel zur�ckgegeben
@@ -222,7 +222,7 @@ public class ResponsibilityMapper {
 		      }
 		      
 		      PreparedStatement stmt2 = con.prepareStatement(
-			"INSERT INTO Responsibility (Responsibility_ID,Creationdate,Changedate,Shoppinglist_ID,Store_ID,Person_ID) VALUES (?, ?, ?,?, ?, ?)",
+			"INSERT INTO Responsibility (Responsibility_ID, Creationdate, Changedate, Shoppinglist_ID, Store_ID, Person_ID) VALUES (?, ?, ?, ?, ?, ?)",
 						Statement.RETURN_GENERATED_KEYS);
 
 				stmt2.setInt(1, rl.getId());

@@ -217,7 +217,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			 * ToDo: Methode in ShoppingListAdministration, die alle Checked ITems einer SL/Gruppe 
 			 * ermittelt.
 			 */
-			ArrayList<ListItem> li = this.administration.getCheckedLi(p);
+			//ArrayList<ListItem> li = this.administration.getCheckedLi(p);
 			for(ListItem l : li) {
 				
 				//Eine leere Zeile anlegen.
