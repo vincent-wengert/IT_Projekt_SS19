@@ -93,5 +93,8 @@ public interface ShoppingListAdministration extends RemoteService {
 	public void deleteResponsibility(Responsibility rs);
 
 	public ArrayList<ListItem> getAllCheckedItemsByGroup(Group g);
+	
+	public void deleteGroup(Group g);
+	
 
 }

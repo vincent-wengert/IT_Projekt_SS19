@@ -483,6 +483,8 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		return this.personMapper.findAllGroupMembers(g);
 	}
 	
+	
+	
 	/*
 	   * ***************************************************************************
 	   * ABSCHNITT, Ende: Methoden fÃ¼r Group-Objekte
@@ -704,6 +706,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	public void getGroup(ShoppingList sl) {
 		// TODO Auto-generated method stub
 		
+		
 	}
 
 
@@ -712,6 +715,42 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	     
 		
 		return null;
+	}
+
+
+	@Override
+	public void deleteGroup(Group g) {
+		
+		//loeschen der zugehörigen Shoppinglists, Responsibilities, ListItems
+		
+		ArrayList<ShoppingList> result = groupMapper.getShoppingListsPerGroup(g);
+		
+		    for(ShoppingList sl:result) {
+			shoppingListMapper.delete(sl);
+			
+			 int shoppinglist= sl.getId();
+			 responsibilityMapper.deletebySLID(shoppinglist);
+			 
+			 ArrayList<ListItem> listitems = listItemMapper.findAllListItemsby(sl);
+			 for(ListItem li:listitems) {
+					listItemMapper.delete(li);}
+			 
+		}
+		
+		
+		
+		 //loeschen der Participants
+		 
+		 ArrayList<Person> persons = personMapper.findAllGroupMembers(g);
+		 
+		 for(Person p:persons) {
+				groupMapper.deleteMembership(p, g); }
+		
+		
+		//loeschen der Gruppe
+			groupMapper.delete(g);
+		
+		
 	}
 
 
