@@ -290,7 +290,8 @@ public class ItemForm extends VerticalPanel{
 			public void onSuccess(Item item) {
 				//add item to cellist
 				Notification.show("Artikel wurde erstellt");
-				aicl.updateCelllist();
+				aicl.updateCelllist(item);
+		
 				RootPanel.get("Details").clear();
 
 			}
@@ -310,7 +311,7 @@ public class ItemForm extends VerticalPanel{
 			@Override
 			public void onSuccess(Void result) {
 				// TODO Auto-generated method stub
-				aicl.updateCelllist();
+				aicl.updateCelllist(null);
 				RootPanel.get("Details").clear();
 				Notification.show("Artikel wurde aktualisiert");
 			}
@@ -331,7 +332,7 @@ public class ItemForm extends VerticalPanel{
 			public void onSuccess(Void item) {
 				//add item to cellist
 				Notification.show("Artikel wurde entfernt");
-				aicl.updateCelllist();
+				aicl.updateCelllist(null);
 				RootPanel.get("Details").clear();
 			}
 		}

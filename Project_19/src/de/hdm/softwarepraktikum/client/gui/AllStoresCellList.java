@@ -65,8 +65,11 @@ public class AllStoresCellList extends VerticalPanel{
 		this.initial = initial;
 	}
 	
-	public void updateCellList() {
+	public void updateCellList(Store store) {
+		dataProvider.getList().clear();
 		administration.getAllStores(new GetAllStoresCallback());
+		dataProvider.refresh();
+		selectionModel.setSelected(store, true);
 	}
 	
 	

@@ -41,6 +41,8 @@ public class AllItemsCellList extends VerticalPanel{
 	
 	private ArrayList<Item> items = new ArrayList<Item>();
 	
+	private Item itemToDisplay = null;
+	
 	
 	public void onLoad() {
 		
@@ -141,6 +143,7 @@ public class AllItemsCellList extends VerticalPanel{
 	}
 	
 	public void setSelectedItem(Item i){
+		itemToDisplay = i;
 		RootPanel.get("Details").clear();
 		itemForm.setSelected(i);
 		itemForm.setEditable(false);
@@ -148,10 +151,11 @@ public class AllItemsCellList extends VerticalPanel{
 		RootPanel.get("Details").add(itemForm);
 	}
 	
-	public void updateCelllist() {
+	public void updateCelllist(Item item) {
 		dataProvider.getList().clear();
 		administration.getAllItems(new GetAllItemsCallback());
 		dataProvider.refresh();
+		selectionModel.setSelected(item, true);
 		//setSelectedItem(i);
 		//navigator.selectTab(1)
 	}
