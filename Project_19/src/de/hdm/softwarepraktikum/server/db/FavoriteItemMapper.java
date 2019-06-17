@@ -43,7 +43,7 @@ public class FavoriteItemMapper {
 	 * Insert Methode, um einen neuen Artikel der Datenbank hinzuzufuegen.
 	 */
 	
-	public void insert(Item i, Person p, Group g) {
+	public void insert(Item i, Group g) {
 		
 Connection con = DBConnection.connection();
 		
@@ -52,7 +52,7 @@ Connection con = DBConnection.connection();
 
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate("INSERT INTO FavoriteItems (itemID, personID, groupID) " + "VALUES (" + i.getId() + ",'"
-							+ p.getId() + "','" + g.getId() + "')");		
+							 + g.getId() + "')");		
 			
 		}
 		catch (SQLException e) {
