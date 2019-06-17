@@ -22,7 +22,7 @@
   <!-- Other module inherits                                      -->
 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='de.hdm.softwarePraktikum.client.ReportGenerator'/>
+  <entry-point class='de.hdm.softwarePraktikum.client.ReportEntry'/>
   
 
   <!-- Specify the paths for translatable code                    -->

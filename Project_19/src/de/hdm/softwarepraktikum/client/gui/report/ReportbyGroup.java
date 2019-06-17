@@ -34,7 +34,7 @@ public class ReportbyGroup extends VerticalPanel{
 	
 	private Group g =
 	*/
-	private ReportGeneratorAsync report = ClientsideSettings.getReportGenerator();
+	//private ReportGeneratorAsync report = ClientsideSettings.getReportGenerator();
 	private ReportEntry reportGenerator = new ReportEntry();
 	
 	private VerticalPanel selectionPanel = new VerticalPanel();
@@ -83,15 +83,14 @@ public class ReportbyGroup extends VerticalPanel{
 		printReportButton.addClickHandler(new OutputClickHandler());
 		back.addClickHandler(new BackClickHandler());
 		
-		report.getAllItems(p, new Groupstatisticcallback());
+		//report.getAllItems(i, new Groupstatisticcallback());
 
 		RootPanel.get("Selection").add(reportHeaderPanel);
 
 	}
 	
 	/**
-	 * 
-	 * @author Bruno Herceg
+	 * Clickhandler, um einen Report auszugeben.
 	 *
 	 */
 	private class OutputClickHandler implements ClickHandler{
