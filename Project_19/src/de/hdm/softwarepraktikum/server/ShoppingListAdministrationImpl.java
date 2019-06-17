@@ -450,7 +450,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	   * ***************************************************************************
 	   */
 
-	public void createGroup(String title, ArrayList<Person> member) throws IllegalArgumentException {
+	public Group createGroup(String title, ArrayList<Person> member) throws IllegalArgumentException {
 		Group g = new Group();
 		g.setMember(member);
 		g.setTitle(title);
@@ -461,6 +461,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 			groupMapper.addMembership(m, g);
 		}	
 		
+		return g;
 	}
 
 	public void updateGroup(Group g) throws IllegalArgumentException {
@@ -550,14 +551,14 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	   */
 
 	@Override
-	public void addFavoriteItem(Item i, Person p, Group g) throws IllegalArgumentException {
+	public void addFavoriteItem(Item i, Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		favoriteItemMapper.insert(i, p, g);
+		favoriteItemMapper.insert(i, g);
 	}
 
 
 	@Override
-	public void removeFavoriteItem(Item i, Person p, Group g) throws IllegalArgumentException {
+	public void removeFavoriteItem(Item i, Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		favoriteItemMapper.delete(i, g);
 	}

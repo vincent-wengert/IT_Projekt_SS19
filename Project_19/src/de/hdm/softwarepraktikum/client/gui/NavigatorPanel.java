@@ -34,10 +34,22 @@ private StoreForm storeForm = new StoreForm();
 
 private AllShoppingListsCellList aslcl = new AllShoppingListsCellList();
 private AllStoresCellList ascl = new AllStoresCellList();
+private GroupForm gf = new GroupForm();
+private ShowShoppingListForm sslf = new ShowShoppingListForm();
+private NewShoppingListForm nslf = new NewShoppingListForm();
 
 private Grid itemsGrid = new Grid(2,2);
 private Grid storesGrid = new Grid(2,2);
 
+//Create a model for the tree.
+private CustomTreeModel model = new CustomTreeModel();
+
+/*
+ * Create the tree using the model. We use <code>null</code> as the default
+ * value of the root node. The default value will be passed to
+ * CustomTreeModel#getNodeInfo();
+ */
+private CellTree tree = new CellTree(model, null);
 		
 /**
  * ***************************************************************************
@@ -71,26 +83,25 @@ public void onLoad() {
 	itemsGrid.setWidget(1, 0, aicl);
 	contentPanelArticles.add(itemsGrid);
 
-	
-    // Create a model for the tree.
-    TreeViewModel model = new CustomTreeModel();
-
-    /*
-     * Create the tree using the model. We use <code>null</code> as the default
-     * value of the root node. The default value will be passed to
-     * CustomTreeModel#getNodeInfo();
-     */
-    CellTree tree = new CellTree(model, null);
+    
     tree.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
     // Add the tree to the root layout panel.
     contentPanelGroups.add(tree);
     
+    model.setGroupForm(gf);
+    gf.setCtm(model);
+    model.setShoppingListForm(sslf);
+    sslf.setCtm(model);
+    model.setNewShoppingListForm(nslf);
+    nslf.setCtm(model);
+
     aicl.setItemForm(itemForm);
     itemForm.setAllItemsCelllist(aicl);
     ascl.setStoreForm(storeForm);
     storeForm.setAllStoresCellList(ascl);
     
+
 	}
 
 /**
@@ -119,6 +130,10 @@ public AllStoresCellList getAllStoresCellList() {
 public AllShoppingListsCellList getAllShoppingListsCellList() {
 	return aslcl;
 
+}
+
+public CustomTreeModel getCtm() {
+	return model;
 }
 
 /**

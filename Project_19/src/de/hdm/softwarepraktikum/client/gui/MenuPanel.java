@@ -29,6 +29,7 @@ public class MenuPanel extends VerticalPanel{
 	private NavigatorPanel navigator;
 	
 	private NewShoppingListForm newShoppingListForm;
+	private CustomTreeModel ctm = null;
 	
 	private Button createGroupButton = new Button ();
 	private Button createShoppinglistButton = new Button ();
@@ -165,6 +166,10 @@ public class MenuPanel extends VerticalPanel{
 		this.groupForm = newGroupForm;
 	}
 	
+	public void setCtm(CustomTreeModel ctm) {
+		this.ctm = ctm;
+	}
+	
 	/**
 	 * Clickhander zum Erstellen einer <code>Gruppe<code>
 	 */
@@ -176,6 +181,7 @@ public class MenuPanel extends VerticalPanel{
 			navigator.selectTab(0);
 			groupForm = new GroupForm();
 			
+			groupForm.setCtm(ctm);
 			groupForm.setEditable(true);
 			groupForm.setInitial(true);
 			RootPanel.get("Details").add(groupForm);

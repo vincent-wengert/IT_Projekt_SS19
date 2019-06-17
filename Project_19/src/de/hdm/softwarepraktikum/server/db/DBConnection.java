@@ -22,7 +22,7 @@ import com.google.appengine.api.utils.SystemProperty;
 		    private static Connection con = null;
 		    
 		    private static String googleUrl = "jdbc:google:mysql://fabled-rookery-239112:europe-west3:itprojekt-ss19/19ssprojekt?user=root&password=bruno";
-		    private static String localUrl = "jdbc:mysql://127.0.0.1:3306/19ssprojekt?user=root&password=itprojekt";
+		    private static String localUrl = "jdbc:mysql://127.0.0.1:3306/19ssprojekt?user=root&password=&";
 		   
 
 		   

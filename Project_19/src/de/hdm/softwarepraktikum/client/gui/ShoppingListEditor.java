@@ -1,4 +1,5 @@
 package de.hdm.softwarepraktikum.client.gui;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class ShoppingListEditor {
@@ -28,6 +29,8 @@ public class ShoppingListEditor {
 		 * Hiermit kann im Create-Panel die Celllist aktualisiert werden, damit neu
 		 * erstelle Item und Shoppinglisten angezeigt werden können. 
 		 */
+		menuPanel.setCtm(navigator.getCtm());
+		
 		menuPanel.setAllShoppinglistCelllist(navigator.getAllShoppingListsCellList());
 		menuPanel.setAllStoresCelllist(navigator.getAllStoresCellList());
 		menuPanel.setAllItemsCelllist(navigator.getAllItemsCellList());

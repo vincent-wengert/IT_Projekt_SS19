@@ -86,10 +86,12 @@ public class ShowShoppingListForm extends VerticalPanel {
 	
 	private Column<ListItem, String> editColumn;
 	private Column<ListItem, String> deleteColumn;
+
+	private CustomTreeModel ctm = null;
+
 	
 	ShoppingList shoppingListToDisplay = new ShoppingList();
 	Group group = new Group();
-	
 	
 
 	public ShowShoppingListForm() {
@@ -608,6 +610,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			}
 		}
 	}
+
 	
 	/**
 	 * ListHandler mit dem in der CellTable die Liste sortiert wird
@@ -624,4 +627,11 @@ public class ShowShoppingListForm extends VerticalPanel {
 			Window.alert("Wegda");
 			}
 		}
+	
+
+
+	public void setCtm(CustomTreeModel model) {
+		this.ctm = model;
 	}
+}
+

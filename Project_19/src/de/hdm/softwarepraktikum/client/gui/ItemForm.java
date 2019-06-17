@@ -51,6 +51,7 @@ public class ItemForm extends VerticalPanel{
 
 	private Boolean editable;
 	private Boolean initial;
+	private Boolean isFavorite = false;
 	private static ItemForm itemForm = null;
 	private AllItemsCellList aicl = null;
 
@@ -209,7 +210,14 @@ public class ItemForm extends VerticalPanel{
 			setTableEditable(false);
 			favButton.setStylePrimaryName("favButtonClick");
 
-			Notification.show("Artikel wurde zu den Favoriten hinzugef&uuml;gt");
+			if(isFavorite = true) {
+				//shoppinglistAdministration.addFavoriteItem(i, g, callback);
+				Notification.show("Artikel wurde zu den Favoriten hinzugefügt.");	
+			} else {
+				//shoppinglistAdministration.removeFavoriteItem(i, g, callback);
+				Notification.show("Artikel wurde aus den Favoriten entfernt.");
+			}
+			
 		}
 	}
 	
@@ -282,7 +290,8 @@ public class ItemForm extends VerticalPanel{
 			public void onSuccess(Item item) {
 				//add item to cellist
 				Notification.show("Artikel wurde erstellt");
-				aicl.updateCelllist();
+				aicl.updateCelllist(item);
+		
 				RootPanel.get("Details").clear();
 
 			}
@@ -302,7 +311,7 @@ public class ItemForm extends VerticalPanel{
 			@Override
 			public void onSuccess(Void result) {
 				// TODO Auto-generated method stub
-				aicl.updateCelllist();
+				aicl.updateCelllist(null);
 				RootPanel.get("Details").clear();
 				Notification.show("Artikel wurde aktualisiert");
 			}
@@ -323,7 +332,7 @@ public class ItemForm extends VerticalPanel{
 			public void onSuccess(Void item) {
 				//add item to cellist
 				Notification.show("Artikel wurde entfernt");
-				aicl.updateCelllist();
+				aicl.updateCelllist(null);
 				RootPanel.get("Details").clear();
 			}
 		}

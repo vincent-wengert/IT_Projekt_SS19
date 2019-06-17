@@ -46,7 +46,7 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ListItem getListItem(int id);
 	
-	public void createGroup(String title, ArrayList<Person> member);
+	public Group createGroup(String title, ArrayList<Person> member);
 	
 	public void updateGroup(Group g);
 	
@@ -72,9 +72,9 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ArrayList<ListItem> getAllListItemsByShoppingLists(ShoppingList sl);
 	
-	public void addFavoriteItem(Item i, Person p, Group g);
+	public void addFavoriteItem(Item i, Group g);
 	
-	public void removeFavoriteItem(Item i, Person p, Group g);
+	public void removeFavoriteItem(Item i, Group g);
 	
 	public Store createStore(String name, String street, int postcode, String city, int housenumber);
 	
