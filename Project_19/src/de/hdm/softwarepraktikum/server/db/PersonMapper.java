@@ -8,6 +8,7 @@ import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
+import de.hdm.softwarepraktikum.shared.bo.Store;
 import de.hdm.softwarepraktikum.server.db.GroupMapper;
 
 public class PersonMapper {
@@ -62,10 +63,20 @@ public class PersonMapper {
 
 		try {
 
-			Statement stmt = con.createStatement();
+			//Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE Person " + "SET Name=\"" + person.getName() + "\", " + "Changedate=\""
-					+ person.getChangedate() + "\" " + "WHERE PersonID=" + person.getId());
+			//stmt.executeUpdate("UPDATE Person " + "SET Name=\"" + person.getName() + "\", " + "Changedate=\""
+				//	+ person.getChangedate() + "\" " + "WHERE PersonID=" + person.getId());
+			
+			
+			PreparedStatement st = con.prepareStatement("UPDATE Person SET Gmail = ?, Name = ?,"
+					+ " Changedate = ? WHERE PersonID = ?");
+			
+			st.setString(1, person.getGmail());
+			st.setString(2, person.getName());
+			st.setTimestamp(3, person.getChangedate());
+			st.setInt(4, person.getId());
+			st.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -128,34 +139,34 @@ public class PersonMapper {
 		// Herstellung einer Verbindung zur DB-Connection
 		Connection con = DBConnection.connection();
 
-		Person p = new Person();
-
 		try {
 
-			PreparedStatement stmt = con.prepareStatement("SELECT * FROM Person WHERE PersonID = ?");
-
-			stmt.setInt(1, id);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-
-				// Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden.
-				Person person = new Person();
-				person.setId(rs.getInt("PersonID"));
-				person.setName(rs.getString("Name"));
-				person.setGmail(rs.getString("Gmail"));
-				person.setCreationdate(rs.getTimestamp("Creationdate"));
-				person.setChangedate(rs.getTimestamp("Changedate"));
-				p = person;
-
-				return person;
+			//leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+			
+			//Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs = stmt.executeQuery("SELECT PersonID, Name, Gmail, Creationdate, Changedate FROM Person "
+					+ " WHERE PersonID = " +id);
+			while (rs.next()) {
+			//Ergebnis-Tupel in Objekt umwandeln
+			 Person p = new Person();
+			 p.setId(rs.getInt("PersonID"));
+			 p.setName(rs.getString("Name"));
+			 p.setGmail(rs.getString("Gmail"));
+			 p.setCreationdate(rs.getTimestamp("Creationdate"));
+			 p.setChangedate(rs.getTimestamp("Changedate"));
+			 
+			 return p;
+				
+			 
 			}
-
 		} catch (SQLException e) {
-			e.printStackTrace();
-
+			e.printStackTrace();}
+		return null;
 		}
-		return p;
-	}
+
+		
+		
 
 	public ArrayList<Person> findAll() {
 		Connection con = DBConnection.connection();
@@ -167,7 +178,7 @@ public class PersonMapper {
 			Statement stmt = con.createStatement();
 
 			// Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden.
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Person ORDER BY Name ASC ");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Person ORDER BY PersonID ASC ");
 
 			while (rs.next()) {
 
@@ -281,15 +292,15 @@ public class PersonMapper {
 	 * @param p
 	 * @return
 	 */
-	public ArrayList<ShoppingList> getShoppingListsOf(Person p) {
+	//public ArrayList<ShoppingList> getShoppingListsOf(Person p) {
 
 		/*
 		 * Hier wird auf den ShoppingListMapper zugegriffen, welchem der im
 		 * Person-Objekt enthaltende Prim�rschl�ssel �bergeben wird. Der PersonMapper
 		 * l�st die ID in eine Reihe von ShoppingList-Objekten auf.
 		 */
-		return ShoppingListMapper.shoppinglistMapper().findByMember(p);
-	}
+	//	return ShoppingListMapper.shoppinglistMapper().findByMember(p);
+	//}
 	
 	
 	/**
