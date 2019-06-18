@@ -1,7 +1,10 @@
 package de.hdm.softwarepraktikum.client.gui.report;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.layout.client.Layout.Alignment;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -41,6 +44,11 @@ public class Reportform {
 		private DateBox toDateBox = new DateBox();
 		private ListBox storeListBox = new ListBox();
 		
+		private Button reportperson = new Button("Alle Artikel");
+		
+		private ReportbyPerson rbp;
+		
+		
 	  public void loadReportGenerator() {
 		//Divs laden
 			RootPanel.get("Selection").clear();
@@ -66,12 +74,19 @@ public class Reportform {
 			selectionGrid.setWidget(0, 2, toLabel);
 			selectionGrid.setWidget(1, 2, toDateBox);
 			
+			
 			storeListBox.setWidth("20vw");
 			
 			menu.add(selectionGrid);
 //			menu.setCellHorizontalAlignment(selectionGrid, ALIGN_CENTER);
 			menu.setWidth("100%");
 			menu.setStylePrimaryName("menue");
+			menu.add(reportperson);
+			
+			reportperson.setStylePrimaryName("reportButton");
+			reportperson.addClickHandler(new AddReportpersonClickHandler());
+			reportperson.setPixelSize(80, 80);
+			
 			
 
 			RootPanel.get("Selection").add(formHeaderPanel);
@@ -83,6 +98,21 @@ public class Reportform {
 			
 		  
 	  }
+	  
+	  /**
+		 * ClickHandler Klasse zum Aufrufen der <code>AllContactReportForm</code>.
+		 */
+		
+		private class AddReportpersonClickHandler implements ClickHandler {
+
+			public void onClick(ClickEvent event) {
+
+				RootPanel.get("Selection").clear();
+				rbp = new ReportbyPerson();
+
+				RootPanel.get("Result").add(rbp);
+			}
+		}
 
 	
 }
