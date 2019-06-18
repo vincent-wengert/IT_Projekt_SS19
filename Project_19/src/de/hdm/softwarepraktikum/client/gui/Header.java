@@ -101,7 +101,7 @@ public class Header extends HorizontalPanel{
 	 		@Override
 	 		public void onClick(ClickEvent event) {
 	 			
-	 			reportGeneratorLink.setHref(GWT.getHostPageBaseURL()+"ShoppinglistReportGenerator.html");
+	 			reportGeneratorLink.setHref(GWT.getHostPageBaseURL()+"ReportGenerator.html");
 	 			Window.open(reportGeneratorLink.getHref(), "_self", "");
 	 			
 	 		}

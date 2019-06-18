@@ -108,20 +108,20 @@ public class ClientsideSettings extends CommonSettings{
 	     * Methode wird dann auch das bereits bestehende Objekt zurückgegeben. 
 	     * 
 	     * @return eindeutige Instanz vom Typ <code>ReportGeneratorAsync</code>
-//	     */
-//	    public static ReportGeneratorAsync getReportGenerator() {
-//    	
-//    	/*
-//	    	 * Sollte es bisher noch keine Instanz des ReportGenerators bestehen
-//	    	 * wird eine instantiiert. 
-//	    	 */
-//    	 if (reportGenerator == null) {
-//	    		 reportGenerator = GWT.create(ReportGenerator.class);
-//	    	 }
-//	    	 
-//	    	 // Der instantiierte ReportGenerator wird zurückgegeben
-//	        return reportGenerator;
-//    }
+	     */
+	    public static ReportGeneratorAsync getReportGenerator() {
+    	
+    	/*
+	    	 * Sollte es bisher noch keine Instanz des ReportGenerators bestehen
+	    	 * wird eine instantiiert. 
+	    	 */
+    	 if (reportGenerator == null) {
+	    		 reportGenerator = GWT.create(ReportGenerator.class);
+	    	 }
+	    	 
+	    	 // Der instantiierte ReportGenerator wird zurückgegeben
+	        return reportGenerator;
+    }
 	    	 
 
 }
