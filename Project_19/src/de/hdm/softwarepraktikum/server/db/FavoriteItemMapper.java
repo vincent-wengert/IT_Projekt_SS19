@@ -133,5 +133,36 @@ Connection con = DBConnection.connection();
 		    return favItems;
 		    
 	}
+	
+	//Ueberpruefen ob Eintrag in Favoritentabelle
+	
+	public Boolean checkFav(Item i, Group g) {
+		
+		Connection con = DBConnection.connection();
+		boolean favorite = false;
+		
+		 try {
+		      Statement stmt = con.createStatement();
+		      ResultSet rs = stmt.executeQuery("SELECT count(*) FROM FavoriteItem WHERE groupid =" + g.getId() + "AND" + "itemid =" + i.getId());
+		      
+		      
+		      if (rs.next()) {
+		    	  favorite = true;
+		      } 
+		      else {
+		    	  favorite = false;
+		      }
+		      
+		    }
+		    catch (SQLException e2) {
+		      e2.printStackTrace();
+		    }
+		return favorite;
+
+		    
+		
+		
+		
+	}
 
 }

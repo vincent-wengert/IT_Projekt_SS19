@@ -316,6 +316,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	
 	public ArrayList<Item> getAllItems() throws IllegalArgumentException{
 		return this.itemMapper.findAll();
+		
 	}
 	
 
@@ -561,6 +562,13 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 		ArrayList<Item> favItems = favoriteItemMapper.findFavItems(g);
 		return favItems;
+	}
+	
+	public boolean checkFavorite(Item i, Group g) throws IllegalArgumentException {
+		
+		Boolean isFav = favoriteItemMapper.checkFav(i, g);
+		return isFav;
+		
 	}
 	
 	/*
