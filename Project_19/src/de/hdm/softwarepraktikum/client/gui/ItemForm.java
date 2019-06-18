@@ -313,9 +313,9 @@ public class ItemForm extends VerticalPanel{
 
 			@Override
 			public void onSuccess(Void result) {
-				// TODO Auto-generated method stub
-				aicl.updateCelllist(null);
+				aicl.updateCelllist(itemToDisplayProduct);
 				RootPanel.get("Details").clear();
+				aicl.setSelectedItem(itemToDisplayProduct);
 				Notification.show("Artikel wurde aktualisiert");
 			}
 		}

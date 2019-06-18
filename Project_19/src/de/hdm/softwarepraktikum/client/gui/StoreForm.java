@@ -292,6 +292,7 @@ public class StoreForm extends VerticalPanel{
 			Notification.show("Store wurde aktualisiert");
 			RootPanel.get("Details").clear();
 			ascl.updateCellList(storeToDisplay);
+			ascl.setSelectedStore(storeToDisplay);
 		}
 		
 	}
