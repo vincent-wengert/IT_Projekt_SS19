@@ -43,6 +43,7 @@ proguard/
 Project_19/war/gwt_bree/
 gwt-unitCache/
 Project_19/war/project_19
+Project_19/war/ReportGenerator
 
 # boilerplate generated classes #
 .apt_generated/
