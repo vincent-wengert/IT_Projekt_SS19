@@ -108,7 +108,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		deleteButton.setStylePrimaryName("deleteButton");
 		addListItemButton.setHeight("8vh");
 		addListItemButton.setWidth("8vh");
-		addListItemButton.setVisible(false);
+		addListItemButton.setVisible(true);
 		
 		editButton.setWidth("8vh");
 		editButton.setHeight("8vh");
@@ -435,7 +435,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 			infoTitleLabel.setText(shoppinglistNameBox.getText());
 			shoppinglistNameBox.setVisible(false);
 			infoTitleLabel.setVisible(true);
-			addListItemButton.setVisible(false);
 			confirmButton.setVisible(false);
 			cancelButton.setVisible(false);
 			editButton.setVisible(true);
@@ -451,7 +450,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 			shoppinglistNameBox.setVisible(false);
 			infoTitleLabel.setVisible(true);
-			addListItemButton.setVisible(false);
 			confirmButton.setVisible(false);
 			cancelButton.setVisible(false);
 			editButton.setVisible(true);

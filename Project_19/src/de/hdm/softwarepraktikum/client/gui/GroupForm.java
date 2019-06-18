@@ -153,9 +153,9 @@ public class GroupForm extends VerticalPanel {
 		
 		groupMembersListBox.setWidth("300px");
 
-		personSuggestBox.setSize("300px", "27px");
+		addMemberListBox.setSize("300px", "27px");
 		removeGroupMember.setPixelSize(30, 30);
-		personSuggestBox.getElement().setPropertyString("placeholder", "Mitgliedernamen eingeben...");
+		addMemberListBox.getElement().setPropertyString("placeholder", "Mitgliedernamen eingeben...");
 		removeGroupMember.setStylePrimaryName("cancelSearchButton");
 		addGroupMember.setStylePrimaryName("addPersonButton");
 
