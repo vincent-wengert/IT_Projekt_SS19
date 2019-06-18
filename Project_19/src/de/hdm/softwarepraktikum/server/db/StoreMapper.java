@@ -81,7 +81,7 @@ public class StoreMapper {
 				//+ " ','" + s.getCreationdate()+ "','" + s.getChangedate() + "')");
 				
 				PreparedStatement stmt2 = con.prepareStatement(
-				"INSERT INTO Store (Store_ID, Name, Street, Postcode, City, Creationdate, Changedate) VALUES (?, ?, ?, ?, ?, ?, ?)",
+				"INSERT INTO Store (Store_ID, Name, Street, Postcode, City, Creationdate, Changedate, Housenumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
 				Statement.RETURN_GENERATED_KEYS);
 
 			    stmt2.setInt(1, s.getId());
@@ -91,6 +91,7 @@ public class StoreMapper {
 			    stmt2.setString(5, s.getCity());
 				stmt2.setTimestamp(6, s.getCreationdate());
 				stmt2.setTimestamp(7, s.getChangedate());
+				stmt2.setInt(8, s.getHouseNumber());
 			
 								
 				stmt2.executeUpdate();
@@ -123,14 +124,15 @@ public class StoreMapper {
 				
 				
 				PreparedStatement st = con.prepareStatement("UPDATE Store SET Name = ?, Street = ?, Postcode = ?, City = ?,"
-						+ " Changedate = ? WHERE Store_ID = ?");
+						+ " Changedate = ?, Housenumber = ?  WHERE Store_ID = ?");
 				
 				st.setString(1, r.getName());
 				st.setString(2, r.getStreet());
 				st.setInt(3, r.getPostcode());
 				st.setString(4, r.getCity());
 				st.setTimestamp(5, r.getChangedate());
-				st.setInt(6, r.getId());
+				st.setInt(6, r.getHouseNumber());
+				st.setInt(7, r.getId());
 				st.executeUpdate();
 				
 			} catch (SQLException e) {
@@ -171,7 +173,7 @@ public void deleteStore(Store s) {
 				Statement stmt = con.createStatement();
 				
 				//Statement ausfüllen und als Query an die DB schicken
-				ResultSet rs = stmt.executeQuery("SELECT Store_ID, Name, Street, Postcode, City, Creationdate, Changedate FROM Store "
+				ResultSet rs = stmt.executeQuery("SELECT Store_ID, Name, Street, Postcode, City, Creationdate, Changedate, Housenumber FROM Store "
 						+ " WHERE Store_ID = " +ID);
 				while (rs.next()) {
 				//Ergebnis-Tupel in Objekt umwandeln
@@ -182,6 +184,7 @@ public void deleteStore(Store s) {
 				 s.setCity(rs.getString("City"));
 				 s.setCreationdate(rs.getTimestamp("Creationdate"));
 				 s.setChangedate(rs.getTimestamp("Changedate"));
+				 s.setHouseNumber(rs.getInt("Housenumber"));
 					
 				 return s;
 				}
@@ -207,7 +210,7 @@ public void deleteStore(Store s) {
 			try {
 				Statement stmt = con.createStatement();
 				
-				ResultSet rs = stmt.executeQuery("SELECT Store_ID, Name, Street, Postcode, City, Creationdate, Changedate FROM Store "+ "ORDER BY Name");
+				ResultSet rs = stmt.executeQuery("SELECT Store_ID, Name, Street, Postcode, City, Creationdate, Changedate, Housenumber FROM Store "+ "ORDER BY Name");
 						
 				while (rs.next()) {
 					
@@ -220,6 +223,7 @@ public void deleteStore(Store s) {
 					 s.setCity(rs.getString("City"));
 					 s.setCreationdate(rs.getTimestamp("Creationdate"));
 					 s.setChangedate(rs.getTimestamp("Changedate"));
+					 s.setHouseNumber(rs.getInt("Housenumber"));
 					
 					//Hinzufügen des neuen Objekts zum Ergebnisvektor
 					result.add(s);

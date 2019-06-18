@@ -239,7 +239,7 @@ public class NewShoppingListForm extends VerticalPanel {
 		public void onSuccess(ShoppingList shoppingList) {
 			//add item to cellist
 			Notification.show("Einkaufsliste wurde erstellt");
-			//ctm.updateAdddedShoppingList(shoppingList, groupToDisplay);
+			ctm.updateAdddedShoppingList(shoppingList, groupToDisplay);
 		}
 	}
 	

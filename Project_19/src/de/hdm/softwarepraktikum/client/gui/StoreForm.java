@@ -256,7 +256,6 @@ public class StoreForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-
 			if(Window.confirm("Wollen Sie wirklich entfernen?") == true) {
 				shoppinglistAdministration.deleteStore(storeToDisplay, new DeleteStoreCallback());
 				ascl.updateCellList(null);
@@ -292,7 +291,7 @@ public class StoreForm extends VerticalPanel{
 			// TODO Auto-generated method stub
 			Notification.show("Store wurde aktualisiert");
 			RootPanel.get("Details").clear();
-			ascl.updateCellList(null);
+			ascl.updateCellList(storeToDisplay);
 		}
 		
 	}

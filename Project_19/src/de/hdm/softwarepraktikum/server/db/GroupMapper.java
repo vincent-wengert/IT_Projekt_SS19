@@ -14,6 +14,7 @@ import com.gargoylesoftware.htmlunit.javascript.host.Console;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Person;
+import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 
@@ -312,27 +313,37 @@ public class GroupMapper {
 	 * @param p
 	 * @return ShoppingLists
 	 */
-	 /*
-	public ArrayList<ShoppingList> getShoppingListsPerGroup(Group p) {
+	 
+	public ArrayList<ShoppingList> getShoppingListsPerGroup(Group g) {
+		
+		ArrayList<ShoppingList> result = new ArrayList<ShoppingList>();
 		
 		Connection con = DBConnection.connection();
 		
-		ArrayList<ShoppingList> result1 = new ArrayList<ShoppingList>();
 		
 		try {
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt
-					.executeQuery("SELECT id, title " + "FROM shoppinglist " + )
+			//Statement ausf�llen und als Query an die DB schicken
+			ResultSet rs = stmt.executeQuery("SELECT * FROM ShoppingList WHERE Group_ID=" + g.getId());
+			
+			while(rs.next()) {
+				ShoppingList sl = new ShoppingList();
+				sl.setId(rs.getInt("ShoppingList_ID"));
+				sl.setGroupID(rs.getInt("Group_ID"));
+				
+				//Hinzuf�gen des neuen Objekts zum Ergebnisvektor
+				result.add(sl);
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			return null;
 		}
-		catch(SQLException e2) {
-			e2.printStackTrace();
-		}
+	return result;
 		
 		
-		return result1;
 	}
-	*/
+	
 	
 	
 }

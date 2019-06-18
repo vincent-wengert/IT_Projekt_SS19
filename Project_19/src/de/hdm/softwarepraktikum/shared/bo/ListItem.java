@@ -21,6 +21,7 @@ public class ListItem extends BusinessObject{
 	private int storeID;
 	private int slID;
 	private int grID;
+	private int ResID;
 	
 	
 	public ListItem(String name, Unit unit, double amount, Boolean isChecked) {
@@ -121,5 +122,13 @@ public class ListItem extends BusinessObject{
 	
 	public void setGrID(int grID) {
 		this.grID = grID;
+	}
+	
+	public int getResID() {
+		return ResID;
+	}
+	
+	public void setResID(int ResID) {
+		this.ResID = ResID;
 	}
 }

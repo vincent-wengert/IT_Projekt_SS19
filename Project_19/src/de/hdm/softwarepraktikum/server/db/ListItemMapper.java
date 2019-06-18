@@ -119,12 +119,27 @@ public class ListItemMapper {
 //					+ li.getAmount() + "\" " + "WHERE id=" + li.getId());
 			
 			
-			PreparedStatement st = con.prepareStatement("UPDATE ListItem SET Unit = ?, Amount = ? WHERE ListItem_ID = ?");
+			PreparedStatement st = con.prepareStatement("UPDATE ListItem SET Unit = ?, Amount = ?, "
+					+ " WHERE ListItem_ID = ?");
 			
 			st.setString(1, li.getUnit().toString());
 			st.setDouble(2, li.getAmount());
 			st.setInt(3, li.getId());
 			st.executeUpdate();
+			
+			
+			
+			
+			PreparedStatement st2 = con.prepareStatement("UPDATE Responsibility SET Store_ID = ?, Person_ID = ?, "
+					+ " WHERE Responsibility_ID = ?");
+			
+			st2.setInt(1, li.getStoreID());
+			st2.setInt(2, li.getBuyerID());
+			st2.setInt(3, li.getResID());
+			st2.executeUpdate();
+			
+			
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -259,6 +274,7 @@ public class ListItemMapper {
 					listItem.setAmount(rs.getDouble("Amount"));
 					listItem.setChecked(rs.getBoolean("IsChecked"));
 					listItem.setItemId(rs.getInt("Item_ID"));
+					listItem.setResID(rs.getInt("Responsibility_ID"));
 					
 					//Ab hier Resposibility Tabelle eigentlich
 					listItem.setBuyerID(rs.getInt("Person_ID"));

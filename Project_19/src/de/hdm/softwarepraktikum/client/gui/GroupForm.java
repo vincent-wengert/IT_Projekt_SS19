@@ -198,8 +198,9 @@ public class GroupForm extends VerticalPanel {
 		}
 		for(Person person : groupToDisplay.getMember()) {
 			for (Person person1 : allPersons) {
-			if(person.getName() == person1.getName())
-			addMemberListBox.removeItem(allPersons.indexOf(person1));
+				if(person.getName() == person1.getName()) {
+					addMemberListBox.removeItem(allPersons.indexOf(person1));
+			}
 		}
 	}
 }
@@ -340,7 +341,7 @@ public class GroupForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			if(Window.confirm("Wollen Sie wirklich entfernen?") == true) {
-				//
+				administration.deleteGroup(groupToDisplay, new deleteGroupCallback());
 			}
 		}
 	}
@@ -494,9 +495,6 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Group result) {
-			// add item to cellist
-			// aicl.updateCellList();
-			Window.alert(ctm.toString());
 			ctm.updateAddedGroup(result);
 			Notification.show("Gruppe wurde erstellt");
 		}
@@ -515,4 +513,20 @@ public class GroupForm extends VerticalPanel {
 		}
 		
 	}
+	
+	private class deleteGroupCallback implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show("Die Gruppe konnte leider nicht gelöscht werden:\n" + caught.toString());
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			Notification.show("Die Gruppe wurde gelöscht");
+			RootPanel.get("Details").clear();
+		}
+		
+	}
+
 }
