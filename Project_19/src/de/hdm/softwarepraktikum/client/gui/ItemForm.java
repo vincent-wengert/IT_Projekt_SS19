@@ -273,7 +273,7 @@ public class ItemForm extends VerticalPanel{
 			public void onClick(ClickEvent event) {
 				if(Window.confirm("Wollen Sie wirklich entfernen?") == true) {
 					shoppinglistAdministration.deleteItem(itemToDisplayProduct, new DeleteItemCallback());
-					aicl.updateCelllist(itemToDisplayProduct);
+					aicl.updateCelllist(null);
 				}
 			}
 		}

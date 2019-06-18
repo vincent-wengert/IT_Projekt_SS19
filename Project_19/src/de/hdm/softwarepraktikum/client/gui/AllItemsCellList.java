@@ -101,6 +101,7 @@ public class AllItemsCellList extends VerticalPanel{
 		public void onSuccess(ArrayList<Item> result) {
 			// TODO Auto-generated method stub
 			items = result;
+			dataProvider.getList().clear();
 			getAllItems();
 			dataProvider.refresh();
 
