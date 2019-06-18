@@ -199,7 +199,6 @@ public class GroupForm extends VerticalPanel {
 		for(Person person : groupToDisplay.getMember()) {
 			for (Person person1 : allPersons) {
 			if(person.getName() == person1.getName())
-			Window.alert("test");
 			addMemberListBox.removeItem(allPersons.indexOf(person1));
 		}
 	}
@@ -340,7 +339,9 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			//
+			if(Window.confirm("Wollen Sie wirklich entfernen?") == true) {
+				//
+			}
 		}
 	}
 

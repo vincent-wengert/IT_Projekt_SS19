@@ -271,7 +271,10 @@ public class ItemForm extends VerticalPanel{
 		private class DeleteClickHandler implements ClickHandler {
 			@Override
 			public void onClick(ClickEvent event) {
-				shoppinglistAdministration.deleteItem(itemToDisplayProduct, new DeleteItemCallback());
+				if(Window.confirm("Wollen Sie wirklich entfernen?") == true) {
+					shoppinglistAdministration.deleteItem(itemToDisplayProduct, new DeleteItemCallback());
+					aicl.updateCelllist(itemToDisplayProduct);
+				}
 			}
 		}
 		

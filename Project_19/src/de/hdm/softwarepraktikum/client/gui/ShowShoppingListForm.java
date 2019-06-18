@@ -440,7 +440,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 	class DeleteShoppingListClickHandler implements ClickHandler {
 		
 		public void onClick(ClickEvent event) {
-			//administration.deleteShoppingList(shoppingListToDisplay, new DeleteShoppinglistCallback());
+			if(Window.confirm("") == true) {
+				//administration.deleteShoppingList(shoppingListToDisplay, new DeleteShoppinglistCallback());
+			}
 		}
 	}
 	
