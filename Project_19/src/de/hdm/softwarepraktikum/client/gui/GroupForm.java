@@ -153,9 +153,9 @@ public class GroupForm extends VerticalPanel {
 		
 		groupMembersListBox.setWidth("300px");
 
-		personSuggestBox.setSize("300px", "27px");
+		addMemberListBox.setSize("300px", "27px");
 		removeGroupMember.setPixelSize(30, 30);
-		personSuggestBox.getElement().setPropertyString("placeholder", "Mitgliedernamen eingeben...");
+		addMemberListBox.getElement().setPropertyString("placeholder", "Mitgliedernamen eingeben...");
 		removeGroupMember.setStylePrimaryName("cancelSearchButton");
 		addGroupMember.setStylePrimaryName("addPersonButton");
 
@@ -178,14 +178,25 @@ public class GroupForm extends VerticalPanel {
 		setTableEditable(editable);
 
 	}
+	
+	private String getGmail(Person person) {
+			for(Person p1: allPersons) {
+				if(person.getId() == p1.getId()) {
+					return p1.getGmail();
+				}
+			}
+			return null;
+	}
 
-	private void showGroupMembers() {
+	  private void showGroupMembers() {
+		  
+		  groupMembersListBox.clear();
 		
 		for (Person p : groupToDisplay.getMember()) {
 			groupMembersListBox.addItem(p.getName());
 		}
-		groupMembersListBox.setVisibleItemCount(groupToDisplay.getMember().size());
-	}
+	groupMembersListBox.setVisibleItemCount(groupToDisplay.getMember().size());
+	  }
 
 	private void load() {
 		administration.getAllPersons(new getAllPersonsCallback());
@@ -193,17 +204,21 @@ public class GroupForm extends VerticalPanel {
 
 	public void loadSearchbar() {
 		
+		addMemberListBox.clear();
+		
 		for(Person person : allPersons) {
 			addMemberListBox.addItem(person.getGmail());	
 		}
+		
 		for(Person person : groupToDisplay.getMember()) {
-			for (Person person1 : allPersons) {
-				if(person.getName() == person1.getName()) {
-					addMemberListBox.removeItem(allPersons.indexOf(person1));
+
+			for (int i = 0; i < addMemberListBox.getItemCount(); i++) {
+				if (addMemberListBox.getItemText(i) == getGmail(person)) {
+					addMemberListBox.removeItem(i);
+					}
 			}
 		}
 	}
-}
 	/**
 	 * Setzt die aktuell ausgewÃ¤hlte Person
 	 * 
@@ -361,8 +376,11 @@ public class GroupForm extends VerticalPanel {
 			membersList.add(selectedPerson);
 			groupMembersListBox.addItem(selectedPerson.getName());
 			groupMembersListBox.setVisibleItemCount(membersList.size()+1);
+			
 			}else {
+			setSelectedPerson(addMemberListBox.getSelectedItemText());
 			administration.addGroupMembership(selectedPerson, groupToDisplay, new AddGroupMembershipCallback());
+			
 			}
 		}
 	}
@@ -411,11 +429,11 @@ public class GroupForm extends VerticalPanel {
 			if (initial == false){
 			administration.getAllGroupMembers(groupToDisplay.getId(), new getAllGroupMembersCallback());
 			}else {
-			// loadSearchbar();
 				for(Person person : allPersons) {
 					addMemberListBox.addItem(person.getGmail());
 					
-					}
+				}
+				GroupForm.this.loadSearchbar();
 			}
 		}
 	}
@@ -518,12 +536,12 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Notification.show("Die Gruppe konnte leider nicht gelöscht werden:\n" + caught.toString());
+			Notification.show("Die Gruppe konnte leider nicht gelï¿½scht werden:\n" + caught.toString());
 		}
 
 		@Override
 		public void onSuccess(Void result) {
-			Notification.show("Die Gruppe wurde gelöscht");
+			Notification.show("Die Gruppe wurde gelï¿½scht");
 			RootPanel.get("Details").clear();
 		}
 		
