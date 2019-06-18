@@ -79,6 +79,9 @@ public class AllItemsCellList extends VerticalPanel{
 		this.navigator = navigator;
 	}
 	
+	public SingleSelectionModel<Item> getSelectionModel(){
+		return this.selectionModel;
+	}
 		
 	public void setItemForm(ItemForm itemForm) {
 		this.itemForm = itemForm;

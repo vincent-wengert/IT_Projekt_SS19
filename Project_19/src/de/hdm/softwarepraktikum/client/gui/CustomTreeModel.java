@@ -80,6 +80,10 @@ public class CustomTreeModel implements TreeViewModel {
 		return shoppinglists;
 	}
 	
+	public SingleSelectionModel<Object> getSelectionModel(){
+		return this.selectionModel;
+	}
+	
 	public void setGroupForm(GroupForm groupForm) {
 		this.gf = groupForm;
 	}

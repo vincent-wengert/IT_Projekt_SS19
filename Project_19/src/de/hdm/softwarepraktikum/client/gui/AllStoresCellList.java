@@ -49,13 +49,15 @@ public class AllStoresCellList extends VerticalPanel{
 	public void setSelectedStore(Store s) {
 		storeToDisplay = s;
 		RootPanel.get("Details").clear();
-		Notification.show("clear Details");
 		sf.setSelected(s);
 		sf.setEditable(false);
 		sf.setInitial(false);
 		RootPanel.get("Details").add(sf);
 	}
-
+	
+	public SingleSelectionModel<Store> getSelectionModel() {
+		return this.selectionModel;
+	}
 	
 	public void setStoreForm(StoreForm sf) {
 		this.sf = sf;

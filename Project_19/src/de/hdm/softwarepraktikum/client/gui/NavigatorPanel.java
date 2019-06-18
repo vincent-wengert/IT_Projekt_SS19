@@ -7,8 +7,11 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Grid;
@@ -18,6 +21,8 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.TreeViewModel;
+
+import de.hdm.softwarepraktikum.shared.bo.Store;
 
 
 public class NavigatorPanel extends TabPanel {
@@ -101,7 +106,21 @@ public void onLoad() {
     ascl.setStoreForm(storeForm);
     storeForm.setAllStoresCellList(ascl);
     
-
+    this.addSelectionHandler(new SelectionHandler<Integer>()
+	{
+		@Override
+		public void onSelection(SelectionEvent<Integer> event) {
+			int tabID = event.getSelectedItem();
+			Widget tabWidget = getWidget(tabID);
+			
+			if(tabWidget != null) {
+				ascl.getSelectionModel().clear();
+				aicl.getSelectionModel().clear();
+				model.getSelectionModel().clear();
+			}
+		}
+	}
+	);
 	}
 
 /**
