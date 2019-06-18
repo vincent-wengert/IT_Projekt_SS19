@@ -18,7 +18,7 @@ import de.hdm.softwarepraktikum.client.gui.Header.ReportGeneratorClickHandler;
 
 /**
  * Die <code>Header</code>-Klasse ist der Kopfbereich des Reports. 
- * Der Header wird über alle Seiten des Tools gleich angezeigt. 
+ * Der Header wird ï¿½ber alle Seiten des Tools gleich angezeigt. 
  * 
  * @author Niklas Oexle, Bruno Herceg
  * @version 1.0
@@ -38,7 +38,7 @@ public class ReportHeader extends HorizontalPanel {
  	private Button reportGeneratorButton = new Button("Reportgenerator");
  	private Image logo = new Image ();
  	private Label userLabel = new Label();
- 	private Anchor reportGeneratorLink = new Anchor("ReportGenerator");
+	private Anchor shoppingListEditorLink = new Anchor("Shoppinglisst-Editor");
 
 
  	/**
@@ -105,10 +105,7 @@ public class ReportHeader extends HorizontalPanel {
 
  		@Override
  		public void onClick(ClickEvent event) {
- 			
- 			reportGeneratorLink.setHref(GWT.getHostPageBaseURL()+"ShoppinglistReportGenerator.html");
- 			Window.open(reportGeneratorLink.getHref(), "_self", "");
- 			
+ 			Window.Location.reload();
  		}
 
  	}
@@ -122,7 +119,8 @@ public class ReportHeader extends HorizontalPanel {
  		
  		@Override
  		public void onClick(ClickEvent event) {
- 			Window.Location.reload();
+ 			shoppingListEditorLink.setHref(GWT.getHostPageBaseURL() + "Project_19.html");
+			Window.open(shoppingListEditorLink.getHref(), "_self", "");
  		}
  	}
  	

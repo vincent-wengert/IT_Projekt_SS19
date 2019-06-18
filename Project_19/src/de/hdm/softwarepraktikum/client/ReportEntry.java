@@ -77,7 +77,7 @@ public class ReportEntry implements EntryPoint {
 	public void onFailure(Throwable caught) {
 		//Notification.show(caught.toString());
 		Reportform reportform = new Reportform();
-		reportform.loadForms();
+		reportform.loadReportGenerator();
 		}
 	}
 
