@@ -19,8 +19,6 @@ public interface ReportGeneratorAsync {
 	
 	public void init(AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
-	public void getShoppingListAdministration(int id, AsyncCallback<ShoppingListAdministration> callback) throws IllegalArgumentException;
-	
 	void createUserStatisticsReport(Person p, AsyncCallback<ItemsByPersonReport> callback);
 	
 	void createGroupStatisticsReport(Group g, AsyncCallback<ItemsByGroupReport> callback);

@@ -43,7 +43,7 @@ public interface ReportGenerator extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	
-	public ShoppingListAdministration getShoppingListAdministration(int id) throws IllegalArgumentException;
+	//public ShoppingListAdministration getShoppingListAdministration(int id) throws IllegalArgumentException;
 	
 	/**
 	 * Diese Methode gibt die Einkaufsstatistik für eine Gruppe aus.
