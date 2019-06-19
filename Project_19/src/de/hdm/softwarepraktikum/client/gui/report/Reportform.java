@@ -143,8 +143,10 @@ public class Reportform {
 
 			public void onClick(ClickEvent event) {
 				storeListBox.getSelectedItemText();
-				fromDateBox.getValue().toString();
-				toDateBox.getValue().toString();
+				if(fromDateBox.getValue() != null && toDateBox.getValue() != null) {
+					fromDateBox.getValue().toString();
+					toDateBox.getValue().toString();	
+				}
 				groupListBox.getSelectedItemText();
 				
 				Group g = new Group();
