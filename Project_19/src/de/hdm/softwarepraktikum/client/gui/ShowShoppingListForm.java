@@ -403,7 +403,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			shoppinglistNameBox.setText(infoTitleLabel.getText());
 			infoTitleLabel.setVisible(false);
 			
-			addListItemButton.setVisible(true);
+			addListItemButton.setVisible(false);
 			confirmButton.setVisible(true);
 			cancelButton.setVisible(true);
 			editButton.setVisible(false);
@@ -438,6 +438,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			confirmButton.setVisible(false);
 			cancelButton.setVisible(false);
 			editButton.setVisible(true);
+			addListItemButton.setVisible(true);
 			
 			cellTable.removeColumn(editColumn);
 			cellTable.removeColumn(deleteColumn);
@@ -453,6 +454,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			confirmButton.setVisible(false);
 			cancelButton.setVisible(false);
 			editButton.setVisible(true);
+			addListItemButton.setVisible(true);
 			
 			cellTable.removeColumn(editColumn);
 			cellTable.removeColumn(deleteColumn);
