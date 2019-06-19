@@ -69,7 +69,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	
 
 	@Override
-	public ItemsByGroupReport createGroupStatisticsReport(Group selectedG) throws IllegalArgumentException {
+	public ItemsByGroupReport createGroupStatisticsReport(Group selectedG, Store selectedS, Date selectedD) throws IllegalArgumentException {
 		
 		if(this.getShoppingListAdministration() == null) {
 			return null;
@@ -87,11 +87,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			result.setCreationDate(new Timestamp(System.currentTimeMillis()));
 			
 			//Methode getAllItemsByGroup kommt noch
-			ArrayList<ShoppingList> sLs = this.administration.getAllShoppingListsByGroup(selectedG);
-			ArrayList<ListItem> listItems = this.administration.getAllCheckedItemsByGroup(selectedG);
-			if(sLs != null) {
-			
-			}
 			
 			
 			/*
@@ -183,9 +178,18 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			 * Erstellungsdatum des Reports durch einen Timestamp hinzufügen. 
 			 */
 			result.setCreationDate(new Timestamp(System.currentTimeMillis()));
-			
 			//Methode getAllItemsByGroup kommt noch
-			//ArrayList<ListItem> listItems = this.administration.getAllItemsByGroup();
+			ArrayList<ListItem> relevantitems = new ArrayList<ListItem>();
+			ArrayList<ShoppingList> alllists = this.administration.getAllShoppingListsByPerson(p);
+			ArrayList<ListItem> checkedbySL = this.administration.getAllCheckedItemsBySL(sl);
+			for(ListItem li: checkedbySL) {
+				for(Person p1: this.administration.getAllPersons()) {
+				if(p1.getId() == p.getId() && relevantitems.contains(li) == false) {
+						relevantitems.add(li);
+				}
+				}
+			}
+			
 			
 			/*
 			 * Zusammenstellung der Kopfdaten des Reports
@@ -210,6 +214,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			headline.addColumn(new Column("Produktbezeichnung"));
 			headline.addColumn(new Column("Einheit"));
 			headline.addColumn(new Column("Eingekaufte Menge"));
+			headline.addColumn(new Column("Händler"));
 			
 			
 			result.addRow(headline);
