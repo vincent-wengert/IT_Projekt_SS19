@@ -69,7 +69,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	
 
 	@Override
-	public ItemsByGroupReport createGroupStatisticsReport(Group g) throws IllegalArgumentException {
+	public ItemsByGroupReport createGroupStatisticsReport(Group selectedG) throws IllegalArgumentException {
 		
 		if(this.getShoppingListAdministration() == null) {
 			return null;
@@ -77,18 +77,22 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			//Anlegen eines leeren Reports.
 			ItemsByGroupReport result = new ItemsByGroupReport();
 			//Titel des Reports
-			result.setTitle("Gruppenreport");
+			result.setTitle("Gruppenreport der Gruppe " + selectedG.getTitle());
 			
 			//Impressum hinzufügen
 			this.AddImprint(result);
-			
 			/*
 			 * Erstellungsdatum des Reports durch einen Timestamp hinzufügen. 
 			 */
 			result.setCreationDate(new Timestamp(System.currentTimeMillis()));
 			
 			//Methode getAllItemsByGroup kommt noch
-			//ArrayList<ListItem> listItems = this.administration.getAllItemsByGroup();
+			ArrayList<ShoppingList> sLs = this.administration.getAllShoppingListsByGroup(selectedG);
+			ArrayList<ListItem> listItems = this.administration.getAllCheckedItemsByGroup(selectedG);
+			if(sLs != null) {
+			
+			}
+			
 			
 			/*
 			 * Zusammenstellung der Kopfdaten des Reports
@@ -96,7 +100,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			CompositeParagraph header = new CompositeParagraph();
 			
 			//Name der Gruppe aufnehmen
-			header.addSubParagraph(new SimpleParagraph("Gruppe: " + g.getTitle()));
+			header.addSubParagraph(new SimpleParagraph("Gruppe: " + selectedG.getTitle()));
 			
 			//Hinzufügen der Kopfdaten zum Report
 			result.setHeaderData(header);

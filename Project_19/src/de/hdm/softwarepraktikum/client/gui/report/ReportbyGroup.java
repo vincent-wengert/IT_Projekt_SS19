@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -34,17 +35,18 @@ public class ReportbyGroup extends VerticalPanel{
 	
 	private Group g =
 	*/
-	//private ReportGeneratorAsync report = ClientsideSettings.getReportGenerator();
+	private ReportGeneratorAsync report = ClientsideSettings.getReportGenerator();
 	private ReportEntry reportGenerator = new ReportEntry();
 	
 	private VerticalPanel selectionPanel = new VerticalPanel();
 	private HorizontalPanel reportHeaderPanel = new HorizontalPanel();
 	
-	private ArrayList<Group> ListItemList = new ArrayList<Group>();
+	private ArrayList<Group> groupList = new ArrayList<Group>();
 	
 	private Label ILabel = new Label("Statistik der eingekauften Produkte der Gruppe");
 	private Button printReportButton = new Button("");
 	private Button back = new Button("");
+	private ListBox listBox = new ListBox();
 	
 	
 	/**
@@ -74,6 +76,8 @@ public class ReportbyGroup extends VerticalPanel{
 		back.setWidth("8vh");
 		back.setHeight("8vh");
 		
+		listBox.setWidth("320px");
+		listBox.setHeight("40px");
 		
 		reportHeaderPanel.setWidth("100%");
 		reportHeaderPanel.setHeight("8vh");
@@ -99,11 +103,19 @@ public class ReportbyGroup extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			
 			RootPanel.get("Result").clear();
+			Group selectedG = new Group();
 			
+			for(Group g: groupList) {
+				if(g.getTitle().equals(listBox.getSelectedItemText())) {
+					selectedG = g;
+					report.createGroupStatisticsReport(selectedG, new Groupstatisticcallback());
+				}
+			}
 			
 		}
 		
 	}
+
 
 	/**
 	 * Clickhandler um auf die Startseite des ReportGenerators zu gelangen 
