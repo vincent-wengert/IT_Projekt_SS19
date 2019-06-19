@@ -23,8 +23,10 @@ import de.hdm.softwarepraktikum.client.gui.ListItemDialog;
 import de.hdm.softwarepraktikum.client.gui.Notification;
 
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
+import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
+import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
 /**
@@ -63,6 +65,7 @@ public class Reportform {
 		private ReportbyPerson rbp;
 		
 		private ArrayList<Store> allStores;
+		private ArrayList<Group> allGroups;
 		private ArrayList<Item> filteredItems;
 		
 	  public void loadReportGenerator() {
@@ -120,6 +123,9 @@ public class Reportform {
 			menu.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 			
 			administration.getAllStores(new GetAllStoresCallback());
+			Person p = new Person();
+			p.setId(1);
+			administration.getAllGroupsByPerson(p, new GetAllGroupCallback());
 			
 //			RootPanel.get("footer").add(footer);
 			
@@ -140,6 +146,7 @@ public class Reportform {
 				groupListBox.getSelectedItemText();
 				
 				administration.getAllItems(new GetAllItemsCallback());
+				
 				
 			}
 		}
@@ -173,6 +180,43 @@ public class Reportform {
 				allStores = result;
 				for(Store store: allStores) {
 					storeListBox.addItem(store.getName());
+					}
+				
+				
+				//if (ListItemDialog.this.selectedListItem != null) {
+					//ListItem li = ListItemDialog.this.selectedListItem;
+//				for (Store store : allStores) {
+//					if (store.getId() == li.getStoreID()) {
+//						int indexToFind = -1;
+//
+//						for (int s = 0; s < allStores.size(); s++) {
+//
+//							if (storeListBox.getItemText(s).equals(store.getName())) {
+//								indexToFind = s;
+//								break;
+//							}
+//						}
+//						storeListBox.setSelectedIndex(indexToFind);
+//					}
+//				}
+			//}
+		}
+	}	
+		
+		
+		private class GetAllGroupCallback implements AsyncCallback<ArrayList<Group>> {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Notification.show(caught.toString());
+			}
+			
+			@Override
+			public void onSuccess(ArrayList<Group> result) {
+				// TODO Auto-generated method stub
+				allGroups = result;
+				for(Group group: allGroups) {
+					groupListBox.addItem(group.getTitle());
 					}
 				
 				
