@@ -675,6 +675,11 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		responsibilityMapper.delete(rs);
 	}
 	
+	public ArrayList<Responsibility> getResponsibilityByPerson(Person p) {
+		return this.responsibilityMapper.findByPerson(p);
+		
+	}
+	
 	/*
 	   * ***************************************************************************
 	   * ABSCHNITT, Ende: Methoden für Responsibility-Objekte

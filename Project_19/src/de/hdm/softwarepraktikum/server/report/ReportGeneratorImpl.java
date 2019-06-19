@@ -182,6 +182,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			ArrayList<ListItem> relevantitems = new ArrayList<ListItem>();
 			ArrayList<ShoppingList> alllists = this.administration.getAllShoppingListsByPerson(p);
 			ArrayList<ListItem> checkedbySL = this.administration.getAllCheckedItemsBySL(sl);
+			ArrayList<Responsibility> resByPerson = this.administration.getResponsibilityByPerson(p);
 			for(ListItem li: checkedbySL) {
 				for(Person p1: this.administration.getAllPersons()) {
 				if(p1.getId() == p.getId() && relevantitems.contains(li) == false) {
