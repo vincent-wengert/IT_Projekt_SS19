@@ -67,98 +67,100 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 	
 	
+	
+	
 
-	@Override
-	public ItemsByGroupReport createGroupStatisticsReport(Group selectedG, Store selectedS, Date selectedD) throws IllegalArgumentException {
-		
-		if(this.getShoppingListAdministration() == null) {
-			return null;
-		}
-			//Anlegen eines leeren Reports.
-			ItemsByGroupReport result = new ItemsByGroupReport();
-			//Titel des Reports
-			result.setTitle("Gruppenreport der Gruppe " + selectedG.getTitle());
-			
-			//Impressum hinzufügen
-			this.AddImprint(result);
-			/*
-			 * Erstellungsdatum des Reports durch einen Timestamp hinzufügen. 
-			 */
-			result.setCreationDate(new Timestamp(System.currentTimeMillis()));
-			
-			//Methode getAllItemsByGroup kommt noch
-			
-			
-			/*
-			 * Zusammenstellung der Kopfdaten des Reports
-			 */
-			CompositeParagraph header = new CompositeParagraph();
-			
-			//Name der Gruppe aufnehmen
-			header.addSubParagraph(new SimpleParagraph("Gruppe: " + selectedG.getTitle()));
-			
-			//Hinzufügen der Kopfdaten zum Report
-			result.setHeaderData(header);
-			
-			//Anlegen der Kopfzeile für die Statistik-Tabelle.
-			Row headline = new Row();
-			
-			/**
-			 * Im Report werden fünf Spalten benötigt: die ID des Produkts,
-			 * die Produktbezeichnung, die Einheit, die Eingekaufte Menge und das
-			 * Einkaufsdatum.
-			 */
-			headline.addColumn(new Column("ID"));
-			headline.addColumn(new Column("Produktbezeichnung"));
-			headline.addColumn(new Column("Einheit"));
-			headline.addColumn(new Column("Eingekaufte Menge"));
-			headline.addColumn(new Column("Händler"));
-			
-			
-			result.addRow(headline);
-			
-			/*
-			 * Auslesen sämtlicher abgehakten <code>ListItem</code>-Objekte, die dem Report 
-			 * hinzugefügt werden. Methode "getListItem 
-			 * 
-			 * 
-			 */
-			ArrayList<ListItem> li = this.administration.getAllCheckedItemsByGroup(g);
-			for(ListItem l : li) {
-				
-				//Eine leere Zeile anlegen.
-				Row listItemRow = new Row();
-				
-				//erste Spalte: ID hinzufügen
-				listItemRow.addColumn(new Column(String.valueOf(l.getId())));
-				
-				//zweite Spalte: Bezeichnung eintragen
-				listItemRow.addColumn(new Column(String.valueOf(l.getId().getName())));
-				
-				//dritte Spalte: Einheit eintragen
-				listItemRow.addColumn(new Column(String.valueOf(l.getUnit())));
-				
-				//vierte Spalte: Anzahl, wie oft das Produkt gekauft wurde.
-				//listItemRow.addColumn(new Column(String.valueOf()));
-				
-				//fünfte Spalte: Store
-				listItemRow.addColumn(new Column(String.valueOf(l.getStore())));
-				
-				result.addRow(listItemRow);
-				
-				
-			}
-			
-			return result;
-		
-		
-	}
+//	@Override
+//	public ItemsByGroupReport createGroupStatisticsReport(Group selectedG, Store selectedS, Date selectedD) throws IllegalArgumentException {
+//		
+//		if(this.getShoppingListAdministration() == null) {
+//			return null;
+//		}
+//			//Anlegen eines leeren Reports.
+//			ItemsByGroupReport result = new ItemsByGroupReport();
+//			//Titel des Reports
+//			result.setTitle("Gruppenreport der Gruppe " + selectedG.getTitle());
+//			
+//			//Impressum hinzufügen
+//			this.AddImprint(result);
+//			/*
+//			 * Erstellungsdatum des Reports durch einen Timestamp hinzufügen. 
+//			 */
+//			result.setCreationDate(new Timestamp(System.currentTimeMillis()));
+//			
+//			//Methode getAllItemsByGroup kommt noch
+//			
+//			
+//			/*
+//			 * Zusammenstellung der Kopfdaten des Reports
+//			 */
+//			CompositeParagraph header = new CompositeParagraph();
+//			
+//			//Name der Gruppe aufnehmen
+//			header.addSubParagraph(new SimpleParagraph("Gruppe: " + selectedG.getTitle()));
+//			
+//			//Hinzufügen der Kopfdaten zum Report
+//			result.setHeaderData(header);
+//			
+//			//Anlegen der Kopfzeile für die Statistik-Tabelle.
+//			Row headline = new Row();
+//			
+//			/**
+//			 * Im Report werden fünf Spalten benötigt: die ID des Produkts,
+//			 * die Produktbezeichnung, die Einheit, die Eingekaufte Menge und das
+//			 * Einkaufsdatum.
+//			 */
+//			headline.addColumn(new Column("ID"));
+//			headline.addColumn(new Column("Produktbezeichnung"));
+//			headline.addColumn(new Column("Einheit"));
+//			headline.addColumn(new Column("Eingekaufte Menge"));
+//			headline.addColumn(new Column("Händler"));
+//			
+//			
+//			result.addRow(headline);
+//			
+//			/*
+//			 * Auslesen sämtlicher abgehakten <code>ListItem</code>-Objekte, die dem Report 
+//			 * hinzugefügt werden. Methode "getListItem 
+//			 * 
+//			 * 
+//			 */
+//			ArrayList<ListItem> li = this.administration.getAllCheckedItemsByGroup(g);
+//			for(ListItem l : li) {
+//				
+//				//Eine leere Zeile anlegen.
+//				Row listItemRow = new Row();
+//				
+//				//erste Spalte: ID hinzufügen
+//				listItemRow.addColumn(new Column(String.valueOf(l.getId())));
+//				
+//				//zweite Spalte: Bezeichnung eintragen
+//				listItemRow.addColumn(new Column(String.valueOf(l.getId().getName())));
+//				
+//				//dritte Spalte: Einheit eintragen
+//				listItemRow.addColumn(new Column(String.valueOf(l.getUnit())));
+//				
+//				//vierte Spalte: Anzahl, wie oft das Produkt gekauft wurde.
+//				//listItemRow.addColumn(new Column(String.valueOf()));
+//				
+//				//fünfte Spalte: Store
+//				listItemRow.addColumn(new Column(String.valueOf(l.getStore())));
+//				
+//				result.addRow(listItemRow);
+//				
+//				
+//			}
+//			
+//			return result;
+//		
+//		
+//	}
 
-	@Override
-	public ShoppingListAdministration getShoppingListAdministration(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public ShoppingListAdministration getShoppingListAdministration(int id) throws IllegalArgumentException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public ItemsByPersonReport createUserStatisticsReport(Person p) throws IllegalArgumentException {
@@ -237,7 +239,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			 * ToDo: Methode in ShoppingListAdministration, die alle Checked ITems einer SL/Gruppe 
 			 * ermittelt.
 			 */
-			//ArrayList<ListItem> li = this.administration.getCheckedLi(p);
+			ArrayList<ListItem> li = this.administration.getCheckedLi(p);
 			for(ListItem l : li) {
 				
 				//Eine leere Zeile anlegen.
@@ -247,7 +249,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				listItemRow.addColumn(new Column(String.valueOf(l.getId())));
 				
 				//zweite Spalte: Bezeichnung eintragen
-				listItemRow.addColumn(new Column(String.valueOf(l.getId().getName())));
+				//listItemRow.addColumn(new Column(String.valueOf(l.getId().getName())));
 				
 				//dritte Spalte: Einheit eintragen
 				listItemRow.addColumn(new Column(String.valueOf(l.getUnit())));
@@ -312,6 +314,70 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public ItemsByGroupReport createGroupStatisticsReport(Group g) throws IllegalArgumentException {
+	  	if(this.getShoppingListAdministration() == null) {
+    		return null;
+    		}
+    	
+    	//Anlegen eines leeren Reports
+    	ItemsByGroupReport result = new ItemsByGroupReport();
+    	
+  
+    	// Jeder Report erhält einen Titel (Überschrift)
+    	result.setTitle("AlleItems");
+    	
+    	/*
+         * Datum der Erstellung hinzufügen. new Timestamp() erzeugt autom. einen
+         * "Timestamp" des Zeitpunkts der Instantiierung des Objekts.
+         */
+    	result.setCreationDate(new Timestamp(System.currentTimeMillis()));
+    	
+    	ArrayList<Item> items = this.administration.getAllItems();
+    	
+    
+    	//Sicherheitsabfrage
+    	if(items !=null) {
+    		
+    	
+        // Zusammenstellung der Kopfdaten (Headline) des Reports 
+    	Row headline = new Row();
+    	headline.addColumn(new Column("ID"));
+    	headline.addColumn(new Column("Name"));
+    	
+   	 		
+   	 	result.addRow(headline);
+		  	
+   	    /*
+   	     * Auslesen sämtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugefügt werden.
+   	     */
+    	for(Item i : items) {
+    			
+    		
+				
+				//Eine leere Zeile anlegen.
+				Row listItemRow = new Row();
+				
+				//erste Spalte: ID hinzufügen
+				listItemRow.addColumn(new Column(String.valueOf(i.getId())));
+				
+				//zweite Spalte: Bezeichnung eintragen
+				listItemRow.addColumn(new Column(String.valueOf(i.getName())));
+			
+				
+				
+				result.addRow(listItemRow);
+    	
+    		}
+    	//Rückgabe des fertigen Reports
+    	return result;
+    	}
+    	
+    return null;
+	}
+	
+	
 	
 	
 }

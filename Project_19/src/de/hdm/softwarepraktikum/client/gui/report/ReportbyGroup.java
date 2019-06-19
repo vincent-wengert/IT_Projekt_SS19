@@ -22,6 +22,7 @@ import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.report.HTMLReportWriter;
 import de.hdm.softwarepraktikum.shared.report.ItemsByGroupReport;
+import de.hdm.softwarepraktikum.shared.report.Report;
 
 /**
  * Die Klasse <code>ReportByGroup</code> ist eine Erstellungsform zur Erzeugung 
@@ -87,7 +88,7 @@ public class ReportbyGroup extends VerticalPanel{
 		printReportButton.addClickHandler(new OutputClickHandler());
 		back.addClickHandler(new BackClickHandler());
 		
-		//report.getAllItems(i, new Groupstatisticcallback());
+		report.ge
 
 		RootPanel.get("Selection").add(reportHeaderPanel);
 

@@ -62,7 +62,7 @@ public class Reportform {
 		private Button reportperson = new Button("Alle Artikel");
 		private Button los = new Button("Los");
 		
-		private ReportbyPerson rbp;
+		private ReportbyGroup rbp;
 		
 		private ArrayList<Store> allStores;
 		private ArrayList<Group> allGroups;
@@ -161,9 +161,11 @@ public class Reportform {
 			public void onClick(ClickEvent event) {
 
 				RootPanel.get("Selection").clear();
-				rbp = new ReportbyPerson();
+				rbp = new ReportbyGroup();
 
 				RootPanel.get("Result").add(rbp);
+				
+				
 			}
 		}
 		
