@@ -266,33 +266,33 @@ Connection con = DBConnection.connection();
 	 * Eine Methode, um alle SL einer Person zu finden.
 	 */
 	
-		//public ArrayList<ShoppingList> findByMember(int memberID) {
-		    //Connection con = DBConnection.connection();
-		   // ArrayList<ShoppingList> result = new ArrayList<ShoppingList>();
+		public ArrayList<ShoppingList> findByMember(int memberID) {
+		    Connection con = DBConnection.connection();
+		    ArrayList<ShoppingList> result = new ArrayList<ShoppingList>();
 
-		    //try {
-		     // Statement stmt = con.createStatement();
+		    try {
+		      Statement stmt = con.createStatement();
 
-		      //ResultSet rs = stmt.executeQuery("SELECT id, member FROM group "
-		       //   + "WHERE member=" + memberID);
+		      ResultSet rs = stmt.executeQuery("SELECT id, member FROM group "
+		          + "WHERE member=" + memberID);
 
 		      // F�r jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
-		     // while (rs.next()) {
-		    	//ShoppingList sl = new ShoppingList();
-		       // sl.setId(rs.getInt("id"));
+		      while (rs.next()) {
+		    	ShoppingList sl = new ShoppingList();
+		        sl.setId(rs.getInt("id"));
 		      
 
 		        // Hinzuf�gen des neuen Objekts zum Ergebnisvektor
-		        //result.add(sl);
-		      //}
-		    //}
-		    //catch (SQLException e2) {
-		    //  e2.printStackTrace();
-		    //}
+		        result.add(sl);
+		      }
+		    }
+		    catch (SQLException e2) {
+		      e2.printStackTrace();
+		    }
 
-		    // Ergebnisvektor zur�ckgeben
-		    //return result;
-		 // }
+		     //Ergebnisvektor zur�ckgeben
+		    return result;
+		  }
 		
 		/**
 		 * Auslesen aller SL einer Person (durch <code> Person</code>-Objekt 
@@ -300,14 +300,14 @@ Connection con = DBConnection.connection();
 		 * @param member Personobjekt, dessen SL ausgelesen werden sollen.
 		 * @return alle SL der Person
 		 */
-		// public ArrayList<ShoppingList> findByMember(Person member) {
+		 public ArrayList<ShoppingList> findByMember(Person member) {
     
 			    /*
 			     * Wir lesen einfach die id (Prim�rschl�ssel) des Person-Objekts
 			     * aus und delegieren die weitere Bearbeitung an findByMember(int memberID).
 			     */
-			//    return findByMember(member.getId());
-			//  }
+			    return findByMember(member.getId());
+			  }
 
 		
 			

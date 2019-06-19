@@ -1,12 +1,14 @@
 package de.hdm.softwarepraktikum.server.db;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import de.hdm.softwarepraktikum.shared.bo.BusinessObject;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
@@ -76,13 +78,18 @@ public class ListItemMapper {
 		li.setId(rs.getInt("maxid") + 1);
 				
 		PreparedStatement stmt2 = con.prepareStatement(
-				"INSERT INTO ListItem (ListItem_ID, Unit, Amount, IsChecked, Responsibility_ID, Item_ID) " + "VALUES (?, ?, ?, ?, ?, ?)",
+				"INSERT INTO ListItem (ListItem_ID, Unit, Amount, BoughtOn, Responsibility_ID, Item_ID) " + "VALUES (?, ?, ?, ?, ?, ?)",
 				Statement.RETURN_GENERATED_KEYS);
 		
 		stmt2.setInt(1, li.getId());
 		stmt2.setString(2, li.getUnit().toString());
 		stmt2.setDouble(3, li.getAmount());
-		stmt2.setBoolean(4, li.getChecked());
+		
+		if(li.getChecked() == true) {
+			stmt2.setTimestamp(4, li.getChangedate());
+		}else {
+			stmt2.setTimestamp(4, null);
+		}
 		stmt2.setInt(5, res.getId());
 		stmt2.setInt(6, li.getItemId());
 		System.out.println(stmt2);
@@ -111,13 +118,6 @@ public class ListItemMapper {
 		Connection con = DBConnection.connection();
 		
 		try {
-			
-//			//muss man noch verbessern zwecks responsibility
-//			Statement stmt = con.createStatement();
-//			
-//			stmt.executeUpdate("UPDATE listitems " + "SET item=\"" + li.getItemId() + "\", " + "amount=\""
-//					+ li.getAmount() + "\" " + "WHERE id=" + li.getId());
-			
 			
 			PreparedStatement st = con.prepareStatement("UPDATE ListItem SET Unit = ?, Amount = ?, "
 					+ " WHERE ListItem_ID = ?");
@@ -236,12 +236,18 @@ public class ListItemMapper {
 		}
 
 		public void checkListItem(ListItem li) {
-			
+				
 				Connection con = DBConnection.connection();
 				try {
-					PreparedStatement st = con.prepareStatement("UPDATE ListItem SET IsChecked = ? WHERE ListItem_ID = ?");
+					PreparedStatement st = con.prepareStatement("UPDATE ListItem SET BoughtOn = ? WHERE ListItem_ID = ?");
 					
-					st.setBoolean(1, li.getChecked());
+					if(li.getChecked() == true) {
+						System.out.println("true");
+						st.setTimestamp(1, li.getChangedate());
+					}else {
+						System.out.println("false");
+						st.setTimestamp(1, null);
+					}
 					st.setInt(2, li.getId());
 					System.out.println(st);
 					st.executeUpdate();
@@ -272,7 +278,13 @@ public class ListItemMapper {
 					listItem.setId(rs.getInt("ListItem_ID"));
 					listItem.setUnit(listItem.getItemUnit(rs.getString("Unit")));
 					listItem.setAmount(rs.getDouble("Amount"));
-					listItem.setChecked(rs.getBoolean("IsChecked"));
+					
+					if(rs.getTimestamp("BoughtOn") != null) {
+						listItem.setChecked(true);
+					}else {
+						listItem.setChecked(false);
+					}
+					
 					listItem.setItemId(rs.getInt("Item_ID"));
 					listItem.setResID(rs.getInt("Responsibility_ID"));
 					
