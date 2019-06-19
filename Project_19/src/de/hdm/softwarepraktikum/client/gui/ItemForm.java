@@ -42,7 +42,7 @@ public class ItemForm extends VerticalPanel{
 	private Label itemNameLabel = new Label("Name des Artikels");
 
 	private TextBox itemNameBox = new TextBox();
-	private CheckBox isGlobalBox = new CheckBox("Global Status");
+	private CheckBox isGlobalBox = new CheckBox("Für alle Nutzer sichtbar");
 
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
@@ -66,6 +66,7 @@ public class ItemForm extends VerticalPanel{
 		
 		deleteButton.addClickHandler(new DeleteClickHandler());
 		topButtonsPanel.add(deleteButton);
+		
 
 		confirmButton.addClickHandler(new CreateClickHandler());
 		bottomButtonsPanel.add(confirmButton);
@@ -75,6 +76,8 @@ public class ItemForm extends VerticalPanel{
 		
 		bottomButtonsPanel.setVisible(false);
 		itemNameBox.setEnabled(false);
+		
+		
 		
 	}
 	
@@ -107,6 +110,7 @@ public class ItemForm extends VerticalPanel{
 		deleteButton.setWidth("8vh");
 		topButtonsPanel.setCellHorizontalAlignment(deleteButton, ALIGN_RIGHT);
 		
+		
 		formHeaderPanel.setHeight("8vh");
 		formHeaderPanel.setWidth("100%");
 		infoTitleLabel.setWidth("100%");
@@ -133,7 +137,7 @@ public class ItemForm extends VerticalPanel{
 		itemGrid.setCellSpacing(10);
 		itemGrid.setWidget(0, 0, itemNameLabel);
 		itemGrid.setWidget(0, 1, itemNameBox);
-		itemGrid.setWidget(0, 2, isGlobalBox);
+		itemGrid.setWidget(1, 1, isGlobalBox);
 
 		this.add(bottomButtonsPanel);
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
@@ -186,11 +190,13 @@ public class ItemForm extends VerticalPanel{
 
 	public void setTableEditable (boolean editable) {
 		if (editable == true) {
+			isGlobalBox.setVisible(true);
 			itemNameBox.setEnabled(true);
 			itemNameBox.setFocus(true);
 			bottomButtonsPanel.setVisible(true);
 			topButtonsPanel.setVisible(false);
 			}else {
+			isGlobalBox.setVisible(false);
 			itemNameBox.setEnabled(false);
 			itemNameBox.setFocus(false);
 			bottomButtonsPanel.setVisible(false);
@@ -230,6 +236,7 @@ public class ItemForm extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			setTableEditable(true);
+			isGlobalBox.setVisible(true);
 		}
 	}
 	
