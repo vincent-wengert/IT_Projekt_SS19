@@ -79,11 +79,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			//Titel des Reports
 			result.setTitle("Gruppenreport");
 			
-			//Impressum hinzufügen
+			//Impressum hinzufï¿½gen
 			this.AddImprint(result);
 			
 			/*
-			 * Erstellungsdatum des Reports durch einen Timestamp hinzufügen. 
+			 * Erstellungsdatum des Reports durch einen Timestamp hinzufï¿½gen. 
 			 */
 			result.setCreationDate(new Timestamp(System.currentTimeMillis()));
 			
@@ -98,14 +98,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			//Name der Gruppe aufnehmen
 			header.addSubParagraph(new SimpleParagraph("Gruppe: " + g.getTitle()));
 			
-			//Hinzufügen der Kopfdaten zum Report
+			//Hinzufï¿½gen der Kopfdaten zum Report
 			result.setHeaderData(header);
 			
-			//Anlegen der Kopfzeile für die Statistik-Tabelle.
+			//Anlegen der Kopfzeile fï¿½r die Statistik-Tabelle.
 			Row headline = new Row();
 			
 			/**
-			 * Im Report werden fünf Spalten benötigt: die ID des Produkts,
+			 * Im Report werden fï¿½nf Spalten benï¿½tigt: die ID des Produkts,
 			 * die Produktbezeichnung, die Einheit, die Eingekaufte Menge und das
 			 * Einkaufsdatum.
 			 */
@@ -113,14 +113,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			headline.addColumn(new Column("Produktbezeichnung"));
 			headline.addColumn(new Column("Einheit"));
 			headline.addColumn(new Column("Eingekaufte Menge"));
-			headline.addColumn(new Column("Händler"));
+			headline.addColumn(new Column("Hï¿½ndler"));
 			
 			
 			result.addRow(headline);
 			
 			/*
-			 * Auslesen sämtlicher abgehakten <code>ListItem</code>-Objekte, die dem Report 
-			 * hinzugefügt werden. Methode "getListItem 
+			 * Auslesen sï¿½mtlicher abgehakten <code>ListItem</code>-Objekte, die dem Report 
+			 * hinzugefï¿½gt werden. Methode "getListItem 
 			 * 
 			 * 
 			 */
@@ -130,11 +130,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				//Eine leere Zeile anlegen.
 				Row listItemRow = new Row();
 				
-				//erste Spalte: ID hinzufügen
+				//erste Spalte: ID hinzufï¿½gen
 				listItemRow.addColumn(new Column(String.valueOf(l.getId())));
 				
-				//zweite Spalte: Bezeichnung eintragen
-				listItemRow.addColumn(new Column(String.valueOf(l.getIt().getName())));
+				//zweite Spalte: Bezeichnung eintragen String.valueOf(l.getName()))
+				listItemRow.addColumn(new Column());
 				
 				//dritte Spalte: Einheit eintragen
 				listItemRow.addColumn(new Column(String.valueOf(l.getUnit())));
@@ -142,8 +142,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				//vierte Spalte: Anzahl, wie oft das Produkt gekauft wurde.
 				//listItemRow.addColumn(new Column(String.valueOf()));
 				
-				//fünfte Spalte: Store
-				listItemRow.addColumn(new Column(String.valueOf(l.getStore())));
+				//fï¿½nfte Spalte: Store String.valueOf(l.getStore()
+				listItemRow.addColumn(new Column());
 				
 				result.addRow(listItemRow);
 				
@@ -155,11 +155,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		
 	}
 
-	@Override
-	public ShoppingListAdministration getShoppingListAdministration(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public ItemsByPersonReport createUserStatisticsReport(Person p) throws IllegalArgumentException {
@@ -172,11 +167,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			//Titel des Reports
 			result.setTitle("Einkaufsstatistik von" + p.getName());
 			
-			//Impressum hinzufügen
+			//Impressum hinzufï¿½gen
 			this.AddImprint(result);
 			
 			/*
-			 * Erstellungsdatum des Reports durch einen Timestamp hinzufügen. 
+			 * Erstellungsdatum des Reports durch einen Timestamp hinzufï¿½gen. 
 			 */
 			result.setCreationDate(new Timestamp(System.currentTimeMillis()));
 			
@@ -191,14 +186,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			//Name der Gruppe aufnehmen
 			header.addSubParagraph(new SimpleParagraph("Person: " + p.getName()));
 			
-			//Hinzufügen der Kopfdaten zum Report
+			//Hinzufï¿½gen der Kopfdaten zum Report
 			result.setHeaderData(header);
 			
-			//Anlegen der Kopfzeile für die Statistik-Tabelle.
+			//Anlegen der Kopfzeile fï¿½r die Statistik-Tabelle.
 			Row headline = new Row();
 			
 			/**
-			 * Im Report werden fünf Spalten benötigt: die ID des Produkts,
+			 * Im Report werden fï¿½nf Spalten benï¿½tigt: die ID des Produkts,
 			 * die Produktbezeichnung, die Einheit, die Eingekaufte Menge und das
 			 * Einkaufsdatum.
 			 */
@@ -211,23 +206,24 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			result.addRow(headline);
 			
 			/*
-			 * Auslesen sämtlicher abgehakten <code>ListItem</code>-Objekte, die dem Report 
-			 * hinzugefügt werden. Methode "getListItem 
+			 * Auslesen sï¿½mtlicher abgehakten <code>ListItem</code>-Objekte, die dem Report 
+			 * hinzugefï¿½gt werden. Methode "getListItem 
 			 * 
 			 * ToDo: Methode in ShoppingListAdministration, die alle Checked ITems einer SL/Gruppe 
 			 * ermittelt.
 			 */
-			//ArrayList<ListItem> li = this.administration.getCheckedLi(p);
-			for(ListItem l : li) {
+			Group g = new Group();
+			ArrayList<ListItem> checkedListItems = this.administration.getAllCheckedItemsByGroup(g);
+			for(ListItem l : checkedListItems) {
 				
 				//Eine leere Zeile anlegen.
 				Row listItemRow = new Row();
 				
-				//erste Spalte: ID hinzufügen
+				//erste Spalte: ID hinzufï¿½gen
 				listItemRow.addColumn(new Column(String.valueOf(l.getId())));
 				
 				//zweite Spalte: Bezeichnung eintragen
-				listItemRow.addColumn(new Column(String.valueOf(l.getIt().getName())));
+				listItemRow.addColumn(new Column(String.valueOf(l.getName())));
 				
 				//dritte Spalte: Einheit eintragen
 				listItemRow.addColumn(new Column(String.valueOf(l.getUnit())));
@@ -277,12 +273,12 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		CompositeParagraph imprint = new CompositeParagraph();
 		
 		imprint.addSubParagraph(new SimpleParagraph("Hochschule der Medien"));
-		imprint.addSubParagraph(new SimpleParagraph("Nobelstraße 10 70569 Stuttgart"));
+		imprint.addSubParagraph(new SimpleParagraph("Nobelstraï¿½e 10 70569 Stuttgart"));
 		imprint.addSubParagraph(new SimpleParagraph("Telefon: 0711 8923-3242"));
 		imprint.addSubParagraph(new SimpleParagraph("E-Mail: info-wi7@hdm-stuttgart.de"));
 		imprint.addSubParagraph(new SimpleParagraph("Website: https://www.hdm-stuttgart.de/"));
 		
-		//Hinzufügen des Impressums zum Report.
+		//Hinzufï¿½gen des Impressums zum Report.
 		r.setImprint(imprint);
 		
 	}

@@ -253,22 +253,22 @@ public class ShowShoppingListForm extends VerticalPanel {
 			});
 		
 		
-		Column<ListItem, Boolean> checkColumn = new Column<ListItem, Boolean>( new CheckboxCell(true,false)) {
+		Column<ListItem, Boolean> checkColumn = new Column<ListItem, Boolean>( new CheckboxCell(true,true)) {
 			@Override
 			public Boolean getValue(ListItem object) {
 				// Get the value from the selection model
-				return multiSelectionModel.isSelected(object);
-				//return object.getChecked();
-				
+				return multiSelectionModel.isSelected(object);		
 			}
 		};
 		checkColumn.setFieldUpdater(new FieldUpdater<ListItem, Boolean>() {
-	        @Override
-	        public void update(int index, ListItem object, Boolean value) {
-	        object.setChecked(value);
-	        administration.checkListItem(object.getId(), value, new CheckListItemCallback());
-	        }
-	    });
+
+			@Override
+			public void update(int arg0, ListItem arg1, Boolean arg2) {
+				// TODO Auto-generated method stub
+				Notification.show("update");
+		        administration.checkListItem(arg1.getId(), arg2, new CheckListItemCallback());
+			}
+		});
 		
 		
 		
@@ -353,7 +353,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 			dataProvider.getList().clear();
 			shoppingListToDisplay = sl;
 			infoTitleLabel.setText(sl.getTitle());
-			//loadListitems();
 		} else {
 			this.clear();
 		}
@@ -473,8 +472,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 		public void onSuccess(ArrayList<Store> result) {
 			// TODO Auto-generated method stub
 			allStores = result;
-
-
 		}
 	}
 	
