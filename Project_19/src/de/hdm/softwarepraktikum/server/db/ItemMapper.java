@@ -165,6 +165,7 @@ public class ItemMapper {
 				i.setName(rs.getString("name"));
 				i.setIsGlobal(rs.getBoolean("isglobal"));
 				
+				
 				return i;		
 	}
 		}catch (SQLException e) {
@@ -183,13 +184,16 @@ public class ItemMapper {
 		//Ergebnisvektor vorbereiten
 		ArrayList<Item> result = new ArrayList<Item>();
 		
+		// Hier noch Person_ID einfügen
+		int id = 1;
+		
 		Connection con = DBConnection.connection();
 		try {
 			
 			Statement stmt = con.createStatement();
 			
 			ResultSet rs = stmt
-					.executeQuery("SELECT Item_ID, Name, isGlobal " + "FROM Item " + "ORDER BY Name");
+					.executeQuery("SELECT * FROM Item WHERE Item.IsGlobal = true  OR Item.IsGlobal = false AND Item.Owner_ID=" + id);
 			
 			// F�r jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
 			while(rs.next()) {
