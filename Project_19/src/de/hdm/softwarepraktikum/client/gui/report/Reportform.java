@@ -142,7 +142,6 @@ public class Reportform {
 		private class getInformationClickHandler implements ClickHandler {
 
 			public void onClick(ClickEvent event) {
-				Window.alert("test");
 				storeListBox.getSelectedItemText();
 				fromDateBox.getValue().toString();
 				toDateBox.getValue().toString();
@@ -159,14 +158,13 @@ public class Reportform {
 						writer.process(result);
 						HTML content = new HTML(writer.getReportText());
 						RootPanel.get("Result").add(content); 	
-						Window.alert("print");
 						
 					}
 					
 					@Override
 					public void onFailure(Throwable caught) {
 						// TODO Auto-generated method stub
-						Window.alert("test2");
+						Notification.show(caught.toString());
 					}
 				});
 				
