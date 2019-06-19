@@ -206,11 +206,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * @throws IllegalArgumentException
 	 */
 	
-	public ArrayList<ShoppingList> getShoppingListsOf (Person p) throws IllegalArgumentException {
-		ArrayList<ShoppingList> sls = personMapper.getShoppingListsOf(p);
-		
-		return sls;
-	}
+
 	
 	public ArrayList<Person> findByName (String name) throws IllegalArgumentException {
 		ArrayList<Person> prs = personMapper.findByName(name);
@@ -544,11 +540,6 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	}
 
 
-	@Override
-	public ArrayList<ShoppingList> getAllShoppingListsByPerson(Person p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return this.shoppingListMapper.findByMember(p);
-	}
 
 	
 	// Methode um ein ListItem einer ShoppingList hinzuzufÃ¼gen
@@ -734,7 +725,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	@Override
 	public void deleteGroup(Group g) {
 		
-		//loeschen der zugehörigen Shoppinglists, Responsibilities, ListItems
+		//loeschen der zugehï¿½rigen Shoppinglists, Responsibilities, ListItems
 		
 		ArrayList<ShoppingList> result = groupMapper.getShoppingListsPerGroup(g);
 		
@@ -764,6 +755,13 @@ private FavoriteItemMapper favoriteItemMapper = null;
 			groupMapper.delete(g);
 		
 		
+	}
+
+
+	@Override
+	public ArrayList<ShoppingList> getAllShoppingListsByPerson(Person p) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
