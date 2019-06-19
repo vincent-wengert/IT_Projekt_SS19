@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -15,6 +16,7 @@ import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.TreeViewModel;
+
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
@@ -23,7 +25,7 @@ import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 public class CustomTreeModel implements TreeViewModel {
 	
-	private ShoppingListAdministrationAsync administration = null;
+	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();;
 
 	private ObjectKeyProvider boKeyProvider = new ObjectKeyProvider();
 	private SingleSelectionModel<Object> selectionModel = new SingleSelectionModel<Object>(boKeyProvider);
@@ -31,6 +33,7 @@ public class CustomTreeModel implements TreeViewModel {
 	private GroupForm gf;
 	private ShowShoppingListForm sslf;
 	private NewShoppingListForm nslf;
+	private CellTree tree = null;
 
 	private ShoppingList selectedShoppingList = null;
 	private Group groupToDisplay = null;
@@ -57,7 +60,6 @@ public class CustomTreeModel implements TreeViewModel {
 
 	public CustomTreeModel() {
 		p.setId(1);
-		administration = ClientsideSettings.getShoppinglistAdministration();
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEventHandler());
 		shoppingListHolderDataProviders = new HashMap<Group, ListDataProvider<ShoppingList>>();
 	}
@@ -106,8 +108,6 @@ public class CustomTreeModel implements TreeViewModel {
 		
 	}
 	
-	
-	
 	public void setSelectedShoppingList(ShoppingList sl) {
 		RootPanel.get("Details").clear();
 		selectedShoppingList = sl;
@@ -131,34 +131,28 @@ public class CustomTreeModel implements TreeViewModel {
 		selectionModel.setSelected(g, true);
 	}
 	
-	public void updateAdddedShoppingList(ShoppingList sl, Group g) {
-		this.selectedShoppingList = sl;
-		Window.alert(sl.getTitle());
-		Window.alert(g.getTitle());
-		if (shoppingListHolderDataProviders.containsKey(selectedShoppingList)) {
-			return;
-		}
-		 administration.getAllShoppingListsByGroup(g, new AsyncCallback<ArrayList<ShoppingList>>() {
+	public void updateShoppingListToGroup(ShoppingList sl, Group g) {
+		//node des celltrees oeffnen
+		tree.getRootTreeNode().setChildOpen(groupsDataProvider.getList().indexOf(g), true);
+		
+		//alle dataprovider für shoppinglists aktualisieren
+		for(Group group: shoppingListHolderDataProviders.keySet()) {
+			final Group tempg = group;
+			administration.getAllShoppingListsByGroup(group, new AsyncCallback<ArrayList<ShoppingList>>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(ArrayList<ShoppingList> result) {
-				// TODO Auto-generated method stub
-				ListDataProvider<ShoppingList> shoppingListProvider = shoppingListHolderDataProviders.get(selectedShoppingList);
-				for(ShoppingList sl : result) {
-					ShoppingList sl1 = new ShoppingList();
-					sl1 = sl;
-					shoppingListProvider.getList().add(sl1);
+				@Override
+				public void onFailure(Throwable caught) {
+					Notification.show("failed");
 				}
-				selectionModel.setSelected(shoppingListProvider.getList().get(shoppingListProvider.getList().size()), true);
-				shoppingListHolderDataProviders.get(selectedShoppingList).refresh();
-			}
-		});	
+
+				@Override
+				public void onSuccess(ArrayList<ShoppingList> result) {
+					shoppingListHolderDataProviders.get(tempg).getList().clear();
+					shoppingListHolderDataProviders.get(tempg).getList().addAll(result);
+					shoppingListHolderDataProviders.get(tempg).refresh();
+				}
+			});
+		}
 	}
 		
 	/**
@@ -206,7 +200,7 @@ public class CustomTreeModel implements TreeViewModel {
 			
 			final ListDataProvider<ShoppingList> shoppinglistProvider = new ListDataProvider<ShoppingList>();
 			
-			shoppingListHolderDataProviders.put((Group)value, shoppinglistProvider); 
+			shoppingListHolderDataProviders.put((Group)value, shoppinglistProvider);
 			
 			administration.getAllShoppingListsByGroup((Group)value, new AsyncCallback<ArrayList<ShoppingList>>() {
 
@@ -313,6 +307,11 @@ public class CustomTreeModel implements TreeViewModel {
 			
 			}
 		}	
+	}
+
+
+	public void setTree(CellTree tree) {
+		this.tree = tree;
 	}
 	
 }

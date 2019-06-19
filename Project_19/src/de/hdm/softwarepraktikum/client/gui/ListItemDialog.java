@@ -264,7 +264,7 @@ public class ListItemDialog extends PopupPanel {
 			if(updateItem == false) {
 			if (existingButton.getValue()==true ) {
 				getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
-				administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new createListItemCallback());
+				administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Double.parseDouble(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new createListItemCallback());
 			}
 			else if (newButton.getValue()==true ) {
 				administration.createItem(itemTextBox.getText(), true, new CreateItemListItemCallback());
@@ -274,7 +274,7 @@ public class ListItemDialog extends PopupPanel {
 
 			getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
 			
-			selectedListItem.setAmount(Integer.parseInt(amountTextBox.getText()));
+			selectedListItem.setAmount(Double.parseDouble(amountTextBox.getText()));
 			selectedListItem.setStoreID(selectedStore.getId());
 			selectedListItem.setBuyerID(selectedPerson.getId());
 			selectedListItem.setUnit(getItemUnit(unitListBox.getSelectedItemText()));
@@ -476,7 +476,7 @@ public class ListItemDialog extends PopupPanel {
 		public void onSuccess(Item result) {
 			// TODO Auto-generated method stub
 			getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
-			administration.createListItem(result, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new AsyncCallback<ListItem>() {
+			administration.createListItem(result, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Double.parseDouble(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new AsyncCallback<ListItem>() {
 			//administration.createListItem(result, selectedPerson.getId(), selectedStore.getId(), 1, 1, Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new AsyncCallback<ListItem>() {
 
 				@Override

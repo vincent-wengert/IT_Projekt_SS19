@@ -199,6 +199,8 @@ public class MenuPanel extends VerticalPanel{
 			RootPanel.get("Details").clear();
 			newShoppingListForm = new NewShoppingListForm();
 			newShoppingListForm.setAllShoppingListCelllist(allShoppingListsCellList);
+			
+			newShoppingListForm.setCtm(ctm);
 			RootPanel.get("Details").add(newShoppingListForm);
 			navigator.selectTab(0);
 		}	

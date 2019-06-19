@@ -422,7 +422,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	class DeleteShoppingListClickHandler implements ClickHandler {
 		
 		public void onClick(ClickEvent event) {
-			if(Window.confirm("") == true) {
+			if(Window.confirm("Wollen Sie wirklich entfernen?") == true) {
 				administration.deleteShoppingList(shoppingListToDisplay, new DeleteShoppinglistCallback());
 			}
 		}

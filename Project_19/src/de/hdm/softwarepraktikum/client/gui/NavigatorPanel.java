@@ -68,7 +68,6 @@ private CellTree tree = new CellTree(model, null);
   * Diese Methode wird aufgerufen, sobald ein Objekt dieser Klasse instanziert wird. 
   */
 public void onLoad() {
-	
 	SearchFormArticles sfa = new SearchFormArticles();
 	itemsGrid.setWidget(0, 0, sfa);
 	
@@ -100,6 +99,7 @@ public void onLoad() {
     sslf.setCtm(model);
     model.setNewShoppingListForm(nslf);
     nslf.setCtm(model);
+    model.setTree(tree);
 
     aicl.setItemForm(itemForm);
     itemForm.setAllItemsCelllist(aicl);

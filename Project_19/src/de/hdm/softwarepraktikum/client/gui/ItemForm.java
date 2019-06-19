@@ -1,5 +1,7 @@
 package de.hdm.softwarepraktikum.client.gui;
 
+import java.util.ArrayList;
+
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,6 +19,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Item;
+import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 
 
@@ -37,9 +40,10 @@ public class ItemForm extends VerticalPanel{
 	private HorizontalPanel topButtonsPanel = new HorizontalPanel();
 
 	private Item itemToDisplayProduct = null;
+	private ArrayList<ListItem> allListItems = new ArrayList<ListItem>();
+	
 	private Label infoTitleLabel = new Label("Artikel");
 	private Label itemNameLabel = new Label("Name des Artikels");
-
 	private TextBox itemNameBox = new TextBox();
 
 	private Button confirmButton = new Button("\u2714");
@@ -54,6 +58,7 @@ public class ItemForm extends VerticalPanel{
 	private Boolean isFavorite = false;
 	private static ItemForm itemForm = null;
 	private AllItemsCellList aicl = null;
+	
 
 	public ItemForm() {
 		favButton.addClickHandler(new FavClickHandler());
