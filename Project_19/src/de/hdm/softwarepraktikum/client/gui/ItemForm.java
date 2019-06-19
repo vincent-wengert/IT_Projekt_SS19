@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -41,13 +42,14 @@ public class ItemForm extends VerticalPanel{
 	private Label itemNameLabel = new Label("Name des Artikels");
 
 	private TextBox itemNameBox = new TextBox();
+	private CheckBox isGlobalBox = new CheckBox("Global Status");
 
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
 	private Button favButton = new Button();
 	private Button editButton = new Button();
 	private Button deleteButton = new Button();
-	private Grid itemGrid = new Grid(2,2);
+	private Grid itemGrid = new Grid(3,3);
 
 	private Boolean editable;
 	private Boolean initial;
@@ -73,6 +75,7 @@ public class ItemForm extends VerticalPanel{
 		
 		bottomButtonsPanel.setVisible(false);
 		itemNameBox.setEnabled(false);
+		
 	}
 	
 	
@@ -130,6 +133,7 @@ public class ItemForm extends VerticalPanel{
 		itemGrid.setCellSpacing(10);
 		itemGrid.setWidget(0, 0, itemNameLabel);
 		itemGrid.setWidget(0, 1, itemNameBox);
+		itemGrid.setWidget(0, 2, isGlobalBox);
 
 		this.add(bottomButtonsPanel);
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
@@ -175,6 +179,7 @@ public class ItemForm extends VerticalPanel{
 		if(i != null) {
 			infoTitleLabel.setText("AusgewÃ¤hlter Artikel: " + i.getName());
 			itemNameBox.setText(i.getName());
+			isGlobalBox.setValue(i.getIsGlobal());
 			setTableEditable(false);
 		}
 	}
@@ -212,7 +217,7 @@ public class ItemForm extends VerticalPanel{
 
 			if(isFavorite = true) {
 				//shoppinglistAdministration.addFavoriteItem(i, g, callback);
-				Notification.show("Artikel wurde zu den Favoriten hinzugefügt.");	
+				Notification.show("Artikel wurde zu den Favoriten hinzugefï¿½gt.");	
 			} else {
 				//shoppinglistAdministration.removeFavoriteItem(i, g, callback);
 				Notification.show("Artikel wurde aus den Favoriten entfernt.");
@@ -256,10 +261,11 @@ public class ItemForm extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 		
 			if (initial == true) {
-			shoppinglistAdministration.createItem(itemNameBox.getText(), true, new CreateItemCallback());
+			shoppinglistAdministration.createItem(itemNameBox.getText(), isGlobalBox.getValue(), new CreateItemCallback());
 			} else {
 			itemToDisplayProduct.setName(itemNameBox.getText());
-			shoppinglistAdministration.updateItem(itemToDisplayProduct, new UpdateItemCallback());	
+			itemToDisplayProduct.setIsGlobal(isGlobalBox.getValue());
+			shoppinglistAdministration.updateItem(itemToDisplayProduct, new UpdateItemCallback());
 			}
 			setTableEditable(false);
 		}
