@@ -133,7 +133,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				listItemRow.addColumn(new Column(String.valueOf(l.getId())));
 				
 				//zweite Spalte: Bezeichnung eintragen
-				listItemRow.addColumn(new Column(String.valueOf(l.getIt().getName())));
+				listItemRow.addColumn(new Column(String.valueOf(l.getId().getName())));
 				
 				//dritte Spalte: Einheit eintragen
 				listItemRow.addColumn(new Column(String.valueOf(l.getUnit())));
@@ -237,7 +237,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				listItemRow.addColumn(new Column(String.valueOf(l.getId())));
 				
 				//zweite Spalte: Bezeichnung eintragen
-				listItemRow.addColumn(new Column(String.valueOf(l.getIt().getName())));
+				listItemRow.addColumn(new Column(String.valueOf(l.getId().getName())));
 				
 				//dritte Spalte: Einheit eintragen
 				listItemRow.addColumn(new Column(String.valueOf(l.getUnit())));
