@@ -1,9 +1,12 @@
 package de.hdm.softwarepraktikum.client.gui.report;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.layout.client.Layout.Alignment;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -14,7 +17,15 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 
+import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.client.gui.Footer;
+import de.hdm.softwarepraktikum.client.gui.ListItemDialog;
+import de.hdm.softwarepraktikum.client.gui.Notification;
+
+import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
+import de.hdm.softwarepraktikum.shared.bo.Item;
+import de.hdm.softwarepraktikum.shared.bo.ListItem;
+import de.hdm.softwarepraktikum.shared.bo.Store;
 
 /**
  * Diese Klasse bildet die Hauptform des ReportGenerator Clients. Hier werden alle relevanten HTML-Layout Elemente
@@ -26,7 +37,7 @@ import de.hdm.softwarepraktikum.client.gui.Footer;
  */
 
 public class Reportform {
-	
+	    private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	    private HorizontalPanel menu = new HorizontalPanel();
 		private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 		
@@ -35,7 +46,7 @@ public class Reportform {
 		
 		private Label infoTitleLabel = new Label("Report auswählen");
 
-		private Grid selectionGrid = new Grid(2,3);
+		private Grid selectionGrid = new Grid(2,5);
 		
 		private Label fromLabel = new Label("Zeitraum von");
 		private Label toLabel = new Label("bis");
@@ -43,11 +54,16 @@ public class Reportform {
 		private DateBox fromDateBox = new DateBox();
 		private DateBox toDateBox = new DateBox();
 		private ListBox storeListBox = new ListBox();
+		private Label groupLabel = new Label("Gruppe auswählen");
+		private ListBox groupListBox = new ListBox();
 		
 		private Button reportperson = new Button("Alle Artikel");
+		private Button los = new Button("Los");
 		
 		private ReportbyPerson rbp;
 		
+		private ArrayList<Store> allStores;
+		private ArrayList<Item> filteredItems;
 		
 	  public void loadReportGenerator() {
 		//Divs laden
@@ -63,6 +79,8 @@ public class Reportform {
 			infoTitleLabel.setStylePrimaryName("infoTitleLabel");
 			
 			
+			
+			
 			formHeaderPanel.add(infoTitleLabel);
 			formHeaderPanel.setWidth("100%");
 			formHeaderPanel.setHeight("8vh");
@@ -73,9 +91,14 @@ public class Reportform {
 			selectionGrid.setWidget(1, 1, fromDateBox);
 			selectionGrid.setWidget(0, 2, toLabel);
 			selectionGrid.setWidget(1, 2, toDateBox);
+			selectionGrid.setWidget(0, 3, groupLabel);
+			selectionGrid.setWidget(1, 3, groupListBox);
+			selectionGrid.setWidget(1, 4, los);
+			
 			
 			
 			storeListBox.setWidth("20vw");
+			groupListBox.setWidth("20vw");
 			
 			menu.add(selectionGrid);
 //			menu.setCellHorizontalAlignment(selectionGrid, ALIGN_CENTER);
@@ -87,12 +110,16 @@ public class Reportform {
 			reportperson.addClickHandler(new AddReportpersonClickHandler());
 			reportperson.setPixelSize(80, 80);
 			
+			los.addClickHandler(new getInformationClickHandler());
+			
 			
 
 			RootPanel.get("Selection").add(formHeaderPanel);
 			RootPanel.get("Selection").add(menu);
 			menu.setWidth("100%");
 			menu.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+			
+			administration.getAllStores(new GetAllStoresCallback());
 			
 //			RootPanel.get("footer").add(footer);
 			
@@ -101,6 +128,25 @@ public class Reportform {
 	  
 	  /**
 		 * ClickHandler Klasse zum Aufrufen der <code>AllContactReportForm</code>.
+		 */
+		
+		private class getInformationClickHandler implements ClickHandler {
+
+			public void onClick(ClickEvent event) {
+				
+				storeListBox.getSelectedItemText();
+				fromDateBox.getValue().toString();
+				toDateBox.getValue().toString();
+				groupListBox.getSelectedItemText();
+				
+				administration.getAllItems(new GetAllItemsCallback());
+				
+			}
+		}
+
+		
+		 /**
+		 * ClickHandler Klasse zum Abfragen der Daten !
 		 */
 		
 		private class AddReportpersonClickHandler implements ClickHandler {
@@ -113,6 +159,57 @@ public class Reportform {
 				RootPanel.get("Result").add(rbp);
 			}
 		}
+		
+		private class GetAllStoresCallback implements AsyncCallback<ArrayList<Store>> {
 
+			@Override
+			public void onFailure(Throwable caught) {
+				Notification.show(caught.toString());
+			}
+			
+			@Override
+			public void onSuccess(ArrayList<Store> result) {
+				// TODO Auto-generated method stub
+				allStores = result;
+				for(Store store: allStores) {
+					storeListBox.addItem(store.getName());
+					}
+				
+				
+				//if (ListItemDialog.this.selectedListItem != null) {
+					//ListItem li = ListItemDialog.this.selectedListItem;
+//				for (Store store : allStores) {
+//					if (store.getId() == li.getStoreID()) {
+//						int indexToFind = -1;
+//
+//						for (int s = 0; s < allStores.size(); s++) {
+//
+//							if (storeListBox.getItemText(s).equals(store.getName())) {
+//								indexToFind = s;
+//								break;
+//							}
+//						}
+//						storeListBox.setSelectedIndex(indexToFind);
+//					}
+//				}
+			//}
+		}
+	}	
+		
+		private class GetAllItemsCallback implements AsyncCallback<ArrayList<Item>> {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Notification.show(caught.toString());
+			}
+			
+			@Override
+			public void onSuccess(ArrayList<Item> result) {
+				// TODO Auto-generated method stub
+				
+				filteredItems = result;
+
+			}
+		}
 	
 }
