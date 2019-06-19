@@ -9,6 +9,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -16,18 +17,19 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
-
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.client.gui.Footer;
 import de.hdm.softwarepraktikum.client.gui.ListItemDialog;
 import de.hdm.softwarepraktikum.client.gui.Notification;
-
+import de.hdm.softwarepraktikum.shared.ReportGeneratorAsync;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Store;
+import de.hdm.softwarepraktikum.shared.report.HTMLReportWriter;
+import de.hdm.softwarepraktikum.shared.report.ItemsByGroupReport;
 
 /**
  * Diese Klasse bildet die Hauptform des ReportGenerator Clients. Hier werden alle relevanten HTML-Layout Elemente
@@ -40,6 +42,7 @@ import de.hdm.softwarepraktikum.shared.bo.Store;
 
 public class Reportform {
 	    private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
+	    private ReportGeneratorAsync reportadministration = ClientsideSettings.getReportGenerator();
 	    private HorizontalPanel menu = new HorizontalPanel();
 		private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 		
@@ -109,7 +112,7 @@ public class Reportform {
 			menu.setStylePrimaryName("menue");
 			menu.add(reportperson);
 			
-			reportperson.setStylePrimaryName("reportButton");
+			reportperson.setStylePrimaryName("reportButton");              
 			reportperson.addClickHandler(new AddReportpersonClickHandler());
 			reportperson.setPixelSize(80, 80);
 			
@@ -139,13 +142,33 @@ public class Reportform {
 		private class getInformationClickHandler implements ClickHandler {
 
 			public void onClick(ClickEvent event) {
-				
+				Window.alert("test");
 				storeListBox.getSelectedItemText();
 				fromDateBox.getValue().toString();
 				toDateBox.getValue().toString();
 				groupListBox.getSelectedItemText();
 				
-				administration.getAllItems(new GetAllItemsCallback());
+				Group g = new Group();
+				reportadministration.createGroupStatisticsReport(g, new AsyncCallback<ItemsByGroupReport>() {
+					
+					@Override
+					public void onSuccess(ItemsByGroupReport result) {
+					Notification.show("Report wurde erstellt");
+						// TODO Auto-generated method stub
+						HTMLReportWriter writer = new HTMLReportWriter();
+						writer.process(result);
+						HTML content = new HTML(writer.getReportText());
+						RootPanel.get("Result").add(content); 	
+						Window.alert("print");
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						Window.alert("test2");
+					}
+				});
 				
 				
 			}
@@ -169,6 +192,7 @@ public class Reportform {
 			}
 		}
 		
+
 		private class GetAllStoresCallback implements AsyncCallback<ArrayList<Store>> {
 
 			@Override

@@ -87,8 +87,7 @@ public class ReportbyGroup extends VerticalPanel{
 		
 		printReportButton.addClickHandler(new OutputClickHandler());
 		back.addClickHandler(new BackClickHandler());
-		
-		report.ge
+	
 
 		RootPanel.get("Selection").add(reportHeaderPanel);
 

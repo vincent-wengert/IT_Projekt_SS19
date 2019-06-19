@@ -213,7 +213,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			header.addSubParagraph(new SimpleParagraph("Person: " + p.getName()));
 			
 			//Hinzuf�gen der Kopfdaten zum Report
-			result.setHeaderData(header);
+			result.setHeader(header);
 			
 			//Anlegen der Kopfzeile f�r die Statistik-Tabelle.
 			Row headline = new Row();
@@ -236,7 +236,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			 * Auslesen s�mtlicher abgehakten <code>ListItem</code>-Objekte, die dem Report 
 			 * hinzugef�gt werden. Methode "getListItem 
 			 * 
-<<<<<<< HEAD
 			 * 
 			 */
 			ArrayList<ListItem> li = this.administration.getAllCheckedItemsByGroup(g);
@@ -266,11 +265,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			}
 			
 			return result;
-		
-		
 	}
 
 
+	
 
 	@Override
 	public ArrayList<Item> getAllItems(int id) throws IllegalArgumentException {
@@ -359,7 +357,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
    	     * Auslesen s�mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugef�gt werden.
    	     */
     	for(Item i : items) {
-    			
+    			System.out.println("item");
     		
 				
 				//Eine leere Zeile anlegen.
