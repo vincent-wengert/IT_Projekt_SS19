@@ -178,18 +178,28 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			 * Erstellungsdatum des Reports durch einen Timestamp hinzufügen. 
 			 */
 			result.setCreationDate(new Timestamp(System.currentTimeMillis()));
-			//Methode getAllItemsByGroup kommt noch
+		
+			
+			/**
+			 * TO DO: Bezug zu Store und Zeitraum!
+			 */
 			ArrayList<ListItem> relevantitems = new ArrayList<ListItem>();
+			
 			ArrayList<ShoppingList> alllists = this.administration.getAllShoppingListsByPerson(p);
 			ArrayList<ListItem> checkedbySL = this.administration.getAllCheckedItemsBySL(sl);
 			ArrayList<Responsibility> resByPerson = this.administration.getResponsibilityByPerson(p);
-			for(ListItem li: checkedbySL) {
-				for(Person p1: this.administration.getAllPersons()) {
-				if(p1.getId() == p.getId() && relevantitems.contains(li) == false) {
-						relevantitems.add(li);
+			
+			for(Person p1: this.administration.getAllPersons()) {
+				for(ShoppingList sl : alllists) {
+					for(ListItem li: checkedbySL) {
+						for(Responsibility re: resByPerson) {
+							if(p1.getId() == p.getId() && p.getId() == re.getBuyerID() && relevantitems.contains(li) == false ) {
+								relevantitems.add(li);
+							}
+						}
+					}
 				}
-				}
-			}
+			}	
 			
 			
 			/*
