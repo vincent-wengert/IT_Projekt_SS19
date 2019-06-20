@@ -323,6 +323,46 @@ public class ShowShoppingListForm extends VerticalPanel {
 		cellTable.addColumnSortHandler(columnSortHandler);
 
 		cellTable.getColumnSortList().push(nameColumn);
+		
+		/*
+		 * Store Column sortierbarkeit aktivieren.
+		 */
+		
+		storeColumn.setSortable(true);
+		
+		/*
+		 * ColumnSortEvent.ListHandler hinzufügen
+		 */
+		
+		ListHandler<ListItem> columnSortHandler2 = new ListHandler<ListItem>(dataProvider.getList());
+		columnSortHandler2.setComparator(storeColumn, new Comparator<ListItem>() {
+			@Override
+			public int compare(ListItem o1, ListItem o2) {
+				if (o1 == o2) {
+					return 0;
+				}
+				
+				//Die Store columns vergleichen.
+				
+				String a = new String();
+				a = Integer.toString(o1.getStoreID());
+				
+				String b = new String();
+				b = Integer.toString(o2.getStoreID());
+				
+				if (o1 != null) {
+					if (o2 != null) {
+						return a.compareTo(b);
+					
+				}
+				}
+				return -1;
+			}	
+		});
+		
+		cellTable.addColumnSortHandler(columnSortHandler2);
+		
+		cellTable.getColumnSortList().push(storeColumn);		
 
 		shoppingListPanel.add(cellTable);
 
