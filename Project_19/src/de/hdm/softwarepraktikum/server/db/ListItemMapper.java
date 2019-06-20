@@ -8,12 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
-
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
-
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
-
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 
