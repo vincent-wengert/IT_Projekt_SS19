@@ -282,7 +282,7 @@ body{
 	
 }
 
-.favButton{
+.FavoriteItemFalse{
 	
 	outline:none !important;
 	border: none;
@@ -293,7 +293,7 @@ body{
 	background-size: cover;
 }
 
-.favButton:hover{
+.FavoriteItemFalse:hover{
 	
 	border:solid black 1px;
 	cursor: pointer;
@@ -304,7 +304,7 @@ body{
 	background-size: 60%;
 }
 
-.favButtonClick{
+.FavoriteItemTrue{
 	
 	outline:none !important;
 	border: none;
@@ -313,6 +313,17 @@ body{
 	background-repeat:no-repeat;
 	background-position: center center;
 	background-size: cover;
+}
+
+.FavoriteItemTrue:hover{
+	
+	border:solid black 1px;
+	cursor: pointer;
+	background-color:#6f7277;
+	background-image: url("images/favButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+	background-size: 60%;
 }
 
 .editButton{
@@ -332,6 +343,25 @@ body{
 	cursor: pointer;
 	background-color:#6f7277;
 	background-image: url("images/editButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+.selectGroupButton{
+	background-color: #6f7277;
+	border: solid black 1px;
+	margin: 15px;
+	background-image: url("images/addListItem.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+
+.selectGroupButton:hover{
+	border: solid white 2px;
+	cursor: pointer;
+	margin: 15px;
+	background-color:#6f7277;
+	background-image: url("images/addListItem.png");
 	background-repeat:no-repeat;
 	background-position: center center;
 }

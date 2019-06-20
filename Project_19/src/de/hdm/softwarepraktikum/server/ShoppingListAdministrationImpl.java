@@ -311,7 +311,16 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 */
 	
 	public ArrayList<Item> getAllItems() throws IllegalArgumentException{
-		return this.itemMapper.findAll();
+		
+		ArrayList<Item> allItems = this.itemMapper.findAll();
+		Group group = new Group();
+		group.setId(1);
+		
+		for (Item item : allItems) {
+			item.setFavorite(this.favoriteItemMapper.checkFav(item, group));
+		}
+		
+		return allItems;
 		
 	}
 	
@@ -575,13 +584,13 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		return favItems;
 	}
 	
-	public boolean checkFavorite(Item i, Group g) throws IllegalArgumentException {
-		
-		Boolean isFav = favoriteItemMapper.checkFav(i, g);
-		return isFav;
-		
-	}
 	
+	@Override
+	public Boolean checkFav(Group group, Item i) throws IllegalArgumentException{
+		Boolean isFav = favoriteItemMapper.checkFav(i, group);
+		return isFav;
+	}
+
 	/*
 	   * ***************************************************************************
 	   * ABSCHNITT, Ende: Methoden für FavoriteItem-Objekte
@@ -763,6 +772,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 
 

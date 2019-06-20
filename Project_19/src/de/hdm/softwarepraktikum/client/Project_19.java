@@ -47,12 +47,15 @@ public class Project_19 implements EntryPoint {
 		 * Methode wird zu Beginn des Seitenaufrufs abgerufen
 		 */
 		public void onModuleLoad() {
+			
+			ShoppingListEditor editor = new ShoppingListEditor();
+			editor.loadForms();
 			/*
 			 * Über diese Methoden werden Instanzen der Asynchronen Interfaces gebildet
 			 */
-			loginService = ClientsideSettings.getLoginService();
-			
-			loginService.login(GWT.getHostPageBaseURL()+"Project_19.html" , new loginServiceCallback());
+//			loginService = ClientsideSettings.getLoginService();
+//			
+//			loginService.login(GWT.getHostPageBaseURL()+"Project_19.html" , new loginServiceCallback());
 				
 		}
 		

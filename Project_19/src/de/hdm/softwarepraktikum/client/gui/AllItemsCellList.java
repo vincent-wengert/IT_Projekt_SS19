@@ -117,14 +117,13 @@ public class AllItemsCellList extends VerticalPanel{
 	    public void render(Context context, Item key, SafeHtmlBuilder sb) {
 	    	if (context != null) {
 	       
-//	        if (key.isFavroite==true) {
-//	    		 sb.appendHtmlConstant("&#9733");
-	        	//9734 fur leeres
-	        //} else {
-//	    		 sb.appendHtmlConstant("&#9734");
-//	    	}
+	        if (key.getIsFavorite()==true) {
+	        	sb.appendHtmlConstant("&#9733");
+	    		 
+	        } else {
+	        	sb.appendHtmlConstant("&#9734");
+	    	}
 	        	 sb.appendHtmlConstant(key.getName());
-	        	 sb.appendHtmlConstant("&#9733");
 	      }
 	    }
 	}

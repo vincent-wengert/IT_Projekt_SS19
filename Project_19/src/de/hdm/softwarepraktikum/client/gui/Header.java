@@ -1,15 +1,26 @@
 package de.hdm.softwarepraktikum.client.gui;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
+import de.hdm.softwarepraktikum.shared.bo.Group;
+import de.hdm.softwarepraktikum.shared.bo.Person;
 
 /**
  * Die <code>Header</code>-Klasse ist der Kopfbereich des Shoppinglisttool. 
@@ -23,17 +34,23 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Header extends HorizontalPanel{
 
+		private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	
 	 	private HorizontalPanel homeButtonPanel = new HorizontalPanel();
+	 	private HorizontalPanel groupPanel = new HorizontalPanel();
 	 	private VerticalPanel personPanel = new VerticalPanel();
 	 	private HorizontalPanel topPanel = new HorizontalPanel();
 	 	
-
+	 	private ListBox groupListBox = new ListBox();
+	 	private Button confirmButton = new Button("Bestätigen");
 	 	private Button editorButton = new Button ("Editor");
 	 	private Button reportGeneratorButton = new Button("Reportgenerator");
 	 	private Image logo = new Image ();
 	 	private Label userLabel = new Label();
 	 	private Anchor reportGeneratorLink = new Anchor("ReportGenerator");
+	 	
+	 	private Group selectedGroup = new Group();
+	 	private ArrayList<Group> allGroups = new ArrayList<Group>();
 
 
 	 	/**
@@ -41,16 +58,23 @@ public class Header extends HorizontalPanel{
 	 	 * und zu den Buttons die ClickHandler hinzugefügt.
 	 	 */
 	 	public Header() {
+	 		
 	 	
 	 		personPanel.add(userLabel);
+	 		
+	 		groupPanel.add(groupListBox);
+	 		groupPanel.add(confirmButton);
+	 		
+//	 		topPanel.add(groupPanel);
 	 		topPanel.add(homeButtonPanel);
 	 		topPanel.add(personPanel);
-	 		topPanel.add(personPanel);
 	 		
+	 		this.add(groupPanel);
 	 		this.add(topPanel);
 
 	 		editorButton.addClickHandler(new HomeClickHandler());
-	 		reportGeneratorButton.addClickHandler(new ReportGeneratorClickHandler() );
+	 		reportGeneratorButton.addClickHandler(new ReportGeneratorClickHandler());
+	 		confirmButton.addClickHandler(new groupListBoxSelectionClickHandler());
 	 	}
 
 	 	
@@ -60,11 +84,13 @@ public class Header extends HorizontalPanel{
 	 	 * des Shoppinglisttool hinzugefügt. 
 	 	 */
 	 	public void onLoad() {
-
+	 		loadGroups();
 
 	 		this.setStylePrimaryName("headerPanel");
 	 		this.setHeight("10vh");
 	 		this.setWidth("100%");
+
+	 		groupListBox.setWidth("10vw");
 	 		
 	 		homeButtonPanel.add(editorButton);
 	 		homeButtonPanel.add(reportGeneratorButton);
@@ -72,25 +98,62 @@ public class Header extends HorizontalPanel{
 	 		
 	 		editorButton.setWidth("15vw");
 	 		editorButton.setHeight("10vh");
-
 	 		
 	 		reportGeneratorButton.setWidth("15vw");
 	 		reportGeneratorButton.setHeight("10vh");
 	 		
 	 		homeButtonPanel.setStylePrimaryName("homeButtonPanel");
+	 		confirmButton.setStylePrimaryName("selectGroupButton");
 	 		editorButton.setStylePrimaryName("editorButton");
 	 		reportGeneratorButton.setStylePrimaryName("reportGeneratorButton");
 	 		personPanel.setStylePrimaryName("userPanel");
 
+	 		
+	 		groupPanel.setCellHorizontalAlignment(groupListBox, ALIGN_LEFT);
+	 		groupPanel.setCellVerticalAlignment(groupListBox, ALIGN_MIDDLE);
+	 		groupPanel.setCellHorizontalAlignment(confirmButton, ALIGN_LEFT);
+	 		groupPanel.setCellVerticalAlignment(confirmButton, ALIGN_MIDDLE);
 	 		homeButtonPanel.setCellHorizontalAlignment(editorButton, ALIGN_LEFT);
 	 		homeButtonPanel.setCellHorizontalAlignment(reportGeneratorButton, ALIGN_RIGHT);
+	 	
 	 		topPanel.setCellHorizontalAlignment(personPanel, ALIGN_RIGHT);
 	 		topPanel.setCellVerticalAlignment(personPanel,ALIGN_MIDDLE);
+	 		this.setCellHorizontalAlignment(groupPanel, ALIGN_LEFT);
+	 		this.setCellVerticalAlignment(groupPanel, ALIGN_MIDDLE);
 	 		this.setCellHorizontalAlignment(topPanel, ALIGN_RIGHT);
 	 		this.setCellVerticalAlignment(topPanel, ALIGN_MIDDLE);
 	 		this.setCellVerticalAlignment(logo, ALIGN_MIDDLE);
 	 	}
 	 	
+	 	private void setSelectedGroup (Group g) {
+	 		this.selectedGroup = g;
+	 	}
+	 	
+	 	private Group getSelectedGroup() {
+	 		return this.selectedGroup;
+	 	}
+	 	
+	 	private void loadGroups() {
+	 		Person p = new Person();
+	 		p.setId(1);
+	 		administration.getAllGroupsByPerson(p, new getAllGroupsCallback());
+	 	}
+	 	
+	 	
+	 	
+	 	private class groupListBoxSelectionClickHandler implements ClickHandler{
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				// TODO Auto-generated method stub
+				for (Group g : allGroups) {
+					if (g.getTitle().equals(groupListBox.getSelectedItemText())) {
+						setSelectedGroup(g);
+						Window.alert(selectedGroup.getTitle());
+					}
+				}
+			}	
+	 	}
 	 	
 	 	/**
 	 	 * Durch ein Klick auf den ReportGenerator-Button wird man 
@@ -119,6 +182,24 @@ public class Header extends HorizontalPanel{
 	 		public void onClick(ClickEvent event) {
 	 			Window.Location.reload();
 	 		}
+	 	}
+	 	
+	 	private class getAllGroupsCallback implements AsyncCallback<ArrayList<Group>>{
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Group> result) {
+				// TODO Auto-generated method stub
+				allGroups = result;
+				for(Group g : result) {
+				groupListBox.addItem(g.getTitle());
+				}
+			}
 	 	}
 	 	
 	 }
