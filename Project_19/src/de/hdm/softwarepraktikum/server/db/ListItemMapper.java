@@ -1,7 +1,7 @@
 package de.hdm.softwarepraktikum.server.db;
 
 import java.sql.Connection;
-import java.sql.Date;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,14 +9,13 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import de.hdm.softwarepraktikum.shared.bo.BusinessObject;
-import de.hdm.softwarepraktikum.shared.bo.Group;
+
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
-import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
+
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
-import de.hdm.softwarepraktikum.shared.bo.Item;
+
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
-import de.hdm.softwarepraktikum.shared.bo.Store;
+
 
 public class ListItemMapper {
 	
