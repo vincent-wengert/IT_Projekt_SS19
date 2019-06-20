@@ -88,7 +88,7 @@ public class ItemForm extends VerticalPanel{
 	public void onLoad() {
 
 		this.setWidth("100%");
-		favButton.setStylePrimaryName("favButton");
+		// favButton.setStylePrimaryName("favButton");
 		editButton.setStylePrimaryName("editButton");
 		deleteButton.setStylePrimaryName("deleteButton");
 		itemNameLabel.setStylePrimaryName("textLabel");

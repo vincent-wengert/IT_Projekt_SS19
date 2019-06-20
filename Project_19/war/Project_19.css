@@ -301,7 +301,7 @@ body{
 	background-image: url("images/favButton.png");
 	background-repeat:no-repeat;
 	background-position: center center;
-	background-size: 60%;
+	background-size: 90%;
 }
 
 .FavoriteItemTrue{
@@ -320,10 +320,10 @@ body{
 	border:solid black 1px;
 	cursor: pointer;
 	background-color:#6f7277;
-	background-image: url("images/favButton.png");
+	background-image: url("images/favButtonClick.png");
 	background-repeat:no-repeat;
 	background-position: center center;
-	background-size: 60%;
+	background-size: 90%;
 }
 
 .editButton{
@@ -335,6 +335,7 @@ body{
 	background-repeat:no-repeat;
 	background-position: center center;
 	
+	
 }
 
 .editButton:hover{
@@ -345,6 +346,7 @@ body{
 	background-image: url("images/editButton.png");
 	background-repeat:no-repeat;
 	background-position: center center;
+	background-size: 90%;
 }
 
 .selectGroupButton{
@@ -425,6 +427,7 @@ body{
 	background-image: url("images/deleteButton.png");
 	background-repeat:no-repeat;
 	background-position: center center;
+	background-size: 90%;
 }
 
 .shareButton{
