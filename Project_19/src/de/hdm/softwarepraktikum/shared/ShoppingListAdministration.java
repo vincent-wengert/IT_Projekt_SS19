@@ -72,6 +72,8 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ArrayList<ListItem> getAllListItemsByShoppingLists(ShoppingList sl);
 	
+	public ShoppingList findShoppingListbyId(int id);
+	
 	public void addFavoriteItem(Item i, Group g);
 	
 	public void removeFavoriteItem(Item i, Group g);

@@ -278,14 +278,12 @@ public class ListItemDialog extends PopupPanel {
 			}}
 
 			else if (updateItem == true) {
-
 			getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
 			
 			selectedListItem.setAmount(Integer.parseInt(amountTextBox.getText()));
 			selectedListItem.setStoreID(selectedStore.getId());
 			selectedListItem.setBuyerID(selectedPerson.getId());
 			selectedListItem.setUnit(getItemUnit(unitListBox.getSelectedItemText()));
-			
 			
 			
 			administration.updateListItem(selectedListItem, new UpdateListItemCallback());

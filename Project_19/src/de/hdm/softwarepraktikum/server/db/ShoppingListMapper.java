@@ -56,7 +56,7 @@ public class ShoppingListMapper {
 			Statement stmt = con.createStatement();
 			
 			//Statement ausf�llen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("Select ShoppingList_ID, Title FROM ShoppingList" + "WHERE ShoppingList_ID= " + id);
+			ResultSet rs = stmt.executeQuery("Select ShoppingList_ID, Title, ChangeDate, CreationDate FROM ShoppingList WHERE ShoppingList_ID=" + id);
 			
 			/*
 		     * Da id Prim�rschl�ssel ist, kann max. nur ein Tupel zur�ckgegeben
@@ -67,6 +67,8 @@ public class ShoppingListMapper {
 				ShoppingList sl = new ShoppingList();
 				sl.setId(rs.getInt("ShoppingList_ID"));
 				sl.setTitle(rs.getString("Title"));
+				sl.setChangedate(rs.getTimestamp("ChangeDate"));
+				sl.setCreationdate(rs.getTimestamp("CreationDate"));
 				
 				return sl; 		
 		}
@@ -126,13 +128,15 @@ public class ShoppingListMapper {
 	    try {
 	      Statement stmt = con.createStatement();
 
-	      ResultSet rs = stmt.executeQuery("SELECT ShoppingList_ID, Title FROM ShoppingList WHERE Group_ID = " + groupID);
+	      ResultSet rs = stmt.executeQuery("SELECT ShoppingList_ID, Title, CreationDate, ChangeDate FROM ShoppingList WHERE Group_ID = " + groupID);
 
 	      // Fuer jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
 	      while (rs.next()) {
 	    	ShoppingList sl = new ShoppingList();
 	        sl.setId(rs.getInt("ShoppingList_ID"));
 	        sl.setTitle(rs.getString("Title"));
+	        sl.setCreationdate(rs.getTimestamp("CreationDate"));
+	        sl.setChangedate(rs.getTimestamp("ChangeDate"));
 
 	        // Hinzuf�gen des neuen Objekts zum Ergebnisvektor
 	        result.add(sl);
@@ -216,20 +220,14 @@ Connection con = DBConnection.connection();
 			Connection con = DBConnection.connection();
 			
 			try {
-				//Statement stmt = con.createStatement();
 				
-				//stmt.executeUpdate("UPDATE ShoppingList " + "SET Title=\"" +sl.getTitle() + "\", " + "Group_ID=\""
-		        //	+ sl.getGroupID() + "\", " +"SET Changedate=\"" 
-				//+sl.getChangedate() + "\" "+ "WHERE Shoppinglist_id=" + sl.getId());
-				
-				PreparedStatement st = con.prepareStatement("UPDATE ShoppingList SET Title = ?, Group_ID = ?, Changedate = ?"
-						+ " WHERE ShoppingList_ID = ?");
+				PreparedStatement st = con.prepareStatement("UPDATE ShoppingList SET Title = ?, ChangeDate = ? WHERE ShoppingList_ID= ?");
 				
 				st.setString(1, sl.getTitle());
-				st.setInt(2, sl.getGroupID());
-				st.setTimestamp(3, sl.getChangedate());
-				st.setInt(4, sl.getId());
+				st.setTimestamp(2, sl.getChangedate());
+				st.setInt(3, sl.getId());
 				
+				System.out.println(st);
 				st.executeUpdate();
 				
 			} catch (SQLException e) {

@@ -531,6 +531,12 @@ private FavoriteItemMapper favoriteItemMapper = null;
 
 
 	@Override
+	public ShoppingList findShoppingListbyId(int id) {
+		// TODO Auto-generated method stub
+		return this.shoppingListMapper.findById(id);
+	}
+
+	@Override
 	public void deleteShoppingList(ShoppingList sl) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		
@@ -772,11 +778,6 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-
-
-
 
 
 	

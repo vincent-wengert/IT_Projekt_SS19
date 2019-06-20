@@ -80,6 +80,8 @@ public interface ShoppingListAdministrationAsync {
 	void updateResponsibility(Responsibility r, AsyncCallback<Void> callback);
 
 	void updateShoppingList(ShoppingList sl, AsyncCallback<Void> callback);
+	
+	void findShoppingListbyId(int id, AsyncCallback<ShoppingList> callback);
 
 	void getAllItems(AsyncCallback<ArrayList<Item>> callback);
 

@@ -34,7 +34,7 @@ public abstract class BusinessObject implements Serializable{
 	
 	
 	public Timestamp getCreationdate() {
-		return creationdate;
+		return this.creationdate;
 	}
 	public void setCreationdate(Timestamp creationdate) {
 		this.creationdate = creationdate;
@@ -42,7 +42,7 @@ public abstract class BusinessObject implements Serializable{
 	
 	
 	public Timestamp getChangedate() {
-		return changedate;
+		return this.changedate;
 	}
 	public void setChangedate(Timestamp changedate) {
 		this.changedate = changedate;
@@ -52,7 +52,26 @@ public abstract class BusinessObject implements Serializable{
 		return this.getClass().getName() + "#" + this.id;
 	}
 	
-
+    /**
+     * Variante der Methode getCreationDate, dabei wird das Datum allerdings verkürzt als String zurückgegeben.
+     * 
+     * @return Das Creationdate wird zurückgegeben
+     */
+    public String getCreationDateString() {
+    	String creationDate = this.creationdate.toString().split("\\.")[0];
+    	return creationDate;
+	}
+    
+    /**
+     * Variante der Methode getChangeDate, dabei wird das Datum  verkürzt als String zurückgegeben.
+     * 
+     * @return Das Changedate wird zurückgegeben
+     */
+    public String getChangeDateString() {
+    	String changeDate = this.changedate.toString().split("\\.")[0];
+    	return changeDate;
+	}
+    
 	
 	//Pr�fen ob gleiches Objekt anhand der ID
 	public boolean equals(Object obj) {

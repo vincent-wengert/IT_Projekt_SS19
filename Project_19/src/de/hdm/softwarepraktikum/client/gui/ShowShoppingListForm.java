@@ -1,6 +1,7 @@
 
 package de.hdm.softwarepraktikum.client.gui;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -17,7 +18,10 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -67,6 +71,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private ArrayList<ListItem> allListItems = new ArrayList<ListItem>();
 	private ArrayList<ListItem> checkedListItems = new ArrayList<ListItem>();
 	
+	private Grid additionalInfoGrid = new Grid(1,2);
+
+	
 	private Column<ListItem, String> editColumn;
 	private Column<ListItem, String> deleteColumn;
 
@@ -100,6 +107,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
 		bottomButtonsPanel.setStylePrimaryName("bottomButtonsPanel");
 		addListItemPanel.setStylePrimaryName("addListItemPanel");
+		additionalInfoGrid.setStylePrimaryName("additionalInfoGrid");
 		
 		bottomButtonsPanel.setSpacing(20);
 
@@ -142,6 +150,10 @@ public class ShowShoppingListForm extends VerticalPanel {
 		topButtonsPanel.setCellHorizontalAlignment(deleteButton, ALIGN_RIGHT);
 		
 		this.add(formHeaderPanel);
+		
+		additionalInfoGrid.setCellSpacing(5);
+		this.add(additionalInfoGrid);
+		this.setCellHorizontalAlignment(additionalInfoGrid, ALIGN_CENTER);
 
 		keyProvider = new ListItemKeyProvider();
 		multiSelectionModel = new MultiSelectionModel<ListItem>(keyProvider);
@@ -265,7 +277,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 			@Override
 			public void update(int arg0, ListItem arg1, Boolean arg2) {
 				// TODO Auto-generated method stub
-				Notification.show("update");
 		        administration.checkListItem(arg1.getId(), arg2, new CheckListItemCallback());
 			}
 		});
@@ -316,6 +327,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		shoppingListPanel.add(cellTable);
 
 		this.add(shoppingListPanel);
+		this.setCellHorizontalAlignment(shoppingListPanel, ALIGN_CENTER);
 			
 		this.add(addListItemPanel);
 		this.setCellHorizontalAlignment(addListItemPanel, ALIGN_CENTER);
@@ -353,12 +365,19 @@ public class ShowShoppingListForm extends VerticalPanel {
 			dataProvider.getList().clear();
 			shoppingListToDisplay = sl;
 			infoTitleLabel.setText(sl.getTitle());
+			
+			additionalInfoGrid.setVisible(true);
+			additionalInfoGrid.setWidget(0, 0, new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
+			additionalInfoGrid.setWidget(0, 1, new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
+	
 		} else {
 			this.clear();
 		}
 	}
 
 	public void AddListItem(ListItem li) {
+		shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
+		administration.updateShoppingList(shoppingListToDisplay, new UpdateShoppinglistCallback());
 		dataProvider.getList().add(li);
 		allItems=null;
 		administration.getAllItems(new AsyncCallback<ArrayList<Item>>() {
@@ -366,7 +385,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				
+			Notification.show("Artikel konnten leider nicht geladen werden" + caught.toString());
 			}
 
 			@Override
@@ -398,6 +417,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	public class EditClickHandler implements ClickHandler{
 
 		public void onClick(ClickEvent event) {
+			additionalInfoGrid.setVisible(false);
 			shoppinglistNameBox.setVisible(true);
 			shoppinglistNameBox.setText(infoTitleLabel.getText());
 			infoTitleLabel.setVisible(false);
@@ -441,7 +461,10 @@ public class ShowShoppingListForm extends VerticalPanel {
 			
 			cellTable.removeColumn(editColumn);
 			cellTable.removeColumn(deleteColumn);
+			shoppingListToDisplay.setTitle(shoppinglistNameBox.getText());
+			shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
 			
+			administration.updateShoppingList(shoppingListToDisplay, new UpdateShoppinglistCallback());
 		}
 	}
 	
@@ -457,6 +480,11 @@ public class ShowShoppingListForm extends VerticalPanel {
 			
 			cellTable.removeColumn(editColumn);
 			cellTable.removeColumn(deleteColumn);
+			
+			additionalInfoGrid.setVisible(true);
+			additionalInfoGrid.setWidget(0, 0, new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
+			additionalInfoGrid.setWidget(0, 1, new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
+	
 		}
 	}
 
@@ -535,22 +563,24 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Notification.show(caught.toString());
+			Notification.show("Der Artikel konnte leider nicht abgehakt werden:" + caught.toString());
 		}
 		
 		@Override
 		public void onSuccess(Void result) {
 			// TODO Auto-generated method stub
+			shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
+			administration.updateShoppingList(shoppingListToDisplay, new UpdateShoppinglistCallback());
 			Notification.show("Artikel wurde erfolgreich abgehakt");
 		}
 	}
 	
 	
-	
+
 	/**
 	 * ListHandler mit dem in der CellTable die Liste sortiert wird
 	 */
-	private class getAllCheckedListItemsCallback implements AsyncCallback<ArrayList<ListItem>> {
+	private class UpdateShoppinglistCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -558,14 +588,27 @@ public class ShowShoppingListForm extends VerticalPanel {
 		}
 		
 		@Override
-		public void onSuccess(ArrayList<ListItem> result) {
-			// TODO Auto-generated method stub
-			checkedListItems = result;
-//			.alert(msg);
-			
+		public void onSuccess(Void result) {
+			administration.findShoppingListbyId(shoppingListToDisplay.getId(), new findShoppingListbyIdCallback());
 		}
 	}
 	
+	
+	private class findShoppingListbyIdCallback implements AsyncCallback<ShoppingList>{
+			@Override
+			public void onFailure(Throwable arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(ShoppingList result) {
+				// TODO Auto-generated method stub
+				additionalInfoGrid.setVisible(true);
+				additionalInfoGrid.setWidget(0, 0, new Label("Erstelldatum: " + result.getCreationDateString()));
+				additionalInfoGrid.setWidget(0, 1, new HTML("Änderungsdatum: " + result.getChangeDateString()));
+			}
+		}
 	
 	/**
 	 * ListHandler mit dem in der CellTable die Liste sortiert wird
@@ -604,6 +647,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 		
 		@Override
 		public void onSuccess(Void result) {
+			shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
+			administration.updateShoppingList(shoppingListToDisplay, new UpdateShoppinglistCallback());
 			if (selectedListitemIndex != null) {
 				dataProvider.getList().remove(selectedListitemIndex);
 				dataProvider.refresh();

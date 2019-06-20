@@ -67,6 +67,7 @@ public class ListItemMapper {
 		 */
 			
 			
+			
 		ResultSet rs = stmt.executeQuery("SELECT MAX(ListItem_ID) AS maxid " + "FROM ListItem");
 		
 		// Wenn wir etwas zur�ckerhalten, kann dies nur einzeilig sein
@@ -119,19 +120,18 @@ public class ListItemMapper {
 		
 		try {
 			
-			PreparedStatement st = con.prepareStatement("UPDATE ListItem SET Unit = ?, Amount = ?, "
-					+ " WHERE ListItem_ID = ?");
+			PreparedStatement st = con.prepareStatement("UPDATE ListItem SET Unit= ?, Amount= ? WHERE ListItem_ID= ?");
 			
 			st.setString(1, li.getUnit().toString());
 			st.setDouble(2, li.getAmount());
 			st.setInt(3, li.getId());
+			System.out.println(st);
 			st.executeUpdate();
 			
 			
 			
 			
-			PreparedStatement st2 = con.prepareStatement("UPDATE Responsibility SET Store_ID = ?, Person_ID = ?, "
-					+ " WHERE Responsibility_ID = ?");
+			PreparedStatement st2 = con.prepareStatement("UPDATE Responsibility SET Store_ID= ?, Person_ID= ? WHERE Responsibility_ID= ?");
 			
 			st2.setInt(1, li.getStoreID());
 			st2.setInt(2, li.getBuyerID());
