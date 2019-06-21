@@ -29,7 +29,7 @@ import de.hdm.softwarepraktikum.shared.report.SimpleParagraph;
 
 /**
  * Die Klasse <code>ReportGeneratorImpl</code> implementiert das Interface
- * ReportGenerator. In der Klasse ist neben ShoppingListAdministrationImpl sämtliche
+ * ReportGenerator. In der Klasse ist neben ShoppingListAdministrationImpl sÃ¤mtliche
  * Applikationslogik vorhanden.
  * 
  * @author Luca Randecker
@@ -40,8 +40,8 @@ import de.hdm.softwarepraktikum.shared.report.SimpleParagraph;
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator{
 	
 	/**
-	 * Der ReportGenerator benötigt Zugriff auf die ContactAdministation,
-	 * da dort wichtige Methoden für die Koexistenz von Datenobjekten enthalten sind.
+	 * Der ReportGenerator benÃ¶tigt Zugriff auf die ContactAdministation,
+	 * da dort wichtige Methoden fÃ¼r die Koexistenz von Datenobjekten enthalten sind.
 	 */
     private ShoppingListAdministration administration = null;
 
@@ -63,11 +63,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 	
 	protected ShoppingListAdministration getShoppingListAdministration() {
+		// TODO Auto-generated method stub
 		return this.administration;
 	}
-	
-	
-	
 	
 
 //	@Override
@@ -81,10 +79,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 //			//Titel des Reports
 //			result.setTitle("Gruppenreport der Gruppe " + selectedG.getTitle());
 //			
-//			//Impressum hinzuf�gen
+//			//Impressum hinzufï¿½gen
 //			this.AddImprint(result);
 //			/*
-//			 * Erstellungsdatum des Reports durch einen Timestamp hinzuf�gen. 
+//			 * Erstellungsdatum des Reports durch einen Timestamp hinzufï¿½gen. 
 //			 */
 //			result.setCreationDate(new Timestamp(System.currentTimeMillis()));
 //			
@@ -99,14 +97,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 //			//Name der Gruppe aufnehmen
 //			header.addSubParagraph(new SimpleParagraph("Gruppe: " + selectedG.getTitle()));
 //			
-//			//Hinzuf�gen der Kopfdaten zum Report
+//			//Hinzufï¿½gen der Kopfdaten zum Report
 //			result.setHeaderData(header);
 //			
-//			//Anlegen der Kopfzeile f�r die Statistik-Tabelle.
+//			//Anlegen der Kopfzeile fï¿½r die Statistik-Tabelle.
 //			Row headline = new Row();
 //			
 //			/**
-//			 * Im Report werden f�nf Spalten ben�tigt: die ID des Produkts,
+//			 * Im Report werden fï¿½nf Spalten benï¿½tigt: die ID des Produkts,
 //			 * die Produktbezeichnung, die Einheit, die Eingekaufte Menge und das
 //			 * Einkaufsdatum.
 //			 */
@@ -114,14 +112,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 //			headline.addColumn(new Column("Produktbezeichnung"));
 //			headline.addColumn(new Column("Einheit"));
 //			headline.addColumn(new Column("Eingekaufte Menge"));
-//			headline.addColumn(new Column("H�ndler"));
+//			headline.addColumn(new Column("Hï¿½ndler"));
 //			
 //			
 //			result.addRow(headline);
 //			
 //			/*
-//			 * Auslesen s�mtlicher abgehakten <code>ListItem</code>-Objekte, die dem Report 
-//			 * hinzugef�gt werden. Methode "getListItem 
+//			 * Auslesen sï¿½mtlicher abgehakten <code>ListItem</code>-Objekte, die dem Report 
+//			 * hinzugefï¿½gt werden. Methode "getListItem 
 //			 * 
 //			 * 
 //			 */
@@ -131,7 +129,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 //				//Eine leere Zeile anlegen.
 //				Row listItemRow = new Row();
 //				
-//				//erste Spalte: ID hinzuf�gen
+//				//erste Spalte: ID hinzufï¿½gen
 //				listItemRow.addColumn(new Column(String.valueOf(l.getId())));
 //				
 //				//zweite Spalte: Bezeichnung eintragen
@@ -143,7 +141,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 //				//vierte Spalte: Anzahl, wie oft das Produkt gekauft wurde.
 //				//listItemRow.addColumn(new Column(String.valueOf()));
 //				
-//				//f�nfte Spalte: Store
+//				//fï¿½nfte Spalte: Store
 //				listItemRow.addColumn(new Column(String.valueOf(l.getStore())));
 //				
 //				result.addRow(listItemRow);
@@ -173,11 +171,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			//Titel des Reports
 			result.setTitle("Einkaufsstatistik von" + p.getName());
 			
-			//Impressum hinzuf�gen
+			//Impressum hinzufï¿½gen
 			this.AddImprint(result);
 			
 			/*
-			 * Erstellungsdatum des Reports durch einen Timestamp hinzuf�gen. 
+			 * Erstellungsdatum des Reports durch einen Timestamp hinzufï¿½gen. 
 			 */
 			result.setCreationDate(new Timestamp(System.currentTimeMillis()));
 		
@@ -212,14 +210,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			//Name der Gruppe aufnehmen
 			header.addSubParagraph(new SimpleParagraph("Person: " + p.getName()));
 			
-			//Hinzuf�gen der Kopfdaten zum Report
+			//Hinzufï¿½gen der Kopfdaten zum Report
 			result.setHeader(header);
 			
-			//Anlegen der Kopfzeile f�r die Statistik-Tabelle.
+			//Anlegen der Kopfzeile fï¿½r die Statistik-Tabelle.
 			Row headline = new Row();
 			
 			/**
-			 * Im Report werden f�nf Spalten ben�tigt: die ID des Produkts,
+			 * Im Report werden fï¿½nf Spalten benï¿½tigt: die ID des Produkts,
 			 * die Produktbezeichnung, die Einheit, die Eingekaufte Menge und das
 			 * Einkaufsdatum.
 			 */
@@ -227,14 +225,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			headline.addColumn(new Column("Produktbezeichnung"));
 			headline.addColumn(new Column("Einheit"));
 			headline.addColumn(new Column("Eingekaufte Menge"));
-			headline.addColumn(new Column("H�ndler"));
+			headline.addColumn(new Column("Hï¿½ndler"));
 			
 			
 			result.addRow(headline);
 			
 			/*
-			 * Auslesen s�mtlicher abgehakten <code>ListItem</code>-Objekte, die dem Report 
-			 * hinzugef�gt werden. Methode "getListItem 
+			 * Auslesen sï¿½mtlicher abgehakten <code>ListItem</code>-Objekte, die dem Report 
+			 * hinzugefï¿½gt werden. Methode "getListItem 
 			 * 
 			 * 
 			 */
@@ -244,7 +242,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				//Eine leere Zeile anlegen.
 				Row listItemRow = new Row();
 				
-				//erste Spalte: ID hinzuf�gen
+				//erste Spalte: ID hinzufï¿½gen
 				listItemRow.addColumn(new Column(String.valueOf(l.getId())));
 				
 				//zweite Spalte: Bezeichnung eintragen String.valueOf(l.getName()))
@@ -256,7 +254,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				//vierte Spalte: Anzahl, wie oft das Produkt gekauft wurde.
 				//listItemRow.addColumn(new Column(String.valueOf()));
 				
-				//f�nfte Spalte: Store String.valueOf(l.getStore()
+				//fï¿½nfte Spalte: Store String.valueOf(l.getStore()
 				listItemRow.addColumn(new Column());
 				
 				result.addRow(listItemRow);
@@ -303,12 +301,12 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		CompositeParagraph imprint = new CompositeParagraph();
 		
 		imprint.addSubParagraph(new SimpleParagraph("Hochschule der Medien"));
-		imprint.addSubParagraph(new SimpleParagraph("Nobelstra�e 10 70569 Stuttgart"));
+		imprint.addSubParagraph(new SimpleParagraph("Nobelstraï¿½e 10 70569 Stuttgart"));
 		imprint.addSubParagraph(new SimpleParagraph("Telefon: 0711 8923-3242"));
 		imprint.addSubParagraph(new SimpleParagraph("E-Mail: info-wi7@hdm-stuttgart.de"));
 		imprint.addSubParagraph(new SimpleParagraph("Website: https://www.hdm-stuttgart.de/"));
 		
-		//Hinzuf�gen des Impressums zum Report.
+		//Hinzufï¿½gen des Impressums zum Report.
 		r.setImprint(imprint);
 		
 	}
@@ -320,7 +318,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
-	public ItemsByGroupReport createGroupStatisticsReport(Group g) throws IllegalArgumentException {
+	public ItemsByGroupReport createGroupStatisticsReport(Group g, Timestamp from, Timestamp to) throws IllegalArgumentException {
 	  	if(this.getShoppingListAdministration() == null) {
     		return null;
     		}
@@ -338,17 +336,22 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
          */
     	result.setCreationDate(new Timestamp(System.currentTimeMillis()));
     	
-    	ArrayList<Item> items = this.administration.getAllItems();
+    	ArrayList<ListItem> items = this.administration.getCheckedListItemsOfGroupBetweenDates(g.getId(), from, to);
     	
     
     	//Sicherheitsabfrage
     	if(items !=null) {
-    		
-    	
+  
         // Zusammenstellung der Kopfdaten (Headline) des Reports 
     	Row headline = new Row();
-    	headline.addColumn(new Column("ID"));
-    	headline.addColumn(new Column("Name"));
+    	headline.addColumn(new Column("ListItem_ID"));
+    	headline.addColumn(new Column("Unit"));
+    	headline.addColumn(new Column("Amount"));
+    	headline.addColumn(new Column("Item_ID"));
+    	headline.addColumn(new Column("Responsibility_ID"));
+    	headline.addColumn(new Column("Person_ID"));
+    	headline.addColumn(new Column("Store_ID"));
+    	//headline.addColumn(new Column("Name"));
     	
    	 		
    	 	result.addRow(headline);
@@ -356,9 +359,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
    	    /*
    	     * Auslesen s�mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugef�gt werden.
    	     */
-    	for(Item i : items) {
-    			System.out.println("item");
-    		
+    	for(ListItem i : items) {
+  
 				
 				//Eine leere Zeile anlegen.
 				Row listItemRow = new Row();
@@ -366,8 +368,25 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				//erste Spalte: ID hinzuf�gen
 				listItemRow.addColumn(new Column(String.valueOf(i.getId())));
 				
-				//zweite Spalte: Bezeichnung eintragen
-				listItemRow.addColumn(new Column(String.valueOf(i.getName())));
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getUnit())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getItemId())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getResID())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getBuyerID())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getStoreID())));
+//				//zweite Spalte: Bezeichnung eintragen
+//				listItemRow.addColumn(new Column(String.valueOf(i.getName())));
 			
 				
 				
@@ -380,6 +399,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	
     return null;
 	}
+
+
 	
 	
 	

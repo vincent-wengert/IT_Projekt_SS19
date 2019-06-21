@@ -1,5 +1,6 @@
 package de.hdm.softwarepraktikum.shared;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -21,7 +22,7 @@ public interface ReportGeneratorAsync {
 	
 	void createUserStatisticsReport(Person p, AsyncCallback<ItemsByPersonReport> callback);
 	
-	void createGroupStatisticsReport(Group g, AsyncCallback<ItemsByGroupReport> callback);
+	void createGroupStatisticsReport(Group g, Timestamp from, Timestamp to, AsyncCallback<ItemsByGroupReport> callback);
  	
 	public void getAllItems(int id, AsyncCallback<ArrayList<Item>> callback) throws IllegalArgumentException;
 	

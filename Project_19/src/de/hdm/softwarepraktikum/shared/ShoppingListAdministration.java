@@ -1,6 +1,7 @@
 package de.hdm.softwarepraktikum.shared;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -99,6 +100,8 @@ public interface ShoppingListAdministration extends RemoteService {
 	public ArrayList<ListItem> getAllCheckedItemsByGroup(Group g);
 	
 	public void deleteGroup(Group g);
+
+	public ArrayList<ListItem> getCheckedListItemsOfGroupBetweenDates(int id, Timestamp from, Timestamp to);
 	
 
 }
