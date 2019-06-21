@@ -1,5 +1,7 @@
 package de.hdm.softwarepraktikum.client.gui;
 
+import java.util.ArrayList;
+
 import org.apache.bcel.generic.IREM;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -12,9 +14,12 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -22,11 +27,16 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.TreeViewModel;
 
+import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
+import de.hdm.softwarepraktikum.shared.bo.Group;
+import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
 
 public class NavigatorPanel extends TabPanel {
 	
+private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 
 private VerticalPanel contentPanelGroups = new VerticalPanel();
 private VerticalPanel contentPanelStores = new VerticalPanel();
@@ -42,6 +52,7 @@ private AllStoresCellList ascl = new AllStoresCellList();
 private GroupForm gf = new GroupForm();
 private ShowShoppingListForm sslf = new ShowShoppingListForm();
 private NewShoppingListForm nslf = new NewShoppingListForm();
+private Group selectedGroup = new Group();
 
 private Grid itemsGrid = new Grid(2,2);
 private Grid storesGrid = new Grid(2,2);
@@ -155,6 +166,13 @@ public CustomTreeModel getCtm() {
 	return model;
 }
 
+private void setSelectedGroup(Group g) {
+	this.selectedGroup = g;
+}
+
+private Group getSelectedGroup() {
+	return this.selectedGroup;
+}
 /**
 * In dieser Methode wird das Design des NavigatorPanels und der Buttons festgelegt.
 * Ebenso wird die searchbar mit <code>Item</code> Suggestions befüllt.
@@ -162,31 +180,77 @@ public CustomTreeModel getCtm() {
 */
 private class SearchFormArticles extends VerticalPanel {
 
-	private Grid searchGridArticles = new Grid(1, 3);
+	private Grid groupGrid = new Grid(2, 2);
+	
+	private Label favLabel = new Label("Favoriten-Gruppe");
+	
+	private ListBox groupListBox = new ListBox();
+ 	private Button confirmButton = new Button("Bestätigen");
+ 	
+ 	
+ 	private ArrayList<Group> allGroups = new ArrayList<Group>();
+ 	
+ 	
 
-	private Button cancelButton = new Button("\u2716");
-	private MultiWordSuggestOracle searchbar = new MultiWordSuggestOracle();
-	private SuggestBox searchTextBox = new SuggestBox(searchbar);
-	//private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings.getshoppingListAdministration();
 
 @SuppressWarnings("deprecation")
 public void onLoad() {
 	
-	cancelButton.addClickHandler(new CancelClickHandler());
-	searchTextBox.addKeyDownHandler(new EnterKeyDownHandler());
-	searchTextBox.addClickListener(new RefreshClickHandler());
 	
-	searchTextBox.setSize("440px", "27px");
-	cancelButton.setPixelSize(30, 30);
-	searchTextBox.getElement().setPropertyString("placeholder", "Suchbegriff eingeben...");
-	cancelButton.setStylePrimaryName("cancelSearchButton");	
+	groupGrid.setWidget(0, 0, favLabel);
+	groupGrid.setWidget(1, 0, groupListBox);
+	groupGrid.setWidget(1, 1, confirmButton);
 	
-	searchGridArticles.setWidget(0, 0, searchTextBox);
-	searchGridArticles.setWidget(0, 1, cancelButton);
+	groupListBox.setWidth("10vw");
+	
+	
+	
+	confirmButton.setStylePrimaryName("selectGroupButton");
+	favLabel.setStylePrimaryName("favLabel");
+	
+	confirmButton.addClickHandler(new groupListBoxSelectionClickHandler());
+	
+	Person p = new Person();
+	p.setId(1);
+	administration.getAllGroupsByPerson(p, new AsyncCallback<ArrayList<Group>>() {
+		
+		@Override
+		public void onSuccess(ArrayList<Group> result) {
 
-	this.add(searchGridArticles);
+				// TODO Auto-generated method stub
+				allGroups = result;
+				for(Group g : result) {
+				groupListBox.addItem(g.getTitle());
+				}
+		}
+		
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Notification.show(caught.toString());
+		}
+	});
 	
 	
+	this.add(groupGrid);
+	
+	
+	
+	}
+
+
+private class groupListBoxSelectionClickHandler implements ClickHandler{
+
+	@Override
+	public void onClick(ClickEvent arg0) {
+		// TODO Auto-generated method stub
+		for (Group g : allGroups) {
+			if (g.getTitle().equals(groupListBox.getSelectedItemText())) {
+				NavigatorPanel.this.setSelectedGroup(g);
+				Window.alert(selectedGroup.getTitle());
+			}
+		}
+	}	
 	}
 }
 
@@ -262,5 +326,8 @@ private class RefreshClickHandler implements ClickListener {
 		
 		}
 	}
+
+
+
 }
 

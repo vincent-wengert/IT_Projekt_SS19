@@ -121,7 +121,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		addListItemButton.setHeight("8vh");
 		addListItemButton.setWidth("8vh");
 		addListItemButton.setVisible(true);
-		myItemsCheckbox.setStylePrimaryName("myItemsButton");
+		myItemsCheckbox.setStylePrimaryName("myItemsCheckbox");
 		
 		editButton.setWidth("8vh");
 		editButton.setHeight("8vh");
