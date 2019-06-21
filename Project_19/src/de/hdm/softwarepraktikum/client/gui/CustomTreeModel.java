@@ -138,6 +138,7 @@ public class CustomTreeModel implements TreeViewModel {
 		//alle dataprovider für shoppinglists aktualisieren
 		for(Group group: shoppingListHolderDataProviders.keySet()) {
 			final Group tempg = group;
+			final ShoppingList tempsl = sl;
 			administration.getAllShoppingListsByGroup(group, new AsyncCallback<ArrayList<ShoppingList>>() {
 
 				@Override
@@ -150,11 +151,67 @@ public class CustomTreeModel implements TreeViewModel {
 					shoppingListHolderDataProviders.get(tempg).getList().clear();
 					shoppingListHolderDataProviders.get(tempg).getList().addAll(result);
 					shoppingListHolderDataProviders.get(tempg).refresh();
+					selectionModel.setSelected(tempsl, true);
 				}
 			});
 		}
 	}
-		
+	
+	public void updateRemovedGroup(Group g) {
+		groupsDataProvider.getList().remove(g);
+		groupsDataProvider.setList(this.getPersonGroups());
+		groupsDataProvider.refresh();
+		//selectionModel.setSelected(null, false);
+	}
+	
+	public void updateRemovedShoppingList(ShoppingList sl) {
+		for(Group group: shoppingListHolderDataProviders.keySet()) {
+			final Group tempg = group;
+			administration.getAllShoppingListsByGroup(group, new AsyncCallback<ArrayList<ShoppingList>>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					Notification.show("failed");
+				}
+
+				@Override
+				public void onSuccess(ArrayList<ShoppingList> result) {
+					shoppingListHolderDataProviders.get(tempg).getList().clear();
+					shoppingListHolderDataProviders.get(tempg).getList().addAll(result);
+					shoppingListHolderDataProviders.get(tempg).refresh();
+					selectionModel.setSelected(null, false);
+					RootPanel.get("Details").clear();
+				}
+			});
+		}
+	}
+	
+	public void updateGroup(Group g) {
+		groupsDataProvider.setList(this.getPersonGroups());
+		groupsDataProvider.refresh();
+	}
+	
+	public void updateShoppingList(ShoppingList sl) {
+		for(Group group: shoppingListHolderDataProviders.keySet()) {
+			final Group tempg = group;
+			final ShoppingList tempsl = sl;
+			administration.getAllShoppingListsByGroup(group, new AsyncCallback<ArrayList<ShoppingList>>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					Notification.show("failed");
+				}
+
+				@Override
+				public void onSuccess(ArrayList<ShoppingList> result) {
+					shoppingListHolderDataProviders.get(tempg).getList().clear();
+					shoppingListHolderDataProviders.get(tempg).getList().addAll(result);
+					shoppingListHolderDataProviders.get(tempg).refresh();
+					selectionModel.setSelected(tempsl, true);
+				}
+			});
+		}
+	}
 	/**
 	 * Check if the specified value represents a leaf node. Leaf nodes cannot be
 	 * opened.

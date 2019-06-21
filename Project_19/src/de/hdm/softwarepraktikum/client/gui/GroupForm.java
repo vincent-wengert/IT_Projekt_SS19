@@ -528,6 +528,8 @@ public class GroupForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Void result) {
 			Notification.show("Die Gruppe wurde aktualisiert");
+			ctm.updateGroup(groupToDisplay);
+			setSelected(groupToDisplay);
 		}
 		
 	}
@@ -541,6 +543,7 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
+			ctm.updateRemovedGroup(groupToDisplay);
 			Notification.show("Die Gruppe wurde gel�scht");
 			RootPanel.get("Details").clear();
 		}

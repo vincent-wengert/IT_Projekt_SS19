@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
@@ -559,6 +560,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		public void onSuccess(Void result) {
 			// TODO Auto-generated method stub
 			Notification.show("Einkaufsliste wurde erfolgreich entfernt");
+			ctm.updateRemovedShoppingList(shoppingListToDisplay);
 		}
 	}
 	
@@ -630,6 +632,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Void result) {
 			administration.findShoppingListbyId(shoppingListToDisplay.getId(), new findShoppingListbyIdCallback());
+			ctm.updateShoppingList(shoppingListToDisplay);
 		}
 	}
 	
