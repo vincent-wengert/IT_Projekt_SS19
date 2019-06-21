@@ -11,6 +11,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -40,17 +41,12 @@ public class Header extends HorizontalPanel{
 	 	private HorizontalPanel groupPanel = new HorizontalPanel();
 	 	private VerticalPanel personPanel = new VerticalPanel();
 	 	private HorizontalPanel topPanel = new HorizontalPanel();
-	 	
-	 	private ListBox groupListBox = new ListBox();
-	 	private Button confirmButton = new Button("Bestätigen");
+
 	 	private Button editorButton = new Button ("Editor");
 	 	private Button reportGeneratorButton = new Button("Reportgenerator");
 	 	private Image logo = new Image ();
 	 	private Label userLabel = new Label();
 	 	private Anchor reportGeneratorLink = new Anchor("ReportGenerator");
-	 	
-	 	private Group selectedGroup = new Group();
-	 	private ArrayList<Group> allGroups = new ArrayList<Group>();
 
 
 	 	/**
@@ -59,22 +55,16 @@ public class Header extends HorizontalPanel{
 	 	 */
 	 	public Header() {
 	 		
-	 	
 	 		personPanel.add(userLabel);
-	 		
-	 		groupPanel.add(groupListBox);
-	 		groupPanel.add(confirmButton);
-	 		
+
 //	 		topPanel.add(groupPanel);
 	 		topPanel.add(homeButtonPanel);
 	 		topPanel.add(personPanel);
 	 		
-	 		this.add(groupPanel);
 	 		this.add(topPanel);
 
 	 		editorButton.addClickHandler(new HomeClickHandler());
 	 		reportGeneratorButton.addClickHandler(new ReportGeneratorClickHandler());
-	 		confirmButton.addClickHandler(new groupListBoxSelectionClickHandler());
 	 	}
 
 	 	
@@ -84,13 +74,10 @@ public class Header extends HorizontalPanel{
 	 	 * des Shoppinglisttool hinzugefügt. 
 	 	 */
 	 	public void onLoad() {
-	 		loadGroups();
 
 	 		this.setStylePrimaryName("headerPanel");
 	 		this.setHeight("10vh");
 	 		this.setWidth("100%");
-
-	 		groupListBox.setWidth("10vw");
 	 		
 	 		homeButtonPanel.add(editorButton);
 	 		homeButtonPanel.add(reportGeneratorButton);
@@ -103,16 +90,10 @@ public class Header extends HorizontalPanel{
 	 		reportGeneratorButton.setHeight("10vh");
 	 		
 	 		homeButtonPanel.setStylePrimaryName("homeButtonPanel");
-	 		confirmButton.setStylePrimaryName("selectGroupButton");
 	 		editorButton.setStylePrimaryName("editorButton");
 	 		reportGeneratorButton.setStylePrimaryName("reportGeneratorButton");
 	 		personPanel.setStylePrimaryName("userPanel");
 
-	 		
-	 		groupPanel.setCellHorizontalAlignment(groupListBox, ALIGN_LEFT);
-	 		groupPanel.setCellVerticalAlignment(groupListBox, ALIGN_MIDDLE);
-	 		groupPanel.setCellHorizontalAlignment(confirmButton, ALIGN_LEFT);
-	 		groupPanel.setCellVerticalAlignment(confirmButton, ALIGN_MIDDLE);
 	 		homeButtonPanel.setCellHorizontalAlignment(editorButton, ALIGN_LEFT);
 	 		homeButtonPanel.setCellHorizontalAlignment(reportGeneratorButton, ALIGN_RIGHT);
 	 	
@@ -124,37 +105,6 @@ public class Header extends HorizontalPanel{
 	 		this.setCellVerticalAlignment(topPanel, ALIGN_MIDDLE);
 	 		this.setCellVerticalAlignment(logo, ALIGN_MIDDLE);
 	 	}
-	 	
-	 	private void setSelectedGroup (Group g) {
-	 		this.selectedGroup = g;
-	 	}
-	 	
-	 	private Group getSelectedGroup() {
-	 		return this.selectedGroup;
-	 	}
-	 	
-	 	private void loadGroups() {
-	 		Person p = new Person();
-	 		p.setId(1);
-	 		administration.getAllGroupsByPerson(p, new getAllGroupsCallback());
-	 	}
-	 	
-	 	
-	 	
-	 	private class groupListBoxSelectionClickHandler implements ClickHandler{
-
-			@Override
-			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
-				for (Group g : allGroups) {
-					if (g.getTitle().equals(groupListBox.getSelectedItemText())) {
-						setSelectedGroup(g);
-						Window.alert(selectedGroup.getTitle());
-					}
-				}
-			}	
-	 	}
-	 	
 	 	/**
 	 	 * Durch ein Klick auf den ReportGenerator-Button wird man 
 	 	 * auf die ReportGenerator-Seite weitergeleitet.
@@ -182,24 +132,6 @@ public class Header extends HorizontalPanel{
 	 		public void onClick(ClickEvent event) {
 	 			Window.Location.reload();
 	 		}
-	 	}
-	 	
-	 	private class getAllGroupsCallback implements AsyncCallback<ArrayList<Group>>{
-
-			@Override
-			public void onFailure(Throwable arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(ArrayList<Group> result) {
-				// TODO Auto-generated method stub
-				allGroups = result;
-				for(Group g : result) {
-				groupListBox.addItem(g.getTitle());
-				}
-			}
 	 	}
 	 	
 	 }
