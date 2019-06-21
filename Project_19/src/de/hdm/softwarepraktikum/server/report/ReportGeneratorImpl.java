@@ -220,7 +220,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
-	public ItemsByGroupReport createGroupStatisticsReport(Group g, Timestamp from, Timestamp to) throws IllegalArgumentException {
+	public ItemsByGroupReport getReportOfGroupBetweenDates(Group g, Store s, Timestamp from, Timestamp to) throws IllegalArgumentException {
 	  	if(this.getShoppingListAdministration() == null) {
     		return null;
     		}
@@ -238,7 +238,16 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
          */
     	result.setCreationDate(new Timestamp(System.currentTimeMillis()));
     	
-    	ArrayList<ListItem> items = this.administration.getCheckedListItemsOfGroupBetweenDates(g.getId(), from, to);
+    	ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfGroupBetweenDates(g.getId(), from, to);
+    	
+    	//Wenn ein Store angegeben wird, wird nach diesem gefiltert.
+    			if(s != null) {
+    				for(ListItem li: items) {
+    					if(li.getStoreID() != s.getId()) {
+    						items.remove(li);
+    					}
+    				}
+    			}
     	
     
     	//Sicherheitsabfrage
@@ -303,7 +312,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
-	public ItemsByPersonReport getReportOfPerson(Person p) throws IllegalArgumentException {
+	public ItemsByPersonReport getReportOfPerson(Person p, Store s, Group g) throws IllegalArgumentException {
 		if(this.getShoppingListAdministration() == null) {
     		return null;
     		}
@@ -313,6 +322,25 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		result.setTitle("Alle eingekauften Items des Users.");
 		
 		ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfPerson(p.getId());
+		
+		//Wenn ein Store angegeben wird, wird nach diesem gefiltert.
+		if(s != null) {
+			for(ListItem li: items) {
+				if(li.getStoreID() != s.getId()) {
+					items.remove(li);
+				}
+			}
+		}
+		
+		//Wenn eine Gruppe angegeben wird, wird nach dieser gefiltert.
+		if(g != null) {
+			for(ListItem li: items) {
+				if(li.getGrID() != g.getId()) {
+					items.remove(li);
+				}
+			}
+		}
+		
 		
 		//Sicherheitsabfrage
     	if(items !=null) {
@@ -375,7 +403,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 	
 	@Override
-	public ItemsByPersonReport getReportOfPersonBetweenDates(Person p, Timestamp from, Timestamp to) throws IllegalArgumentException {
+	public ItemsByPersonReport getReportOfPersonBetweenDates(Person p, Store s, Group g, Timestamp from, Timestamp to) throws IllegalArgumentException {
 		if(this.getShoppingListAdministration() == null) {
     		return null;
     		}
@@ -386,6 +414,23 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		
 		ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfPersonBetweenDates(p.getId(), from, to);
 		
+		//Wenn ein Store angegeben wird, wird nach diesem gefiltert.
+				if(s != null) {
+					for(ListItem li: items) {
+						if(li.getStoreID() != s.getId()) {
+							items.remove(li);
+						}
+					}
+				}
+				
+				//Wenn eine Gruppe angegeben wird, wird nach dieser gefiltert.
+				if(g != null) {
+					for(ListItem li: items) {
+						if(li.getGrID() != g.getId()) {
+							items.remove(li);
+						}
+					}
+				}
 		//Sicherheitsabfrage
     	if(items !=null) {
   
@@ -447,7 +492,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
-	public ItemsByGroupReport getReportOfGroup(Group g) throws IllegalArgumentException {
+	public ItemsByGroupReport getReportOfGroup(Group g, Store s) throws IllegalArgumentException {
 		if(this.getShoppingListAdministration() == null) {
     		return null;
     		}
@@ -466,6 +511,15 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	result.setCreationDate(new Timestamp(System.currentTimeMillis()));
     	
     	ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfGroup(g.getId());
+    	
+    	//Wenn ein Store angegeben wird, wird nach diesem gefiltert.
+    			if(s != null) {
+    				for(ListItem li: items) {
+    					if(li.getStoreID() != s.getId()) {
+    						items.remove(li);
+    					}
+    				}
+    			}
     	
     
     	//Sicherheitsabfrage

@@ -100,6 +100,4 @@ public interface ShoppingListAdministrationAsync {
 
 	void deleteGroup(Group g, AsyncCallback<Void> callback);
 
-	void getCheckedListItemsOfGroupBetweenDates(int id, Timestamp from, Timestamp to,
-			AsyncCallback<ArrayList<ListItem>> callback);
 }

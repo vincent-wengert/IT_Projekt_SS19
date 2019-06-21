@@ -52,7 +52,7 @@ public interface ReportGenerator extends RemoteService {
 	 * @return alle eingekauften Produkte einer Gruppe 
 	 * @throws IllegalArgumentException
 	 */
-	public abstract ItemsByGroupReport createGroupStatisticsReport(Group g, Timestamp from, Timestamp to) throws IllegalArgumentException;
+
  	
 	/**
 	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#getAllItems
@@ -98,11 +98,15 @@ public interface ReportGenerator extends RemoteService {
 
 
 
-	public ItemsByPersonReport getReportOfPerson(Person p) throws IllegalArgumentException;
+	public ItemsByPersonReport getReportOfPerson(Person p, Store s, Group g) throws IllegalArgumentException;
 	
-	public ItemsByPersonReport getReportOfPersonBetweenDates(Person p, Timestamp from, Timestamp to) throws IllegalArgumentException;
+	public ItemsByPersonReport getReportOfPersonBetweenDates(Person p, Store s, Group g, Timestamp from, Timestamp to) throws IllegalArgumentException;
 	
-	public ItemsByGroupReport getReportOfGroup(Group g) throws IllegalArgumentException;
+	public ItemsByGroupReport getReportOfGroup(Group g, Store s) throws IllegalArgumentException;
+
+
+	ItemsByGroupReport getReportOfGroupBetweenDates(Group g, Store s, Timestamp from, Timestamp to)
+			throws IllegalArgumentException;
 	
 	//public ItemsByGroupReport getReportOfGroupBetweenDates(Group g) throws IllegalArgumentException;
 	
