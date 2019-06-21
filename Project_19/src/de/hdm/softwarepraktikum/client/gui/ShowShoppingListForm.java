@@ -20,6 +20,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -56,6 +57,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private Button deleteButton = new Button();
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
+	private CheckBox myItemsCheckbox = new CheckBox("Nur meine Items anzeigen");
 
 	private Label infoTitleLabel = new Label();
 	
@@ -72,7 +74,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private ArrayList<ListItem> allListItems = new ArrayList<ListItem>();
 	private ArrayList<ListItem> checkedListItems = new ArrayList<ListItem>();
 	
-	private Grid additionalInfoGrid = new Grid(1,2);
+	private Grid additionalInfoGrid = new Grid(2, 2);
 
 	
 	private Column<ListItem, String> editColumn;
@@ -92,6 +94,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		confirmButton.addClickHandler(new ConfirmClickHandler());
 		cancelButton.addClickHandler(new CancelClickHandler());
 		deleteButton.addClickHandler(new DeleteShoppingListClickHandler());
+		myItemsCheckbox.addClickHandler(new myItemsClickHandler());
 		topButtonsPanel.add(editButton);
 		topButtonsPanel.add(deleteButton);
 		formHeaderPanel.add(shoppinglistNameBox);
@@ -118,6 +121,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		addListItemButton.setHeight("8vh");
 		addListItemButton.setWidth("8vh");
 		addListItemButton.setVisible(true);
+		myItemsCheckbox.setStylePrimaryName("myItemsButton");
 		
 		editButton.setWidth("8vh");
 		editButton.setHeight("8vh");
@@ -146,6 +150,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 		formHeaderPanel.setCellVerticalAlignment(infoTitleLabel, ALIGN_BOTTOM);
 		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
 		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
+		
+		bottomButtonsPanel.setCellHorizontalAlignment(myItemsCheckbox, ALIGN_CENTER);
 
 		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_LEFT);
 		topButtonsPanel.setCellHorizontalAlignment(deleteButton, ALIGN_RIGHT);
@@ -423,7 +429,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			additionalInfoGrid.setVisible(true);
 			additionalInfoGrid.setWidget(0, 0, new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
 			additionalInfoGrid.setWidget(0, 1, new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
-	
+			additionalInfoGrid.setWidget(1, 0, myItemsCheckbox);
 		} else {
 			this.clear();
 		}
@@ -450,6 +456,23 @@ public class ShowShoppingListForm extends VerticalPanel {
 			}
 		});
 	}
+	
+	public ArrayList<ListItem> myListItems() {
+		
+		ArrayList<ListItem> myItems = new ArrayList<ListItem>();
+		
+		Person p = new Person();
+		
+		p.setId(1);
+		
+		for (ListItem listitem: allListItems) {
+			if (listitem.getBuyerID() == p.getId()) {
+				myItems.add(listitem);
+				}
+		}
+		return myItems;
+	}
+		
 
 	/**
 	 * Sobald der Button ausgewahlt wird werden neue <code>ListItem</code> Objekte
@@ -480,6 +503,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			confirmButton.setVisible(true);
 			cancelButton.setVisible(true);
 			editButton.setVisible(false);
+			myItemsCheckbox.setVisible(false);
 			
 			formHeaderPanel.setCellVerticalAlignment(shoppinglistNameBox, ALIGN_BOTTOM);
 			formHeaderPanel.setCellHorizontalAlignment(shoppinglistNameBox, ALIGN_LEFT);
@@ -512,6 +536,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			cancelButton.setVisible(false);
 			editButton.setVisible(true);
 			addListItemButton.setVisible(true);
+			myItemsCheckbox.setVisible(true);
 			
 			cellTable.removeColumn(editColumn);
 			cellTable.removeColumn(deleteColumn);
@@ -531,6 +556,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			cancelButton.setVisible(false);
 			editButton.setVisible(true);
 			addListItemButton.setVisible(true);
+			myItemsCheckbox.setVisible(true);
 			
 			cellTable.removeColumn(editColumn);
 			cellTable.removeColumn(deleteColumn);
@@ -538,9 +564,28 @@ public class ShowShoppingListForm extends VerticalPanel {
 			additionalInfoGrid.setVisible(true);
 			additionalInfoGrid.setWidget(0, 0, new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
 			additionalInfoGrid.setWidget(0, 1, new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
+			additionalInfoGrid.setWidget(1, 0, myItemsCheckbox);
 	
 		}
 	}
+	
+	class myItemsClickHandler implements ClickHandler {
+		
+		public void onClick(ClickEvent event) {
+			dataProvider.getList().clear();
+			if(myItemsCheckbox.getValue()== true) {
+			for(ListItem l : myListItems()) {
+				dataProvider.getList().add(l);
+				}
+			}else {
+				for(ListItem l : allListItems) {
+					dataProvider.getList().add(l);
+					}
+			}
+			dataProvider.refresh();
+		}
+	}
+
 
 	/**
 	 * ListHandler mit dem in der CellTable die Liste sortiert wird
@@ -663,6 +708,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 				additionalInfoGrid.setVisible(true);
 				additionalInfoGrid.setWidget(0, 0, new Label("Erstelldatum: " + result.getCreationDateString()));
 				additionalInfoGrid.setWidget(0, 1, new HTML("Änderungsdatum: " + result.getChangeDateString()));
+				additionalInfoGrid.setWidget(1, 0, myItemsCheckbox);
 			}
 		}
 	
