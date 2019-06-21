@@ -1,5 +1,6 @@
 package de.hdm.softwarepraktikum.client.gui.report;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -7,9 +8,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.layout.client.Layout.Alignment;
+import com.google.gwt.resources.converter.ElseNodeCreator;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -32,6 +35,7 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 import de.hdm.softwarepraktikum.shared.report.HTMLReportWriter;
 import de.hdm.softwarepraktikum.shared.report.ItemsByGroupReport;
+import de.hdm.softwarepraktikum.shared.report.ItemsByPersonReport;
 import java_cup.internal_error;
 
 /**
@@ -54,23 +58,32 @@ public class Reportform {
 		
 		private Label infoTitleLabel = new Label("Report auswählen");
 
-		private Grid selectionGrid = new Grid(2,5);
+		private Grid selectionGrid = new Grid(3,5);
 		
 		private Label fromLabel = new Label("Zeitraum von");
 		private Label toLabel = new Label("bis");
 		private Label storeLabel = new Label("Laden auswählen");
+		private Label groupLabel = new Label("Gruppe auswählen");
+		private Label personLabel = new Label("Einkäufe auf mich beschränken");
+		
 		private DateBox fromDateBox = new DateBox();
 		private DateBox toDateBox = new DateBox();
 		private ListBox storeListBox = new ListBox();
-		private Label groupLabel = new Label("Gruppe auswählen");
 		private ListBox groupListBox = new ListBox();
 		
 		private Button los = new Button("Los");
+		private CheckBox personCheckBox = new CheckBox();
 		
 		private ArrayList<Store> allStores;
 		private ArrayList<Group> allGroups;
 		
-		private Group selectedGroup;
+		private Group selectedGroup = null;
+		private Store selectedStore = null;
+		private Person userPerson = null;
+		
+		private Timestamp fromDate = null;
+		private Timestamp toDate = null;
+		
 		
 	  public void loadReportGenerator() {
 		//Divs laden
@@ -84,10 +97,7 @@ public class Reportform {
 			
 			formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 			infoTitleLabel.setStylePrimaryName("infoTitleLabel");
-			
-			
-			
-			
+
 			formHeaderPanel.add(infoTitleLabel);
 			formHeaderPanel.setWidth("100%");
 			formHeaderPanel.setHeight("8vh");
@@ -104,6 +114,9 @@ public class Reportform {
 			selectionGrid.setWidget(0, 3, toLabel);
 			selectionGrid.setWidget(1, 3, toDateBox);
 			
+			selectionGrid.setWidget(2, 0, personLabel);
+			selectionGrid.setWidget(2, 1, personCheckBox);
+			
 			selectionGrid.setWidget(1, 4, los);
 			
 		
@@ -114,7 +127,7 @@ public class Reportform {
 //			menu.setCellHorizontalAlignment(selectionGrid, ALIGN_CENTER);
 			menu.setWidth("100%");
 			menu.setStylePrimaryName("menue");
-			
+						
 			los.addClickHandler(new getInformationClickHandler());
 			
 			
@@ -132,13 +145,45 @@ public class Reportform {
 	  }
 	  
 	private void getSelectedValues(){
-		for (Group s : allGroups) {
-			if (s.getTitle().equals(groupListBox.getSelectedItemText())) {
-				selectedGroup = s;
+		
+		if(groupListBox.getSelectedItemText() != "") {
+		for (Group g : allGroups) {
+			if (g.getTitle().equals(groupListBox.getSelectedItemText())) {
+				selectedGroup = g;
 				Window.alert(selectedGroup.getTitle());
 			}
 		}
+	}else {
+		selectedGroup = null;
+	}
+		
+		if (storeListBox.getSelectedItemText() != "") {
+		for (Store s : allStores) {
+			if (s.getName().equals(storeListBox.getSelectedItemText())) {
+				selectedStore = s;
+				Window.alert(selectedStore.getName());
+			}	
+		}
+	}else{
+		selectedStore = null;
+	}
 	  }
+	
+	private Boolean getIntervallDefined() {
+		if(fromDateBox.getValue() == null && toDateBox.getValue() == null) {
+			return false ;
+		}
+		else if (fromDateBox.getValue() != null && toDateBox.getValue() == null || fromDateBox.getValue() == null && toDateBox.getValue() != null){
+			Notification.show("Bitte wählen sie Start- und Endzeitpunkt aus");
+			return false;
+		}else if(fromDateBox.getValue() != null && toDateBox.getValue() != null){
+
+			fromDate = new Timestamp(fromDateBox.getValue().getTime());		
+			toDate = new Timestamp(toDateBox.getValue().getTime());		
+			return true;
+		}
+		return false;
+	}
 	  
 	  /**
 		 * ClickHandler Klasse zum Aufrufen der <code>AllContactReportForm</code>.
@@ -147,39 +192,61 @@ public class Reportform {
 		private class getInformationClickHandler implements ClickHandler {
 
 			public void onClick(ClickEvent event) {
-				storeListBox.getSelectedItemText();
-				if(fromDateBox.getValue() != null && toDateBox.getValue() != null) {
 				getSelectedValues();
-				
-				java.sql.Timestamp from = java.sql.Timestamp.valueOf("2019-06-15 14:38:58");
-
-				java.sql.Timestamp to = java.sql.Timestamp.valueOf("2019-06-30 18:42:58");
-
-				
-				reportadministration.createGroupStatisticsReport(selectedGroup,from,to, new AsyncCallback<ItemsByGroupReport>() {
-					
-					@Override
-					public void onSuccess(ItemsByGroupReport result) {
-					Notification.show("Report wurde erstellt");
-						// TODO Auto-generated method stub
-						HTMLReportWriter writer = new HTMLReportWriter();
-						writer.process(result);
-						HTML content = new HTML(writer.getReportText());
-						RootPanel.get("Result").add(content); 	
-						
-					}
-					
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						Notification.show("Report konnte nicht geladen werden" + caught.toString());
-					}
-				});
-				
-				
+				Window.alert("LOS");
+				if(selectedGroup == null && selectedStore == null && getIntervallDefined() == false) {
+					Person person = new Person();
+					person.setId(1);
+					reportadministration.getReportOfPerson(person, selectedStore, selectedGroup, new getPersonOfGroupCallback());
+				} else if(groupListBox.getSelectedItemText() != "" && storeListBox.getSelectedItemText() =="" && getIntervallDefined() ==true) {
+				reportadministration.getReportOfGroupBetweenDates(userPerson, selectedGroup, selectedStore, fromDate, toDate, new getReportOfGroupCallback());
+				}
 			}
 		}
-		}
+		
+private class getReportOfGroupCallback implements AsyncCallback<ItemsByGroupReport>{
+
+	@Override
+	public void onFailure(Throwable caught) {
+		// TODO Auto-generated method stub
+		Notification.show("Report konnte nicht geladen werden" + caught.toString());
+	}
+
+	@Override
+	public void onSuccess(ItemsByGroupReport result) {
+		// TODO Auto-generated method stub
+		Notification.show("Report mit Intervall und Gruppe wurde erstellt");
+		HTMLReportWriter writer = new HTMLReportWriter();
+		writer.process(result);
+		HTML content = new HTML(writer.getReportText());
+		RootPanel.get("Result").clear();
+		RootPanel.get("Result").add(content); 
+	}
+	
+	
+}
+
+private class getPersonOfGroupCallback implements AsyncCallback<ItemsByPersonReport>{
+
+	@Override
+	public void onFailure(Throwable caught) {
+		// TODO Auto-generated method stub
+		Notification.show("Report konnte nicht geladen werden" + caught.toString());
+	}
+
+	@Override
+	public void onSuccess(ItemsByPersonReport result) {
+		// TODO Auto-generated method stub
+		Notification.show("Report mit Intervall und Gruppe wurde erstellt");
+		HTMLReportWriter writer = new HTMLReportWriter();
+		writer.process(result);
+		HTML content = new HTML(writer.getReportText());
+		RootPanel.get("Result").clear();
+		RootPanel.get("Result").add(content); 
+	}
+	
+	
+}
 
 		private class GetAllStoresCallback implements AsyncCallback<ArrayList<Store>> {
 
@@ -192,28 +259,12 @@ public class Reportform {
 			public void onSuccess(ArrayList<Store> result) {
 				// TODO Auto-generated method stub
 				allStores = result;
+				storeListBox.addItem("");
 				for(Store store: allStores) {
 					storeListBox.addItem(store.getName());
 					}
 				
 				
-				//if (ListItemDialog.this.selectedListItem != null) {
-					//ListItem li = ListItemDialog.this.selectedListItem;
-//				for (Store store : allStores) {
-//					if (store.getId() == li.getStoreID()) {
-//						int indexToFind = -1;
-//
-//						for (int s = 0; s < allStores.size(); s++) {
-//
-//							if (storeListBox.getItemText(s).equals(store.getName())) {
-//								indexToFind = s;
-//								break;
-//							}
-//						}
-//						storeListBox.setSelectedIndex(indexToFind);
-//					}
-//				}
-			//}
 		}
 	}	
 		
@@ -229,28 +280,10 @@ public class Reportform {
 			public void onSuccess(ArrayList<Group> result) {
 				// TODO Auto-generated method stub
 				allGroups = result;
+				groupListBox.addItem("");
 				for(Group group: allGroups) {
 					groupListBox.addItem(group.getTitle());
 					}
-				
-				
-				//if (ListItemDialog.this.selectedListItem != null) {
-					//ListItem li = ListItemDialog.this.selectedListItem;
-//				for (Store store : allStores) {
-//					if (store.getId() == li.getStoreID()) {
-//						int indexToFind = -1;
-//
-//						for (int s = 0; s < allStores.size(); s++) {
-//
-//							if (storeListBox.getItemText(s).equals(store.getName())) {
-//								indexToFind = s;
-//								break;
-//							}
-//						}
-//						storeListBox.setSelectedIndex(indexToFind);
-//					}
-//				}
-			//}
-		}
-	}	
-}
+			}
+		}	
+	}

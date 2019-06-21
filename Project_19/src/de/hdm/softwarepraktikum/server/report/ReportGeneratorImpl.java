@@ -220,7 +220,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
-	public ItemsByGroupReport getReportOfGroupBetweenDates(Group g, Store s, Timestamp from, Timestamp to) throws IllegalArgumentException {
+	public ItemsByGroupReport getReportOfGroupBetweenDates(Person p, Group g, Store s, Timestamp from, Timestamp to) throws IllegalArgumentException {
 	  	if(this.getShoppingListAdministration() == null) {
     		return null;
     		}
@@ -249,7 +249,13 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     				}
     			}
     	
-    
+    			if(p!=null) {
+    				for(ListItem li: items) {
+    					if(li.getBuyerID() != p.getId()) {
+    						items.remove(li);
+    					}
+    				}
+    			}
     	//Sicherheitsabfrage
     	if(items !=null) {
   
@@ -492,7 +498,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
-	public ItemsByGroupReport getReportOfGroup(Group g, Store s) throws IllegalArgumentException {
+	public ItemsByGroupReport getReportOfGroup(Person p, Group g, Store s) throws IllegalArgumentException {
 		if(this.getShoppingListAdministration() == null) {
     		return null;
     		}
@@ -516,12 +522,20 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     			if(s != null) {
     				for(ListItem li: items) {
     					if(li.getStoreID() != s.getId()) {
+    						System.out.println("store not null");
     						items.remove(li);
     					}
     				}
     			}
     	
-    
+    			if(p!=null) {
+    				for(ListItem li: items) {
+    					if(li.getBuyerID() != p.getId()) {
+    						System.out.println("person not null");
+    						items.remove(li);
+    					}
+    				}
+    			}
     	//Sicherheitsabfrage
     	if(items !=null) {
   

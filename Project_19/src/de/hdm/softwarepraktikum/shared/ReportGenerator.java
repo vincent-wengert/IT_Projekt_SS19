@@ -47,7 +47,7 @@ public interface ReportGenerator extends RemoteService {
 	//public ShoppingListAdministration getShoppingListAdministration(int id) throws IllegalArgumentException;
 	
 	/**
-	 * Diese Methode gibt die Einkaufsstatistik für eine Gruppe aus.
+	 * Diese Methode gibt die Einkaufsstatistik fï¿½r eine Gruppe aus.
 	 * @param a
 	 * @return alle eingekauften Produkte einer Gruppe 
 	 * @throws IllegalArgumentException
@@ -102,10 +102,10 @@ public interface ReportGenerator extends RemoteService {
 	
 	public ItemsByPersonReport getReportOfPersonBetweenDates(Person p, Store s, Group g, Timestamp from, Timestamp to) throws IllegalArgumentException;
 	
-	public ItemsByGroupReport getReportOfGroup(Group g, Store s) throws IllegalArgumentException;
+	public ItemsByGroupReport getReportOfGroup(Person p, Group g, Store s) throws IllegalArgumentException;
 
 
-	ItemsByGroupReport getReportOfGroupBetweenDates(Group g, Store s, Timestamp from, Timestamp to)
+	ItemsByGroupReport getReportOfGroupBetweenDates(Person p,Group g, Store s, Timestamp from, Timestamp to)
 			throws IllegalArgumentException;
 	
 	//public ItemsByGroupReport getReportOfGroupBetweenDates(Group g) throws IllegalArgumentException;
