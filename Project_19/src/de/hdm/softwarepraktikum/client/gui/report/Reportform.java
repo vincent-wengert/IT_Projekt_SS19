@@ -193,13 +193,33 @@ public class Reportform {
 
 			public void onClick(ClickEvent event) {
 				getSelectedValues();
-				Window.alert("LOS");
+				
+				//Alles leer --> dann Person
 				if(selectedGroup == null && selectedStore == null && getIntervallDefined() == false) {
+					Window.alert("alles leer nur Person");
 					Person person = new Person();
 					person.setId(1);
-					reportadministration.getReportOfPerson(person, selectedStore, selectedGroup, new getPersonOfGroupCallback());
-				} else if(groupListBox.getSelectedItemText() != "" && storeListBox.getSelectedItemText() =="" && getIntervallDefined() ==true) {
-				reportadministration.getReportOfGroupBetweenDates(userPerson, selectedGroup, selectedStore, fromDate, toDate, new getReportOfGroupCallback());
+					reportadministration.getReportOfPerson(person, selectedStore, selectedGroup, new getReportOfPersonCallback());
+				} 
+				
+				//Nur Zeitraum (und Person)
+				if(selectedGroup == null && selectedStore == null && getIntervallDefined() ==true) {
+					Window.alert("alles leer nur Zeitraum");
+					Person person = new Person();
+					person.setId(1);
+					reportadministration.getReportOfPersonBetweenDates(person, selectedStore, selectedGroup, fromDate, toDate, new getReportOfPersonCallback());
+				}
+				
+				//Nur Gruppe
+				if(selectedGroup != null && selectedStore == null && getIntervallDefined() ==false) {
+					Window.alert("alles leer nur Gruppe");
+					reportadministration.getReportOfGroup(userPerson, selectedGroup, selectedStore, new getReportOfGroupCallback());
+				}
+				
+				//Gruppe und Zeitraum
+				if(groupListBox.getSelectedItemText() !="" && storeListBox.getSelectedItemText() =="" && getIntervallDefined() ==true) {
+					Window.alert("Gruppe und Zeitraum");
+					reportadministration.getReportOfGroupBetweenDates(userPerson, selectedGroup, selectedStore, fromDate, toDate, new getReportOfGroupCallback());
 				}
 			}
 		}
@@ -215,7 +235,7 @@ private class getReportOfGroupCallback implements AsyncCallback<ItemsByGroupRepo
 	@Override
 	public void onSuccess(ItemsByGroupReport result) {
 		// TODO Auto-generated method stub
-		Notification.show("Report mit Intervall und Gruppe wurde erstellt");
+		Notification.show("Report wurde erstellt");
 		HTMLReportWriter writer = new HTMLReportWriter();
 		writer.process(result);
 		HTML content = new HTML(writer.getReportText());
@@ -226,7 +246,7 @@ private class getReportOfGroupCallback implements AsyncCallback<ItemsByGroupRepo
 	
 }
 
-private class getPersonOfGroupCallback implements AsyncCallback<ItemsByPersonReport>{
+private class getReportOfPersonCallback implements AsyncCallback<ItemsByPersonReport>{
 
 	@Override
 	public void onFailure(Throwable caught) {
@@ -237,7 +257,7 @@ private class getPersonOfGroupCallback implements AsyncCallback<ItemsByPersonRep
 	@Override
 	public void onSuccess(ItemsByPersonReport result) {
 		// TODO Auto-generated method stub
-		Notification.show("Report mit Intervall und Gruppe wurde erstellt");
+		Notification.show("Report wurde erstellt");
 		HTMLReportWriter writer = new HTMLReportWriter();
 		writer.process(result);
 		HTML content = new HTML(writer.getReportText());
