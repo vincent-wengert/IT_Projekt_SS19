@@ -73,7 +73,7 @@ public class ItemMapper {
 		i.setId(rs.getInt("maxid") + 1);
 				
 		PreparedStatement stmt2 = con.prepareStatement(
-				"INSERT INTO Item (Item_ID, Name, Creationdate, Changedate, Owner_Group) " + "VALUES (?, ?, ?, ?, ?)",
+				"INSERT INTO Item (Item_ID, Name, Creationdate, Changedate, Owner_ID, IsGlobal) " + "VALUES (?, ?, ?, ?, ?, ?)",
 				Statement.RETURN_GENERATED_KEYS);
 		
 		stmt2.setInt(1, i.getId());
@@ -82,6 +82,7 @@ public class ItemMapper {
 		stmt2.setTimestamp(4, i.getChangedate());
 		//Group ID hinzufugen
 		stmt2.setInt(5, 1);
+		stmt2.setBoolean(6, i.getIsGlobal());
 		System.out.println(stmt2);
 		stmt2.executeUpdate();
 		
@@ -103,12 +104,13 @@ public class ItemMapper {
 				
 				Connection con = DBConnection.connection();
 				try {
-					PreparedStatement st = con.prepareStatement("UPDATE Item SET Name = ?, Creationdate = ?, Changedate = ? WHERE Item_ID = ?");
+					PreparedStatement st = con.prepareStatement("UPDATE Item SET Name = ?, Creationdate = ?, Changedate = ?, IsGlobal = ? WHERE Item_ID = ?");
 					
 					st.setString(1, i.getName());
 					st.setTimestamp(2, i.getCreationdate());
 					st.setTimestamp(3, i.getChangedate());
-					st.setInt(4, i.getId());
+					st.setBoolean(4,  i.getIsGlobal());
+					st.setInt(5, i.getId());
 					st.executeUpdate();
 					
 				} catch (SQLException e) {
@@ -163,6 +165,7 @@ public class ItemMapper {
 				i.setName(rs.getString("name"));
 				i.setIsGlobal(rs.getBoolean("isglobal"));
 				
+				
 				return i;		
 	}
 		}catch (SQLException e) {
@@ -181,21 +184,23 @@ public class ItemMapper {
 		//Ergebnisvektor vorbereiten
 		ArrayList<Item> result = new ArrayList<Item>();
 		
+		// Hier noch Person_ID einfügen
+		int id = 1;
+		
 		Connection con = DBConnection.connection();
 		try {
 			
 			Statement stmt = con.createStatement();
 			
 			ResultSet rs = stmt
-					.executeQuery("SELECT Item_ID, Name " + "FROM Item " + "ORDER BY Name");
+					.executeQuery("SELECT * FROM Item WHERE Item.IsGlobal = true  OR Item.IsGlobal = false AND Item.Owner_ID=" + id);
 			
 			// F�r jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
 			while(rs.next()) {
 				Item i = new Item();
 				i.setId(rs.getInt("Item_ID"));
 				i.setName(rs.getString("Name"));
-
-				//i.setIsGlobal(rs.getBoolean("isglobal"));
+				i.setIsGlobal(rs.getBoolean("isGlobal"));
 				
 				//Hinzuf�gen des neuen Objekts zum Ergebnisvektor
 				result.add(i);

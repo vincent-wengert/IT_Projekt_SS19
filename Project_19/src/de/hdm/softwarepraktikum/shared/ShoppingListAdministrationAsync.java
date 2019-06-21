@@ -66,6 +66,8 @@ public interface ShoppingListAdministrationAsync {
 	void removeFavoriteItem(Item i, Group g, AsyncCallback<Void> callback);
 
 	void updateItem(Item i, AsyncCallback<Void> callback);
+	
+	void checkFav(Group group, Item i, AsyncCallback<Boolean> callback);
 
 	void getListItem(int id, AsyncCallback<ListItem> callback);
 
@@ -78,6 +80,8 @@ public interface ShoppingListAdministrationAsync {
 	void updateResponsibility(Responsibility r, AsyncCallback<Void> callback);
 
 	void updateShoppingList(ShoppingList sl, AsyncCallback<Void> callback);
+	
+	void findShoppingListbyId(int id, AsyncCallback<ShoppingList> callback);
 
 	void getAllItems(AsyncCallback<ArrayList<Item>> callback);
 

@@ -267,7 +267,7 @@ public class CustomTreeModel implements TreeViewModel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Notification.show("Es wurden keine Gruppen gefunden:\n" + caught.toString());
+			Notification.show("Es wurden keine Einkaufslisten in den Gruppeng gefunden:\n" + caught.toString());
 		}
 
 		@Override
@@ -275,7 +275,6 @@ public class CustomTreeModel implements TreeViewModel {
 			// add item to cellist
 			// aicl.updateCellList();
 			shoppinglists = sl;
-			Notification.show("Gruppen wurden gefunden");
 
 		}
 	}

@@ -47,12 +47,15 @@ public class Project_19 implements EntryPoint {
 		 * Methode wird zu Beginn des Seitenaufrufs abgerufen
 		 */
 		public void onModuleLoad() {
+			
+			ShoppingListEditor editor = new ShoppingListEditor();
+			editor.loadForms();
 			/*
 			 * Über diese Methoden werden Instanzen der Asynchronen Interfaces gebildet
 			 */
-			loginService = ClientsideSettings.getLoginService();
-			
-			loginService.login(GWT.getHostPageBaseURL()+"Project_19.html" , new loginServiceCallback());
+//			loginService = ClientsideSettings.getLoginService();
+//			
+//			loginService.login(GWT.getHostPageBaseURL()+"Project_19.html" , new loginServiceCallback());
 				
 		}
 		
@@ -68,27 +71,25 @@ public class Project_19 implements EntryPoint {
 		private class loginServiceCallback implements AsyncCallback<Person>{
 
 			@Override
-			public void onSuccess(Person p) {
-				Window.alert("onSucess");
-				
-//				CurrentPerson.setPerson(p);
-//
-//				if (p.isLoggedIn()) {
-//					if (p.getName() == null) {
-//					Anchor shoppingListEditorLink = new Anchor();
-//					shoppingListEditorLink.setHref(GWT.getHostPageBaseURL() + "Project_19.html");
-//					RootPanel.get("Navigator").setVisible(false);
-//					RootPanel.get("Menu").setVisible(false);
-//					RootPanel.get("Details").add(new RegistrationForm(shoppingListEditorLink,p));
-//			
-//
-//					}else{
-//						ShoppingListEditor editor = new ShoppingListEditor();
-//						editor.loadForms();
-//						}
-//				}else{
-//					loadLogin();
-//					}	
+			public void onSuccess(Person p) {				
+				CurrentPerson.setPerson(p);
+
+				if (p.isLoggedIn()) {
+					if (p.getName() == null) {
+					Anchor shoppingListEditorLink = new Anchor();
+					shoppingListEditorLink.setHref(GWT.getHostPageBaseURL() + "Project_19.html");
+					RootPanel.get("Navigator").setVisible(false);
+					RootPanel.get("Menu").setVisible(false);
+					RootPanel.get("Details").add(new RegistrationForm(shoppingListEditorLink,p));
+			
+
+					}else{
+						ShoppingListEditor editor = new ShoppingListEditor();
+						editor.loadForms();
+						}
+				}else{
+					loadLogin();
+					}	
 
 				}
 	  
@@ -99,7 +100,7 @@ public class Project_19 implements EntryPoint {
 		 */
 		@Override
 		public void onFailure(Throwable caught) {
-			//Notification.show(caught.toString());
+			Notification.show(caught.toString());
 			ShoppingListEditor editor = new ShoppingListEditor();
 			editor.loadForms();
 			}

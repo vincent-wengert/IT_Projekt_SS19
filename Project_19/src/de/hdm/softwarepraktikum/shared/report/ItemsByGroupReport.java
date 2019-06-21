@@ -3,7 +3,7 @@ package de.hdm.softwarepraktikum.shared.report;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class ItemsByGroupReport extends CompositeReport implements Serializable {
+public class ItemsByGroupReport extends SimpleReport {
 
 	/**
 	 * Report, um alle Items einer Gruppe darzustellen.
@@ -17,19 +17,7 @@ public class ItemsByGroupReport extends CompositeReport implements Serializable 
 	
 	  private static final long serialVersionUID = 1L;
 
-	public void addRow(String string) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setCreationDate(Timestamp timestamp) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void addRow(Row headline) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	  public ItemsByGroupReport(){
+		  
+	  }
 	}

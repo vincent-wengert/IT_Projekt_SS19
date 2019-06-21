@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -18,6 +19,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
+import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
@@ -45,13 +47,14 @@ public class ItemForm extends VerticalPanel{
 	private Label infoTitleLabel = new Label("Artikel");
 	private Label itemNameLabel = new Label("Name des Artikels");
 	private TextBox itemNameBox = new TextBox();
+	private CheckBox isGlobalBox = new CheckBox("Für alle Nutzer sichtbar");
 
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
 	private Button favButton = new Button();
 	private Button editButton = new Button();
 	private Button deleteButton = new Button();
-	private Grid itemGrid = new Grid(2,2);
+	private Grid itemGrid = new Grid(3,3);
 
 	private Boolean editable;
 	private Boolean initial;
@@ -69,6 +72,7 @@ public class ItemForm extends VerticalPanel{
 		
 		deleteButton.addClickHandler(new DeleteClickHandler());
 		topButtonsPanel.add(deleteButton);
+		
 
 		confirmButton.addClickHandler(new CreateClickHandler());
 		bottomButtonsPanel.add(confirmButton);
@@ -78,6 +82,7 @@ public class ItemForm extends VerticalPanel{
 		
 		bottomButtonsPanel.setVisible(false);
 		itemNameBox.setEnabled(false);
+		isGlobalBox.setValue(true);
 	}
 	
 	
@@ -88,7 +93,7 @@ public class ItemForm extends VerticalPanel{
 	public void onLoad() {
 
 		this.setWidth("100%");
-		favButton.setStylePrimaryName("favButton");
+		// favButton.setStylePrimaryName("favButton");
 		editButton.setStylePrimaryName("editButton");
 		deleteButton.setStylePrimaryName("deleteButton");
 		itemNameLabel.setStylePrimaryName("textLabel");
@@ -108,6 +113,7 @@ public class ItemForm extends VerticalPanel{
 		deleteButton.setHeight("8vh");
 		deleteButton.setWidth("8vh");
 		topButtonsPanel.setCellHorizontalAlignment(deleteButton, ALIGN_RIGHT);
+		
 		
 		formHeaderPanel.setHeight("8vh");
 		formHeaderPanel.setWidth("100%");
@@ -135,6 +141,7 @@ public class ItemForm extends VerticalPanel{
 		itemGrid.setCellSpacing(10);
 		itemGrid.setWidget(0, 0, itemNameLabel);
 		itemGrid.setWidget(0, 1, itemNameBox);
+		itemGrid.setWidget(1, 1, isGlobalBox);
 
 		this.add(bottomButtonsPanel);
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
@@ -180,17 +187,27 @@ public class ItemForm extends VerticalPanel{
 		if(i != null) {
 			infoTitleLabel.setText("Ausgewählter Artikel: " + i.getName());
 			itemNameBox.setText(i.getName());
+			isGlobalBox.setValue(i.getIsGlobal());
+			if(i.getIsFavorite()==true) {
+				isFavorite = true;
+				favButton.setStylePrimaryName("FavoriteItemTrue");
+			}else {
+				isFavorite=false;
+				favButton.setStylePrimaryName("FavoriteItemFalse");
+			}
 			setTableEditable(false);
 		}
 	}
 
 	public void setTableEditable (boolean editable) {
 		if (editable == true) {
+			isGlobalBox.setVisible(true);
 			itemNameBox.setEnabled(true);
 			itemNameBox.setFocus(true);
 			bottomButtonsPanel.setVisible(true);
 			topButtonsPanel.setVisible(false);
 			}else {
+			isGlobalBox.setVisible(false);
 			itemNameBox.setEnabled(false);
 			itemNameBox.setFocus(false);
 			bottomButtonsPanel.setVisible(false);
@@ -213,14 +230,16 @@ public class ItemForm extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			setTableEditable(false);
-			favButton.setStylePrimaryName("favButtonClick");
-
-			if(isFavorite = true) {
-				//shoppinglistAdministration.addFavoriteItem(i, g, callback);
-				Notification.show("Artikel wurde zu den Favoriten hinzugef�gt.");	
+			Group g = new Group();
+			g.setId(1);
+			if(itemToDisplayProduct.getIsFavorite() == true) {
+				itemToDisplayProduct.setFavorite(false);
+				shoppinglistAdministration.removeFavoriteItem(itemToDisplayProduct, g, new removeFavoriteItemCallback());
+				favButton.setStylePrimaryName("FavoriteItemFalse");
 			} else {
-				//shoppinglistAdministration.removeFavoriteItem(i, g, callback);
-				Notification.show("Artikel wurde aus den Favoriten entfernt.");
+				itemToDisplayProduct.setFavorite(true);
+				shoppinglistAdministration.addFavoriteItem(itemToDisplayProduct, g, new addFavoriteItemCallback());
+				favButton.setStylePrimaryName("FavoriteItemTrue");
 			}
 			
 		}
@@ -230,6 +249,7 @@ public class ItemForm extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			setTableEditable(true);
+			isGlobalBox.setVisible(true);
 		}
 	}
 	
@@ -261,10 +281,11 @@ public class ItemForm extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 		
 			if (initial == true) {
-			shoppinglistAdministration.createItem(itemNameBox.getText(), true, new CreateItemCallback());
+			shoppinglistAdministration.createItem(itemNameBox.getText(), isGlobalBox.getValue(), new CreateItemCallback());
 			} else {
 			itemToDisplayProduct.setName(itemNameBox.getText());
-			shoppinglistAdministration.updateItem(itemToDisplayProduct, new UpdateItemCallback());	
+			itemToDisplayProduct.setIsGlobal(isGlobalBox.getValue());
+			shoppinglistAdministration.updateItem(itemToDisplayProduct, new UpdateItemCallback());
 			}
 			setTableEditable(false);
 		}
@@ -344,4 +365,43 @@ public class ItemForm extends VerticalPanel{
 				RootPanel.get("Details").clear();
 			}
 		}
+		
+		/**
+		 * Hiermit kann <code>Item</code> Objekt geloscht werden und aus der 
+		 *  <code>AllItemsCelllist</code> Instanz entfernt werden.
+		 */
+		private class addFavoriteItemCallback implements AsyncCallback<Void> {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Notification.show("Der Artikel konnte leider nicht als Favorit markiert werden:\n" + caught.toString());
+			}
+
+			@Override
+			public void onSuccess(Void item) {
+				//add item to cellist
+				Notification.show("Der Artikel wurde als Favorit markiert");
+				aicl.updateCelllist(itemToDisplayProduct);
+			}
+		}
+		
+		/**
+		 * Hiermit kann <code>Item</code> Objekt geloscht werden und aus der 
+		 *  <code>AllItemsCelllist</code> Instanz entfernt werden.
+		 */
+		private class removeFavoriteItemCallback implements AsyncCallback<Void> {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Notification.show("Der Artikel konnte leider nicht aktualisiert werden:\n" + caught.toString());
+			}
+
+			@Override
+			public void onSuccess(Void item) {
+				//add item to cellist
+				Notification.show("Der Artikel ist kein Favorit mehr");
+				aicl.updateCelllist(itemToDisplayProduct);
+			}
+		}
+		
 }

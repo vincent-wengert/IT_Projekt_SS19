@@ -2,12 +2,23 @@ package de.hdm.softwarepraktikum.shared.report;
 
 import java.util.ArrayList;
 
-public class Row {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class Row implements IsSerializable {
 	
 	/**
 	   * 
 	   */
 	  private static final long serialVersionUID = 1L;
+	  
+		/**
+		 * Default Konstruktor.
+		 */
+		public Row() {
+
+		}
+	  
+	  
 	  /**
 	   * Dies ist der Speicherplatz für die Spalten der Zeile.
 	   */
@@ -45,7 +56,7 @@ public class Row {
 	   * 
 	   * @return int Die Anzahl der Spalten wird zurückgegeben.
 	   */
-	  public int getNumColumns() {
+	  public int getColumnsSize() {
 	    return this.columns.size();
 	  }
 
@@ -56,7 +67,7 @@ public class Row {
 	   *          der Spalten.
 	   * @return das gewünschte Spaltenobjekt.
 	   */
-	  public Column getColumnAt(int i) {
+	  public Column getColumnByIndex(int i) {
 	    return this.columns.get(i);
 	  }
 

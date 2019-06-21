@@ -292,15 +292,15 @@ public class PersonMapper {
 	 * @param p
 	 * @return
 	 */
-	//public ArrayList<ShoppingList> getShoppingListsOf(Person p) {
+	public ArrayList<ShoppingList> getShoppingListsOf(Person p) {
 
 		/*
 		 * Hier wird auf den ShoppingListMapper zugegriffen, welchem der im
 		 * Person-Objekt enthaltende Prim�rschl�ssel �bergeben wird. Der PersonMapper
 		 * l�st die ID in eine Reihe von ShoppingList-Objekten auf.
 		 */
-	//	return ShoppingListMapper.shoppinglistMapper().findByMember(p);
-	//}
+		return ShoppingListMapper.shoppinglistMapper().findByMember(p);
+	}
 	
 	
 	/**

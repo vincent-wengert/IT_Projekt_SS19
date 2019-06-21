@@ -13,6 +13,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -85,6 +86,8 @@ public class ListItemDialog extends PopupPanel {
 	private ListBox personListBox = new ListBox();
 	private ListBox storeListBox = new ListBox();
 	private ListBox unitListBox = new ListBox();
+	
+	private CheckBox isGlobalBox = new CheckBox("Für alle Nutzer sichtbar");
 
 	private TextBox amountTextBox = new TextBox();
 	private TextBox itemTextBox = new TextBox();
@@ -148,6 +151,8 @@ public class ListItemDialog extends PopupPanel {
 
 		verticalPanel.add(personLabel);
 		verticalPanel.add(personListBox);
+		
+		verticalPanel.add(isGlobalBox);
 
 		verticalPanel.add(bottomButtonsPanel);
 
@@ -163,6 +168,7 @@ public class ListItemDialog extends PopupPanel {
 		verticalPanel.setCellHorizontalAlignment(itemTextBox, HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setCellHorizontalAlignment(storeListBox, HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setCellHorizontalAlignment(bottomButtonsPanel, HasHorizontalAlignment.ALIGN_CENTER);
+		verticalPanel.setCellHorizontalAlignment(isGlobalBox, HasHorizontalAlignment.ALIGN_CENTER);
 		this.center();
 	}
 
@@ -186,6 +192,7 @@ public class ListItemDialog extends PopupPanel {
 		existingButton.setValue(true);
 		newButton.setValue(false);
 		itemTextBox.setVisible(false);
+		isGlobalBox.setVisible(false);
 		administration.getAllItems(new GetAllItemsCallback());
 		administration.getAllStores(new GetAllStoresCallback());
 		administration.getAllPersons(new GetAllGroupMembersCallback());
@@ -267,18 +274,16 @@ public class ListItemDialog extends PopupPanel {
 				administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Double.parseDouble(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new createListItemCallback());
 			}
 			else if (newButton.getValue()==true ) {
-				administration.createItem(itemTextBox.getText(), true, new CreateItemListItemCallback());
+				administration.createItem(itemTextBox.getText(), isGlobalBox.getValue(), new CreateItemListItemCallback());
 			}}
 
 			else if (updateItem == true) {
-
 			getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
 			
 			selectedListItem.setAmount(Double.parseDouble(amountTextBox.getText()));
 			selectedListItem.setStoreID(selectedStore.getId());
 			selectedListItem.setBuyerID(selectedPerson.getId());
 			selectedListItem.setUnit(getItemUnit(unitListBox.getSelectedItemText()));
-			
 			
 			
 			administration.updateListItem(selectedListItem, new UpdateListItemCallback());
@@ -308,6 +313,7 @@ public class ListItemDialog extends PopupPanel {
 			existingButton.setValue(false);
 			itemListBox.setVisible(false);
 			itemTextBox.setVisible(true);
+			isGlobalBox.setVisible(true);
 
 		}
 	}
@@ -323,6 +329,7 @@ public class ListItemDialog extends PopupPanel {
 			newButton.setValue(false);
 			itemListBox.setVisible(true);
 			itemTextBox.setVisible(false);
+			isGlobalBox.setVisible(false);
 		}
 	}
 	

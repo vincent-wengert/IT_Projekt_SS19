@@ -206,11 +206,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * @throws IllegalArgumentException
 	 */
 	
-	public ArrayList<ShoppingList> getShoppingListsOf (Person p) throws IllegalArgumentException {
-		ArrayList<ShoppingList> sls = personMapper.getShoppingListsOf(p);
-		
-		return sls;
-	}
+
 	
 	public ArrayList<Person> findByName (String name) throws IllegalArgumentException {
 		ArrayList<Person> prs = personMapper.findByName(name);
@@ -315,7 +311,16 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 */
 	
 	public ArrayList<Item> getAllItems() throws IllegalArgumentException{
-		return this.itemMapper.findAll();
+		
+		ArrayList<Item> allItems = this.itemMapper.findAll();
+		Group group = new Group();
+		group.setId(1);
+		
+		for (Item item : allItems) {
+			item.setFavorite(this.favoriteItemMapper.checkFav(item, group));
+		}
+		
+		return allItems;
 		
 	}
 	
@@ -526,6 +531,12 @@ private FavoriteItemMapper favoriteItemMapper = null;
 
 
 	@Override
+	public ShoppingList findShoppingListbyId(int id) {
+		// TODO Auto-generated method stub
+		return this.shoppingListMapper.findById(id);
+	}
+
+	@Override
 	public void deleteShoppingList(ShoppingList sl) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		
@@ -544,11 +555,6 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	}
 
 
-	@Override
-	public ArrayList<ShoppingList> getAllShoppingListsByPerson(Person p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return this.shoppingListMapper.findByMember(p);
-	}
 
 	
 	// Methode um ein ListItem einer ShoppingList hinzuzufügen
@@ -584,13 +590,13 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		return favItems;
 	}
 	
-	public boolean checkFavorite(Item i, Group g) throws IllegalArgumentException {
-		
-		Boolean isFav = favoriteItemMapper.checkFav(i, g);
-		return isFav;
-		
-	}
 	
+	@Override
+	public Boolean checkFav(Group group, Item i) throws IllegalArgumentException{
+		Boolean isFav = favoriteItemMapper.checkFav(i, group);
+		return isFav;
+	}
+
 	/*
 	   * ***************************************************************************
 	   * ABSCHNITT, Ende: Methoden für FavoriteItem-Objekte
@@ -675,6 +681,11 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		responsibilityMapper.delete(rs);
 	}
 	
+	public ArrayList<Responsibility> getResponsibilityByPerson(Person p) {
+		return this.responsibilityMapper.findByPerson(p);
+		
+	}
+	
 	/*
 	   * ***************************************************************************
 	   * ABSCHNITT, Ende: Methoden für Responsibility-Objekte
@@ -729,7 +740,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	@Override
 	public void deleteGroup(Group g) {
 		
-		//loeschen der zugeh�rigen Shoppinglists, Responsibilities, ListItems
+		//loeschen der zugeh�rigen Shoppinglists, Responsibilities, ListItems
 		
 		ArrayList<ShoppingList> result = groupMapper.getShoppingListsPerGroup(g);
 		
@@ -762,8 +773,11 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	}
 
 
-
-
+	@Override
+	public ArrayList<ShoppingList> getAllShoppingListsByPerson(Person p) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 	

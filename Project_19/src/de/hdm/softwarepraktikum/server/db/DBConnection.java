@@ -3,6 +3,7 @@ package de.hdm.softwarepraktikum.server.db;
 	
 import java.sql.Connection;
 import java.sql.DriverManager;
+
 import com.google.appengine.api.utils.SystemProperty;
 	
 
@@ -22,7 +23,7 @@ import com.google.appengine.api.utils.SystemProperty;
 		    private static Connection con = null;
 		    
 		    private static String googleUrl = "jdbc:google:mysql://fabled-rookery-239112:europe-west3:itprojekt-ss19/19ssprojekt?user=root&password=bruno";
-		    private static String localUrl = "jdbc:mysql://127.0.0.1:3306/19ssprojekt?user=root&password=&";
+		    private static String localUrl = "jdbc:mysql://127.0.0.1:3306/19ssprojekt?user=root&password=itprojekt";
 		   
 
 		   
@@ -45,7 +46,7 @@ import com.google.appengine.api.utils.SystemProperty;
 		            try {
 		            	
 		                if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
-		                    // Load the class that provides the new
+		            	// Load the class that provides the new
 		                    // "jdbc:google:mysql://" prefix.
 		                    Class.forName("com.mysql.jdbc.GoogleDriver");
 		                    url = googleUrl;

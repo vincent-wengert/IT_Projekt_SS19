@@ -56,7 +56,7 @@ public class ShoppingListMapper {
 			Statement stmt = con.createStatement();
 			
 			//Statement ausf�llen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("Select ShoppingList_ID, Title FROM ShoppingList" + "WHERE ShoppingList_ID= " + id);
+			ResultSet rs = stmt.executeQuery("Select ShoppingList_ID, Title, ChangeDate, CreationDate FROM ShoppingList WHERE ShoppingList_ID=" + id);
 			
 			/*
 		     * Da id Prim�rschl�ssel ist, kann max. nur ein Tupel zur�ckgegeben
@@ -67,6 +67,8 @@ public class ShoppingListMapper {
 				ShoppingList sl = new ShoppingList();
 				sl.setId(rs.getInt("ShoppingList_ID"));
 				sl.setTitle(rs.getString("Title"));
+				sl.setChangedate(rs.getTimestamp("ChangeDate"));
+				sl.setCreationdate(rs.getTimestamp("CreationDate"));
 				
 				return sl; 		
 		}
@@ -126,13 +128,15 @@ public class ShoppingListMapper {
 	    try {
 	      Statement stmt = con.createStatement();
 
-	      ResultSet rs = stmt.executeQuery("SELECT ShoppingList_ID, Title FROM ShoppingList WHERE Group_ID = " + groupID);
+	      ResultSet rs = stmt.executeQuery("SELECT ShoppingList_ID, Title, CreationDate, ChangeDate FROM ShoppingList WHERE Group_ID = " + groupID);
 
 	      // Fuer jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
 	      while (rs.next()) {
 	    	ShoppingList sl = new ShoppingList();
 	        sl.setId(rs.getInt("ShoppingList_ID"));
 	        sl.setTitle(rs.getString("Title"));
+	        sl.setCreationdate(rs.getTimestamp("CreationDate"));
+	        sl.setChangedate(rs.getTimestamp("ChangeDate"));
 
 	        // Hinzuf�gen des neuen Objekts zum Ergebnisvektor
 	        result.add(sl);
@@ -216,20 +220,14 @@ Connection con = DBConnection.connection();
 			Connection con = DBConnection.connection();
 			
 			try {
-				//Statement stmt = con.createStatement();
 				
-				//stmt.executeUpdate("UPDATE ShoppingList " + "SET Title=\"" +sl.getTitle() + "\", " + "Group_ID=\""
-		        //	+ sl.getGroupID() + "\", " +"SET Changedate=\"" 
-				//+sl.getChangedate() + "\" "+ "WHERE Shoppinglist_id=" + sl.getId());
-				
-				PreparedStatement st = con.prepareStatement("UPDATE ShoppingList SET Title = ?, Group_ID = ?, Changedate = ?"
-						+ " WHERE ShoppingList_ID = ?");
+				PreparedStatement st = con.prepareStatement("UPDATE ShoppingList SET Title = ?, ChangeDate = ? WHERE ShoppingList_ID= ?");
 				
 				st.setString(1, sl.getTitle());
-				st.setInt(2, sl.getGroupID());
-				st.setTimestamp(3, sl.getChangedate());
-				st.setInt(4, sl.getId());
+				st.setTimestamp(2, sl.getChangedate());
+				st.setInt(3, sl.getId());
 				
+				System.out.println(st);
 				st.executeUpdate();
 				
 			} catch (SQLException e) {
@@ -266,33 +264,33 @@ Connection con = DBConnection.connection();
 	 * Eine Methode, um alle SL einer Person zu finden.
 	 */
 	
-		//public ArrayList<ShoppingList> findByMember(int memberID) {
-		    //Connection con = DBConnection.connection();
-		   // ArrayList<ShoppingList> result = new ArrayList<ShoppingList>();
+		public ArrayList<ShoppingList> findByMember(int memberID) {
+		    Connection con = DBConnection.connection();
+		    ArrayList<ShoppingList> result = new ArrayList<ShoppingList>();
 
-		    //try {
-		     // Statement stmt = con.createStatement();
+		    try {
+		      Statement stmt = con.createStatement();
 
-		      //ResultSet rs = stmt.executeQuery("SELECT id, member FROM group "
-		       //   + "WHERE member=" + memberID);
+		      ResultSet rs = stmt.executeQuery("SELECT id, member FROM group "
+		          + "WHERE member=" + memberID);
 
 		      // F�r jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
-		     // while (rs.next()) {
-		    	//ShoppingList sl = new ShoppingList();
-		       // sl.setId(rs.getInt("id"));
+		      while (rs.next()) {
+		    	ShoppingList sl = new ShoppingList();
+		        sl.setId(rs.getInt("id"));
 		      
 
 		        // Hinzuf�gen des neuen Objekts zum Ergebnisvektor
-		        //result.add(sl);
-		      //}
-		    //}
-		    //catch (SQLException e2) {
-		    //  e2.printStackTrace();
-		    //}
+		        result.add(sl);
+		      }
+		    }
+		    catch (SQLException e2) {
+		      e2.printStackTrace();
+		    }
 
-		    // Ergebnisvektor zur�ckgeben
-		    //return result;
-		 // }
+		     //Ergebnisvektor zur�ckgeben
+		    return result;
+		  }
 		
 		/**
 		 * Auslesen aller SL einer Person (durch <code> Person</code>-Objekt 
@@ -300,14 +298,14 @@ Connection con = DBConnection.connection();
 		 * @param member Personobjekt, dessen SL ausgelesen werden sollen.
 		 * @return alle SL der Person
 		 */
-		// public ArrayList<ShoppingList> findByMember(Person member) {
+		 public ArrayList<ShoppingList> findByMember(Person member) {
     
 			    /*
 			     * Wir lesen einfach die id (Prim�rschl�ssel) des Person-Objekts
 			     * aus und delegieren die weitere Bearbeitung an findByMember(int memberID).
 			     */
-			//    return findByMember(member.getId());
-			//  }
+			    return findByMember(member.getId());
+			  }
 
 		
 			

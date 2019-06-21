@@ -40,7 +40,7 @@ public class ReportbyPerson extends VerticalPanel {
 	
 	
 	
-	//private ReportGeneratorAsync report = ClientsideSettings.getReportGenerator();
+	private ReportGeneratorAsync report = ClientsideSettings.getReportGenerator();
 	private ReportEntry reportGenerator = new ReportEntry();
 	
 	private VerticalPanel selectionPanel = new VerticalPanel();

@@ -64,7 +64,7 @@ public class Report implements Serializable {
 	   * 
 	   * @return Text der Kopfdaten.
 	   */
-	  public Paragraph getHeaderData() {
+	  public Paragraph getHeader() {
 	    return this.headerData;
 	  }
 
@@ -73,7 +73,7 @@ public class Report implements Serializable {
 	   * 
 	   * @param headerData Text der Kopfdaten.
 	   */
-	  public void setHeaderData(Paragraph headerData) {
+	  public void setHeader(Paragraph headerData) {
 	    this.headerData = headerData;
 	  }
 
@@ -100,7 +100,7 @@ public class Report implements Serializable {
 	   * 
 	   * @return Datum der Erstellung des Berichts
 	   */
-	  public Date getCreated() {
+	  public Date getCreationDate() {
 	    return this.created;
 	  }
 
@@ -111,12 +111,21 @@ public class Report implements Serializable {
 	   * 
 	   * @param created Zeitpunkt der Erstellung
 	   */
-	  public void setCreated(Date created) {
+	  public void setCreationDate(Date created) {
 	    this.created = created;
 	  }
 	
 	
-	
+	    /**
+	     * Hier wird das Erstellungsdatum in einen String gespeichert und gekürzt.
+	     *
+	     * @return Das zum Anzeigen formatierte Creationdate wird zurückgegeben.
+	     */
+	    public String getCreationDateString() {
+	    	
+	    	String creationDate = this.created.toString().split("\\.")[0];
+	    	return creationDate;
+		}
 	
 
 }

@@ -1,18 +1,17 @@
 package de.hdm.softwarepraktikum.server.db;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-
-import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
-import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
-import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
+
 
 public class ListItemMapper {
 	
@@ -65,6 +64,7 @@ public class ListItemMapper {
 		 */
 			
 			
+			
 		ResultSet rs = stmt.executeQuery("SELECT MAX(ListItem_ID) AS maxid " + "FROM ListItem");
 		
 		// Wenn wir etwas zur�ckerhalten, kann dies nur einzeilig sein
@@ -76,13 +76,18 @@ public class ListItemMapper {
 		li.setId(rs.getInt("maxid") + 1);
 				
 		PreparedStatement stmt2 = con.prepareStatement(
-				"INSERT INTO ListItem (ListItem_ID, Unit, Amount, IsChecked, Responsibility_ID, Item_ID) " + "VALUES (?, ?, ?, ?, ?, ?)",
+				"INSERT INTO ListItem (ListItem_ID, Unit, Amount, BoughtOn, Responsibility_ID, Item_ID) " + "VALUES (?, ?, ?, ?, ?, ?)",
 				Statement.RETURN_GENERATED_KEYS);
 		
 		stmt2.setInt(1, li.getId());
 		stmt2.setString(2, li.getUnit().toString());
 		stmt2.setDouble(3, li.getAmount());
-		stmt2.setBoolean(4, li.getChecked());
+		
+		if(li.getChecked() == true) {
+			stmt2.setTimestamp(4, li.getChangedate());
+		}else {
+			stmt2.setTimestamp(4, null);
+		}
 		stmt2.setInt(5, res.getId());
 		stmt2.setInt(6, li.getItemId());
 		System.out.println(stmt2);
@@ -112,26 +117,18 @@ public class ListItemMapper {
 		
 		try {
 			
-//			//muss man noch verbessern zwecks responsibility
-//			Statement stmt = con.createStatement();
-//			
-//			stmt.executeUpdate("UPDATE listitems " + "SET item=\"" + li.getItemId() + "\", " + "amount=\""
-//					+ li.getAmount() + "\" " + "WHERE id=" + li.getId());
-			
-			
-			PreparedStatement st = con.prepareStatement("UPDATE ListItem SET Unit = ?, Amount = ?, "
-					+ " WHERE ListItem_ID = ?");
+			PreparedStatement st = con.prepareStatement("UPDATE ListItem SET Unit= ?, Amount= ? WHERE ListItem_ID= ?");
 			
 			st.setString(1, li.getUnit().toString());
 			st.setDouble(2, li.getAmount());
 			st.setInt(3, li.getId());
+			System.out.println(st);
 			st.executeUpdate();
 			
 			
 			
 			
-			PreparedStatement st2 = con.prepareStatement("UPDATE Responsibility SET Store_ID = ?, Person_ID = ?, "
-					+ " WHERE Responsibility_ID = ?");
+			PreparedStatement st2 = con.prepareStatement("UPDATE Responsibility SET Store_ID= ?, Person_ID= ? WHERE Responsibility_ID= ?");
 			
 			st2.setInt(1, li.getStoreID());
 			st2.setInt(2, li.getBuyerID());
@@ -236,12 +233,18 @@ public class ListItemMapper {
 		}
 
 		public void checkListItem(ListItem li) {
-			
+				
 				Connection con = DBConnection.connection();
 				try {
-					PreparedStatement st = con.prepareStatement("UPDATE ListItem SET IsChecked = ? WHERE ListItem_ID = ?");
+					PreparedStatement st = con.prepareStatement("UPDATE ListItem SET BoughtOn = ? WHERE ListItem_ID = ?");
 					
-					st.setBoolean(1, li.getChecked());
+					if(li.getChecked() == true) {
+						System.out.println("true");
+						st.setTimestamp(1, li.getChangedate());
+					}else {
+						System.out.println("false");
+						st.setTimestamp(1, null);
+					}
 					st.setInt(2, li.getId());
 					System.out.println(st);
 					st.executeUpdate();
@@ -272,7 +275,13 @@ public class ListItemMapper {
 					listItem.setId(rs.getInt("ListItem_ID"));
 					listItem.setUnit(listItem.getItemUnit(rs.getString("Unit")));
 					listItem.setAmount(rs.getDouble("Amount"));
-					listItem.setChecked(rs.getBoolean("IsChecked"));
+					
+					if(rs.getTimestamp("BoughtOn") != null) {
+						listItem.setChecked(true);
+					}else {
+						listItem.setChecked(false);
+					}
+					
 					listItem.setItemId(rs.getInt("Item_ID"));
 					listItem.setResID(rs.getInt("Responsibility_ID"));
 					
@@ -298,7 +307,7 @@ public class ListItemMapper {
 			
 			ArrayList<ListItem> allCheckedListItems = new ArrayList<ListItem>();
 	
-			String st = "SELECT * from ListItem WHERE IsChecked = 'True'";
+			String st = "SELECT * from ListItem WHERE ";
 			
 			try {
 				
@@ -321,6 +330,53 @@ public class ListItemMapper {
 				return allCheckedListItems;
 		}
 		
+		
+		public ArrayList<ListItem> getCheckedListItemsOfGroupBetweenDates(int groupId, Timestamp start, Timestamp end) {
+			Connection con = DBConnection.connection();
+			
+			java.sql.Timestamp from = java.sql.Timestamp.valueOf("2019-06-15 14:38:58");
+
+			java.sql.Timestamp to = java.sql.Timestamp.valueOf("2019-06-30 18:42:58");
+			
+			ArrayList<ListItem> listItems = new ArrayList<ListItem>();
+				
+			String st = "SELECT * from ListItem JOIN Responsibility ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID"+ 
+					" JOIN  ShoppingList ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID"+
+					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE `Group`.Group_ID= " + groupId +
+					" AND ListItem.BoughtOn BETWEEN \"" + from + " \"AND \" " + to + "\"";
+				
+			try {
+				
+				Statement stmt = con.createStatement();
+				
+				ResultSet rs = stmt.executeQuery(st);
+				
+				while (rs.next()) {
+					ListItem listItem = new ListItem();
+					listItem.setId(rs.getInt("ListItem_ID"));
+					listItem.setUnit(listItem.getItemUnit(rs.getString("Unit")));
+					listItem.setAmount(rs.getDouble("Amount"));
+					
+					
+					
+					listItem.setItemId(rs.getInt("Item_ID"));
+					listItem.setResID(rs.getInt("Responsibility_ID"));
+					
+					//Ab hier Resposibility Tabelle eigentlich
+					listItem.setBuyerID(rs.getInt("Person_ID"));
+
+					listItem.setStoreID(rs.getInt("Store_ID"));
+					
+					listItems.add(listItem);
+				}
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+					}
+				
+				return listItems;
+				
+			}
 		
 		///TO_DO mit Joins""
 		

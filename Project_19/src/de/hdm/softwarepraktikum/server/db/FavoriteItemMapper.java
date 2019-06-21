@@ -45,15 +45,18 @@ public class FavoriteItemMapper {
 	
 	public void insert(Item i, Group g) {
 		
-Connection con = DBConnection.connection();
+		Connection con = DBConnection.connection();
 		
 
 		try {
+		      PreparedStatement stmt2 = con.prepareStatement(
+			"INSERT INTO Favorites (Group_Group_ID, Item_Item_ID) VALUES (?, ?)",
+						Statement.RETURN_GENERATED_KEYS);
 
-			Statement stmt = con.createStatement();
-			stmt.executeUpdate("INSERT INTO FavoriteItems (itemID, personID, groupID) " + "VALUES (" + i.getId() + ",'"
-							 + g.getId() + "')");		
-			
+				stmt2.setInt(1, g.getId());
+				stmt2.setInt(2,i.getId());		
+				stmt2.executeUpdate();
+				System.out.println(stmt2);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -96,7 +99,8 @@ Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE FROM FavoriteItems " + "WHERE item_id=" + i.getId() + "AND group_id="+ g.getId());
+			stmt.executeUpdate("DELETE FROM Favorites WHERE Item_Item_ID=" + i.getId() + " AND Group_Group_ID="+ g.getId());
+			System.out.println(stmt);
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -112,7 +116,7 @@ Connection con = DBConnection.connection();
 		 try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT FavoriteItem.item_id, Item.name FROM FavoriteItem INNER JOIN item ON FavoriteItem.item_id = item.item_id WHERE groupid =" + g.getId());
+		      ResultSet rs = stmt.executeQuery("SELECT Favorites.item_id, Item.name FROM Favorites INNER JOIN item ON Favorites.item_id = item.item_id WHERE groupid =" + g.getId());
 
 		      // F�r jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
 		      while (rs.next()) {
@@ -143,7 +147,7 @@ Connection con = DBConnection.connection();
 		
 		 try {
 		      Statement stmt = con.createStatement();
-		      ResultSet rs = stmt.executeQuery("SELECT count(*) FROM FavoriteItem WHERE groupid =" + g.getId() + "AND" + "itemid =" + i.getId());
+		      ResultSet rs = stmt.executeQuery("SELECT * FROM Favorites WHERE Group_Group_ID =" + g.getId() + " AND Item_Item_ID =" + i.getId());
 		      
 		      
 		      if (rs.next()) {
@@ -158,11 +162,7 @@ Connection con = DBConnection.connection();
 		      e2.printStackTrace();
 		    }
 		return favorite;
-
-		    
-		
-		
-		
+	
 	}
 
 }

@@ -26,7 +26,7 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ArrayList<Person> getAllPersons();
 	
-	public Item createItem(String name, boolean value);
+	Item createItem(String name, boolean value);
 	
 	public void updateItem(Item i);
 	
@@ -72,9 +72,13 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ArrayList<ListItem> getAllListItemsByShoppingLists(ShoppingList sl);
 	
+	public ShoppingList findShoppingListbyId(int id);
+	
 	public void addFavoriteItem(Item i, Group g);
 	
 	public void removeFavoriteItem(Item i, Group g);
+	
+	public Boolean checkFav(Group group , Item i);
 	
 	public Store createStore(String name, String street, int postcode, String city, int housenumber);
 	
