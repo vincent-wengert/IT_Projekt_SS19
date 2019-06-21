@@ -109,8 +109,19 @@ public class HTMLReportWriter extends ReportWriter {
 		        }
 		        else {
 		          if (i >=1) {
-							result.append("<td style=\"background:#F2F3F4;border-left:1px solid black;border-top:1px solid black;padding-left:3px;\">"
-	    			                + row.getColumnByIndex(k) + "</td>");
+						//	result.append("<td style=\"background:#F2F3F4;border-left:1px solid black;border-top:1px solid black;padding-left:3px;\">"
+	    			    //          + row.getColumnByIndex(k) + "</td>");
+			
+							if (k == 2) {
+								SubColumn col = (SubColumn) row.getColumnByIndex(k);
+								result.append("<td>" + this.processSubTable(col) + "</td>");
+							
+							}else {
+			            result.append("<td style=\"background:white;border-left:1px solid black;border-top:1px solid black;padding-left:3px;\">"
+			                + row.getColumnByIndex(k) + "</td>");
+							}
+							
+	
 		          			}
 		          else {
 		            result.append("<td valign=\"top\">" + row.getColumnByIndex(k) + "</td>");
@@ -137,6 +148,42 @@ public class HTMLReportWriter extends ReportWriter {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	
+	
+	
+	
+	public StringBuffer processSubTable(SubColumn sc) {
+		StringBuffer result = new StringBuffer();
+
+		ArrayList<Row> rows = sc.getSubRows();
+
+		result.append("<table style=\"width:100%;border-left: 1px solid black\">");
+
+		for (int i = 0; i < rows.size(); i++) {
+			Row row = rows.get(i);
+			result.append("<tr>");
+			
+		
+			for (int k = 0; k < row.getColumnsSize(); k++) {
+				if(k==0) {
+					result.append("<td style=\"width:33%;background:#e7e7e7;border-top:1px solid black\">" + row.getColumnByIndex(k) + "</td>");
+					continue;
+				}
+				
+				
+						result.append("<td style=\"width:33%;background:white;border-top:1px solid black\">" + row.getColumnByIndex(k) + "</td>");
+					
+				
+			}
+			result.append("</tr>");
+		}
+
+		result.append("</table>");
+
+		return result;
+    }
 
 
 
