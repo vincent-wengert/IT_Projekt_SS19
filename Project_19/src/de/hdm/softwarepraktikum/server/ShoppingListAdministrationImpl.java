@@ -780,6 +780,13 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	}
 
 
+	@Override
+	public ArrayList<ListItem> getCheckedListItemsOfGroupBetweenDates(int id, Timestamp from, Timestamp to) {
+		// TODO Auto-generated method stub
+		return this.listItemMapper.getCheckedListItemsOfGroupBetweenDates(id, from, to);
+	}
+
+
 	
 	/*
 	   * ***************************************************************************

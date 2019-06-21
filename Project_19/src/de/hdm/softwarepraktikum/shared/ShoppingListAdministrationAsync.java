@@ -1,6 +1,7 @@
 package de.hdm.softwarepraktikum.shared;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -98,4 +99,7 @@ public interface ShoppingListAdministrationAsync {
 	void getAllCheckedItemsByGroup(Group g, AsyncCallback<ArrayList<ListItem>> callback);
 
 	void deleteGroup(Group g, AsyncCallback<Void> callback);
+
+	void getCheckedListItemsOfGroupBetweenDates(int id, Timestamp from, Timestamp to,
+			AsyncCallback<ArrayList<ListItem>> callback);
 }
