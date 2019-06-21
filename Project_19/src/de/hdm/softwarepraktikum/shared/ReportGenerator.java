@@ -1,5 +1,6 @@
 package de.hdm.softwarepraktikum.shared;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -51,7 +52,7 @@ public interface ReportGenerator extends RemoteService {
 	 * @return alle eingekauften Produkte einer Gruppe 
 	 * @throws IllegalArgumentException
 	 */
-	public abstract ItemsByGroupReport createGroupStatisticsReport(Group g) throws IllegalArgumentException;
+	public abstract ItemsByGroupReport createGroupStatisticsReport(Group g, Timestamp from, Timestamp to) throws IllegalArgumentException;
  	
 	/**
 	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#getAllItems
@@ -95,6 +96,7 @@ public interface ReportGenerator extends RemoteService {
 
 
 	ItemsByPersonReport createUserStatisticsReport(Person p) throws IllegalArgumentException;
+
 
 	
 	
