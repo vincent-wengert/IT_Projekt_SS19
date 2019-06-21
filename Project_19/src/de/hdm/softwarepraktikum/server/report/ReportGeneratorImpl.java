@@ -9,6 +9,7 @@ import java.util.Map;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.softwarepraktikum.server.ShoppingListAdministrationImpl;
+import de.hdm.softwarepraktikum.server.db.ListItemMapper;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministration;
 import de.hdm.softwarepraktikum.shared.ReportGenerator;
 import de.hdm.softwarepraktikum.shared.bo.Person;
@@ -45,6 +46,13 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	 */
     private ShoppingListAdministration administration = null;
 
+    /*
+     * Referenz auf den listItemMapper, welcher ListItem Objekte mit der Datenbank
+     * abgleicht.
+     */
+    private ListItemMapper listItemMapper = null;
+    
+    
     
 	public ReportGeneratorImpl() throws IllegalArgumentException {	
 	}
@@ -60,6 +68,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		s.init();
 		this.administration = s;
 		
+		this.listItemMapper = ListItemMapper.listitemMapper();
 	}
 	
 	protected ShoppingListAdministration getShoppingListAdministration() {
@@ -160,113 +169,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 //		return null;
 //	}
 
-	@Override
-	public ItemsByPersonReport createUserStatisticsReport(Person p) throws IllegalArgumentException {
-		if(this.getShoppingListAdministration() == null) {
-			return null;
-		}
-			//Anlegen eines leeren Reports.
-			ItemsByPersonReport result = new ItemsByPersonReport();
-			
-			//Titel des Reports
-			result.setTitle("Einkaufsstatistik von" + p.getName());
-			
-			//Impressum hinzufï¿½gen
-			this.AddImprint(result);
-			
-			/*
-			 * Erstellungsdatum des Reports durch einen Timestamp hinzufï¿½gen. 
-			 */
-			result.setCreationDate(new Timestamp(System.currentTimeMillis()));
-		
-			
-			/**
-			 * TO DO: Bezug zu Store und Zeitraum!
-			 */
-			ArrayList<ListItem> relevantitems = new ArrayList<ListItem>();
-			
-			ArrayList<ShoppingList> alllists = this.administration.getAllShoppingListsByPerson(p);
-			ArrayList<ListItem> checkedbySL = this.administration.getAllCheckedItemsBySL(sl);
-			ArrayList<Responsibility> resByPerson = this.administration.getResponsibilityByPerson(p);
-			
-			for(Person p1: this.administration.getAllPersons()) {
-				for(ShoppingList sl : alllists) {
-					for(ListItem li: checkedbySL) {
-						for(Responsibility re: resByPerson) {
-							if(p1.getId() == p.getId() && p.getId() == re.getBuyerID() && relevantitems.contains(li) == false ) {
-								relevantitems.add(li);
-							}
-						}
-					}
-				}
-			}	
-			
-			
-			/*
-			 * Zusammenstellung der Kopfdaten des Reports
-			 */
-			CompositeParagraph header = new CompositeParagraph();
-			
-			//Name der Gruppe aufnehmen
-			header.addSubParagraph(new SimpleParagraph("Person: " + p.getName()));
-			
-			//Hinzufï¿½gen der Kopfdaten zum Report
-			result.setHeader(header);
-			
-			//Anlegen der Kopfzeile fï¿½r die Statistik-Tabelle.
-			Row headline = new Row();
-			
-			/**
-			 * Im Report werden fï¿½nf Spalten benï¿½tigt: die ID des Produkts,
-			 * die Produktbezeichnung, die Einheit, die Eingekaufte Menge und das
-			 * Einkaufsdatum.
-			 */
-			headline.addColumn(new Column("ID"));
-			headline.addColumn(new Column("Produktbezeichnung"));
-			headline.addColumn(new Column("Einheit"));
-			headline.addColumn(new Column("Eingekaufte Menge"));
-			headline.addColumn(new Column("Hï¿½ndler"));
-			
-			
-			result.addRow(headline);
-			
-			/*
-			 * Auslesen sï¿½mtlicher abgehakten <code>ListItem</code>-Objekte, die dem Report 
-			 * hinzugefï¿½gt werden. Methode "getListItem 
-			 * 
-			 * 
-			 */
-			ArrayList<ListItem> li = this.administration.getAllCheckedItemsByGroup(g);
-			for(ListItem l : li) {
-				
-				//Eine leere Zeile anlegen.
-				Row listItemRow = new Row();
-				
-				//erste Spalte: ID hinzufï¿½gen
-				listItemRow.addColumn(new Column(String.valueOf(l.getId())));
-				
-				//zweite Spalte: Bezeichnung eintragen String.valueOf(l.getName()))
-				listItemRow.addColumn(new Column());
-				
-				//dritte Spalte: Einheit eintragen
-				listItemRow.addColumn(new Column(String.valueOf(l.getUnit())));
-				
-				//vierte Spalte: Anzahl, wie oft das Produkt gekauft wurde.
-				//listItemRow.addColumn(new Column(String.valueOf()));
-				
-				//fï¿½nfte Spalte: Store String.valueOf(l.getStore()
-				listItemRow.addColumn(new Column());
-				
-				result.addRow(listItemRow);
-				
-				
-			}
-			
-			return result;
-	}
-
-
-	
 
 	@Override
 	public ArrayList<Item> getAllItems(int id) throws IllegalArgumentException {
@@ -400,6 +302,241 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     return null;
 	}
 
+	@Override
+	public ItemsByPersonReport getReportOfPerson(Person p) throws IllegalArgumentException {
+		if(this.getShoppingListAdministration() == null) {
+    		return null;
+    		}
+		
+		ItemsByPersonReport result = new ItemsByPersonReport();
+		
+		result.setTitle("Alle eingekauften Items des Users.");
+		
+		ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfPerson(p.getId());
+		
+		//Sicherheitsabfrage
+    	if(items !=null) {
+  
+        // Zusammenstellung der Kopfdaten (Headline) des Reports 
+    	Row headline = new Row();
+    	headline.addColumn(new Column("ListItem_ID"));
+    	headline.addColumn(new Column("Unit"));
+    	headline.addColumn(new Column("Amount"));
+    	headline.addColumn(new Column("Item_ID"));
+    	headline.addColumn(new Column("Responsibility_ID"));
+    	headline.addColumn(new Column("Person_ID"));
+    	headline.addColumn(new Column("Store_ID"));
+    	//headline.addColumn(new Column("Name"));
+    	
+   	 		
+   	 	result.addRow(headline);
+		  	
+   	    /*
+   	     * Auslesen s�mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugef�gt werden.
+   	     */
+    	for(ListItem i : items) {
+  
+				
+				//Eine leere Zeile anlegen.
+				Row listItemRow = new Row();
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getId())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getUnit())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getItemId())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getResID())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getBuyerID())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getStoreID())));
+//				//zweite Spalte: Bezeichnung eintragen
+//				listItemRow.addColumn(new Column(String.valueOf(i.getName())));
+			
+				
+				
+				result.addRow(listItemRow);
+    	
+    		}
+    	//R�ckgabe des fertigen Reports
+    	return result;
+    	}
+    	return null;
+	}
+	
+	@Override
+	public ItemsByPersonReport getReportOfPersonBetweenDates(Person p, Timestamp from, Timestamp to) throws IllegalArgumentException {
+		if(this.getShoppingListAdministration() == null) {
+    		return null;
+    		}
+		
+		ItemsByPersonReport result = new ItemsByPersonReport();
+		
+		result.setTitle("Alle eingekauften Items des Users in einem bestimmten Zeitraum.");
+		
+		ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfPersonBetweenDates(p.getId(), from, to);
+		
+		//Sicherheitsabfrage
+    	if(items !=null) {
+  
+        // Zusammenstellung der Kopfdaten (Headline) des Reports 
+    	Row headline = new Row();
+    	headline.addColumn(new Column("ListItem_ID"));
+    	headline.addColumn(new Column("Unit"));
+    	headline.addColumn(new Column("Amount"));
+    	headline.addColumn(new Column("Item_ID"));
+    	headline.addColumn(new Column("Responsibility_ID"));
+    	headline.addColumn(new Column("Person_ID"));
+    	headline.addColumn(new Column("Store_ID"));
+    	//headline.addColumn(new Column("Name"));
+    	
+   	 		
+   	 	result.addRow(headline);
+		  	
+   	    /*
+   	     * Auslesen s�mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugef�gt werden.
+   	     */
+    	for(ListItem i : items) {
+  
+				
+				//Eine leere Zeile anlegen.
+				Row listItemRow = new Row();
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getId())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getUnit())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getItemId())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getResID())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getBuyerID())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getStoreID())));
+//				//zweite Spalte: Bezeichnung eintragen
+//				listItemRow.addColumn(new Column(String.valueOf(i.getName())));
+			
+				
+				
+				result.addRow(listItemRow);
+    	
+    		}
+    	//R�ckgabe des fertigen Reports
+    	return result;
+    	}
+    	return null;
+	}
+
+	@Override
+	public ItemsByGroupReport getReportOfGroup(Group g) throws IllegalArgumentException {
+		if(this.getShoppingListAdministration() == null) {
+    		return null;
+    		}
+    	
+    	//Anlegen eines leeren Reports
+    	ItemsByGroupReport result = new ItemsByGroupReport();
+    	
+  
+    	// Jeder Report erh�lt einen Titel (�berschrift)
+    	result.setTitle("Alle Items einer Gruppe");
+    	
+    	/*
+         * Datum der Erstellung hinzuf�gen. new Timestamp() erzeugt autom. einen
+         * "Timestamp" des Zeitpunkts der Instantiierung des Objekts.
+         */
+    	result.setCreationDate(new Timestamp(System.currentTimeMillis()));
+    	
+    	ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfGroup(g.getId());
+    	
+    
+    	//Sicherheitsabfrage
+    	if(items !=null) {
+  
+        // Zusammenstellung der Kopfdaten (Headline) des Reports 
+    	Row headline = new Row();
+    	headline.addColumn(new Column("ListItem_ID"));
+    	headline.addColumn(new Column("Unit"));
+    	headline.addColumn(new Column("Amount"));
+    	headline.addColumn(new Column("Item_ID"));
+    	headline.addColumn(new Column("Responsibility_ID"));
+    	headline.addColumn(new Column("Person_ID"));
+    	headline.addColumn(new Column("Store_ID"));
+    	//headline.addColumn(new Column("Name"));
+    	
+   	 		
+   	 	result.addRow(headline);
+		  	
+   	    /*
+   	     * Auslesen s�mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugef�gt werden.
+   	     */
+    	for(ListItem i : items) {
+  
+				
+				//Eine leere Zeile anlegen.
+				Row listItemRow = new Row();
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getId())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getUnit())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getItemId())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getResID())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getBuyerID())));
+				
+				//erste Spalte: ID hinzuf�gen
+				listItemRow.addColumn(new Column(String.valueOf(i.getStoreID())));
+//				//zweite Spalte: Bezeichnung eintragen
+//				listItemRow.addColumn(new Column(String.valueOf(i.getName())));
+			
+				
+				
+				result.addRow(listItemRow);
+    	
+    		}
+    	//R�ckgabe des fertigen Reports
+    	return result;
+    	}
+    	
+    return null;
+	}
+/*
+	@Override
+	public ItemsbyGroupReport getReportOfGroupBetweenDates(Group g) throws IllegalArgumentException {
+		if(this.getShoppingListAdministration() == null) {
+    		return null;
+    		}
+		return this.listItemMapper.getCheckedListItemsOfGroupBetweenDates(groupId, start, end);
+	}
+*/
 
 	
 	

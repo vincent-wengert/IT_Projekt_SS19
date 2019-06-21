@@ -95,11 +95,16 @@ public interface ReportGenerator extends RemoteService {
 	void AddImprint();
 
 
-	ItemsByPersonReport createUserStatisticsReport(Person p) throws IllegalArgumentException;
 
 
+
+	public ItemsByPersonReport getReportOfPerson(Person p) throws IllegalArgumentException;
 	
+	public ItemsByPersonReport getReportOfPersonBetweenDates(Person p, Timestamp from, Timestamp to) throws IllegalArgumentException;
 	
+	public ItemsByGroupReport getReportOfGroup(Group g) throws IllegalArgumentException;
+	
+	//public ItemsByGroupReport getReportOfGroupBetweenDates(Group g) throws IllegalArgumentException;
 	
 	
 	/**
