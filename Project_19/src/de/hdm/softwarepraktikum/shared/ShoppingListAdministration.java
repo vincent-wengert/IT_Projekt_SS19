@@ -101,7 +101,4 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void deleteGroup(Group g);
 
-	public ArrayList<ListItem> getCheckedListItemsOfGroupBetweenDates(int id, Timestamp from, Timestamp to);
-	
-
 }
