@@ -1,9 +1,11 @@
 package de.hdm.softwarepraktikum.client.gui.report;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.layout.client.Layout.Alignment;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -30,6 +32,7 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 import de.hdm.softwarepraktikum.shared.report.HTMLReportWriter;
 import de.hdm.softwarepraktikum.shared.report.ItemsByGroupReport;
+import java_cup.internal_error;
 
 /**
  * Diese Klasse bildet die Hauptform des ReportGenerator Clients. Hier werden alle relevanten HTML-Layout Elemente
@@ -62,14 +65,12 @@ public class Reportform {
 		private Label groupLabel = new Label("Gruppe auswählen");
 		private ListBox groupListBox = new ListBox();
 		
-		private Button reportperson = new Button("Alle Artikel");
 		private Button los = new Button("Los");
-		
-		private ReportbyGroup rbp;
 		
 		private ArrayList<Store> allStores;
 		private ArrayList<Group> allGroups;
-		private ArrayList<Item> filteredItems;
+		
+		private Group selectedGroup;
 		
 	  public void loadReportGenerator() {
 		//Divs laden
@@ -91,30 +92,28 @@ public class Reportform {
 			formHeaderPanel.setWidth("100%");
 			formHeaderPanel.setHeight("8vh");
 			
-			selectionGrid.setWidget(0, 0, storeLabel);
-			selectionGrid.setWidget(1, 0, storeListBox);
-			selectionGrid.setWidget(0, 1, fromLabel);
-			selectionGrid.setWidget(1, 1, fromDateBox);
-			selectionGrid.setWidget(0, 2, toLabel);
-			selectionGrid.setWidget(1, 2, toDateBox);
-			selectionGrid.setWidget(0, 3, groupLabel);
-			selectionGrid.setWidget(1, 3, groupListBox);
+			selectionGrid.setWidget(0, 0, groupLabel);
+			selectionGrid.setWidget(1, 0, groupListBox);
+			
+			selectionGrid.setWidget(0, 1, storeLabel);
+			selectionGrid.setWidget(1, 1, storeListBox);
+			
+			selectionGrid.setWidget(0, 2, fromLabel);
+			selectionGrid.setWidget(1, 2, fromDateBox);
+			
+			selectionGrid.setWidget(0, 3, toLabel);
+			selectionGrid.setWidget(1, 3, toDateBox);
+			
 			selectionGrid.setWidget(1, 4, los);
 			
-			
-			
-			storeListBox.setWidth("20vw");
-			groupListBox.setWidth("20vw");
+		
+			storeListBox.setWidth("15vw");
+			groupListBox.setWidth("15vw");
 			
 			menu.add(selectionGrid);
 //			menu.setCellHorizontalAlignment(selectionGrid, ALIGN_CENTER);
 			menu.setWidth("100%");
 			menu.setStylePrimaryName("menue");
-			menu.add(reportperson);
-			
-			reportperson.setStylePrimaryName("reportButton");              
-			reportperson.addClickHandler(new AddReportpersonClickHandler());
-			reportperson.setPixelSize(80, 80);
 			
 			los.addClickHandler(new getInformationClickHandler());
 			
@@ -130,9 +129,15 @@ public class Reportform {
 			p.setId(1);
 			administration.getAllGroupsByPerson(p, new GetAllGroupCallback());
 			
-//			RootPanel.get("footer").add(footer);
-			
-		  
+	  }
+	  
+	private void getSelectedValues(){
+		for (Group s : allGroups) {
+			if (s.getTitle().equals(groupListBox.getSelectedItemText())) {
+				selectedGroup = s;
+				Window.alert(selectedGroup.getTitle());
+			}
+		}
 	  }
 	  
 	  /**
@@ -144,13 +149,14 @@ public class Reportform {
 			public void onClick(ClickEvent event) {
 				storeListBox.getSelectedItemText();
 				if(fromDateBox.getValue() != null && toDateBox.getValue() != null) {
-					fromDateBox.getValue().toString();
-					toDateBox.getValue().toString();	
-				}
-				groupListBox.getSelectedItemText();
+				getSelectedValues();
 				
-				Group g = new Group();
-				reportadministration.createGroupStatisticsReport(g, new AsyncCallback<ItemsByGroupReport>() {
+				java.sql.Timestamp from = java.sql.Timestamp.valueOf("2019-06-15 14:38:58");
+
+				java.sql.Timestamp to = java.sql.Timestamp.valueOf("2019-06-30 18:42:58");
+
+				
+				reportadministration.createGroupStatisticsReport(selectedGroup,from,to, new AsyncCallback<ItemsByGroupReport>() {
 					
 					@Override
 					public void onSuccess(ItemsByGroupReport result) {
@@ -166,32 +172,14 @@ public class Reportform {
 					@Override
 					public void onFailure(Throwable caught) {
 						// TODO Auto-generated method stub
-						Notification.show(caught.toString());
+						Notification.show("Report konnte nicht geladen werden" + caught.toString());
 					}
 				});
 				
 				
 			}
 		}
-
-		
-		 /**
-		 * ClickHandler Klasse zum Abfragen der Daten !
-		 */
-		
-		private class AddReportpersonClickHandler implements ClickHandler {
-
-			public void onClick(ClickEvent event) {
-
-				RootPanel.get("Selection").clear();
-				rbp = new ReportbyGroup();
-
-				RootPanel.get("Result").add(rbp);
-				
-				
-			}
 		}
-		
 
 		private class GetAllStoresCallback implements AsyncCallback<ArrayList<Store>> {
 
@@ -265,21 +253,4 @@ public class Reportform {
 			//}
 		}
 	}	
-		
-		private class GetAllItemsCallback implements AsyncCallback<ArrayList<Item>> {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Notification.show(caught.toString());
-			}
-			
-			@Override
-			public void onSuccess(ArrayList<Item> result) {
-				// TODO Auto-generated method stub
-				
-				filteredItems = result;
-
-			}
-		}
-	
 }
