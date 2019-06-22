@@ -54,14 +54,7 @@ public interface ReportGenerator extends RemoteService {
 	 */
 
  	
-	/**
-	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#getAllItems
-	 * @param id
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	
-	public ArrayList<Item> getAllItems(int id) throws IllegalArgumentException;
+	ArrayList<Item> getAllItems() throws IllegalArgumentException;
 	
 	/**
 	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#getAllStores
@@ -70,16 +63,9 @@ public interface ReportGenerator extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	
-	public ArrayList<Store> getAllStores(int id) throws IllegalArgumentException;
+	public ArrayList<Store> getAllStores() throws IllegalArgumentException;
 	
-	/**
-	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#getStore
-	 * @param id
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	
-	public Store getStore(int id) throws IllegalArgumentException;
+	ArrayList<Group> getAllGroups(Person p);
 	
 	
 	/**
@@ -94,10 +80,6 @@ public interface ReportGenerator extends RemoteService {
 
 	void AddImprint();
 
-
-
-
-
 	public ItemsByPersonReport getReportOfPerson(Person p, Store s, Group g) throws IllegalArgumentException;
 	
 	public ItemsByPersonReport getReportOfPersonBetweenDates(Person p, Store s, Group g, Timestamp from, Timestamp to) throws IllegalArgumentException;
@@ -108,24 +90,4 @@ public interface ReportGenerator extends RemoteService {
 	ItemsByGroupReport getReportOfGroupBetweenDates(Person p,Group g, Store s, Timestamp from, Timestamp to)
 			throws IllegalArgumentException;
 	
-	//public ItemsByGroupReport getReportOfGroupBetweenDates(Group g) throws IllegalArgumentException;
-	
-	
-	/**
-	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#createItemsByPersonReport(Person p)
-	 * @param p
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	
-	// public ArrayList<Item> getAllItemsByPerson(Person p) throws IllegalArgumentException;
-	
-	// public ArrayList<Store> getAllStoreByPerson(Person p) throws IllegalArgumentException;
-	
-	// public ArrayList<Item> getAllItemsByGroup(Group g) throws IllegalArgumentException;
-	
-	// public ArrayList<Store> getAllStoreByGroup(Group g) throws IllegalArgumentException;
-	
-	// public ArrayList<Responsibility> getAllResponsibilities(Person p) throws IllegalArgumentException;
-
 }

@@ -109,17 +109,17 @@ public class HTMLReportWriter extends ReportWriter {
 		        }
 		        else {
 		          if (i >=1) {
-						//	result.append("<td style=\"background:#F2F3F4;border-left:1px solid black;border-top:1px solid black;padding-left:3px;\">"
-	    			    //          + row.getColumnByIndex(k) + "</td>");
+							result.append("<td style=\"background:#F2F3F4;border-left:1px solid black;border-top:1px solid black;padding-left:3px;\">"
+	    			              + row.getColumnByIndex(k) + "</td>");
 			
-							if (k == 2) {
-								SubColumn col = (SubColumn) row.getColumnByIndex(k);
-								result.append("<td>" + this.processSubTable(col) + "</td>");
-							
-							}else {
-			            result.append("<td style=\"background:white;border-left:1px solid black;border-top:1px solid black;padding-left:3px;\">"
-			                + row.getColumnByIndex(k) + "</td>");
-							}
+//							if (k == 2) {
+//								SubColumn col = (SubColumn) row.getColumnByIndex(k);
+//								result.append("<td>" + this.processSubTable(col) + "</td>");
+//							
+//							}else {
+//			            result.append("<td style=\"background:white;border-left:1px solid black;border-top:1px solid black;padding-left:3px;\">"
+//			                + row.getColumnByIndex(k) + "</td>");
+//							}
 							
 	
 		          			}

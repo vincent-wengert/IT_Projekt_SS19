@@ -231,7 +231,9 @@ public class Reportform {
 				if(selectedGroup != null && selectedStore == null && getIntervallDefined() ==false) {
 					Window.alert("alles leer nur Gruppe");
 					Window.alert(selectedGroup.getTitle());
-					reportadministration.getReportOfGroup(userPerson, selectedGroup, selectedStore, new getReportOfGroupCallback());
+					Person person = new Person();
+					person.setId(1);
+					reportadministration.getReportOfGroup(person, selectedGroup, selectedStore, new getReportOfGroupCallback());
 				}
 				
 				//Gruppe und Zeitraum
