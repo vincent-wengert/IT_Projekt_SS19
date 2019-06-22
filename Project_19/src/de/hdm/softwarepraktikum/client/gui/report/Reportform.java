@@ -146,7 +146,6 @@ public class Reportform {
 			for (Group g : allGroups) {
 				if (g.getTitle().equals(groupListBox.getSelectedItemText())) {
 					selectedGroup = g;
-					Window.alert(selectedGroup.getTitle());
 				}
 			}
 		} else {
@@ -157,7 +156,6 @@ public class Reportform {
 			for (Store s : allStores) {
 				if (s.getName().equals(storeListBox.getSelectedItemText())) {
 					selectedStore = s;
-					Window.alert(selectedStore.getName());
 				}
 			}
 		} else {
@@ -183,6 +181,7 @@ public class Reportform {
 
 	private void loadReports() {
 
+		
 		getSelectedValues();
 
 		if (getIntervallDefined() == true) {

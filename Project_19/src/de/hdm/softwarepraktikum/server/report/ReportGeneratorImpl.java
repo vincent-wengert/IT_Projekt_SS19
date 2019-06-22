@@ -428,7 +428,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		}
 
 		//Wenn eine Person angegeben wird, wird gefiltert
-		if(filterPerson = true) {
+		if(filterPerson == true) {
 			Iterator<ListItem> iterator;
 			for (iterator = items.iterator(); iterator.hasNext(); ) {
 			    ListItem value = iterator.next();
