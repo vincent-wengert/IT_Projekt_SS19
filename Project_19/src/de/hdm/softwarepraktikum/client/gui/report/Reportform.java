@@ -194,52 +194,70 @@ public class Reportform {
 			public void onClick(ClickEvent event) {
 				getSelectedValues();
 				
-				//Alles leer --> dann Person
-				if(selectedGroup == null && selectedStore == null && getIntervallDefined() == false) {
-					Window.alert("alles leer nur Person");
-					Person person = new Person();
-					person.setId(1);
-					reportadministration.getReportOfPerson(person, selectedStore, selectedGroup, new getReportOfPersonCallback());
-				} 
-				
-				//Nur Zeitraum (und Person) 
-				if(selectedGroup == null && selectedStore == null && getIntervallDefined() ==true) {
-					Window.alert("alles leer nur Zeitraum");
-					Person person = new Person();
-					person.setId(1);
-					reportadministration.getReportOfPersonBetweenDates(person, selectedStore, selectedGroup, fromDate, toDate, new getReportOfPersonCallback());
-				}
-				
-				//Nur Store (und Person)
-				if(selectedGroup == null && selectedStore != null && getIntervallDefined() ==false) {
-					Window.alert("alles leer nur Store");
-					Person person = new Person();
-					person.setId(1);
-					reportadministration.getReportOfPersonBetweenDates(person, selectedStore, selectedGroup, fromDate, toDate, new getReportOfPersonCallback());
-				}
-				
-				//Store und Zeitraim (und Person)
-				if(selectedGroup == null && selectedStore != null && getIntervallDefined() ==true) {
-					Window.alert("Store und Zeitraum");
-					Person person = new Person();
-					person.setId(1);
-					reportadministration.getReportOfPersonBetweenDates(person, selectedStore, selectedGroup, fromDate, toDate, new getReportOfPersonCallback());
-				}
 				
 				
-				//Nur Gruppe
-				if(selectedGroup != null && selectedStore == null && getIntervallDefined() ==false) {
-					Window.alert("alles leer nur Gruppe");
-					Window.alert(selectedGroup.getTitle());
-					Person person = new Person();
-					person.setId(1);
-					reportadministration.getReportOfGroup(person, selectedGroup, selectedStore, new getReportOfGroupCallback());
-				}
+				if(getIntervallDefined() == true) {
+					//Gruppe und Zeitraum
+					if(selectedGroup != null && selectedStore == null) {
+						Window.alert("Gruppe und Zeitraum");
+						Person person = new Person();
+						person.setId(1);
+						reportadministration.getReportOfGroupBetweenDates(userPerson, selectedGroup, selectedStore, fromDate, toDate, new getReportOfGroupCallback());
+					}
+					
+					//Store und Zeitraum (und Person)
+					if(selectedGroup == null && selectedStore != null) {
+						Window.alert("Store und Zeitraum");
+						Person person = new Person();
+						person.setId(1);
+						reportadministration.getReportOfPersonBetweenDates(person, selectedStore, selectedGroup, fromDate, toDate, new getReportOfPersonCallback());
+					}
+					
+					
+					//Nur Zeitraum (und Person) 
+					if(selectedGroup == null && selectedStore == null) {
+						Window.alert("alles leer nur Zeitraum");
+						Person person = new Person();
+						person.setId(1);
+						reportadministration.getReportOfPersonBetweenDates(person, selectedStore, selectedGroup, fromDate, toDate, new getReportOfPersonCallback());
+					}	
+					
+				} else if (getIntervallDefined() == false){
+					//Alles leer --> dann Person
+					if(selectedGroup == null && selectedStore == null) {
+						Window.alert("alles leer nur Person");
+						Person person = new Person();
+						person.setId(1);
+						reportadministration.getReportOfPerson(person, selectedStore, selectedGroup, new getReportOfPersonCallback());
+					} 
+					
+			
+					//Nur Store (und Person)
+					if(selectedGroup == null && selectedStore != null) {
+						Window.alert("alles leer nur Store");
+						Window.alert(selectedStore.getName());
+						Person person = new Person();
+						person.setId(1);
+						
+						reportadministration.getReportOfPerson(person, selectedStore, selectedGroup, new getReportOfPersonCallback());
+					}
+					
 				
-				//Gruppe und Zeitraum
-				if(groupListBox.getSelectedItemText() !="" && storeListBox.getSelectedItemText() =="" && getIntervallDefined() ==true) {
-					Window.alert("Gruppe und Zeitraum");
-					reportadministration.getReportOfGroupBetweenDates(userPerson, selectedGroup, selectedStore, fromDate, toDate, new getReportOfGroupCallback());
+					//Nur Gruppe
+					if(selectedGroup != null && selectedStore == null) {
+						Window.alert("alles leer nur Gruppe");
+						Person person = new Person();
+						person.setId(1);
+						reportadministration.getReportOfGroup(person, selectedGroup, selectedStore, new getReportOfGroupCallback());
+					}
+					
+					//Nur Gruppe
+					if(selectedGroup != null && selectedStore != null) {
+						Window.alert("Gruppe und Store");
+						Person person = new Person();
+						person.setId(1);
+						reportadministration.getReportOfGroup(person, selectedGroup, selectedStore, new getReportOfGroupCallback());
+					}
 				}
 			}
 		}

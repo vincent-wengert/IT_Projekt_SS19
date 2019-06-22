@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -158,12 +159,23 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     					}
     				}
     			}
-    	
+    	//Wenn eine Person angegeben wird, wird gefiltert
     			if(p!=null) {
     				for(ListItem li: items) {
     					if(li.getBuyerID() != p.getId()) {
     						items.remove(li);
     					}
+    				}
+    			}
+    			
+    			//Wenn ein Store angegeben wird, wird nach diesem gefiltert.
+    			if(g != null) {
+    				Iterator<ListItem> iterator;
+    				for (iterator = items.iterator(); iterator.hasNext(); ) {
+    				    ListItem value = iterator.next();
+    				    if (value.getStoreID() != s.getId()) {
+    				        iterator.remove();
+    				    }
     				}
     			}
     	//Sicherheitsabfrage
@@ -224,22 +236,25 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		result.setTitle("Alle eingekauften Items des Users.");
 		
 		ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfPerson(p.getId());
-		
 		//Wenn ein Store angegeben wird, wird nach diesem gefiltert.
 		if(s != null) {
-			for(ListItem li: items) {
-				if(li.getStoreID() != s.getId()) {
-					items.remove(li);
-				}
+			Iterator<ListItem> iterator;
+			for (iterator = items.iterator(); iterator.hasNext(); ) {
+			    ListItem value = iterator.next();
+			    if (value.getStoreID() != s.getId()) {
+			        iterator.remove();
+			    }
 			}
 		}
 		
 		//Wenn eine Gruppe angegeben wird, wird nach dieser gefiltert.
 		if(g != null) {
-			for(ListItem li: items) {
-				if(li.getGrID() != g.getId()) {
-					items.remove(li);
-				}
+			Iterator<ListItem> iterator;
+			for (iterator = items.iterator(); iterator.hasNext(); ) {
+			    ListItem value = iterator.next();
+			    if (value.getGrID() != g.getId()) {
+			        iterator.remove();
+			    }
 			}
 		}
 		
@@ -302,24 +317,30 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		result.setTitle("Alle eingekauften Items des Users in einem bestimmten Zeitraum.");
 		
 		ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfPersonBetweenDates(p.getId(), from, to);
-		
+
 		//Wenn ein Store angegeben wird, wird nach diesem gefiltert.
-				if(s != null) {
-					for(ListItem li: items) {
-						if(li.getStoreID() != s.getId()) {
-							items.remove(li);
-						}
-					}
-				}
+		if(s != null) {
+			Iterator<ListItem> iterator;
+			for (iterator = items.iterator(); iterator.hasNext(); ) {
+			    ListItem value = iterator.next();
+			    if (value.getStoreID() != s.getId()) {
+			        iterator.remove();
+			    }
+			}
+		}
+		
+		//Wenn eine Gruppe angegeben wird, wird nach dieser gefiltert.
+		if(g != null) {
+			Iterator<ListItem> iterator;
+			for (iterator = items.iterator(); iterator.hasNext(); ) {
+			    ListItem value = iterator.next();
+			    if (value.getGrID() != g.getId()) {
+			        iterator.remove();
+			    }
+			}
+		}
 				
-				//Wenn eine Gruppe angegeben wird, wird nach dieser gefiltert.
-				if(g != null) {
-					for(ListItem li: items) {
-						if(li.getGrID() != g.getId()) {
-							items.remove(li);
-						}
-					}
-				}
+				
 		//Sicherheitsabfrage
     	if(items !=null) {
   
@@ -388,24 +409,29 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	
     	ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfGroup(g.getId());
     	
-    	//Wenn ein Store angegeben wird, wird nach diesem gefiltert.
+    			
+    	    	//Wenn ein Store angegeben wird, wird nach diesem gefiltert.
     			if(s != null) {
-    				for(ListItem li: items) {
-    					if(li.getStoreID() != s.getId()) {
-    						System.out.println("store not null");
-    						items.remove(li);
-    					}
+    				Iterator<ListItem> iterator;
+    				for (iterator = items.iterator(); iterator.hasNext(); ) {
+    				    ListItem value = iterator.next();
+    				    if (value.getStoreID() != s.getId()) {
+    				        iterator.remove();
+    				    }
     				}
     			}
-    	
-    			if(p!=null) {
-    				for(ListItem li: items) {
-    					if(li.getBuyerID() != p.getId()) {
-    						System.out.println("person not null");
-    						items.remove(li);
-    					}
+    			
+    			//Wenn eine Gruppe angegeben wird, wird nach dieser gefiltert.
+    			if(p != null) {
+    				Iterator<ListItem> iterator;
+    				for (iterator = items.iterator(); iterator.hasNext(); ) {
+    				    ListItem value = iterator.next();
+    				    if (value.getBuyerID() != p.getId()) {
+    				        iterator.remove();
+    				    }
     				}
     			}
+    			
     	//Sicherheitsabfrage
     	if(items !=null) {
   
