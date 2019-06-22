@@ -52,8 +52,6 @@ public interface ReportGenerator extends RemoteService {
 	 * @return alle eingekauften Produkte einer Gruppe 
 	 * @throws IllegalArgumentException
 	 */
-
- 	
 	ArrayList<Item> getAllItems() throws IllegalArgumentException;
 	
 	/**
@@ -65,7 +63,9 @@ public interface ReportGenerator extends RemoteService {
 	
 	public ArrayList<Store> getAllStores() throws IllegalArgumentException;
 	
-	ArrayList<Group> getAllGroups(Person p);
+	public ArrayList<Group> getAllGroups(Person p) throws IllegalArgumentException;
+	
+	public ArrayList<Person> getAllPersons() throws IllegalArgumentException;
 	
 	
 	/**
@@ -84,10 +84,10 @@ public interface ReportGenerator extends RemoteService {
 	
 	public ItemsByPersonReport getReportOfPersonBetweenDates(Person p, Store s, Group g, Timestamp from, Timestamp to) throws IllegalArgumentException;
 	
-	public ItemsByGroupReport getReportOfGroup(Person p, Group g, Store s) throws IllegalArgumentException;
+	public ItemsByGroupReport getReportOfGroup(Boolean filterPerson, Person p, Group g, Store s) throws IllegalArgumentException;
 
 
-	ItemsByGroupReport getReportOfGroupBetweenDates(Person p,Group g, Store s, Timestamp from, Timestamp to)
+	ItemsByGroupReport getReportOfGroupBetweenDates(Boolean filterPerson, Person p,Group g, Store s, Timestamp from, Timestamp to)
 			throws IllegalArgumentException;
 	
 }

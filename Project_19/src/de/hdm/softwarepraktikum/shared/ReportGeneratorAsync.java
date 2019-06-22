@@ -20,7 +20,7 @@ public interface ReportGeneratorAsync {
 	
 	public void init(AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
-	void getReportOfGroupBetweenDates(Person p, Group g, Store s, Timestamp from, Timestamp to,
+	void getReportOfGroupBetweenDates(Boolean filterPerson, Person p, Group g, Store s, Timestamp from, Timestamp to,
 			AsyncCallback<ItemsByGroupReport> callback);
  	
 	public void getAllItems(AsyncCallback<ArrayList<Item>> callback) throws IllegalArgumentException;
@@ -35,8 +35,10 @@ public interface ReportGeneratorAsync {
 
 	void getReportOfPerson(Person p, Store s, Group g, AsyncCallback<ItemsByPersonReport> callback);
 
-	void getReportOfGroup(Person p, Group g, Store s, AsyncCallback<ItemsByGroupReport> callback);
+	void getReportOfGroup(Boolean filterPerson, Person p, Group g, Store s, AsyncCallback<ItemsByGroupReport> callback);
 
 	void getReportOfPersonBetweenDates(Person p, Store s, Group g, Timestamp from, Timestamp to, AsyncCallback<ItemsByPersonReport> callback);
+
+	void getAllPersons(AsyncCallback<ArrayList<Person>> callback);
 	
 }

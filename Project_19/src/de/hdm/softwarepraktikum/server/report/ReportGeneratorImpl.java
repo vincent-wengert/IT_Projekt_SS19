@@ -98,6 +98,12 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		// TODO Auto-generated method stub
 		return administration.getAllGroupsByPerson(p);
 	}
+	
+	@Override
+	public ArrayList<Person> getAllPersons() throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return administration.getAllPersons();
+	}
 
 
 	@Override
@@ -131,7 +137,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
-	public ItemsByGroupReport getReportOfGroupBetweenDates(Person p, Group g, Store s, Timestamp from, Timestamp to) throws IllegalArgumentException {
+	public ItemsByGroupReport getReportOfGroupBetweenDates(Boolean filterPerson, Person p, Group g, Store s, Timestamp from, Timestamp to) throws IllegalArgumentException {
 	  	if(this.getShoppingListAdministration() == null) {
     		return null;
     		}
@@ -151,25 +157,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	
     	ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfGroupBetweenDates(g.getId(), from, to);
     	
-    	//Wenn ein Store angegeben wird, wird nach diesem gefiltert.
-    			if(s != null) {
-    				for(ListItem li: items) {
-    					if(li.getStoreID() != s.getId()) {
-    						items.remove(li);
-    					}
-    				}
-    			}
-    	//Wenn eine Person angegeben wird, wird gefiltert
-    			if(p!=null) {
-    				for(ListItem li: items) {
-    					if(li.getBuyerID() != p.getId()) {
-    						items.remove(li);
-    					}
-    				}
-    			}
-    			
+ 
     			//Wenn ein Store angegeben wird, wird nach diesem gefiltert.
-    			if(g != null) {
+    			if(s != null) {
     				Iterator<ListItem> iterator;
     				for (iterator = items.iterator(); iterator.hasNext(); ) {
     				    ListItem value = iterator.next();
@@ -178,12 +168,25 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     				    }
     				}
     			}
+ 
+    			//Wenn eine Person angegeben wird, wird gefiltert
+    			if(filterPerson == true) {
+    				Iterator<ListItem> iterator;
+    				for (iterator = items.iterator(); iterator.hasNext(); ) {
+    				    ListItem value = iterator.next();
+    				    if (value.getBuyerID() != p.getId()) {
+    				        iterator.remove();
+    				    }
+    				}
+    			}
+    			
     	//Sicherheitsabfrage
     	if(items !=null) {
   
     		   // Zusammenstellung der Kopfdaten (Headline) des Reports 
         	Row headline = new Row();
         	headline.addColumn(new Column("Gruppe"));
+        	headline.addColumn(new Column("Verantwortliche/r"));
         	headline.addColumn(new Column("Laden"));
         	headline.addColumn(new Column("Artikelname"));
         	headline.addColumn(new Column("Einheit"));
@@ -201,7 +204,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     				//Eine leere Zeile anlegen.
     				Row listItemRow = new Row();
     				
+    				// erste Spalte: Gruppe
     				listItemRow.addColumn(new Column(getGroupName(i.getGrID(), p)));
+    				
+    				listItemRow.addColumn(new Column(getPersonName(i.getBuyerID())));
     				
     				//zweite Spalte: Laden
     				listItemRow.addColumn(new Column(getStoreName(i.getStoreID())));
@@ -389,7 +395,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
-	public ItemsByGroupReport getReportOfGroup(Person p, Group g, Store s) throws IllegalArgumentException {
+	public ItemsByGroupReport getReportOfGroup(Boolean filterPerson, Person p, Group g, Store s) throws IllegalArgumentException {
 		if(this.getShoppingListAdministration() == null) {
     		return null;
     		}
@@ -410,27 +416,27 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfGroup(g.getId());
     	
     			
-    	    	//Wenn ein Store angegeben wird, wird nach diesem gefiltert.
-    			if(s != null) {
-    				Iterator<ListItem> iterator;
-    				for (iterator = items.iterator(); iterator.hasNext(); ) {
-    				    ListItem value = iterator.next();
-    				    if (value.getStoreID() != s.getId()) {
-    				        iterator.remove();
-    				    }
-    				}
-    			}
-    			
-    			//Wenn eine Gruppe angegeben wird, wird nach dieser gefiltert.
-    			if(p != null) {
-    				Iterator<ListItem> iterator;
-    				for (iterator = items.iterator(); iterator.hasNext(); ) {
-    				    ListItem value = iterator.next();
-    				    if (value.getBuyerID() != p.getId()) {
-    				        iterator.remove();
-    				    }
-    				}
-    			}
+		//Wenn ein Store angegeben wird, wird nach diesem gefiltert.
+		if(s != null) {
+			Iterator<ListItem> iterator;
+			for (iterator = items.iterator(); iterator.hasNext(); ) {
+			    ListItem value = iterator.next();
+			    if (value.getStoreID() != s.getId()) {
+			        iterator.remove();
+			    }
+			}
+		}
+
+		//Wenn eine Person angegeben wird, wird gefiltert
+		if(filterPerson = true) {
+			Iterator<ListItem> iterator;
+			for (iterator = items.iterator(); iterator.hasNext(); ) {
+			    ListItem value = iterator.next();
+			    if (value.getBuyerID() != p.getId()) {
+			        iterator.remove();
+			    }
+			}
+		}
     			
     	//Sicherheitsabfrage
     	if(items !=null) {
@@ -438,6 +444,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     		   // Zusammenstellung der Kopfdaten (Headline) des Reports 
         	Row headline = new Row();
         	headline.addColumn(new Column("Gruppe"));
+        	headline.addColumn(new Column("Verantwortliche/r"));
         	headline.addColumn(new Column("Laden"));
         	headline.addColumn(new Column("Artikelname"));
         	headline.addColumn(new Column("Einheit"));
@@ -456,6 +463,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     				Row listItemRow = new Row();
     				
     				listItemRow.addColumn(new Column(getGroupName(i.getGrID(), p)));
+    				
+    				listItemRow.addColumn(new Column(getPersonName(i.getBuyerID())));
     				
     				//zweite Spalte: Laden
     				listItemRow.addColumn(new Column(getStoreName(i.getStoreID())));
@@ -509,15 +518,17 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		}
 		return String.valueOf(storeID);
 	}
-/*
-	@Override
-	public ItemsbyGroupReport getReportOfGroupBetweenDates(Group g) throws IllegalArgumentException {
-		if(this.getShoppingListAdministration() == null) {
-    		return null;
-    		}
-		return this.listItemMapper.getCheckedListItemsOfGroupBetweenDates(groupId, start, end);
+	
+	private String getPersonName(int personID) {
+		ArrayList<Person> allPersons = getAllPersons();
+		for(Person person : allPersons) {
+			if (person.getId() == personID) {
+				return person.getName();
+			}
+		}
+		return String.valueOf(personID);
 	}
-*/
+
 
 	
 	
