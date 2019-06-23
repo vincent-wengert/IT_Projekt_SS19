@@ -1,6 +1,9 @@
 package de.hdm.softwarepraktikum.server;
 
-
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.softwarepraktikum.server.db.PersonMapper;
 import de.hdm.softwarepraktikum.shared.LoginService;
@@ -40,7 +43,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
          * 
          */
 		if (googleUser != null) {
-
+			System.out.println(googleUser.getEmail());
 			Person existingP =  PersonMapper.personMapper().findByGmail(googleUser.getEmail());
 			
 			//Falls der <code>Person<code> dem System bekannt ist, wird dieser eingeloggt.
@@ -56,17 +59,20 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 			  * Falls der <code>Person<code> sich zum ersten Mal am System anmeldet, 
 			  * wird ein neuer Datensatz in die Datenbank geschrieben.
 			  */
-		
+			
 			p.setLoggedIn(true);
 			p.setLogoutUrl(userService.createLogoutURL(requestUri));
 			p.setGmail(googleUser.getEmail());
 			PersonMapper.personMapper().insert(p);
+		
+			return p;
 			
 			}	
 
 		p.setLoginUrl(userService.createLoginURL(requestUri));
 		
 		return p;
+		
 
     }
 }

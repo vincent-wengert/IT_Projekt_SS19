@@ -4,8 +4,8 @@ import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
 import de.hdm.softwarepraktikum.shared.CommonSettings;
-import de.hdm.softwarepraktikum.shared.Login;
-import de.hdm.softwarepraktikum.shared.LoginAsync;
+import de.hdm.softwarepraktikum.shared.LoginService;
+import de.hdm.softwarepraktikum.shared.LoginServiceAsync;
 import de.hdm.softwarepraktikum.shared.ReportGenerator;
 import de.hdm.softwarepraktikum.shared.ReportGeneratorAsync;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministration;
@@ -38,7 +38,7 @@ public class ClientsideSettings extends CommonSettings{
 	     * Remote Service Proxy zur Verbindungsaufnahme mit dem serverseitigen
 	     * Dienst <code>LoginService</code>
 	     */
-	    private static LoginAsync loginService = null;
+	    private static LoginServiceAsync loginService = null;
 
 	    
 	    /**
@@ -56,7 +56,7 @@ public class ClientsideSettings extends CommonSettings{
 	    /**
 	     * Der zentrale Applikationslogger wird ausgelesen
 	     * 
-	     * @return die Logger-Instanz für die Server-Seite wird zurückgegeben
+	     * @return die Logger-Instanz fï¿½r die Server-Seite wird zurï¿½ckgegeben
 	     */
 	    public static Logger getLogger() {
 	       
@@ -67,13 +67,13 @@ public class ClientsideSettings extends CommonSettings{
 	    /**
 	     * Mit Hilfe dieser Methode wird eine LoginService-Instanz erstellt, vorausgesetzt 
 	     * dass bisher keine besteht. Durch ein erneutes Aufrufen der Methode wird dann auch
-	     * das bereits bestehende Objekt zurückgegeben.
+	     * das bereits bestehende Objekt zurï¿½ckgegeben.
 	     * 
 	     * @return eindeutige Instanz vom Typ <code>LoginServiceAsync</code>
 	     */
-	    public static LoginAsync getLoginService() {
+	    public static LoginServiceAsync getLoginService() {
 	    	if(loginService == null){
-	    		loginService = GWT.create(Login.class);
+	    		loginService = GWT.create(LoginService.class);
 			}
 			return loginService;
 	    }
@@ -82,7 +82,7 @@ public class ClientsideSettings extends CommonSettings{
 	    /**
 	     * Mit Hilfe dieser Methode wird eine ShoppingListAdministration-Instanz erstellt,
 	     * vorausgesetzt dass bisher keine besteht. Durch ein erneutes Aufrufen der 
-	     * Methode wird dann auch das bereits bestehende Objekt zurückgegeben. 
+	     * Methode wird dann auch das bereits bestehende Objekt zurï¿½ckgegeben. 
 	     * 
 	     * @return eindeutige Instanz vom Typ <code>ShoppingListAdministrationAsync</code>
 	     */
@@ -96,7 +96,7 @@ public class ClientsideSettings extends CommonSettings{
 	    		shoppinglistAdministration = GWT.create(ShoppingListAdministration.class);
 			}
 			
-	    	//Der instantiierte ShoppinglistAdministration wird zurückgegeben
+	    	//Der instantiierte ShoppinglistAdministration wird zurï¿½ckgegeben
 			return shoppinglistAdministration;
 	        
 	    }
@@ -105,7 +105,7 @@ public class ClientsideSettings extends CommonSettings{
 	    /**
 	     * Mit Hilfe dieser Methode wird eine ReportGenerator-Instanz erstellt, 
 	     * vorausgesetzt dass bisher noch keine besteht. Durch ein erneuetes Aufrufen der
-	     * Methode wird dann auch das bereits bestehende Objekt zurückgegeben. 
+	     * Methode wird dann auch das bereits bestehende Objekt zurï¿½ckgegeben. 
 	     * 
 	     * @return eindeutige Instanz vom Typ <code>ReportGeneratorAsync</code>
 	     */
@@ -119,7 +119,7 @@ public class ClientsideSettings extends CommonSettings{
 	    		 reportGenerator = GWT.create(ReportGenerator.class);
 	    	 }
 	    	 
-	    	 // Der instantiierte ReportGenerator wird zurückgegeben
+	    	 // Der instantiierte ReportGenerator wird zurï¿½ckgegeben
 	        return reportGenerator;
     }
 	    	 

@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.hdm.softwarepraktikum.client.gui.Notification;
 import de.hdm.softwarepraktikum.client.gui.RegistrationForm;
 import de.hdm.softwarepraktikum.client.gui.ShoppingListEditor;
@@ -31,8 +30,8 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
  */
 public class Project_19 implements EntryPoint {
 		 
-		private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
-
+		private LoginServiceAsync loginService = null;
+		
 		private Button loginButton = new Button("Login");
 		
 		private Anchor signInLink = new Anchor("Login");
@@ -48,12 +47,11 @@ public class Project_19 implements EntryPoint {
 		 * Methode wird zu Beginn des Seitenaufrufs abgerufen
 		 */
 		public void onModuleLoad() {
-			
-//			ShoppingListEditor editor = new ShoppingListEditor();
-//			editor.loadForms();
+
 			/*
 			 * Über diese Methoden werden Instanzen der Asynchronen Interfaces gebildet
 			 */
+			loginService = ClientsideSettings.getLoginService();
 			
 			loginService.login(GWT.getHostPageBaseURL()+"Project_19.html" , new loginServiceCallback());
 	
@@ -76,6 +74,7 @@ public class Project_19 implements EntryPoint {
 
 				if (p.isLoggedIn()) {
 					if (p.getName() == null) {
+						Window.alert("kein name");
 					Anchor shoppingListEditorLink = new Anchor();
 					shoppingListEditorLink.setHref(GWT.getHostPageBaseURL() + "Project_19.html");
 					RootPanel.get("Navigator").setVisible(false);
@@ -84,10 +83,12 @@ public class Project_19 implements EntryPoint {
 			
 
 					}else{
+						Window.alert("angemeldet");
 						ShoppingListEditor editor = new ShoppingListEditor();
 						editor.loadForms();
 						}
 				}else{
+					Window.alert("loadlogin");
 					loadLogin();
 					}	
 
@@ -101,8 +102,6 @@ public class Project_19 implements EntryPoint {
 		@Override
 		public void onFailure(Throwable caught) {
 			Notification.show(caught.toString());
-//			ShoppingListEditor editor = new ShoppingListEditor();
-//			editor.loadForms();
 			}
 		}
 
@@ -143,7 +142,7 @@ public class Project_19 implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-			
+			Window.alert("login");
 			Window.open(signInLink.getHref(), "_self", "");
 			
 			}

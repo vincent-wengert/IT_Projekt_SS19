@@ -69,13 +69,12 @@ public class PersonMapper {
 				//	+ person.getChangedate() + "\" " + "WHERE PersonID=" + person.getId());
 			
 			
-			PreparedStatement st = con.prepareStatement("UPDATE Person SET Gmail = ?, Name = ?,"
-					+ " Changedate = ? WHERE PersonID = ?");
+			PreparedStatement st = con.prepareStatement("UPDATE Person SET Gmail= ?, Name= ? WHERE PersonID = ?");
 			
 			st.setString(1, person.getGmail());
 			st.setString(2, person.getName());
-			st.setTimestamp(3, person.getChangedate());
-			st.setInt(4, person.getId());
+			st.setInt(3, person.getId());
+			System.out.println("updaze Person " + st);
 			st.executeUpdate();
 
 		} catch (SQLException e) {
@@ -207,24 +206,26 @@ public class PersonMapper {
 	 * @param gmail Die gmail wird übergeben des Users.
 	 * @return Der User der anhand der gmail gefunden wurde, wird zurückgegeben.
 	 */
+
 	public Person findByGmail(String gmail) {
 
 		Connection con = DBConnection.connection();
 
 		try {
+			System.out.println("Email ist" + gmail);
 
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt
-					.executeQuery("SELECT PersonID, Gmail, Name FROM Person WHERE Gmail=" + gmail);
+			ResultSet rs = stmt.executeQuery("SELECT PersonID, Gmail, Name FROM Person WHERE Gmail ='"+gmail+"'");
+			
 
 			if (rs.next()) {
-
+			 
 				Person person = new Person();
 				person.setId(rs.getInt("PersonID"));
 				person.setGmail(rs.getString("Gmail"));
 				person.setName(rs.getString("Name"));
-
+				
 				return person;
 			}
 
@@ -234,6 +235,7 @@ public class PersonMapper {
 		}
 		return null;
 	}
+
 
 	/**
 	 * Finden einer Person anhand von ihrem Namen.

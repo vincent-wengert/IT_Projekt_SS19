@@ -59,8 +59,6 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 
 		public RegistrationForm(Anchor destUrl, Person p) {
 			
-			Window.alert("RegistrationForm");
-			
 			this.destinationUrl =destUrl;
 			this.p=p;
 			
@@ -150,9 +148,14 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 
 			@Override
 			public void onClick(ClickEvent event) {
+				if(firstNameTextBox.getText()!=null&&firstNameTextBox.getText()!=null) {
+					Window.alert(lastNameTextBox.getText() +" "+ firstNameTextBox.getText());
 					String uName= lastNameTextBox.getText() +" "+ firstNameTextBox.getText();
 					p.setName(uName);
-			
+					administration.updatePerson(p, new SavePersonCallback());
+				}else {
+					Window.alert("Bitte füllen sie beide Felder aus");
+				}
 				}
 			}
 		
@@ -205,6 +208,7 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 
 				@Override
 				public void onSuccess(Void p) {
+				Window.alert(destinationUrl.getHref());
 				Window.open(destinationUrl.getHref(), "_self", "");
 
 			}			
