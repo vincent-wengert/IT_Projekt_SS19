@@ -216,7 +216,7 @@ public class PersonMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT PersonID, Gmail, Name" + " FROM Person" + " WHERE Gmail ='" + gmail + "'");
+					.executeQuery("SELECT PersonID, Gmail, Name FROM Person WHERE Gmail=" + gmail);
 
 			if (rs.next()) {
 

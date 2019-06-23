@@ -1,7 +1,5 @@
 package de.hdm.softwarepraktikum.shared.bo;
 
-import java.util.ArrayList;
-
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Person extends BusinessObject implements IsSerializable{
@@ -22,11 +20,6 @@ public class Person extends BusinessObject implements IsSerializable{
 	*
 	*/
 	public Person(){
-	}
-	
-	public Person(String gmail, String name){
-		this.gmail = gmail;
-		this.name = name;	
 	}
 	
 	

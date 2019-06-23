@@ -9,11 +9,11 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 * @author Vincent Wengert
 * @version 1.0
 * @see com.google.gwt.user.client.rpc.RemoteService
-* @see LoginAsync
+* @see LoginService
 */
 
 @RemoteServiceRelativePath("login")
-public interface Login extends RemoteService{
+public interface LoginService extends RemoteService{
 	
 	 
 	/**

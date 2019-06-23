@@ -10,7 +10,7 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
  * @version 1.0
  * @see LoginService
  */
-public interface LoginAsync {
+public interface LoginServiceAsync {
 
 	void login(String requestUri, AsyncCallback<Person> asyncCallback);
 

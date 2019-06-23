@@ -34,7 +34,7 @@ public interface ReportGenerator extends RemoteService {
 	 * @see de.hdmsoftwarepraktikum.server.report.ReportGeneratorImpl#init();
 	 */
 	
-	public void init() throws IllegalArgumentException;
+	public void init();
 	
 	
 	/**

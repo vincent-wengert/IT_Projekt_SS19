@@ -22,7 +22,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.softwarepraktikum.client.gui.Notification;
 import de.hdm.softwarepraktikum.client.gui.RegistrationForm;
 import de.hdm.softwarepraktikum.client.gui.ShoppingListEditor;
-import de.hdm.softwarepraktikum.shared.LoginAsync;
+import de.hdm.softwarepraktikum.shared.LoginService;
+import de.hdm.softwarepraktikum.shared.LoginServiceAsync;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 
 /**
@@ -30,7 +31,7 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
  */
 public class Project_19 implements EntryPoint {
 		 
-		private LoginAsync loginService = null;
+		private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 
 		private Button loginButton = new Button("Login");
 		
@@ -48,15 +49,14 @@ public class Project_19 implements EntryPoint {
 		 */
 		public void onModuleLoad() {
 			
-			ShoppingListEditor editor = new ShoppingListEditor();
-			editor.loadForms();
+//			ShoppingListEditor editor = new ShoppingListEditor();
+//			editor.loadForms();
 			/*
 			 * Über diese Methoden werden Instanzen der Asynchronen Interfaces gebildet
 			 */
-//			loginService = ClientsideSettings.getLoginService();
-//			
-//			loginService.login(GWT.getHostPageBaseURL()+"Project_19.html" , new loginServiceCallback());
-				
+			
+			loginService.login(GWT.getHostPageBaseURL()+"Project_19.html" , new loginServiceCallback());
+	
 		}
 		
 		
@@ -101,8 +101,8 @@ public class Project_19 implements EntryPoint {
 		@Override
 		public void onFailure(Throwable caught) {
 			Notification.show(caught.toString());
-			ShoppingListEditor editor = new ShoppingListEditor();
-			editor.loadForms();
+//			ShoppingListEditor editor = new ShoppingListEditor();
+//			editor.loadForms();
 			}
 		}
 

@@ -1,11 +1,9 @@
 package de.hdm.softwarepraktikum.server;
 
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 
 import de.hdm.softwarepraktikum.server.db.PersonMapper;
-import de.hdm.softwarepraktikum.shared.Login;
+import de.hdm.softwarepraktikum.shared.LoginService;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 
 /**
@@ -16,7 +14,7 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
  * @version 1.0
  */
 
-public class LoginImpl extends RemoteServiceServlet implements Login{
+public class LoginServiceImpl extends RemoteServiceServlet implements LoginService{
 
     private static final long serialVersionUID = 1L;
 
@@ -34,7 +32,7 @@ public class LoginImpl extends RemoteServiceServlet implements Login{
      */
     public Person login(String requestUri) {
     	UserService userService = UserServiceFactory.getUserService();
-    	com.google.appengine.api.users.User googleUser = userService.getCurrentUser();
+    	User googleUser = userService.getCurrentUser();
     	Person p = new Person();
     	/**
          * Wenn der <code>Person<code> mit seinem Google Account eingeloggt ist, wird überprüft, 
