@@ -7,6 +7,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
@@ -15,9 +17,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Person;
@@ -33,7 +38,8 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
  */
 
 public class Header extends HorizontalPanel{
-
+		
+		private Person currentPerson = CurrentPerson.getPerson();
 		private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	
 	 	private HorizontalPanel homeButtonPanel = new HorizontalPanel();
@@ -58,8 +64,11 @@ public class Header extends HorizontalPanel{
 	 	 * und zu den Buttons die ClickHandler hinzugefügt.
 	 	 */
 	 	public Header() {
+	 		currentPerson = new Person();
+	 		currentPerson.setName("Hans Mueller");
+	 		currentPerson.setId(1);
+	 		currentPerson.setGmail("hans.mueller@gmail.com");
 	 		
-	 	
 	 		personPanel.add(userLabel);
 	 		
 	 		groupPanel.add(groupListBox);
@@ -83,7 +92,64 @@ public class Header extends HorizontalPanel{
 	 	 * die ShoppingList-Editor und ReportGenerator-Buttons werden zum Kopfbereich
 	 	 * des Shoppinglisttool hinzugefügt. 
 	 	 */
+	 	
 	 	public void onLoad() {
+	 		MenuBar menu = new MenuBar();
+	 		menu.setAutoOpen(true);
+	 		
+	 		MenuBar logoutMenu = new MenuBar(true);
+	 		logoutMenu.setAnimationEnabled(true);
+	 		logoutMenu.addItem("Angemeldet als: " + currentPerson.getGmail(), new Command() {
+	 	         @Override
+	 	         public void execute() {
+	 	        	 //TODO was geschiehen soll wenn logout ausgew�hlt wird
+	 	        	 
+	 	         }
+	 	      });
+	 		
+	 		logoutMenu.addSeparator();
+	 		
+	 		
+	 		/**
+	 		 * Durch ein Klick auf den Logout-Button wird der User auf die
+	 		 * Begrüßungsseite weitergeleitet
+	 		 */
+	 		
+	 		logoutMenu.addItem("Logout", new Command() {
+	 			@Override
+	 			public void execute() {
+	 				Notification.show("Logout");
+//	 				navigator.selectTab(2);
+//	 				
+//	 				u.setLogoutUrl(u.getLogoutUrl());
+//	 				Window.open(u.getLogoutUrl(), "_self", "");
+	 				
+	 			}
+	 		});
+	 		
+	 		menu.addItem(new MenuItem("Editor", new Command() {
+	 			@Override
+	 			public void execute() {
+		 			Window.Location.reload();
+	 			}
+	 		}));
+
+	 		menu.addSeparator();
+	 		
+	 		menu.addItem(new MenuItem("Report Generator", new Command() {
+	 			@Override
+	 			public void execute() {
+	 				reportGeneratorLink.setHref(GWT.getHostPageBaseURL()+"ReportGenerator.html");
+		 			Window.open(reportGeneratorLink.getHref(), "_self", "");
+	 			}
+	 		}));
+
+	 		menu.addSeparator();
+	 		
+	 		menu.addItem(new MenuItem(currentPerson.getName(), logoutMenu));
+	 		
+	 		this.add(menu);
+	 		
 	 		loadGroups();
 
 	 		this.setStylePrimaryName("headerPanel");
@@ -92,8 +158,9 @@ public class Header extends HorizontalPanel{
 
 	 		groupListBox.setWidth("10vw");
 	 		
-	 		homeButtonPanel.add(editorButton);
-	 		homeButtonPanel.add(reportGeneratorButton);
+//	 		homeButtonPanel.add(editorButton);
+//	 		homeButtonPanel.add(reportGeneratorButton);
+	 		homeButtonPanel.add(menu);
 	 		homeButtonPanel.setWidth("26vw");
 	 		
 	 		editorButton.setWidth("15vw");
@@ -138,7 +205,6 @@ public class Header extends HorizontalPanel{
 	 		p.setId(1);
 	 		administration.getAllGroupsByPerson(p, new getAllGroupsCallback());
 	 	}
-	 	
 	 	
 	 	
 	 	private class groupListBoxSelectionClickHandler implements ClickHandler{

@@ -35,7 +35,6 @@ public class MenuPanel extends VerticalPanel{
 	private Button createShoppinglistButton = new Button ();
 	private Button createArticleButton = new Button ();
 	private Button createStoreButton = new Button ();
-	private Button logoutButton = new Button();
 	
 	public MenuPanel() {
 	
@@ -56,8 +55,6 @@ public class MenuPanel extends VerticalPanel{
 	createStoreButton.addClickHandler(new CreateStoreClickHandler());
 	this.add(createStoreButton);
 	
-	logoutButton.addClickHandler(new LogoutClickHandler());
-	this.add(logoutButton);
 }
 
 	public void onLoad() {
@@ -86,10 +83,6 @@ public class MenuPanel extends VerticalPanel{
 		createStoreButton.setStylePrimaryName("createStoreButton");
 		createStoreButton.setTitle("Händler erstellen");
 		
-		logoutButton.setWidth("15vh");
-		logoutButton.setHeight("15vh");
-		logoutButton.setStylePrimaryName("logoutButton");
-		logoutButton.setTitle("Abmelden");
 	}
 	
 	
@@ -244,21 +237,7 @@ public class MenuPanel extends VerticalPanel{
 		}	
 	}
 	
-	/**
-	 * Durch ein Klick auf den Logout-Button wird der User auf die
-	 * Begrüßungsseite weitergeleitet
-	 */
-	private class LogoutClickHandler  implements ClickHandler {
-
-		@Override
-		public void onClick(ClickEvent event) {
-			Notification.show("Logout");
-//			navigator.selectTab(2);
-//			
-//			u.setLogoutUrl(u.getLogoutUrl());
-//			Window.open(u.getLogoutUrl(), "_self", "");
-		}
-	}
+	
 }
 
 

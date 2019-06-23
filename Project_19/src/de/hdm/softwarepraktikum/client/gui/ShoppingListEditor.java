@@ -11,7 +11,7 @@ public class ShoppingListEditor {
 			
 
 	public void loadForms() {
-		header = new Header ();
+		header = new Header();
 		navigator = new NavigatorPanel();
 		menuPanel= new MenuPanel();
 		footer= new Footer();
