@@ -209,7 +209,6 @@ public class GroupMapper {
 				Group g = new Group();
 				g.setId(rs.getInt("Group_ID"));
 				g.setTitle(rs.getString("Title"));
-				g.setMember((ArrayList<Person>)rs.getArray("member"));
 				
 				
 				//Hinzuf�gen des neuen Objekts zum Ergebnisvektor

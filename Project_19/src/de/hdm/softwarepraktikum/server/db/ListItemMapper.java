@@ -287,7 +287,6 @@ public class ListItemMapper {
 					
 					//Ab hier Resposibility Tabelle eigentlich
 					listItem.setBuyerID(rs.getInt("Person_ID"));
-
 					listItem.setStoreID(rs.getInt("Store_ID"));
 					
 					listItems.add(listItem);
@@ -334,16 +333,12 @@ public class ListItemMapper {
 		public ArrayList<ListItem> getCheckedListItemsOfGroupBetweenDates(int groupId, Timestamp start, Timestamp end) {
 			Connection con = DBConnection.connection();
 			
-			java.sql.Timestamp from = java.sql.Timestamp.valueOf("2019-06-15 14:38:58");
-
-			java.sql.Timestamp to = java.sql.Timestamp.valueOf("2019-06-30 18:42:58");
-			
 			ArrayList<ListItem> listItems = new ArrayList<ListItem>();
 				
 			String st = "SELECT * from ListItem JOIN Responsibility ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID"+ 
 					" JOIN  ShoppingList ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID"+
 					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE `Group`.Group_ID= " + groupId +
-					" AND ListItem.BoughtOn BETWEEN \"" + from + " \"AND \" " + to + "\"";
+					" AND ListItem.BoughtOn BETWEEN \"" + start + " \"AND \" " + end + "\"";
 				
 			try {
 				
@@ -356,15 +351,12 @@ public class ListItemMapper {
 					listItem.setId(rs.getInt("ListItem_ID"));
 					listItem.setUnit(listItem.getItemUnit(rs.getString("Unit")));
 					listItem.setAmount(rs.getDouble("Amount"));
-					
-					
-					
 					listItem.setItemId(rs.getInt("Item_ID"));
 					listItem.setResID(rs.getInt("Responsibility_ID"));
 					
 					//Ab hier Resposibility Tabelle eigentlich
 					listItem.setBuyerID(rs.getInt("Person_ID"));
-
+					listItem.setGrID(rs.getInt("Group_ID"));
 					listItem.setStoreID(rs.getInt("Store_ID"));
 					
 					listItems.add(listItem);
@@ -378,43 +370,128 @@ public class ListItemMapper {
 				
 			}
 		
-		///TO_DO mit Joins""
+		public ArrayList<ListItem> getCheckedListItemsOfGroup(int groupId) {
+			Connection con = DBConnection.connection();
+			
+			ArrayList<ListItem> listItems = new ArrayList<ListItem>();
+				
+			String st = "SELECT * from ListItem JOIN Responsibility ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID"+ 
+					" JOIN  ShoppingList ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID"+
+					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE `Group`.Group_ID= " + groupId;
+				
+			try {
+				
+				Statement stmt = con.createStatement();
+				
+				ResultSet rs = stmt.executeQuery(st);
+				
+				while (rs.next()) {
+					ListItem listItem = new ListItem();
+					listItem.setId(rs.getInt("ListItem_ID"));
+					listItem.setUnit(listItem.getItemUnit(rs.getString("Unit")));
+					listItem.setAmount(rs.getDouble("Amount"));
+					listItem.setItemId(rs.getInt("Item_ID"));
+					listItem.setResID(rs.getInt("Responsibility_ID"));
+					
+					//Ab hier Resposibility Tabelle eigentlich
+					listItem.setBuyerID(rs.getInt("Person_ID"));
+					listItem.setGrID(rs.getInt("Group_ID"));
+					listItem.setStoreID(rs.getInt("Store_ID"));
+					
+					listItems.add(listItem);
+				}
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+					}
+				
+				return listItems;
+				
+			}
 		
-//		public ArrayList<ListItem> allcheckedListItemsbyGroup(Group g) {
-//			// TODO Auto-generated method stub
-//			Connection con = DBConnection.connection();
-//			
-//			ArrayList<ListItem> allCheckedListItems = new ArrayList<ListItem>();
-//	
-//			//String st = "SELECT * from listitem WHERE slID=" + sl.getId() + "AND isChecked = 'True'";
-//			
-//			try {
-//				
-//				Statement stmt = con.createStatement();
-//				
-//				ResultSet rs = stmt.executeQuery(st);
-//				
-//				while (rs.next()) {
-//					ListItem listItem = new ListItem();
-//					listItem.setId(rs.getInt("ListItem_ID"));
-//					listItem.setName(rs.getString("name"));
-//					listItem.setAmount(rs.getDouble("amount"));
-//					listItem.setUnit(listItem.getItemUnit(rs.getString("unit")));
-//					listItem.setBuyerID(rs.getInt("buyerID"));
-//					listItem.setChecked(rs.getBoolean("ischecked"));
-//					listItem.setGrID(rs.getInt("grID"));
-//					listItem.setSlID(rs.getInt("slID"));
-//					listItem.setStoreID(rs.getInt("storeID"));
-//					
-//					allCheckedListItems.add(listItem);
-//				}
-//					
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//					}
-//				
-//				return allCheckedListItems;
-//		}
+		public ArrayList<ListItem> getCheckedListItemsOfPersonBetweenDates(int personId, Timestamp start, Timestamp end) {
+			Connection con = DBConnection.connection();
+			
+			java.sql.Timestamp from = java.sql.Timestamp.valueOf("2019-06-15 14:38:58");
+
+			java.sql.Timestamp to = java.sql.Timestamp.valueOf("2019-06-30 18:42:58");
+			
+			ArrayList<ListItem> listItems = new ArrayList<ListItem>();
+				
+			String st = "SELECT * from ListItem JOIN Responsibility ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID"+ 
+					" JOIN  ShoppingList ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID"+
+					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE Person_ID= " + personId +
+					" AND ListItem.BoughtOn BETWEEN \"" + from + " \"AND \" " + to + "\"";
+				
+			try {
+				
+				Statement stmt = con.createStatement();
+				
+				ResultSet rs = stmt.executeQuery(st);
+				
+				while (rs.next()) {
+					ListItem listItem = new ListItem();
+					listItem.setId(rs.getInt("ListItem_ID"));
+					listItem.setUnit(listItem.getItemUnit(rs.getString("Unit")));
+					listItem.setAmount(rs.getDouble("Amount"));
+					listItem.setItemId(rs.getInt("Item_ID"));
+					listItem.setResID(rs.getInt("Responsibility_ID"));
+					
+					//Ab hier Resposibility Tabelle eigentlich
+					listItem.setBuyerID(rs.getInt("Person_ID"));
+					listItem.setStoreID(rs.getInt("Store_ID"));
+					listItem.setGrID(rs.getInt("Group_ID"));
+
+					
+					listItems.add(listItem);
+				}
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+					}
+				
+				return listItems;
+				
+			}
 		
+		public ArrayList<ListItem> getCheckedListItemsOfPerson(int personId) {
+			Connection con = DBConnection.connection();
+			
+			ArrayList<ListItem> listItems = new ArrayList<ListItem>();
+				
+			String st = "SELECT * from ListItem JOIN Responsibility ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID"+ 
+					" JOIN  ShoppingList ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID"+
+					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE Person_ID= " + personId;
+			
+			
+				
+			try {
+				
+				Statement stmt = con.createStatement();
+				
+				ResultSet rs = stmt.executeQuery(st);
+				
+				while (rs.next()) {
+					ListItem listItem = new ListItem();
+					listItem.setId(rs.getInt("ListItem_ID"));
+					listItem.setUnit(listItem.getItemUnit(rs.getString("Unit")));
+					listItem.setAmount(rs.getDouble("Amount"));
+					listItem.setItemId(rs.getInt("Item_ID"));
+					listItem.setResID(rs.getInt("Responsibility_ID"));
+					
+					//Ab hier Resposibility Tabelle eigentlich
+					listItem.setBuyerID(rs.getInt("Person_ID"));
+					listItem.setStoreID(rs.getInt("Store_ID"));
+					listItem.setGrID(rs.getInt("Group_ID"));
+					
+					listItems.add(listItem);
+				}
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+					}
+				
+				return listItems;	
+			}
 			
 }

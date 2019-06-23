@@ -110,7 +110,18 @@ public class HTMLReportWriter extends ReportWriter {
 		        else {
 		          if (i >=1) {
 							result.append("<td style=\"background:#F2F3F4;border-left:1px solid black;border-top:1px solid black;padding-left:3px;\">"
-	    			                + row.getColumnByIndex(k) + "</td>");
+	    			              + row.getColumnByIndex(k) + "</td>");
+			
+//							if (k == 2) {
+//								SubColumn col = (SubColumn) row.getColumnByIndex(k);
+//								result.append("<td>" + this.processSubTable(col) + "</td>");
+//							
+//							}else {
+//			            result.append("<td style=\"background:white;border-left:1px solid black;border-top:1px solid black;padding-left:3px;\">"
+//			                + row.getColumnByIndex(k) + "</td>");
+//							}
+							
+	
 		          			}
 		          else {
 		            result.append("<td valign=\"top\">" + row.getColumnByIndex(k) + "</td>");
@@ -133,10 +144,102 @@ public class HTMLReportWriter extends ReportWriter {
 	
 
 	@Override
-	public void process(ItemsByPersonReport i) {
+	public void process(ItemsByPersonReport r) {
 		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+
+    	//Löschen des Ergebnisses der vorherigen Prozessierung
+		this.resetReportText();
 		
+		/**
+		 * Schrittweise werden unsere Ergebnisse in diesen Buffer
+		 * geschrieben
+		 */
+		StringBuffer result = new StringBuffer();
+		
+		/**
+		 * Hier werden Schritt für Schritt die einzelnen Bestandteile des
+		 * Reports ausgelesen und in HTML-Form übersetzt
+		 */
+		result.append("<h2 style='text-align:center;'>" + r.getTitle() + "</h2>");
+		result.append("<h3 style='text-align:center;'>" + "Erstelldatum des Reports: " + r.getCreationDateString()+ "</h3>");
+		result.append("<table style=\"width:1400px;border:1px solid black;border-collapse:collapse;margin: auto;\n" + 
+				"\"><tr></table\"");
+
+		/**
+		 * Hier werden alle Reihen des Reports durchlaufen und formatiert. Dabei wird die Headline Row gesondert formatiert, 
+		 * Zudem wird eine SubTable über die Methode processSubTable() in html formatiert.
+		 *
+		 */
+		ArrayList<Row> rows =r.getRows();
+		
+		for (int i = 0; i < rows.size(); i++) {
+		      Row row = rows.get(i);
+		      result.append("<tr>");
+		      for (int k = 0; k < row.getColumnsSize(); k++) {
+		        if (i == 0) {
+		        	  result.append("<td style=\"border:1px solid black; height:30px;font-size:14pt;padding-left:3px;background:#7e848e;font-weight:bold\">" 
+    			              + row.getColumnByIndex(k)+ "</td>");
+
+		        }
+		        else {
+		          if (i >=1) {
+							result.append("<td style=\"background:#F2F3F4;border-left:1px solid black;border-top:1px solid black;padding-left:3px;\">"
+	    			                + row.getColumnByIndex(k) + "</td>");
+		          			}
+		          else {
+		            result.append("<td valign=\"top\">" + row.getColumnByIndex(k) + "</td>");
+		          }
+		        }
+		      }
+		      result.append("</tr>");
+		    }
+
+		    result.append("</table>");
+		
+			/**
+			 * Schlussendlich Umwandlung des StringBuffers in einen String und dessen Zuweisung
+			 * der reportText-Varibale. Anschließend wird das Ergebnis mittels
+			 * der Methode getReportText() ausgelesen.
+			 */
+		this.reportText = result.toString();
 	}
+	
+	
+	
+	
+	
+	
+	public StringBuffer processSubTable(SubColumn sc) {
+		StringBuffer result = new StringBuffer();
+
+		ArrayList<Row> rows = sc.getSubRows();
+
+		result.append("<table style=\"width:100%;border-left: 1px solid black\">");
+
+		for (int i = 0; i < rows.size(); i++) {
+			Row row = rows.get(i);
+			result.append("<tr>");
+			
+		
+			for (int k = 0; k < row.getColumnsSize(); k++) {
+				if(k==0) {
+					result.append("<td style=\"width:33%;background:#e7e7e7;border-top:1px solid black\">" + row.getColumnByIndex(k) + "</td>");
+					continue;
+				}
+				
+				
+						result.append("<td style=\"width:33%;background:white;border-top:1px solid black\">" + row.getColumnByIndex(k) + "</td>");
+					
+				
+			}
+			result.append("</tr>");
+		}
+
+		result.append("</table>");
+
+		return result;
+    }
 
 
 

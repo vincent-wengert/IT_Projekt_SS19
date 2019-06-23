@@ -47,21 +47,12 @@ public interface ReportGenerator extends RemoteService {
 	//public ShoppingListAdministration getShoppingListAdministration(int id) throws IllegalArgumentException;
 	
 	/**
-	 * Diese Methode gibt die Einkaufsstatistik für eine Gruppe aus.
+	 * Diese Methode gibt die Einkaufsstatistik fï¿½r eine Gruppe aus.
 	 * @param a
 	 * @return alle eingekauften Produkte einer Gruppe 
 	 * @throws IllegalArgumentException
 	 */
-	public abstract ItemsByGroupReport createGroupStatisticsReport(Group g, Timestamp from, Timestamp to) throws IllegalArgumentException;
- 	
-	/**
-	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#getAllItems
-	 * @param id
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	
-	public ArrayList<Item> getAllItems(int id) throws IllegalArgumentException;
+	ArrayList<Item> getAllItems() throws IllegalArgumentException;
 	
 	/**
 	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#getAllStores
@@ -70,16 +61,11 @@ public interface ReportGenerator extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	
-	public ArrayList<Store> getAllStores(int id) throws IllegalArgumentException;
+	public ArrayList<Store> getAllStores() throws IllegalArgumentException;
 	
-	/**
-	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#getStore
-	 * @param id
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
+	public ArrayList<Group> getAllGroups(Person p) throws IllegalArgumentException;
 	
-	public Store getStore(int id) throws IllegalArgumentException;
+	public ArrayList<Person> getAllPersons() throws IllegalArgumentException;
 	
 	
 	/**
@@ -94,29 +80,14 @@ public interface ReportGenerator extends RemoteService {
 
 	void AddImprint();
 
+	public ItemsByPersonReport getReportOfPerson(Person p, Store s, Group g) throws IllegalArgumentException;
+	
+	public ItemsByPersonReport getReportOfPersonBetweenDates(Person p, Store s, Group g, Timestamp from, Timestamp to) throws IllegalArgumentException;
+	
+	public ItemsByGroupReport getReportOfGroup(Boolean filterPerson, Person p, Group g, Store s) throws IllegalArgumentException;
 
-	ItemsByPersonReport createUserStatisticsReport(Person p) throws IllegalArgumentException;
 
-
+	ItemsByGroupReport getReportOfGroupBetweenDates(Boolean filterPerson, Person p,Group g, Store s, Timestamp from, Timestamp to)
+			throws IllegalArgumentException;
 	
-	
-	
-	
-	/**
-	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#createItemsByPersonReport(Person p)
-	 * @param p
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	
-	// public ArrayList<Item> getAllItemsByPerson(Person p) throws IllegalArgumentException;
-	
-	// public ArrayList<Store> getAllStoreByPerson(Person p) throws IllegalArgumentException;
-	
-	// public ArrayList<Item> getAllItemsByGroup(Group g) throws IllegalArgumentException;
-	
-	// public ArrayList<Store> getAllStoreByGroup(Group g) throws IllegalArgumentException;
-	
-	// public ArrayList<Responsibility> getAllResponsibilities(Person p) throws IllegalArgumentException;
-
 }

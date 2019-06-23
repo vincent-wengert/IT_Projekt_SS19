@@ -350,22 +350,20 @@ body{
 }
 
 .selectGroupButton{
-	background-color: #6f7277;
+	background-color: #1F2833;
 	border: solid black 1px;
-	margin: 15px;
-	background-image: url("images/addListItem.png");
-	background-repeat:no-repeat;
-	background-position: center center;
+	color: white !important;
 }
 
 .selectGroupButton:hover{
 	border: solid white 2px;
 	cursor: pointer;
-	margin: 15px;
-	background-color:#6f7277;
-	background-image: url("images/addListItem.png");
-	background-repeat:no-repeat;
-	background-position: center center;
+	background-color:#1F2833;
+	font-color: solid white;
+	
+}
+
+.favLabel {
 }
 
 .shoppinglistNameBox {
@@ -375,7 +373,7 @@ body{
 }
 
 .addListItemButton{
-	background-color: #6f7277;
+	background-color: #1F2833;
 	border: solid black 1px;
 	margin: 15px;
 	background-image: url("images/addListItem.png");
@@ -631,6 +629,13 @@ body{
 	cursor: pointer;
  	background-color: #6f7277;
  	color: white;
+}
+
+.myItemsCheckBox {
+	background-color: #1F2833;
+	border: solid black 1px;
+	margin: 15px;
+	background-position: center center;
 }
 
 .slogan{
