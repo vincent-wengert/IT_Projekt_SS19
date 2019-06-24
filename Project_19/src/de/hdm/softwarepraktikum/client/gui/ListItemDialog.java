@@ -1,6 +1,7 @@
 package de.hdm.softwarepraktikum.client.gui;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.validation.constraints.Null;
 
@@ -10,6 +11,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+//import com.google.gwt.thirdparty.guava.common.base.Objects;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -466,8 +468,9 @@ public class ListItemDialog extends PopupPanel {
 		
 		@Override
 		public void onSuccess(ListItem result) {
-			// TODO Auto-generated method stub
+			// TODO Auto-generated method stub^
 			Notification.show("Artikel in der Einkaufsliste wurde aktualisiert");
+			sslf.updateListItem();
 
 		}
 	}
@@ -505,13 +508,19 @@ public class ListItemDialog extends PopupPanel {
 	}
 	
 	public Unit getItemUnit (String unit) {
-		if (unit == "L") {
+		if (Objects.equals(unit.trim(), "L")) {
 			return Unit.L;
-				}
-		else if(unit == "KG") {
-			return Unit.KG;
-			} else {
-		return Unit.ST;
-			}
 		}
+		else if(Objects.equals(unit.trim(), "KG")) {
+			return Unit.KG;
+		} 
+		else if(Objects.equals(unit.trim(), "ST")){
+			return Unit.ST;
+		}
+		else if(Objects.equals(unit.trim(), "ML")) {
+			return Unit.ML;
+		} else {
+			return null;
+		}
+	}
 }

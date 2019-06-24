@@ -1,5 +1,7 @@
 package de.hdm.softwarepraktikum.shared.bo;
 
+import java.util.Objects;
+
 import org.eclipse.jdt.core.compiler.IScanner;
 
 import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
@@ -41,18 +43,29 @@ public class ListItem extends BusinessObject{
 	}
 	
 	public Unit getItemUnit (String unit) {
-		if (unit == "L") {
+		if (Objects.equals(unit.trim(), "L")) {
 			return Unit.L;
-				}
-		else if(unit == "KG") {
-			return Unit.KG;
-			} else {
-		return Unit.ST;
 			}
+		else if(Objects.equals(unit.trim(), "KG")) {
+			return Unit.KG;
+			} 
+		else if (Objects.equals(unit.trim(), "ST")){
+			return Unit.ST;
+			} 
+		else if (Objects.equals(unit.trim(), "ML")){
+			return Unit.ML;	
+			}
+		else if (unit.trim() == null){
+			return null;
 		}
+		else {
+			System.out.println(unit);
+			return Unit.KG;
+		}
+	}
 
 	public enum Unit{
-		KG, ST, L;
+		KG, ST, L, ML;
 	}
 	
 	public Unit getUnit() {
