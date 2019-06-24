@@ -8,7 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+
+import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
+import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
@@ -493,5 +496,32 @@ public class ListItemMapper {
 				
 				return listItems;	
 			}
+		
+		public ArrayList<Integer> autoSetFav(Group g) {
+			
+			ArrayList<Integer> setAsFav = new ArrayList<Integer>(); 
+			Connection con = DBConnection.connection();
+			
+			try {
+			
+				Statement stmt = con.createStatement();
+		
+				ResultSet rs = stmt.executeQuery("SELECT ListItem.Item_ID, COUNT(Item_ID)  FROM ListItem JOIN Responsibility ON ListItem.Responsibility_ID = Responsibility.Responsibility_ID \r\n" + 
+						"JOIN ShoppingList ON Responsibility.Shoppinglist_ID = ShoppingList.ShoppingList_ID WHERE ShoppingList.Group_ID = "+g.getId()+" AND BoughtOn IS NOT NULL GROUP BY Item_ID HAVING COUNT(Item_ID) > 4");
+			
+					while (rs.next()) {
+
+
+					setAsFav.add(rs.getInt("itemid"));
+
+					}
+				
+			
+				}catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+			return setAsFav;
+		}
 			
 }
