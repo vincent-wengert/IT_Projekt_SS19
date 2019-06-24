@@ -101,4 +101,6 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void deleteGroup(Group g);
 
+	public void setFavAutomated(Group g);
+	
 }

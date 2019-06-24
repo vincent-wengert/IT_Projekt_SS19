@@ -164,5 +164,35 @@ public class FavoriteItemMapper {
 		return favorite;
 	
 	}
+	
+	
+	public boolean checkById(int item_id) {
+		
+		Connection con = DBConnection.connection();
+		boolean favorite = false;
+		
+		 try {
+		      Statement stmt = con.createStatement();
+		      ResultSet rs = stmt.executeQuery("SELECT * FROM Favorites WHERE itemid =" + item_id);
+		      
+		      
+		      if (rs.next()) {
+		    	  favorite = true;
+		      } 
+		      else {
+		    	  favorite = false;
+		      }
+		      
+		    }
+		    catch (SQLException e2) {
+		      e2.printStackTrace();
+		    }
+		return favorite;
+		
+		
+		
+	}
+	
+	
 
 }
