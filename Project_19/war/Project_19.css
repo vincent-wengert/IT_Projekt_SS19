@@ -487,17 +487,18 @@ body{
 
 
 .editorButton {
-   	font-size:170% !important;
+   //	font-size:170% !important;
 	font-weigth: bolder;
     color: white;
     cursor: pointer;
-	background: #1F2833;
+	background-color: #1F2833 !important;
 	border: none;
+	margin-right: 1px;
 }
 
 
 .editorButton:hover {
-  	font-size:170% !important;
+  //	font-size:170% !important;
 	font-weigth: bolder;
     color: white;
     cursor: pointer;
@@ -507,18 +508,18 @@ body{
 }
 .reportGeneratorButton {
 	
-   	font-size:170% !important;
+   	// font-size:170% !important;
 	font-weigth: bolder;
     color: white;
     cursor: pointer;
-    background: transparent;
+    background: #1F2833;
     border: none;
     
 }
 
 .reportGeneratorButton:hover{
 	
-  	 font-size:170% !important;
+  	// font-size:170% !important;
 	font-weigth: bolder;
     color: white;
     cursor: pointer;
@@ -535,7 +536,7 @@ body{
 
 .formHeaderPanel{
 	background-color: #1F2833 !important;
-	height: 7vh !important;
+	height: 5vh !important;
 	
 }
 
@@ -678,6 +679,23 @@ body{
     animation-name: refreshInfoLabelAnimation;
     animation-iteration-count: infinite;
     animation-duration: 3s;
+}
+
+.menuBar {
+	background-color: #1F2833;
+	height: 7vh !important;
+	width: 15vw !important;
+	margin-left: 1px !important;
+	text-align: center !important;
+	
+}
+
+.gwt-MenuBar .gwt-MenuItemSeparator {
+	width: 30vw !important;
+	
+}
+
+.gwt-MenuBar .gwt-MenuItem {
 }
 
 @-webkit-keyframes refreshInfoLabelAnimation {

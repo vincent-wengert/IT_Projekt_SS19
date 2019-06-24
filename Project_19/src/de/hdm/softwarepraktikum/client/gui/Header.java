@@ -96,7 +96,7 @@ public class Header extends HorizontalPanel{
 	 		logoutMenu.addItem("Angemeldet als: " + currentPerson.getGmail(), new Command() {
 	 	         @Override
 	 	         public void execute() {
-	 	        	 //TODO was geschiehen soll wenn logout ausgewählt wird
+	 	        	 //TODO was geschiehen soll wenn logout ausgewï¿½hlt wird
 	 	        	 
 	 	         }
 	 	      });
@@ -121,6 +121,7 @@ public class Header extends HorizontalPanel{
 	 			}
 	 		});
 	 		
+	 		/*
 	 		menu.addItem(new MenuItem("Editor", new Command() {
 	 			@Override
 	 			public void execute() {
@@ -140,31 +141,38 @@ public class Header extends HorizontalPanel{
 
 	 		menu.addSeparator();
 	 		
-	 		menu.addItem(new MenuItem(currentPerson.getName(), logoutMenu));
+	 		**/
+	 		
+	 		menu.addItem(new MenuItem("Angemeldet als: " + currentPerson.getName(), logoutMenu));
 	 		
 	 		this.add(menu);
 	 		
 //	 		loadGroups();
 
-	 		this.setStylePrimaryName("headerPanel");
-	 		this.setHeight("10vh");
+	 		this.setStylePrimaryName("formheaderPanel");
+	 		this.setHeight("5vh");
 	 		this.setWidth("100%");
 
-//	 		homeButtonPanel.add(editorButton);
-//	 		homeButtonPanel.add(reportGeneratorButton);
+ 		homeButtonPanel.add(editorButton);
+ 		homeButtonPanel.add(reportGeneratorButton);
 	 		homeButtonPanel.add(menu);
 	 		homeButtonPanel.setWidth("26vw");
 	 		
 	 		editorButton.setWidth("15vw");
-	 		editorButton.setHeight("10vh");
+	 		editorButton.setHeight("7vh");
 	 		
 	 		reportGeneratorButton.setWidth("15vw");
-	 		reportGeneratorButton.setHeight("10vh");
+	 		reportGeneratorButton.setHeight("7vh");
 	 		
 	 		homeButtonPanel.setStylePrimaryName("homeButtonPanel");
 	 		editorButton.setStylePrimaryName("editorButton");
 	 		reportGeneratorButton.setStylePrimaryName("reportGeneratorButton");
 	 		personPanel.setStylePrimaryName("userPanel");
+	 		userLabel.setStylePrimaryName("userLabel");
+	 		
+	 		menu.setStylePrimaryName("menuBar");
+	 		
+	 		
 
 	 		
 	 		homeButtonPanel.setCellHorizontalAlignment(editorButton, ALIGN_LEFT);
