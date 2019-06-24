@@ -23,7 +23,6 @@ import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
-import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 
 
 /**
@@ -232,7 +231,7 @@ public class ItemForm extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			setTableEditable(false);
 			Group g = new Group();
-			g.setId(1);
+			g.setId(-1);
 			if(itemToDisplayProduct.getIsFavorite() == true) {
 				itemToDisplayProduct.setFavorite(false);
 				shoppinglistAdministration.removeFavoriteItem(itemToDisplayProduct, g, new removeFavoriteItemCallback());

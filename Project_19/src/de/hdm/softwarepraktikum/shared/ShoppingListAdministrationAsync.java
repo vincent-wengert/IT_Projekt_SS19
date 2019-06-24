@@ -9,7 +9,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
-import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
@@ -31,7 +30,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void createGroup(String title, ArrayList<Person> member, AsyncCallback<Group> callback);
 
-	void createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, Unit unit,
+	void createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, String unit,
 			Boolean isChecked, AsyncCallback<ListItem> callback);
 
 	void createPerson(String gmail, String name, AsyncCallback<Person> callback);

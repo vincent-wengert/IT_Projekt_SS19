@@ -1,8 +1,10 @@
 package de.hdm.softwarepraktikum.shared.bo;
 
+import java.io.Serializable;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class Person extends BusinessObject implements IsSerializable{
+public class Person extends BusinessObject{
 	
 	/**
 	 * 

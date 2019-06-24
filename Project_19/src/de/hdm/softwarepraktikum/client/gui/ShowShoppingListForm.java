@@ -199,7 +199,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		TextColumn<ListItem> unitColumn = new TextColumn<ListItem>() {
 			@Override
 			public String getValue(ListItem i) {
-				return i.getUnit().toString();
+				return i.getUnit();
 			}
 		};
 
@@ -403,7 +403,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 	
 	public void loadFavoriteItems() {
 		ctm.setLoadFavoriteItems(false);
-		Window.alert("test loadfavorites");
 		Group selectedGroup = new Group();
 		selectedGroup.setId(-1);
 		administration.getAllFavoriteListItemsbyGroup(selectedGroup, currentPerson, shoppingListToDisplay, new getAllFavoriteListItemsCallback());
@@ -443,15 +442,14 @@ public class ShowShoppingListForm extends VerticalPanel {
 	
 	public void setSelected(ShoppingList sl, Boolean initial) {
 		if (sl != null) {
-			if(initial == true) {
-				loadFavoriteItems();
-			}
 			ShowShoppingListForm.this.shoppingListPanel.clear();
 			dataProvider.getList().clear();
 			shoppingListToDisplay = sl;
 			infoTitleLabel.setText(sl.getTitle());
 			
-			
+			if(initial == true) {
+				loadFavoriteItems();
+			}
 			
 			additionalInfoGrid.setVisible(true);
 			additionalInfoGrid.setWidget(0, 0, new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
@@ -773,10 +771,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 		@Override
 		public void onSuccess(ArrayList<ListItem> result) {
 			// TODO Auto-generated method stub
-			for(ListItem li : result) {
-				dataProvider.getList().add(li);
-				dataProvider.refresh();
-			}
+			
+			Notification.show("Favorisierte Artikel wurden hinzugefügt");
 		}
 		
 	}
@@ -795,7 +791,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 		public void onSuccess(Void result) {
 			shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
 			administration.updateShoppingList(shoppingListToDisplay, new UpdateShoppinglistCallback());
-			Window.alert(Integer.toString(selectedListitemIndex));
 			int index = selectedListitemIndex;
 			if (selectedListitemIndex != null) {
 				dataProvider.getList().remove(index);

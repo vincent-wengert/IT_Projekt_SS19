@@ -18,7 +18,6 @@ import de.hdm.softwarepraktikum.shared.bo.BusinessObject;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
-import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import java_cup.internal_error;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
@@ -352,7 +351,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * @return Das in die Datenbank gespeicherte ListITemObjekt wird zurückgegeben
 	 */
 	
-	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, Unit unit, Boolean isChecked) throws IllegalArgumentException {
+	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, String unit, Boolean isChecked) throws IllegalArgumentException {
 		
 		Responsibility res = new Responsibility();
 		res.setBuyerID(buyerID);
@@ -623,18 +622,26 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		ArrayList<Item> favItems = favoriteItemMapper.findFavItems(g);
 		
 		ArrayList<ListItem> listItemstoAdd = new ArrayList<ListItem>();
-		
-		for(Item i : favItems) { 
-			
-			ListItem li = new ListItem();
-			li.setName(i.getName());
-			li.setItemId(i.getId());
-			
+				
+		for(Item i : favItems) { 		
 			Responsibility res = new Responsibility();
-			
 			res.setBuyerID(p.getId());
+			res.setStoreID(1);
 			res.setSlID(sl.getId());
 			
+			this.responsibilityMapper.insert(res); 
+			
+			ListItem li = new ListItem();
+			
+			li.setItemId(i.getId());
+			li.setBuyerID(p.getId());
+			li.setStoreID(1);
+			li.setSlID(sl.getId());
+			li.setGrID(g.getId());
+			li.setAmount(0);
+			li.setUnit("leer");
+			li.setName(i.getName());
+			li.setChecked(false);
 			
 			listItemstoAdd.add(this.listItemMapper.insert(li, res));
 		}

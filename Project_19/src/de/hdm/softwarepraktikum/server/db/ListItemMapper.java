@@ -83,7 +83,7 @@ public class ListItemMapper {
 				Statement.RETURN_GENERATED_KEYS);
 		
 		stmt2.setInt(1, li.getId());
-		stmt2.setString(2, li.getUnit().toString());
+		stmt2.setString(2, li.getUnit());
 		stmt2.setDouble(3, li.getAmount());
 		
 		if(li.getChecked() == true) {
@@ -122,7 +122,7 @@ public class ListItemMapper {
 			
 			PreparedStatement st = con.prepareStatement("UPDATE ListItem SET Unit= ?, Amount= ? WHERE ListItem_ID= ?");
 			
-			st.setString(1, li.getUnit().toString());
+			st.setString(1, li.getUnit());
 			st.setDouble(2, li.getAmount());
 			st.setInt(3, li.getId());
 			System.out.println(st);
@@ -276,7 +276,7 @@ public class ListItemMapper {
 				while (rs.next()) {
 					ListItem listItem = new ListItem();
 					listItem.setId(rs.getInt("ListItem_ID"));
-					listItem.setUnit(listItem.getItemUnit(rs.getString("Unit")));
+					listItem.setUnit(rs.getString("Unit"));
 					listItem.setAmount(rs.getDouble("Amount"));
 					
 					if(rs.getTimestamp("BoughtOn") != null) {
@@ -352,7 +352,7 @@ public class ListItemMapper {
 				while (rs.next()) {
 					ListItem listItem = new ListItem();
 					listItem.setId(rs.getInt("ListItem_ID"));
-					listItem.setUnit(listItem.getItemUnit(rs.getString("Unit")));
+					listItem.setUnit(rs.getString("Unit"));
 					listItem.setAmount(rs.getDouble("Amount"));
 					listItem.setItemId(rs.getInt("Item_ID"));
 					listItem.setResID(rs.getInt("Responsibility_ID"));
@@ -391,7 +391,7 @@ public class ListItemMapper {
 				while (rs.next()) {
 					ListItem listItem = new ListItem();
 					listItem.setId(rs.getInt("ListItem_ID"));
-					listItem.setUnit(listItem.getItemUnit(rs.getString("Unit")));
+					listItem.setUnit(rs.getString("Unit"));
 					listItem.setAmount(rs.getDouble("Amount"));
 					listItem.setItemId(rs.getInt("Item_ID"));
 					listItem.setResID(rs.getInt("Responsibility_ID"));
@@ -435,7 +435,7 @@ public class ListItemMapper {
 				while (rs.next()) {
 					ListItem listItem = new ListItem();
 					listItem.setId(rs.getInt("ListItem_ID"));
-					listItem.setUnit(listItem.getItemUnit(rs.getString("Unit")));
+					listItem.setUnit(rs.getString("Unit"));
 					listItem.setAmount(rs.getDouble("Amount"));
 					listItem.setItemId(rs.getInt("Item_ID"));
 					listItem.setResID(rs.getInt("Responsibility_ID"));
@@ -477,7 +477,7 @@ public class ListItemMapper {
 				while (rs.next()) {
 					ListItem listItem = new ListItem();
 					listItem.setId(rs.getInt("ListItem_ID"));
-					listItem.setUnit(listItem.getItemUnit(rs.getString("Unit")));
+					listItem.setUnit(rs.getString("Unit"));
 					listItem.setAmount(rs.getDouble("Amount"));
 					listItem.setItemId(rs.getInt("Item_ID"));
 					listItem.setResID(rs.getInt("Responsibility_ID"));

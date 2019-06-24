@@ -107,6 +107,7 @@ public class FavoriteItemMapper {
 	}
 	
 	
+	
 	public ArrayList<Item> findFavItems(Group g) {
 		// TODO Auto-generated method stub
 		
@@ -123,6 +124,7 @@ public class FavoriteItemMapper {
 		      // F�r jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
 		      while (rs.next()) {
 		    	Item i = new Item();
+		    	System.out.println(rs.getString("Name"));
 		        i.setId(rs.getInt("Item_Item_ID"));
 		        i.setName(rs.getString("Name"));
 		      

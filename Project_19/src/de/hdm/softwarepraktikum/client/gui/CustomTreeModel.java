@@ -118,7 +118,7 @@ public class CustomTreeModel implements TreeViewModel {
 	
 	public void setSelectedShoppingList(ShoppingList sl) {
 		RootPanel.get("Details").clear();
-		selectedShoppingList = sl;
+//		selectedShoppingList = sl;
 		sslf.setSelected(sl, loadFavorites);
 		RootPanel.get("Details").add(sslf);
 		selectedShoppingList=null;
