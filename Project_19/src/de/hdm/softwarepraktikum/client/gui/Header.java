@@ -62,10 +62,6 @@ public class Header extends HorizontalPanel{
 	 	 * und zu den Buttons die ClickHandler hinzugef√ºgt.
 	 	 */
 	 	public Header() {
-	 		currentPerson = new Person();
-	 		currentPerson.setName("Hans Mueller");
-	 		currentPerson.setId(1);
-	 		currentPerson.setGmail("hans.mueller@gmail.com");
 	 		
 	 		personPanel.add(userLabel);
 	 		
@@ -96,7 +92,7 @@ public class Header extends HorizontalPanel{
 	 		logoutMenu.addItem("Angemeldet als: " + currentPerson.getGmail(), new Command() {
 	 	         @Override
 	 	         public void execute() {
-	 	        	 //TODO was geschiehen soll wenn logout ausgew‰hlt wird
+	 	        	 //TODO was geschiehen soll wenn current person angeklickt wird
 	 	        	 
 	 	         }
 	 	      });
@@ -113,10 +109,10 @@ public class Header extends HorizontalPanel{
 	 			@Override
 	 			public void execute() {
 	 				Notification.show("Logout");
-//	 				navigator.selectTab(2);
-//	 				
-//	 				u.setLogoutUrl(u.getLogoutUrl());
-//	 				Window.open(u.getLogoutUrl(), "_self", "");
+
+	 				
+	 				currentPerson.setLogoutUrl(currentPerson.getLogoutUrl());
+	 				Window.open(currentPerson.getLogoutUrl(), "_self", "");
 	 				
 	 			}
 	 		});
