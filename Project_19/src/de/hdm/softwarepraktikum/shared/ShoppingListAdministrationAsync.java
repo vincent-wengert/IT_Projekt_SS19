@@ -84,7 +84,7 @@ public interface ShoppingListAdministrationAsync {
 	
 	void findShoppingListbyId(int id, AsyncCallback<ShoppingList> callback);
 
-	void getAllItems(AsyncCallback<ArrayList<Item>> callback);
+	void getAllItems(int id, AsyncCallback<ArrayList<Item>> callback);
 
 	void updateStore(Store s, AsyncCallback<Void> callback);
 

@@ -33,7 +33,7 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void deleteItem(Item i);
 	
-	public ArrayList<Item> getAllItems();
+	public ArrayList<Item> getAllItems(int id);
 	
 	public Item getItem(int id);
 	
