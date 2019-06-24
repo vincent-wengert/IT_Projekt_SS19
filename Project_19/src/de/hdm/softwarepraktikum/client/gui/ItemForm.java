@@ -1,5 +1,6 @@
 package de.hdm.softwarepraktikum.client.gui;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -285,6 +286,7 @@ public class ItemForm extends VerticalPanel{
 			} else {
 			itemToDisplayProduct.setName(itemNameBox.getText());
 			itemToDisplayProduct.setIsGlobal(isGlobalBox.getValue());
+			itemToDisplayProduct.setChangedate(new Timestamp(System.currentTimeMillis()));
 			shoppinglistAdministration.updateItem(itemToDisplayProduct, new UpdateItemCallback());
 			}
 			setTableEditable(false);

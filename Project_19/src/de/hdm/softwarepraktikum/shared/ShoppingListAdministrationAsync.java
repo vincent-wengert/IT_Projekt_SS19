@@ -99,6 +99,8 @@ public interface ShoppingListAdministrationAsync {
 	void getAllCheckedItemsByGroup(Group g, AsyncCallback<ArrayList<ListItem>> callback);
 
 	void deleteGroup(Group g, AsyncCallback<Void> callback);
+	
+	void setFavAutomated(Group g, AsyncCallback<Void> callback);
 
 	void getAllItemsByGroup(int groupId, int currentPersonId, AsyncCallback<ArrayList<Item>> callback);
 
