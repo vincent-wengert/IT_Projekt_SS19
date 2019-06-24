@@ -602,9 +602,19 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 		ArrayList<Integer> fav = listItemMapper.autoSetFav(g);
 	
-		for(int i = 0;i<fav.size();i++) {
+		for(int a = 0;a<fav.size();a++) {
 			
-	
+			int item_id = fav.get(a);
+			Boolean available = favoriteItemMapper.checkById(item_id);
+			
+			if(available == false) {
+				
+				Item i = new Item();
+				i.setId(item_id);
+				favoriteItemMapper.insert(i, g);
+				
+			} 
+		
 			
 		}
 		
