@@ -402,10 +402,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 	
 	public void loadFavoriteItems() {
-		ctm.setLoadFavoriteItems(false);
-		Group selectedGroup = new Group();
-		selectedGroup.setId(-1);
-		administration.getAllFavoriteListItemsbyGroup(selectedGroup, currentPerson, shoppingListToDisplay, new getAllFavoriteListItemsCallback());
+		ctm.setLoadFavoriteItems(false);	
+		administration.getAllFavoriteListItemsbyGroup(group, currentPerson, shoppingListToDisplay, new getAllFavoriteListItemsCallback());
 	}
 
 	private void loadListitems() {

@@ -140,6 +140,7 @@ public class CustomTreeModel implements TreeViewModel {
 	}
 	
 	public void updateShoppingListToGroup(ShoppingList sl, Group g) {
+		sslf.setGroup(g);
 		//node des celltrees oeffnen
 		tree.getRootTreeNode().setChildOpen(groupsDataProvider.getList().indexOf(g), true);
 		
