@@ -26,16 +26,18 @@ public class StoreMapper {
 
 		
 		/**
-		 * Geschützter Konstruktor - verhindert die Möglichkeit, mit <code>new</code>
+		 * Geschuetzter Konstruktor - verhindert die Moeglichkeit, mit <code>new</code>
 		 * neue Instanzen dieser Klasse zu erzeugen.
 		 */
 		protected StoreMapper() {
 		}
 		
 		
+		
 		/*
 		 * Einhaltung der Singleton Eigenschaft des Mappers.
-		 */
+		 * @return: gibt den StoreMapper zurueck
+		 */ 
 		
 		public static StoreMapper storeMapper() {
 			if (storeMapper == null) {
@@ -46,39 +48,30 @@ public class StoreMapper {
 		}
 	
 		
-		//Erstellen eines neuen Stores
-			
-		public Store insert(Store s) {
+		/*
+		 * Methode um ein Store Objekt in der Datenbank zu speichern
+		 * @parameter "s": ein neuer zu speichender Store in der Datenbank wird uebergeben
+		 * @return: der neu gespeicherte Store wird zur�ckgegeben
+		 * 
+		 */
+	      public Store insert(Store s) {
 			Connection con = DBConnection.connection();
 			
 			try {
 
 				Statement stmt = con.createStatement();
-				
-				/*
-				 * Zunächst schauen wir nach, welches der momentan höchste
-				 * Primärschlüsselwert ist.
-				 */
 				ResultSet rs = stmt.executeQuery("SELECT MAX(Store_ID) AS maxid " + "FROM Store ");
 
-				// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 				
 				if (rs.next()) {
 				/* 
-				 * s erhält den bisher maximalen, nun um 1 inkrementierten
-				 * Primärschlüssel.
+				 * s erhaelt den bisher maximalen, nun um 1 inkrementierten
+				 * Primaerschluessel.
 				 */
 					s.setId(rs.getInt("maxid") + 1);
 
-					//stmt = con.createStatement();
 				}
 				
-				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				//stmt.executeUpdate("INSERT INTO Store (Store_ID, Name, Street, Postcode, City, Creationdate, Changedate ) " 
-				//+ "VALUES (" + s.getId() + ",'"
-				//+ s.getName() + "','" + s.getStreet() + " ','" 
-				//+ s.getPostcode()+ " ','" + s.getCity()
-				//+ " ','" + s.getCreationdate()+ "','" + s.getChangedate() + "')");
 				
 				PreparedStatement stmt2 = con.prepareStatement(
 				"INSERT INTO Store (Store_ID, Name, Street, Postcode, City, Creationdate, Changedate, Housenumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
@@ -100,29 +93,20 @@ public class StoreMapper {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
-			/*
-			 * Rückgabe, der evtl. korrigierten Group.
-			 */
 			return s;
-				
-		}
+				}
 		
-		//Eigenschaften eines Stores aendern
+	      /*
+			 * Wiederholtes Schreiben eines <code>Store</code> Objekts in die Datenbank.
+			 * @parameter "r": Der zu aktualisierende Store wid �bergeben
+			 * @return: der aktualisierte Store wird zur�ckgegeben
+			 * 
+			 */
 		public Store updateStore(Store r) {
 			
 			Connection con = DBConnection.connection();
 			
 			try {
-//				Statement stmt = con.createStatement();
-				
-//				stmt.executeUpdate("UPDATE Store " + "SET name=\"" + r.getName() + "\", " + "Street=\""
-//					    + r.getStreet()+ "\" " + "Postcode=\""
-//						+ r.getPostcode()+ "\" " +"City=\""
-//						+ r.getCity()+ "\" " +"Changdate=\""
-//						+ r.getChangedate()+ "\" " +"WHERE id=" + r.getId());
-				
-				
 				PreparedStatement st = con.prepareStatement("UPDATE Store SET Name = ?, Street = ?, Postcode = ?, City = ?,"
 						+ " Changedate = ?, Housenumber = ?  WHERE Store_ID = ?");
 				
@@ -139,14 +123,16 @@ public class StoreMapper {
 				e.printStackTrace();
 			}
 			
-			// Um Analogie zu insert(item r) zu wahren, wird i zurï¿½ckgegeben
 					return r;
 		}
 
 
 
- //Store aus Datenbank lÃ¶schen
-	
+		/*
+		 * Methode um ein Store-Datensatz in der Datenbank zu l�schen.
+		 * @parameter "s": Der zu loeschende Store wird uebergeben
+		 */
+		
 public void deleteStore(Store s) {
 	
 	Connection con = DBConnection.connection();
@@ -162,21 +148,27 @@ public void deleteStore(Store s) {
 }
 				
 		
-	
-		public Store findByID(int ID) {
+/*
+ * Methode um ein einzelnes <code>Store</code> Objekt anhand einer ID  suchen.
+ * 
+ * @param id:  ID des zu findenden Stores wird �bergeben.
+ * @return Der anhand der id gefundene Store wird zur�ckgegeben.
+ */
+
+	public Store findByID(int ID) {
 		
-			Connection con = DBConnection.connection();
+	Connection con = DBConnection.connection();
 			
 			
-			try {
-				//leeres SQL-Statement (JDBC) anlegen
-				Statement stmt = con.createStatement();
+	try {
 				
-				//Statement ausfüllen und als Query an die DB schicken
-				ResultSet rs = stmt.executeQuery("SELECT Store_ID, Name, Street, Postcode, City, Creationdate, Changedate, Housenumber FROM Store "
-						+ " WHERE Store_ID = " +ID);
-				while (rs.next()) {
-				//Ergebnis-Tupel in Objekt umwandeln
+	Statement stmt = con.createStatement();
+				
+				
+	ResultSet rs = stmt.executeQuery("SELECT Store_ID, Name, Street, Postcode, City, Creationdate, Changedate, Housenumber FROM Store "
+			+ " WHERE Store_ID = " +ID);
+	while (rs.next()) {
+				
 				 Store s = new Store();
 				 s.setId(rs.getInt("Store_ID"));
 				 s.setName(rs.getString("Name"));
@@ -191,19 +183,19 @@ public void deleteStore(Store s) {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
-			
-			
-			
+		
 			return null;
 		}
 	
-		//Alle Store als Array-Liste ausgeben
+	 /* 
+     * Methode um alle in der Datenbank vorhandenen Stores-Datens�tze abzurufen.
+     * Diese werden als einzelne <code>Storey</code> Objekte innerhalb einer ArrayList zur�ckgegeben.
+     * 
+     * @return ArrayList aller Stores wird zur�ckgegeben.
+     */
 		public ArrayList<Store> findAllStore(){
 			
-			//Ergebnisvektor vorbereiten
 			ArrayList<Store> result = new ArrayList<Store>();
-			
 			Connection con = DBConnection.connection();
 			
 			
@@ -214,7 +206,6 @@ public void deleteStore(Store s) {
 						
 				while (rs.next()) {
 					
-					//Ergebnis-Tupel in Objekt umwandeln
 					 Store s = new Store();
 					 s.setId(rs.getInt("Store_ID"));
 					 s.setName(rs.getString("Name"));
@@ -225,7 +216,7 @@ public void deleteStore(Store s) {
 					 s.setChangedate(rs.getTimestamp("Changedate"));
 					 s.setHouseNumber(rs.getInt("Housenumber"));
 					
-					//Hinzufügen des neuen Objekts zum Ergebnisvektor
+				
 					result.add(s);
 
 				}
@@ -237,12 +228,6 @@ public void deleteStore(Store s) {
 		
 		}
 	
-		//public Store findByObject(Store store) {
-		//	return store;
-		
-		
-		//}
-	
-	
+
 	
 }
