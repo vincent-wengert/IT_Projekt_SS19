@@ -468,8 +468,9 @@ public class ListItemDialog extends PopupPanel {
 		
 		@Override
 		public void onSuccess(ListItem result) {
-			// TODO Auto-generated method stub
+			// TODO Auto-generated method stub^
 			Notification.show("Artikel in der Einkaufsliste wurde aktualisiert");
+			sslf.updateListItem();
 
 		}
 	}

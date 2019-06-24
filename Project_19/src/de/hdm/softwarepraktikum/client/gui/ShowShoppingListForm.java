@@ -410,6 +410,16 @@ public class ShowShoppingListForm extends VerticalPanel {
 			return (item == null) ? null : item.getId();
 		}
 	}
+	
+	public void updateRemovedListItem() {
+		dataProvider.getList().clear();
+	}
+	
+	public void updateListItem() {
+		dataProvider.getList().clear();
+		administration.getAllListItemsByShoppingLists(shoppingListToDisplay, new getAllListItemsbyShoppingListCallback());	
+	}
+
 
 	public void setGroup(Group g) {
 		this.group = g;
@@ -616,7 +626,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 		
 		@Override
 		public void onSuccess(Void result) {
-			// TODO Auto-generated method stub
 			Notification.show("Einkaufsliste wurde erfolgreich entfernt");
 			ctm.updateRemovedShoppingList(shoppingListToDisplay);
 		}
@@ -751,8 +760,10 @@ public class ShowShoppingListForm extends VerticalPanel {
 		public void onSuccess(Void result) {
 			shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
 			administration.updateShoppingList(shoppingListToDisplay, new UpdateShoppinglistCallback());
+			Window.alert(Integer.toString(selectedListitemIndex));
+			int index = selectedListitemIndex;
 			if (selectedListitemIndex != null) {
-				dataProvider.getList().remove(selectedListitemIndex);
+				dataProvider.getList().remove(index);
 				dataProvider.refresh();
 				cellTable.redraw();
 				
