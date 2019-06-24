@@ -37,6 +37,8 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ArrayList<Item> getAllItemsByGroup(int groupId, int currentPersonId);
 	
+	public ArrayList<ListItem> getAllFavoriteListItemsbyGroup (Group g, Person p, ShoppingList sl);
+	
 	public Item getItem(int id);
 	
 	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, Unit unit, Boolean isChecked);

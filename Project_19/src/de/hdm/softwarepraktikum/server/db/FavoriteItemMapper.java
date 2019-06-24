@@ -110,19 +110,21 @@ public class FavoriteItemMapper {
 	public ArrayList<Item> findFavItems(Group g) {
 		// TODO Auto-generated method stub
 		
-		Connection con = DBConnection.connection();
 		ArrayList<Item> favItems = new ArrayList<Item>();
+		
+		Connection con = DBConnection.connection();
+		
 		
 		 try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT Favorites.item_id, Item.name FROM Favorites INNER JOIN item ON Favorites.item_id = item.item_id WHERE groupid =" + g.getId());
+		      ResultSet rs = stmt.executeQuery("SELECT Favorites.Item_Item_ID, Item.Name FROM Favorites INNER JOIN Item ON Favorites.Item_Item_ID = Item.Item_ID WHERE Group_Group_ID =" + g.getId());
 
 		      // F�r jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
 		      while (rs.next()) {
 		    	Item i = new Item();
-		        i.setId(rs.getInt("id"));
-		        i.setName(rs.getString("name"));
+		        i.setId(rs.getInt("Item_Item_ID"));
+		        i.setName(rs.getString("Name"));
 		      
 
 		        // Hinzuf�gen des neuen Items zum Ergebnisvektor

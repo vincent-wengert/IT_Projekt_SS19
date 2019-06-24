@@ -618,7 +618,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 	}
 	
-	public ArrayList<ListItem> favItemsToListItems (Group g) {
+	public ArrayList<ListItem> getAllFavoriteListItemsbyGroup (Group g, Person p, ShoppingList sl) {
 		
 		ArrayList<Item> favItems = favoriteItemMapper.findFavItems(g);
 		
@@ -628,8 +628,18 @@ private FavoriteItemMapper favoriteItemMapper = null;
 			
 			ListItem li = new ListItem();
 			li.setName(i.getName());
-			listItemstoAdd.add(li);
+			li.setItemId(i.getId());
+			
+			Responsibility res = new Responsibility();
+			
+			res.setBuyerID(p.getId());
+			res.setSlID(sl.getId());
+			
+			
+			listItemstoAdd.add(this.listItemMapper.insert(li, res));
 		}
+		
+		return listItemstoAdd;
 		
 		
 	}
