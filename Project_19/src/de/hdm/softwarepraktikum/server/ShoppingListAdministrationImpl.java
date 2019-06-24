@@ -324,7 +324,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 	}
 	
-public ArrayList<Item> getAllItems() throws IllegalArgumentException{
+	public ArrayList<Item> getAllItems() throws IllegalArgumentException{
 		
 		ArrayList<Item> allItems = this.itemMapper.findAll();
 		
@@ -333,7 +333,7 @@ public ArrayList<Item> getAllItems() throws IllegalArgumentException{
 	}
 	
 
-	
+
 	/*
 	   * ***************************************************************************
 	   * ABSCHNITT, Ende: Methoden für Item-Objekte
@@ -610,21 +610,27 @@ public ArrayList<Item> getAllItems() throws IllegalArgumentException{
 		
 		ArrayList<Integer> fav = listItemMapper.autoSetFav(g);
 	
-		for(int a = 0;a<fav.size();a++) {
+		for(int i = 0;i<fav.size();i++) {
 			
-			int item_id = fav.get(a);
-			Boolean available = favoriteItemMapper.checkById(item_id);
-			
-			if(available == false) {
-				
-				Item i = new Item();
-				i.setId(item_id);
-				favoriteItemMapper.insert(i, g);
-				
-			} 
-		
+	
 			
 		}
+		
+	}
+	
+	public ArrayList<ListItem> favItemsToListItems (Group g) {
+		
+		ArrayList<Item> favItems = favoriteItemMapper.findFavItems(g);
+		
+		ArrayList<ListItem> listItemstoAdd = new ArrayList<ListItem>();
+		
+		for(Item i : favItems) { 
+			
+			ListItem li = new ListItem();
+			li.setName(i.getName());
+			listItemstoAdd.add(li);
+		}
+		
 		
 	}
 

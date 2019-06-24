@@ -436,6 +436,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 			shoppingListToDisplay = sl;
 			infoTitleLabel.setText(sl.getTitle());
 			
+			
+			
 			additionalInfoGrid.setVisible(true);
 			additionalInfoGrid.setWidget(0, 0, new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
 			additionalInfoGrid.setWidget(0, 1, new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
