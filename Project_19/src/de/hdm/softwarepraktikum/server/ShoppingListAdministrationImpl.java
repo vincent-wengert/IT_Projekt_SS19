@@ -310,15 +310,23 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * @return ArrayList<Item>
 	 */
 	
-	public ArrayList<Item> getAllItems(int id) throws IllegalArgumentException{
+	public ArrayList<Item> getAllItemsByGroup(int groupId, int currentPersonId) throws IllegalArgumentException{
 		
 		Group group = new Group();
-		group.setId(id);
-		ArrayList<Item> allItems = this.itemMapper.findAll();
+		group.setId(groupId);
+		ArrayList<Item> allItems = this.itemMapper.findAllByGroup(currentPersonId);
 		
 		for (Item item : allItems) {
 			item.setFavorite(this.favoriteItemMapper.checkFav(item, group));
 		}
+		
+		return allItems;
+		
+	}
+	
+public ArrayList<Item> getAllItems() throws IllegalArgumentException{
+		
+		ArrayList<Item> allItems = this.itemMapper.findAll();
 		
 		return allItems;
 		

@@ -170,7 +170,7 @@ private void setSelectedGroup(Group g) {
 	this.selectedGroup = g;
 }
 
-private Group getSelectedGroup() {
+public Group getSelectedGroup() {
 	return this.selectedGroup;
 }
 /**

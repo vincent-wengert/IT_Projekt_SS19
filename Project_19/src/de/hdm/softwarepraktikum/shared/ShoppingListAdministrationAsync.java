@@ -84,7 +84,7 @@ public interface ShoppingListAdministrationAsync {
 	
 	void findShoppingListbyId(int id, AsyncCallback<ShoppingList> callback);
 
-	void getAllItems(int id, AsyncCallback<ArrayList<Item>> callback);
+	void getAllItems(AsyncCallback<ArrayList<Item>> callback);
 
 	void updateStore(Store s, AsyncCallback<Void> callback);
 
@@ -99,5 +99,7 @@ public interface ShoppingListAdministrationAsync {
 	void getAllCheckedItemsByGroup(Group g, AsyncCallback<ArrayList<ListItem>> callback);
 
 	void deleteGroup(Group g, AsyncCallback<Void> callback);
+
+	void getAllItemsByGroup(int groupId, int currentPersonId, AsyncCallback<ArrayList<Item>> callback);
 
 }

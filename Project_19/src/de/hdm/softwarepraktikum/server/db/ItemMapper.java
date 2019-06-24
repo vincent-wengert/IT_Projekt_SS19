@@ -184,8 +184,35 @@ public class ItemMapper {
 		//Ergebnisvektor vorbereiten
 		ArrayList<Item> result = new ArrayList<Item>();
 		
-		// Hier noch Person_ID einfügen
-		int id = 1;
+		Connection con = DBConnection.connection();
+		try {
+			
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt
+					.executeQuery("SELECT * FROM Item ");
+			
+			// F�r jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
+			while(rs.next()) {
+				Item i = new Item();
+				i.setId(rs.getInt("Item_ID"));
+				i.setName(rs.getString("Name"));
+				i.setIsGlobal(rs.getBoolean("isGlobal"));
+				
+				//Hinzuf�gen des neuen Objekts zum Ergebnisvektor
+				result.add(i);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		//Ergebnis zur�ckgeben
+		return result;
+	}
+	
+	public ArrayList<Item> findAllByGroup(int id) {
+		//Ergebnisvektor vorbereiten
+		ArrayList<Item> result = new ArrayList<Item>();
 		
 		Connection con = DBConnection.connection();
 		try {

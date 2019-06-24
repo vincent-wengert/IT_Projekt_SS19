@@ -33,7 +33,9 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void deleteItem(Item i);
 	
-	public ArrayList<Item> getAllItems(int id);
+	public ArrayList<Item> getAllItems();
+	
+	public ArrayList<Item> getAllItemsByGroup(int groupId, int currentPersonId);
 	
 	public Item getItem(int id);
 	

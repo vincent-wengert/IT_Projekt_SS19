@@ -21,13 +21,17 @@ import com.google.gwt.view.client.SingleSelectionModel;
 
 
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
 import de.hdm.softwarepraktikum.server.ShoppingListAdministrationImpl;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Item;
+import de.hdm.softwarepraktikum.shared.bo.Person;
 import java_cup.version;
 
 public class AllItemsCellList extends VerticalPanel{
 	private NavigatorPanel navigator;
+	
+	Person p = CurrentPerson.getPerson();
 	
 	ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	
@@ -53,7 +57,7 @@ public class AllItemsCellList extends VerticalPanel{
 		
 		
 		
-		administration.getAllItems(new GetAllItemsCallback());
+		administration.getAllItemsByGroup(navigator.getSelectedGroup().getId(), p.getId(),  new GetAllItemsCallback());
 		dataProvider.addDataDisplay(cellList);
 		cellList.setRowData(0, dataProvider.getList());
 		cellList.setRowCount(items.size(), true);
@@ -88,7 +92,7 @@ public class AllItemsCellList extends VerticalPanel{
 	}
 	
 	public void removeItem(Item i) {
-		administration.getAllItems(new GetAllItemsCallback());
+		administration.getAllItemsByGroup(navigator.getSelectedGroup().getId(), p.getId(), new GetAllItemsCallback());
 		dataProvider.getList().remove(i);
 		dataProvider.refresh();
 	}
@@ -156,7 +160,7 @@ public class AllItemsCellList extends VerticalPanel{
 	
 	public void updateCelllist(Item item) {
 		dataProvider.getList().clear();
-		administration.getAllItems(new GetAllItemsCallback());
+		administration.getAllItemsByGroup(navigator.getSelectedGroup().getId(), p.getId(), new GetAllItemsCallback());
 		dataProvider.refresh();
 		selectionModel.setSelected(item, true);
 		//setSelectedItem(i);
