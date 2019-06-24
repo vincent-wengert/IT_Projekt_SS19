@@ -596,6 +596,19 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		Boolean isFav = favoriteItemMapper.checkFav(i, group);
 		return isFav;
 	}
+	
+	
+	public void setFavAutomated(Group g) throws IllegalArgumentException{
+		
+		ArrayList<Integer> fav = listItemMapper.autoSetFav(g);
+	
+		for(int i = 0;i<fav.size();i++) {
+			
+	
+			
+		}
+		
+	}
 
 	/*
 	   * ***************************************************************************
