@@ -52,7 +52,7 @@ private AllStoresCellList ascl = new AllStoresCellList();
 private GroupForm gf = new GroupForm();
 private ShowShoppingListForm sslf = new ShowShoppingListForm();
 private NewShoppingListForm nslf = new NewShoppingListForm();
-private Group selectedGroup = new Group();
+private Group selectedGroup;
 
 private Grid itemsGrid = new Grid(2,2);
 private Grid storesGrid = new Grid(2,2);
@@ -96,6 +96,7 @@ public void onLoad() {
 	this.add(contentPanelStores, "Alle Händler");
 	
 	itemsGrid.setWidget(1, 0, aicl);
+	aicl.setNavigator(this);
 	contentPanelArticles.add(itemsGrid);
 
     

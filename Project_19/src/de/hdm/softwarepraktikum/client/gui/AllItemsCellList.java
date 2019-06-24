@@ -56,8 +56,9 @@ public class AllItemsCellList extends VerticalPanel{
 		cellList.setSelectionModel(selectionModel);
 		
 		
-		
+		if(navigator.getSelectedGroup()!=null) {
 		administration.getAllItemsByGroup(navigator.getSelectedGroup().getId(), p.getId(),  new GetAllItemsCallback());
+		}
 		dataProvider.addDataDisplay(cellList);
 		cellList.setRowData(0, dataProvider.getList());
 		cellList.setRowCount(items.size(), true);
@@ -92,7 +93,9 @@ public class AllItemsCellList extends VerticalPanel{
 	}
 	
 	public void removeItem(Item i) {
+		if(navigator.getSelectedGroup()!=null) {
 		administration.getAllItemsByGroup(navigator.getSelectedGroup().getId(), p.getId(), new GetAllItemsCallback());
+		}
 		dataProvider.getList().remove(i);
 		dataProvider.refresh();
 	}
@@ -160,7 +163,9 @@ public class AllItemsCellList extends VerticalPanel{
 	
 	public void updateCelllist(Item item) {
 		dataProvider.getList().clear();
+		if(navigator.getSelectedGroup()!=null) {
 		administration.getAllItemsByGroup(navigator.getSelectedGroup().getId(), p.getId(), new GetAllItemsCallback());
+		}
 		dataProvider.refresh();
 		selectionModel.setSelected(item, true);
 		//setSelectedItem(i);
