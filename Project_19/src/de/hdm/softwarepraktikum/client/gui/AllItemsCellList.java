@@ -56,9 +56,9 @@ public class AllItemsCellList extends VerticalPanel{
 		cellList.setSelectionModel(selectionModel);
 		
 		
-		if(navigator.getSelectedGroup()!=null) {
-		administration.getAllItemsByGroup(navigator.getSelectedGroup().getId(), p.getId(),  new GetAllItemsCallback());
-		}
+//		if(navigator.getSelectedGroup()!=null) {
+		administration.getAllItemsByGroup(-1, p.getId(),  new GetAllItemsCallback());
+//		}
 		dataProvider.addDataDisplay(cellList);
 		cellList.setRowData(0, dataProvider.getList());
 		cellList.setRowCount(items.size(), true);

@@ -34,7 +34,7 @@ public class CustomTreeModel implements TreeViewModel {
 	private ShowShoppingListForm sslf;
 	private NewShoppingListForm nslf;
 	private CellTree tree = null;
-
+	private Boolean loadFavorites = false;
 	private ShoppingList selectedShoppingList = null;
 	private Group groupToDisplay = null;
 	private ArrayList<Group> groups = new ArrayList<Group>();
@@ -62,6 +62,14 @@ public class CustomTreeModel implements TreeViewModel {
 		p.setId(1);
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEventHandler());
 		shoppingListHolderDataProviders = new HashMap<Group, ListDataProvider<ShoppingList>>();
+	}
+	
+	public void setLoadFavoriteItems(Boolean loadFavorites) {
+		this.loadFavorites = loadFavorites;
+	}
+	
+	private Boolean getLoadFavoriteItems() {
+		return this.loadFavorites;
 	}
 	
 	/**
@@ -111,7 +119,7 @@ public class CustomTreeModel implements TreeViewModel {
 	public void setSelectedShoppingList(ShoppingList sl) {
 		RootPanel.get("Details").clear();
 		selectedShoppingList = sl;
-		sslf.setSelected(sl);
+		sslf.setSelected(sl, loadFavorites);
 		RootPanel.get("Details").add(sslf);
 		selectedShoppingList=null;
 	}
@@ -135,7 +143,7 @@ public class CustomTreeModel implements TreeViewModel {
 		//node des celltrees oeffnen
 		tree.getRootTreeNode().setChildOpen(groupsDataProvider.getList().indexOf(g), true);
 		
-		//alle dataprovider für shoppinglists aktualisieren
+		//alle dataprovider fï¿½r shoppinglists aktualisieren
 		for(Group group: shoppingListHolderDataProviders.keySet()) {
 			final Group tempg = group;
 			final ShoppingList tempsl = sl;

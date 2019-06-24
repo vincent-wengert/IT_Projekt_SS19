@@ -67,7 +67,6 @@ public class NewShoppingListForm extends VerticalPanel {
 	private Integer groupID;
 	
 	private NewShoppingListForm newShoppingListForm;
-	private AllShoppingListsCellList aslcl = new AllShoppingListsCellList();
 
 	public NewShoppingListForm() {
 
@@ -76,8 +75,6 @@ public class NewShoppingListForm extends VerticalPanel {
 
 		cancelButton.addClickHandler(new CancelClickHandler());
 		bottomButtonsPanel.add(cancelButton);
-		
-		addFavItems.addClickHandler(new addFavItemsClickHandler());
 	}
 	
 	
@@ -139,16 +136,6 @@ public class NewShoppingListForm extends VerticalPanel {
 		this.newShoppingListForm = newShoppingListForm;
 	}
 	
-	/**
-	 * Methode um die aktuelle <code>AllShoppingListsCellList</code> Instanz zu setzen.
-	 * Diese Instanz wird für das Aktualisieren nach dem Anlegen einer Einkaufliste benötigt.
-	 * 
-	 * @param newShoppingListForm das zu setzende <code>AllShoppingListsCellList</code> Objekt.
-	 */
-	public void setAllShoppingListCelllist(AllShoppingListsCellList allShoppingListsCellList) {
-
-		this.aslcl = aslcl;
-	}
 	
 	public void setCtm(CustomTreeModel ctm) {
 		this.ctm = ctm;
@@ -228,12 +215,6 @@ public class NewShoppingListForm extends VerticalPanel {
 		}
 	}
 	
-	private class addFavItemsClickHandler implements ClickHandler {
-		
-		public void onClick(ClickEvent event) {
-			
-		}
-	}
 	
 	/**
 	 * Nachdem ein neues <code>Shoppinglist</code> Objekt erstellt wurde, wird dieses der Liste der aktuellen
@@ -250,6 +231,7 @@ public class NewShoppingListForm extends VerticalPanel {
 		public void onSuccess(ShoppingList shoppingList) {
 			//add item to cellist
 			Notification.show("Einkaufsliste wurde erstellt");
+			ctm.setLoadFavoriteItems(addFavItems.getValue());
 			ctm.updateShoppingListToGroup(shoppingList, groupToDisplay);
 		}
 	}

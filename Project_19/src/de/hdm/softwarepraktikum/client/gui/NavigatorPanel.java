@@ -47,7 +47,6 @@ private AllItemsCellList aicl = new AllItemsCellList();
 private ItemForm itemForm = new ItemForm();
 private StoreForm storeForm = new StoreForm();
 
-private AllShoppingListsCellList aslcl = new AllShoppingListsCellList();
 private AllStoresCellList ascl = new AllStoresCellList();
 private GroupForm gf = new GroupForm();
 private ShowShoppingListForm sslf = new ShowShoppingListForm();
@@ -153,15 +152,7 @@ public AllStoresCellList getAllStoresCellList() {
 	return ascl;
 }
 
- /**
- * Methode um die AllShoppingListsCellList abzufragen.
- * 
- * @return Die AllShoppingListsCellList wird zurückgegeben.
- */
-public AllShoppingListsCellList getAllShoppingListsCellList() {
-	return aslcl;
 
-}
 
 public CustomTreeModel getCtm() {
 	return model;

@@ -23,7 +23,6 @@ public class MenuPanel extends VerticalPanel{
 	
 	private AllItemsCellList allItemsCellList;
 	private AllStoresCellList allStoresCellList;
-	private AllShoppingListsCellList allShoppingListsCellList;
 	private GroupForm groupForm;
 
 	private ItemForm itemForm;
@@ -101,14 +100,6 @@ public class MenuPanel extends VerticalPanel{
 		this.allItemsCellList = allItemsCellList;
 	}
 	
-	/**
-	 * Setzen des NewStoreForm innerhalb des MenuPanels
-	 * 
-	 * @param das zu setzende NewStoreForm
-	 */
-	public void setAllShoppinglistCelllist(AllShoppingListsCellList allShoppingListsCellList) {
-		this.allShoppingListsCellList = allShoppingListsCellList;
-	}
 	
 	/**
 	 * Setzen des NewStoreForm innerhalb des MenuPanels
@@ -194,7 +185,6 @@ public class MenuPanel extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			RootPanel.get("Details").clear();
 			newShoppingListForm = new NewShoppingListForm();
-			newShoppingListForm.setAllShoppingListCelllist(allShoppingListsCellList);
 			
 			newShoppingListForm.setCtm(ctm);
 			RootPanel.get("Details").add(newShoppingListForm);

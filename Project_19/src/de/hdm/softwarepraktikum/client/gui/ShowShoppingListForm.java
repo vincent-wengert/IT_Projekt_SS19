@@ -34,6 +34,7 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
@@ -45,6 +46,7 @@ import de.hdm.softwarepraktikum.shared.bo.Store;
 public class ShowShoppingListForm extends VerticalPanel {
 	
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
+	private Person currentPerson = CurrentPerson.getPerson();
 	
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel shoppingListPanel = new HorizontalPanel();
@@ -81,6 +83,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private Column<ListItem, String> deleteColumn;
 
 	private CustomTreeModel ctm = null;
+	
+	private Boolean loadFavorites;
 
 	
 	ShoppingList shoppingListToDisplay = null;
@@ -395,7 +399,15 @@ public class ShowShoppingListForm extends VerticalPanel {
 		this.add(bottomButtonsPanel);
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
 	}
+
 	
+	public void loadFavoriteItems() {
+		ctm.setLoadFavoriteItems(false);
+		Window.alert("test loadfavorites");
+		Group selectedGroup = new Group();
+		selectedGroup.setId(-1);
+		administration.getAllFavoriteListItemsbyGroup(selectedGroup, currentPerson, shoppingListToDisplay, new getAllFavoriteListItemsCallback());
+	}
 
 	private void loadListitems() {
 		administration.getAllStores(new getAllStoresCallback());
@@ -429,8 +441,11 @@ public class ShowShoppingListForm extends VerticalPanel {
 		return this.group;
 	}
 	
-	public void setSelected(ShoppingList sl) {
+	public void setSelected(ShoppingList sl, Boolean initial) {
 		if (sl != null) {
+			if(initial == true) {
+				loadFavoriteItems();
+			}
 			ShowShoppingListForm.this.shoppingListPanel.clear();
 			dataProvider.getList().clear();
 			shoppingListToDisplay = sl;
@@ -747,6 +762,24 @@ public class ShowShoppingListForm extends VerticalPanel {
 		}
 	}
 
+	private class getAllFavoriteListItemsCallback implements AsyncCallback<ArrayList<ListItem>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Notification.show("Favorite Items konnten nicht geladen werden" + caught.toString());
+		}
+
+		@Override
+		public void onSuccess(ArrayList<ListItem> result) {
+			// TODO Auto-generated method stub
+			for(ListItem li : result) {
+				dataProvider.getList().add(li);
+				dataProvider.refresh();
+			}
+		}
+		
+	}
 	
 	/**
 	 * ListHandler mit dem in der CellTable die Liste sortiert wird
