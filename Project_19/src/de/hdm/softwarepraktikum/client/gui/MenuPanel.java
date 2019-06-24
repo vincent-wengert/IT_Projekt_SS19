@@ -6,6 +6,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
+import de.hdm.softwarepraktikum.shared.bo.Person;
 
 /**
  * Das <code>MenuPanel</code> bildet das Menü des GUI und enthält
@@ -17,6 +19,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 
 public class MenuPanel extends VerticalPanel{
+	private Person p= CurrentPerson.getPerson();
 	
 	private AllItemsCellList allItemsCellList;
 	private AllStoresCellList allStoresCellList;
@@ -252,11 +255,11 @@ public class MenuPanel extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Notification.show("Logout");
-//			navigator.selectTab(2);
-//			
-//			u.setLogoutUrl(u.getLogoutUrl());
-//			Window.open(u.getLogoutUrl(), "_self", "");
+//			Notification.show("Logout");
+////			navigator.selectTab(2);
+////			
+			p.setLogoutUrl(p.getLogoutUrl());
+			Window.open(p.getLogoutUrl(), "_self", "");
 		}
 	}
 }
