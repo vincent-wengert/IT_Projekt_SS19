@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
@@ -46,6 +47,8 @@ import de.hdm.softwarepraktikum.shared.bo.Store;
  */
 
 public class ListItemDialog extends PopupPanel {
+	private Person currentPerson = CurrentPerson.getPerson();
+	
 	private ShowShoppingListForm sslf = null;
 
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
@@ -275,7 +278,7 @@ public class ListItemDialog extends PopupPanel {
 				administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Double.parseDouble(amountTextBox.getText()), unitListBox.getSelectedItemText(), false, new createListItemCallback());
 			}
 			else if (newButton.getValue()==true ) {
-				administration.createItem(itemTextBox.getText(), isGlobalBox.getValue(), new CreateItemListItemCallback());
+				administration.createItem(itemTextBox.getText(), isGlobalBox.getValue(), currentPerson.getId(), new CreateItemListItemCallback());
 			}}
 
 			else if (updateItem == true) {

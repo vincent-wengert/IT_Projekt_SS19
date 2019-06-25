@@ -19,10 +19,12 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
+import de.hdm.softwarepraktikum.shared.bo.Person;
 
 
 /**
@@ -34,6 +36,7 @@ import de.hdm.softwarepraktikum.shared.bo.ListItem;
  */
 
 public class ItemForm extends VerticalPanel{
+	Person currentPerson = CurrentPerson.getPerson();
 	
 	private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings.getShoppinglistAdministration();
 
@@ -280,7 +283,7 @@ public class ItemForm extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 		
 			if (initial == true) {
-			shoppinglistAdministration.createItem(itemNameBox.getText(), isGlobalBox.getValue(), new CreateItemCallback());
+			shoppinglistAdministration.createItem(itemNameBox.getText(), isGlobalBox.getValue(), currentPerson.getId(), new CreateItemCallback());
 			} else {
 			itemToDisplayProduct.setName(itemNameBox.getText());
 			itemToDisplayProduct.setIsGlobal(isGlobalBox.getValue());

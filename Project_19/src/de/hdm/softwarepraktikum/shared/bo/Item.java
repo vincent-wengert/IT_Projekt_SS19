@@ -11,6 +11,7 @@ public class Item extends BusinessObject {
 	private String name;
 	private boolean isGlobal;
 	private boolean isFavorite;
+	private int ownerID;
 	
 	public String getName() {
 		return name;
@@ -34,5 +35,13 @@ public class Item extends BusinessObject {
 	
 	public void setIsGlobal(boolean value) {
 		this.isGlobal = value;
+	}
+	
+	public int getOwnerID() {
+		return ownerID;
+	}
+	
+	public void setOwnerID(int ownerID) {
+		this.ownerID = ownerID;
 	}
 }

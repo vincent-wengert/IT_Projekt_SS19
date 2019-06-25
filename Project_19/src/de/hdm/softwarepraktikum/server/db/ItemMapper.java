@@ -81,7 +81,7 @@ public class ItemMapper {
 		stmt2.setTimestamp(3, i.getCreationdate());
 		stmt2.setTimestamp(4, i.getChangedate());
 		//Group ID hinzufugen
-		stmt2.setInt(5, 1);
+		stmt2.setInt(5, i.getOwnerID());
 		stmt2.setBoolean(6, i.getIsGlobal());
 		System.out.println(stmt2);
 		stmt2.executeUpdate();
