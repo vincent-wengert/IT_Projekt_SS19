@@ -578,12 +578,16 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	   * ***************************************************************************
 	   */
 
+	
+	//fuegt einen neuen Gruppen-Favoriten hinzu
 	@Override
 	public void addFavoriteItem(Item i, Group g) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		favoriteItemMapper.insert(i, g);
 	}
 
+	
+	//entfernen eines favorisierten Artikels
 
 	@Override
 	public void removeFavoriteItem(Item i, Group g) throws IllegalArgumentException {
@@ -591,6 +595,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		favoriteItemMapper.delete(i, g);
 	}
 
+	//Rückgabe aller favorisierten Items
 	public ArrayList<Item> getFavItems(Group g) throws IllegalArgumentException {
 		
 		ArrayList<Item> favItems = favoriteItemMapper.findFavItems(g);
@@ -609,9 +614,18 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 		ArrayList<Integer> fav = listItemMapper.autoSetFav(g);
 	
-		for(int i = 0;i<fav.size();i++) {
+		for(int a = 0;a<fav.size();a++) {
 			
-	
+			int item_id = fav.get(a);
+			Boolean available = favoriteItemMapper.checkById(item_id);
+
+ 			if(available == false) {
+
+ 				Item i = new Item();
+				i.setId(item_id);
+				favoriteItemMapper.insert(i, g);
+
+ 			} 
 			
 		}
 		
