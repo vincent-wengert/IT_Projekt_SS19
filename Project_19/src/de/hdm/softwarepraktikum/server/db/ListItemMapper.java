@@ -341,7 +341,7 @@ public class ListItemMapper {
 			String st = "SELECT * from ListItem JOIN Responsibility ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID"+ 
 					" JOIN  ShoppingList ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID"+
 					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE `Group`.Group_ID= " + groupId +
-					" AND ListItem.BoughtOn BETWEEN \"" + start + " \"AND \" " + end + "\"";
+					" AND ListItem.BoughtOn BETWEEN \"" + start + " \"AND \" " + end + "\"" + "ORDER BY Store_ID ASC";
 				
 			try {
 				
@@ -380,7 +380,7 @@ public class ListItemMapper {
 				
 			String st = "SELECT * from ListItem JOIN Responsibility ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID"+ 
 					" JOIN  ShoppingList ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID"+
-					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE `Group`.Group_ID= " + groupId;
+					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE `Group`.Group_ID= " + groupId + "ORDER BY Store_ID ASC";
 				
 			try {
 				
@@ -424,7 +424,7 @@ public class ListItemMapper {
 			String st = "SELECT * from ListItem JOIN Responsibility ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID"+ 
 					" JOIN  ShoppingList ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID"+
 					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE Person_ID= " + personId +
-					" AND ListItem.BoughtOn BETWEEN \"" + from + " \"AND \" " + to + "\"";
+					" AND ListItem.BoughtOn BETWEEN \"" + from + " \"AND \" " + to + "\"" + "ORDER BY Store_ID ASC";
 				
 			try {
 				
@@ -464,7 +464,7 @@ public class ListItemMapper {
 				
 			String st = "SELECT * from ListItem JOIN Responsibility ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID"+ 
 					" JOIN  ShoppingList ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID"+
-					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE Person_ID= " + personId;
+					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE Person_ID= " + personId + "ORDER BY Store_ID ASC";
 			
 			
 				
