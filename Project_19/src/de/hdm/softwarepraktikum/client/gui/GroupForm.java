@@ -143,7 +143,7 @@ public class GroupForm extends VerticalPanel {
 
 		this.add(formHeaderPanel);
 
-		groupNameBox.setMaxLength(10);
+		groupNameBox.setMaxLength(15);
 
 		groupGrid.setCellSpacing(10);
 		
