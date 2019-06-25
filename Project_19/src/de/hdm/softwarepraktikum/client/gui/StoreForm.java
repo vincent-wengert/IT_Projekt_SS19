@@ -137,8 +137,11 @@ public class StoreForm extends VerticalPanel{
 		this.add(storeGrid);
 		this.setCellHorizontalAlignment(storeGrid, ALIGN_CENTER);
 
-		storeNameBox.setMaxLength(10);
-		postCodeBox.setMaxLength(15);
+		storeNameBox.setMaxLength(15);
+		postCodeBox.setMaxLength(5);
+		cityNameBox.setMaxLength(15);
+		streetNameBox.setMaxLength(15);
+		houseNumberBox.setMaxLength(4);
 
 		storeGrid.setCellSpacing(10);
 		storeGrid.setWidget(0, 0, storeNameLabel);
