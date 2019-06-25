@@ -40,21 +40,14 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 public class Header extends HorizontalPanel{
 		
 		private Person currentPerson = CurrentPerson.getPerson();
-		private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	
 	 	private HorizontalPanel homeButtonPanel = new HorizontalPanel();
-	 	private HorizontalPanel groupPanel = new HorizontalPanel();
-	 	private VerticalPanel personPanel = new VerticalPanel();
 	 	private HorizontalPanel topPanel = new HorizontalPanel();
 	 	
 	 	private Button editorButton = new Button ("Editor");
 	 	private Button reportGeneratorButton = new Button("Reportgenerator");
-	 	private Image logo = new Image ();
-	 	private Label userLabel = new Label();
 	 	private Anchor reportGeneratorLink = new Anchor("ReportGenerator");
-	 	
-	 	private Group selectedGroup = new Group();
-	 	private ArrayList<Group> allGroups = new ArrayList<Group>();
+
 
 
 	 	/**
@@ -62,14 +55,8 @@ public class Header extends HorizontalPanel{
 	 	 * und zu den Buttons die ClickHandler hinzugefügt.
 	 	 */
 	 	public Header() {
-	 		
-	 		personPanel.add(userLabel);
-	 		
-//	 		topPanel.add(groupPanel);
 	 		topPanel.add(homeButtonPanel);
-	 		topPanel.add(personPanel);
 	 		
-	 		this.add(groupPanel);
 	 		this.add(topPanel);
 
 	 		editorButton.addClickHandler(new HomeClickHandler());
@@ -141,30 +128,17 @@ public class Header extends HorizontalPanel{
 	 		
 	 		menu.addItem(new MenuItem("Angemeldet als: " + currentPerson.getName(), logoutMenu));
 	 		
-	 		this.add(menu);
+
+	 		this.setStylePrimaryName("Header2");
 	 		
-//	 		loadGroups();
 
-	 		this.setStylePrimaryName("formheaderPanel");
-	 		this.setHeight("5vh");
-	 		this.setWidth("100%");
-
- 		homeButtonPanel.add(editorButton);
- 		homeButtonPanel.add(reportGeneratorButton);
+	 		homeButtonPanel.add(editorButton);
+	 		homeButtonPanel.add(reportGeneratorButton);
 	 		homeButtonPanel.add(menu);
-	 		homeButtonPanel.setWidth("26vw");
-	 		
-	 		editorButton.setWidth("15vw");
-	 		editorButton.setHeight("7vh");
-	 		
-	 		reportGeneratorButton.setWidth("15vw");
-	 		reportGeneratorButton.setHeight("7vh");
 	 		
 	 		homeButtonPanel.setStylePrimaryName("homeButtonPanel");
 	 		editorButton.setStylePrimaryName("editorButton");
 	 		reportGeneratorButton.setStylePrimaryName("reportGeneratorButton");
-	 		personPanel.setStylePrimaryName("userPanel");
-	 		userLabel.setStylePrimaryName("userLabel");
 	 		
 	 		menu.setStylePrimaryName("menuBar");
 	 		
@@ -173,22 +147,10 @@ public class Header extends HorizontalPanel{
 	 		
 	 		homeButtonPanel.setCellHorizontalAlignment(editorButton, ALIGN_LEFT);
 	 		homeButtonPanel.setCellHorizontalAlignment(reportGeneratorButton, ALIGN_RIGHT);
-	 	
-	 		topPanel.setCellHorizontalAlignment(personPanel, ALIGN_RIGHT);
-	 		topPanel.setCellVerticalAlignment(personPanel,ALIGN_MIDDLE);
-	 		this.setCellHorizontalAlignment(groupPanel, ALIGN_LEFT);
-	 		this.setCellVerticalAlignment(groupPanel, ALIGN_MIDDLE);
+	 		
 	 		this.setCellHorizontalAlignment(topPanel, ALIGN_RIGHT);
 	 		this.setCellVerticalAlignment(topPanel, ALIGN_MIDDLE);
-	 		this.setCellVerticalAlignment(logo, ALIGN_MIDDLE);
-	 	}
-	 	
-	 	private void setSelectedGroup (Group g) {
-	 		this.selectedGroup = g;
-	 	}
-	 	
-	 	private Group getSelectedGroup() {
-	 		return this.selectedGroup;
+
 	 	}
 	 	
 	 	
