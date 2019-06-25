@@ -401,6 +401,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
 	}
 
+	public ArrayList<ListItem> getAllListItems() {
+		return this.allListItems;
+	}
 	
 	public void loadFavoriteItems() {
 		ctm.setLoadFavoriteItems(false);	
@@ -445,6 +448,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 			dataProvider.getList().clear();
 			shoppingListToDisplay = sl;
 			infoTitleLabel.setText(sl.getTitle());
+			
+			infoTitleLabel.setVisible(true);
+			editButton.setVisible(true);
 			
 			if(initial == true) {
 				loadFavoriteItems();

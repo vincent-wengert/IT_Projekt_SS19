@@ -101,7 +101,7 @@ public class ListItemDialog extends PopupPanel {
 	 * angezeigt, um so ein <code>Listitem</code> zu erstellen.
 	 */
 	public ListItemDialog() {
-
+		
 		this.load();
 
 		this.setTitle("Artikel hinzufugen");
@@ -453,6 +453,7 @@ public class ListItemDialog extends PopupPanel {
 		public void onSuccess(ListItem result) {
 			// TODO Auto-generated method stub
 			sslf.AddListItem(result);
+			sslf.getAllListItems().add(result);
 			Notification.show("Artikel in der Einkaufsliste wurde erstellt");
 
 		}
