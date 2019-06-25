@@ -59,21 +59,14 @@ public class StandardListItemDialog extends PopupPanel {
 	private Item selectedItem = null;
 	private ListItem selectedListItem = null;
 
-	private Group group = new Group();
+	private Group group = null;
 	private ShoppingList shoppingList = new ShoppingList();
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
 
 	Grid itemGrid = new Grid(2, 2);
 
-	private RadioButton existingButton = new RadioButton("Bestehend");
-	// private RadioButton newButton = new RadioButton("Neu");
-
-	// private Label existingLabel = new Label("Bestehenden Artikel");
-	// private Label newLabel = new Label("Neuen Anlegen");
-
 	private VerticalPanel verticalPanel = new VerticalPanel();
-	private HorizontalPanel radioButtonPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
 
 	private Label itemLabel = new Label("Artikel hinzufügen");
@@ -91,7 +84,6 @@ public class StandardListItemDialog extends PopupPanel {
 	private CheckBox isGlobalBox = new CheckBox("Für alle Nutzer sichtbar");
 
 	private TextBox amountTextBox = new TextBox();
-	private TextBox itemTextBox = new TextBox();
 	
 
 	/**
@@ -100,9 +92,6 @@ public class StandardListItemDialog extends PopupPanel {
 	 * angezeigt, um so ein <code>Listitem</code> zu erstellen.
 	 */
 	public StandardListItemDialog() {
-
-		this.load();
-
 		this.setTitle("Artikel hinzufugen");
 		this.setGlassEnabled(true);
 		this.add(verticalPanel);
@@ -123,21 +112,13 @@ public class StandardListItemDialog extends PopupPanel {
 		itemListBox.setSize("320px", " 40px");
 		unitListBox.setSize("160px", "40px");
 		amountTextBox.setSize("100px", "40px");
-		itemTextBox.setSize("320px", "40px");
 
 		bottomButtonsPanel.add(confirmButton);
 		bottomButtonsPanel.add(cancelButton);
 
-		radioButtonPanel.setSpacing(5);
-		radioButtonPanel.add(existingButton);
-		// radioButtonPanel.add(existingLabel);
-		// radioButtonPanel.add(newButton);
-		// radioButtonPanel.add(newLabel);
 
 		verticalPanel.add(itemLabel);
-		verticalPanel.add(radioButtonPanel);
 		verticalPanel.add(itemListBox);
-		verticalPanel.add(itemTextBox);
 
 		itemGrid.setWidget(0, 1, unitLabel);
 		itemGrid.setWidget(0, 0, amountLabel);
@@ -159,13 +140,8 @@ public class StandardListItemDialog extends PopupPanel {
 		confirmButton.addClickHandler(new ConfirmClickHandler());
 		cancelButton.addClickHandler(new CancelClickHandler());
 
-		existingButton.addValueChangeHandler(new ExisitingValueChangeHandler());
-		// newButton.addValueChangeHandler(new NewValueChangeHandler());
-
-		verticalPanel.setCellHorizontalAlignment(radioButtonPanel, HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setCellHorizontalAlignment(personListBox, HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setCellHorizontalAlignment(itemListBox, HasHorizontalAlignment.ALIGN_CENTER);
-		verticalPanel.setCellHorizontalAlignment(itemTextBox, HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setCellHorizontalAlignment(storeListBox, HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setCellHorizontalAlignment(bottomButtonsPanel, HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setCellHorizontalAlignment(isGlobalBox, HasHorizontalAlignment.ALIGN_CENTER);
@@ -189,9 +165,6 @@ public class StandardListItemDialog extends PopupPanel {
 	 * shoppinglistAdministration geladen
 	 */
 	private void load() {
-		existingButton.setValue(true);
-		// newButton.setValue(false);
-		itemTextBox.setVisible(false);
 		isGlobalBox.setVisible(false);
 		administration.getAllItems(new GetAllItemsCallback());
 		administration.getAllStores(new GetAllStoresCallback());
@@ -221,18 +194,15 @@ public class StandardListItemDialog extends PopupPanel {
 		}
 	}
 
-	public void displayListItem(Item i, ShoppingList shoppingList, Group group) {
+	public void displayListItem(Item itemDisplay, ShoppingList shoppingList, Group group) {
+		this.load();
+		
 		this.group = group;
 		this.shoppingList = shoppingList;
+		this.selectedItem = itemDisplay;
 		
-		existingButton.setValue(false);
-		this.selectedItem = i;
-		itemLabel.setText("Artikel bearbeiten");
-		existingButton.setVisible(false);
-
+		itemLabel.setText("Hinzufügenden Standardartikels bearbeiten");
 		itemListBox.setVisible(true);
-		itemTextBox.setVisible(false);
-		itemTextBox.setEnabled(false);
 	}
 
 
@@ -251,18 +221,9 @@ public class StandardListItemDialog extends PopupPanel {
 	private class ConfirmClickHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
-			
 			getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
+			administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Double.parseDouble(amountTextBox.getText()), unitListBox.getSelectedItemText(), false, new createListItemCallback());			
 			
-			selectedListItem.setAmount(Double.parseDouble(amountTextBox.getText()));
-			selectedListItem.setStoreID(selectedStore.getId());
-			selectedListItem.setBuyerID(selectedPerson.getId());
-			selectedListItem.setUnit(unitListBox.getSelectedItemText());
-			
-			
-			administration.updateListItem(selectedListItem, new UpdateListItemCallback());
-
-			StandardListItemDialog.this.hide();
 		}
 	}
 	
@@ -283,9 +244,7 @@ public class StandardListItemDialog extends PopupPanel {
 
 		@Override
 		public void onValueChange(ValueChangeEvent event) {
-			existingButton.setValue(false);
 			itemListBox.setVisible(false);
-			itemTextBox.setVisible(true);
 			isGlobalBox.setVisible(true);
 
 		}
@@ -299,9 +258,7 @@ public class StandardListItemDialog extends PopupPanel {
 
 		@Override
 		public void onValueChange(ValueChangeEvent event) {
-			// newButton.setValue(false);
 			itemListBox.setVisible(true);
-			itemTextBox.setVisible(false);
 			isGlobalBox.setVisible(false);
 		}
 	}
@@ -322,10 +279,10 @@ public class StandardListItemDialog extends PopupPanel {
 				itemListBox.addItem(i.getName());
 					}
 			
-			if (StandardListItemDialog.this.selectedListItem != null) {
-			ListItem li = StandardListItemDialog.this.selectedListItem;
+			if (StandardListItemDialog.this.selectedItem != null) {
+			Item li = StandardListItemDialog.this.selectedItem;
 			for (Item item : allItems) {
-				if (item.getId() == li.getItemId()) {
+				if (item.getId() == li.getId()) {
 					int indexToFind = -1;
 					
 					for (int i = 0; i < allItems.size(); i++) {
@@ -424,6 +381,7 @@ public class StandardListItemDialog extends PopupPanel {
 		@Override
 		public void onSuccess(ListItem result) {
 			// TODO Auto-generated method stub
+			StandardListItemDialog.this.hide();
 			sslf.AddListItem(result);
 			Notification.show("Artikel in der Einkaufsliste wurde erstellt");
 
