@@ -4,25 +4,41 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import de.hdm.softwarepraktikum.shared.bo.Group;
-import de.hdm.softwarepraktikum.shared.bo.Item;
-import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.Person;
-import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
-import de.hdm.softwarepraktikum.shared.bo.Store;
 import de.hdm.softwarepraktikum.server.db.GroupMapper;
 
 public class PersonMapper {
+	
+	/**
+	   * Die Klasse PersonMapper wird nur einmal instantiiert. Man spricht hierbei
+	   * von einem sogenannten <b>Singleton</b>.
+	   * <p>
+	   * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal fuer
+	   * saemtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	   * einzige Instanz dieser Klasse.
+	   * 
+	   * @author Niklas Öxle
+	   */
 
 	private static PersonMapper personMapper = null;
+	
+	
+	/**
+	 * Geschuetzter Konstruktor - verhindert die Moeglichkeit, mit <code>new</code>
+	 * neue Instanzen dieser Klasse zu erzeugen.
+	 */
+
 
 	protected PersonMapper() {
 	}
 
 	/**
-	 * Sicherstellung der Singleton-Eigenschaft der Mapperklasse.
-	 * 
-	 * @return Gibt den Person Mapper zurï¿½ck.
-	 */
+	 * Einhaltung der Singleton Eigenschaft des Mappers.
+	 * @return: gibt den personMapper zurueck
+	 */ 
+	
+	
+	
 	public static PersonMapper personMapper() {
 		if (personMapper == null) {
 			personMapper = new PersonMapper();
@@ -30,13 +46,15 @@ public class PersonMapper {
 
 		return personMapper;
 	}
+	
+	
 
 	/**
-	 * Delete Methode, um ein<code>Person</code>-Objekt aus der Datenbank zu
-	 * lï¿½schen.
-	 * 
-	 * @param person, das aus der Datenbank zu lï¿½schende Objekt.
+	 * Methode um ein Person-Datensatz in der Datenbank zu löschen.
+	 * @param person : Die zu loeschende Person wird uebergeben
 	 */
+	
+	
 	public void delete(Person person) {
 
 		Connection con = DBConnection.connection();
@@ -52,23 +70,19 @@ public class PersonMapper {
 
 	}
 
-	/**
-	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
-	 * 
-	 * @param person, das Objekt das in die Datenbank geschrieben werden soll.
-	 * @return das als Parameter ï¿½bergebene Objekt
-	 */
+	  /**
+		 * Wiederholtes Schreiben eines <code>Person</code> Objekts in die Datenbank.
+		 * @param person : Die zu aktualisierende Person wird übergeben
+		 * @return: die aktualisierte Person wird zurückgegeben
+		 * 
+		 */
+	
+	
 	public Person update(Person person) {
 		Connection con = DBConnection.connection();
 
 		try {
 
-			//Statement stmt = con.createStatement();
-
-			//stmt.executeUpdate("UPDATE Person " + "SET Name=\"" + person.getName() + "\", " + "Changedate=\""
-				//	+ person.getChangedate() + "\" " + "WHERE PersonID=" + person.getId());
-			
-			
 			PreparedStatement st = con.prepareStatement("UPDATE Person SET Gmail= ?, Name= ? WHERE PersonID = ?");
 			
 			st.setString(1, person.getGmail());
@@ -81,16 +95,20 @@ public class PersonMapper {
 			e.printStackTrace();
 		}
 
-		// um Analogie zu insert(Person person) zu wahren, geben wir person zurï¿½ck.
+		
 		return person;
 	}
+	
+	
 
 	/**
-	 * Insert Methode, um eine neue <codee>Person</code> der Datenbank hinzuzufï¿½gen.
+	 * Methode um ein Person Objekt in der Datenbank zu speichern
+	 * @param person : eine neue zu speichernde Person in der Datenbank wird uebergeben
+	 * @return: die neu gespeicherte Person wird zurückgegeben
 	 * 
-	 * @param person Die Person wird ï¿½bergeben.
-	 * @return Die gespeicherte Person wird zurï¿½ckgegeben.
 	 */
+	
+	
 	public Person insert(Person person) {
 		Connection con = DBConnection.connection();
 
@@ -103,14 +121,13 @@ public class PersonMapper {
 
 				person.setId(rs.getInt("maxid") + 1);
 
-//			//Setzt den AutoCommit auf false, um das sichere Schreiben in die Datenbank zu gewï¿½hrleisten.
-//			con.setAutoCommit(false);
+
 
 				PreparedStatement stmt2 = con
 						.prepareStatement("INSERT INTO Person (PersonID, Creationdate, Changedate, Name, Gmail) "
 								+ "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
-				// Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden.
+				
 				stmt2.setInt(1, person.getId());
 				stmt2.setTimestamp(2, person.getCreationdate());
 				stmt2.setTimestamp(3, person.getChangedate());
@@ -126,28 +143,31 @@ public class PersonMapper {
 		}
 		return person;
 	}
+	
+	
 
 	/**
-	 * Suchen einer Person mit einer entsprechenden Id.
-	 * 
-	 * @param id Die id wird ï¿½bergeben.
-	 * @return Liefert die Person mit der ï¿½bergebenen Contact_BO_ID zurï¿½ck.
+	 * Methode um ein einzelnes <code>Person</code> Objekt anhand einer ID zu suchen.
+     * @param id :  ID der zu findenden Person wird übergeben.
+     * @return Die anhand der id gefundene Person wird zurückgegeben.
 	 */
+	
+	
 	public Person findById(int id) {
 
-		// Herstellung einer Verbindung zur DB-Connection
+		
 		Connection con = DBConnection.connection();
 
 		try {
 
-			//leeres SQL-Statement (JDBC) anlegen
+			
 			Statement stmt = con.createStatement();
 			
-			//Statement ausfÃ¼llen und als Query an die DB schicken
+			
 			ResultSet rs = stmt.executeQuery("SELECT PersonID, Name, Gmail, Creationdate, Changedate FROM Person "
 					+ " WHERE PersonID = " +id);
 			while (rs.next()) {
-			//Ergebnis-Tupel in Objekt umwandeln
+			
 			 Person p = new Person();
 			 p.setId(rs.getInt("PersonID"));
 			 p.setName(rs.getString("Name"));
@@ -165,7 +185,13 @@ public class PersonMapper {
 		}
 
 		
-		
+
+	/** 
+     * Methode um alle in der Datenbank vorhandenen Person-Datensätze abzurufen.
+     * Diese werden als einzelne <code>Person</code> Objekte innerhalb einer ArrayList zurückgegeben.
+     * 
+     * @return ArrayList aller Persons wird zurückgegeben.
+     */
 
 	public ArrayList<Person> findAll() {
 		Connection con = DBConnection.connection();
@@ -176,12 +202,12 @@ public class PersonMapper {
 
 			Statement stmt = con.createStatement();
 
-			// Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden.
+			
 			ResultSet rs = stmt.executeQuery("SELECT * FROM Person ORDER BY PersonID ASC ");
 
 			while (rs.next()) {
 
-				// Welche Attribute kommen alle in die DB? Muessen hier ggf hinzugefuegt werden.
+				
 				Person person = new Person();
 				person.setId(rs.getInt("PersonID"));
 				person.setGmail(rs.getString("Gmail"));
@@ -199,13 +225,16 @@ public class PersonMapper {
 		}
 		return persons;
 	}
+	
+	
 
-	/**
-	 * Member mittels der GMail Adresse finden .
-	 *
-	 * @param gmail Die gmail wird Ã¼bergeben des Users.
-	 * @return Der User der anhand der gmail gefunden wurde, wird zurÃ¼ckgegeben.
-	 */
+	/** 
+     * Methode um eine Person mittels dem Attribut Gmail zu finden.
+     * Diese werden als einzelne <code>Person</code> Objekt zurückgegeben
+     * 
+     * @param gmail: gmail der gesuchten Person
+     * @return person : Das Person- Objekt mit der uebergebenen gmail
+     */
 
 	public Person findByGmail(String gmail) {
 
@@ -237,12 +266,16 @@ public class PersonMapper {
 	}
 
 
+	
 	/**
-	 * Finden einer Person anhand von ihrem Namen.
+	 * Methode um eine Person anhand Ihres Namens zu finden.
 	 * 
 	 * @param name
-	 * @return eine Arraylist mit Personen, deren Name der Eingabe ï¿½hnelt
+	 * @return eine Arraylist mit Personen, deren Name der Eingabe gleicht
 	 */
+	
+	
+	
 	public ArrayList<Person> findByName(String name) {
 		Connection con = DBConnection.connection();
 		ArrayList<Person> result = new ArrayList<Person>();
@@ -252,13 +285,13 @@ public class PersonMapper {
 
 			ResultSet rs = stmt.executeQuery("SELECT PersonID, Name " + "FROM Person " + "WHERE Name = '" + name + "'");
 
-			// Fï¿½r jeden Eintrag im Suchergebnis wird ein Person-Objekt erstellt.
+			
 			while (rs.next()) {
 				Person p = new Person();
 				p.setId(rs.getInt("id"));
 				p.setName(rs.getString("name"));
 
-				// Neues Objekt zur ArrayList hinzufï¿½gen
+				
 				result.add(p);
 			}
 		} catch (SQLException e) {
@@ -268,6 +301,8 @@ public class PersonMapper {
 		// Ergebnis zurï¿½ckgeben
 		return result;
 	}
+	
+	
 
 	/**
 	 * Auslesen der zugehï¿½rigen <code>Group</code>-Objekte zu einer gegebenen
@@ -280,37 +315,21 @@ public class PersonMapper {
 
 		/*
 		 * Hier wird auf den GroupMapper zugegriffen, welchem der im Person-Objekt
-		 * enthaltende Primï¿½rschlï¿½ssel ï¿½bergeben wird. Der PersonMapper lï¿½st die ID in
+		 * enthaltende Primaerschlï¿½ssel uebergeben wird. Der PersonMapper liest die ID in
 		 * eine Reihe von Group-Objekten auf.
 		 */
 
 		return GroupMapper.groupMapper().findByMember(p);
 	}
 
-	/**
-	 * Auslesen der zugehï¿½rigen <code>ShoppingList</code>-Objekte zu einer gegebenen
-	 * Person.
-	 * 
-	 * @param p
-	 * @return
-	 */
-	public ArrayList<ShoppingList> getShoppingListsOf(Person p) {
-
-		/*
-		 * Hier wird auf den ShoppingListMapper zugegriffen, welchem der im
-		 * Person-Objekt enthaltende Primï¿½rschlï¿½ssel ï¿½bergeben wird. Der PersonMapper
-		 * lï¿½st die ID in eine Reihe von ShoppingList-Objekten auf.
-		 */
-		return ShoppingListMapper.shoppinglistMapper().findByMember(p);
-	}
+	
 	
 	
 	/**
-	 * Auslesen der zugehï¿½rigen <code>Person</code>-Objekte zu einer gegebenen
-	 * Group Id.
+	 * Methode um alle Mitglieder einer bestimmten Person zu finden.
 	 * 
-	 * @param g
-	 * @return
+	 * @param g : Gruppe der Participants
+	 * @return ArrayList mit allen Gruppenmitgliedern
 	 */
 	public ArrayList<Person> findAllGroupMembers(Group g) {
 		Connection con = DBConnection.connection();
