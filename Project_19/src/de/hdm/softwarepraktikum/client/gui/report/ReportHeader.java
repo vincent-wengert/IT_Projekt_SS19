@@ -36,15 +36,13 @@ public class ReportHeader extends HorizontalPanel {
 	
 	
 	private HorizontalPanel homeButtonPanel = new HorizontalPanel();
- 	private VerticalPanel personPanel = new VerticalPanel();
  	private HorizontalPanel topPanel = new HorizontalPanel();
  	
 
  	private Button editorButton = new Button ("Editor");
  	private Button reportGeneratorButton = new Button("Reportgenerator");
- 	private Image logo = new Image ();
- 	private Label userLabel = new Label();
 	private Anchor shoppingListEditorLink = new Anchor("Shoppinglisst-Editor");
+
 
 
  	/**
@@ -52,12 +50,7 @@ public class ReportHeader extends HorizontalPanel {
  	 * und zu den Buttons die ClickHandler hinzugefÃ¼gt.
  	 */
  	public ReportHeader() {
- 		
- 		personPanel.add(userLabel);
  		topPanel.add(homeButtonPanel);
- 		topPanel.add(personPanel);
- 		topPanel.add(personPanel);
- 		
  		this.add(topPanel);
 
  		editorButton.addClickHandler(new HomeClickHandler());
@@ -79,7 +72,7 @@ public class ReportHeader extends HorizontalPanel {
  		logoutMenu.addItem("Angemeldet als: " + currentPerson.getGmail(), new Command() {
  	         @Override
  	         public void execute() {
- 	        	 //TODO was geschiehen soll wenn current person ausgewählt wird
+ 	        	 //TODO was geschiehen soll wenn current person ausgewï¿½hlt wird
  	        	 
  	         }
  	      });
@@ -103,6 +96,7 @@ public class ReportHeader extends HorizontalPanel {
  			}
  		});
  		
+ 		/*
  		menu.addItem(new MenuItem("Editor", new Command() {
  			@Override
  			public void execute() {
@@ -119,40 +113,34 @@ public class ReportHeader extends HorizontalPanel {
  				Window.Location.reload();
  			}
  		}));
+ 		
+
 
  		menu.addSeparator();
  		
- 		menu.addItem(new MenuItem(currentPerson.getName(), logoutMenu));
+ 		*/
  		
- 		this.add(menu);
-
- 		this.setStylePrimaryName("headerPanel");
- 		this.setHeight("10vh");
- 		this.setWidth("100%");
+ 		menu.addItem(new MenuItem("Angemeldet als: " + currentPerson.getName(), logoutMenu));
  		
-// 		homeButtonPanel.add(editorButton);
-// 		homeButtonPanel.add(reportGeneratorButton);
- 		homeButtonPanel.setWidth("26vw");
+ 		this.setStylePrimaryName("Header");
  		
- 		editorButton.setWidth("15vw");
- 		editorButton.setHeight("10vh");
-
+ 		homeButtonPanel.add(editorButton);
+ 		homeButtonPanel.add(reportGeneratorButton);
+ 		homeButtonPanel.add(menu);
  		
- 		reportGeneratorButton.setWidth("15vw");
- 		reportGeneratorButton.setHeight("10vh");
  		
  		homeButtonPanel.setStylePrimaryName("homeButtonPanel");
  		editorButton.setStylePrimaryName("editorButton");
  		reportGeneratorButton.setStylePrimaryName("reportGeneratorButton");
- 		personPanel.setStylePrimaryName("userPanel");
+ 		
+ 		menu.setStylePrimaryName("menuBar");
 
  		homeButtonPanel.setCellHorizontalAlignment(editorButton, ALIGN_LEFT);
  		homeButtonPanel.setCellHorizontalAlignment(reportGeneratorButton, ALIGN_RIGHT);
- 		topPanel.setCellHorizontalAlignment(personPanel, ALIGN_RIGHT);
- 		topPanel.setCellVerticalAlignment(personPanel,ALIGN_MIDDLE);
  		this.setCellHorizontalAlignment(topPanel, ALIGN_RIGHT);
  		this.setCellVerticalAlignment(topPanel, ALIGN_MIDDLE);
- 		this.setCellVerticalAlignment(logo, ALIGN_MIDDLE);
+
+ 	
  	}
  	
  	

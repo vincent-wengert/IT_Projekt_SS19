@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.TreeViewModel;
 
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Person;
@@ -35,36 +36,39 @@ import de.hdm.softwarepraktikum.shared.bo.Store;
 
 
 public class NavigatorPanel extends TabPanel {
+
+	private Person p = CurrentPerson.getPerson();
 	
-private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
+	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
+	
+	private VerticalPanel contentPanelGroups = new VerticalPanel();
+	private VerticalPanel contentPanelStores = new VerticalPanel();
+	private VerticalPanel contentPanelArticles = new VerticalPanel();
+	
+	
+	private AllItemsCellList aicl = new AllItemsCellList();
+	private ItemForm itemForm = new ItemForm();
+	private StoreForm storeForm = new StoreForm();
+	
+	private AllStoresCellList ascl = new AllStoresCellList();
+	private GroupForm gf = new GroupForm();
+	private ShowShoppingListForm sslf = new ShowShoppingListForm();
+	private NewShoppingListForm nslf = new NewShoppingListForm();
+	private Group selectedGroup;
+	
+	private Grid itemsGrid = new Grid(2,2);
+	private Grid storesGrid = new Grid(2,2);
+	
+	//Create a model for the tree.
+	private CustomTreeModel model = new CustomTreeModel();
+	
+	/*
+	 * Create the tree using the model. We use <code>null</code> as the default
+	 * value of the root node. The default value will be passed to
+	 * CustomTreeModel#getNodeInfo();
+	 */
+	private CellTree tree = new CellTree(model, null);
 
-private VerticalPanel contentPanelGroups = new VerticalPanel();
-private VerticalPanel contentPanelStores = new VerticalPanel();
-private VerticalPanel contentPanelArticles = new VerticalPanel();
-
-
-private AllItemsCellList aicl = new AllItemsCellList();
-private ItemForm itemForm = new ItemForm();
-private StoreForm storeForm = new StoreForm();
-
-private AllStoresCellList ascl = new AllStoresCellList();
-private GroupForm gf = new GroupForm();
-private ShowShoppingListForm sslf = new ShowShoppingListForm();
-private NewShoppingListForm nslf = new NewShoppingListForm();
-private Group selectedGroup;
-
-private Grid itemsGrid = new Grid(2,2);
-private Grid storesGrid = new Grid(2,2);
-
-//Create a model for the tree.
-private CustomTreeModel model = new CustomTreeModel();
-
-/*
- * Create the tree using the model. We use <code>null</code> as the default
- * value of the root node. The default value will be passed to
- * CustomTreeModel#getNodeInfo();
- */
-private CellTree tree = new CellTree(model, null);
 		
 /**
  * ***************************************************************************
@@ -202,8 +206,7 @@ public void onLoad() {
 	
 	confirmButton.addClickHandler(new groupListBoxSelectionClickHandler());
 	
-	Person p = new Person();
-	p.setId(1);
+	
 	administration.getAllGroupsByPerson(p, new AsyncCallback<ArrayList<Group>>() {
 		
 		@Override

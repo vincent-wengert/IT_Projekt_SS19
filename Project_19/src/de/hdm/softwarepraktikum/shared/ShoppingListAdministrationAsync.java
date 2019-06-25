@@ -103,7 +103,6 @@ public interface ShoppingListAdministrationAsync {
 
 	void getAllItemsByGroup(int groupId, int currentPersonId, AsyncCallback<ArrayList<Item>> callback);
 
-	void getAllFavoriteListItemsbyGroup(Group g, Person p, ShoppingList sl,
-			AsyncCallback<ArrayList<ListItem>> callback);
+	void getAllFavoriteListItemsbyGroup(Group g, AsyncCallback<ArrayList<Item>> callback);
 
 }

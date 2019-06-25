@@ -240,5 +240,30 @@ public class ItemMapper {
 		return result;
 	}
 	
+	public boolean checkForExistingListitems(Item i) {
+		
+		boolean available = false;
+		Connection con = DBConnection.connection();
+		
+		try {
+			
+			Statement stmt = con.createStatement();
+	
+			ResultSet rs = stmt.executeQuery("SELECT ListItem_ID FROM listitem WHERE Item_ID = " +i.getId());
+		
+				if (rs.next()) {
+
+					available = true;
+
+				} 
+			
+		
+			}catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
+		return available; 
+	}
+	
 	
 }

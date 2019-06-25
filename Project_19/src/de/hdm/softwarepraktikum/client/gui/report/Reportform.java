@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.client.ReportEntry.CurrentReportPerson;
 import de.hdm.softwarepraktikum.client.gui.Footer;
 import de.hdm.softwarepraktikum.client.gui.ListItemDialog;
 import de.hdm.softwarepraktikum.client.gui.Notification;
@@ -79,7 +80,7 @@ public class Reportform {
 
 	private Group selectedGroup = null;
 	private Store selectedStore = null;
-	private Person userPerson = new Person();
+	private Person userPerson = CurrentReportPerson.getPerson();
 
 	private Timestamp fromDate = null;
 	private Timestamp toDate = null;
@@ -137,8 +138,7 @@ public class Reportform {
 		menu.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 
 		administration.getAllStores(new GetAllStoresCallback());
-		//Set Temp User ID
-		userPerson.setId(1);
+		
 		administration.getAllGroupsByPerson(userPerson, new GetAllGroupCallback());
 
 	}

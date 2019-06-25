@@ -191,6 +191,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
         	headline.addColumn(new Column("Artikelname"));
         	headline.addColumn(new Column("Einheit"));
         	headline.addColumn(new Column("Menge"));
+        	headline.addColumn(new Column("Gekauft am"));
         	
        	 		
        	 	result.addRow(headline);
@@ -275,6 +276,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	headline.addColumn(new Column("Artikelname"));
     	headline.addColumn(new Column("Einheit"));
     	headline.addColumn(new Column("Menge"));
+    	headline.addColumn(new Column("Gekauft am"));
     	
    	 		
    	 	result.addRow(headline);
@@ -296,11 +298,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				//dritte Spalte: Artikelname
 				listItemRow.addColumn(new Column(getItemName(i.getItemId())));
 				
-				//erste Spalte: ID hinzuf�gen
+				//vierte Spalte: Einheit hinzuf�gen
 				listItemRow.addColumn(new Column(i.getUnit()));
 				
-				//erste Spalte: ID hinzuf�gen
+				//fuenfte Spalte: Menge hinzuf�gen
 				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
+				
+				//sechste Spalte: Kaufdatum hinzuf�gen
+				listItemRow.addColumn(new Column(i.getChangeDateString()));
 						
 				
 				result.addRow(listItemRow);
@@ -357,6 +362,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
         	headline.addColumn(new Column("Artikelname"));
         	headline.addColumn(new Column("Einheit"));
         	headline.addColumn(new Column("Menge"));
+        	headline.addColumn(new Column("Gekauft am"));
         	
        	 		
        	 	result.addRow(headline);
@@ -383,6 +389,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     				
     				//erste Spalte: ID hinzuf�gen
     				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
+    				
+    				//sechste Spalte: Kaufdatum hinzuf�gen
+    				listItemRow.addColumn(new Column(i.getChangeDateString()));
     						
     				
     				result.addRow(listItemRow);
@@ -449,6 +458,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
         	headline.addColumn(new Column("Artikelname"));
         	headline.addColumn(new Column("Einheit"));
         	headline.addColumn(new Column("Menge"));
+        	headline.addColumn(new Column("Gekauft am"));
         	
        	 		
        	 	result.addRow(headline);
@@ -477,6 +487,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     				
     				//erste Spalte: ID hinzuf�gen
     				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
+    				
+    				//sechste Spalte: Kaufdatum hinzuf�gen
+    				listItemRow.addColumn(new Column(i.getChangeDateString()));
     						
     				
     				result.addRow(listItemRow);

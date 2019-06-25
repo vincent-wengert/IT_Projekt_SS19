@@ -487,56 +487,66 @@ body{
 
 
 .editorButton {
-   //	font-size:170% !important;
+  	
 	font-weigth: bolder;
     color: white;
     cursor: pointer;
 	background-color: #1F2833 !important;
 	border: none;
 	margin-right: 1px;
+	height: 7vh;
+	width: 15vw;
 }
 
 
 .editorButton:hover {
-  //	font-size:170% !important;
+  
 	font-weigth: bolder;
     color: white;
     cursor: pointer;
 	background:#1F2833 !important;
 	border:solid black 1px;
+	height: 7vh;
+	width: 15vw;
 	
 }
 .reportGeneratorButton {
 	
-   	// font-size:170% !important;
+   	
 	font-weigth: bolder;
     color: white;
     cursor: pointer;
     background: #1F2833;
     border: none;
+    height: 7vh;
+	width: 15vw;
     
 }
 
 .reportGeneratorButton:hover{
 	
-  	// font-size:170% !important;
+  	
 	font-weigth: bolder;
     color: white;
     cursor: pointer;
     background: #1F2833 !important;
     border:solid black 1px;
+    height: 7vh;
+	width: 15vw;
 }
 
 
 .homeButtonPanel{
 	
 	margin-left: 10vw;
+	width: 26vw;
 }
 
 
-.formHeaderPanel{
-	background-color: #1F2833 !important;
+.Header2{
+
 	height: 5vh !important;
+	width: 100% !important;
 	
 }
 

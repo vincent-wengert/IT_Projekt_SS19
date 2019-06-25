@@ -44,6 +44,7 @@ import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
 public class ShowShoppingListForm extends VerticalPanel {
+	private Person p = CurrentPerson.getPerson();
 	
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	private Person currentPerson = CurrentPerson.getPerson();
@@ -400,10 +401,13 @@ public class ShowShoppingListForm extends VerticalPanel {
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
 	}
 
+	public ArrayList<ListItem> getAllListItems() {
+		return this.allListItems;
+	}
 	
 	public void loadFavoriteItems() {
 		ctm.setLoadFavoriteItems(false);	
-		administration.getAllFavoriteListItemsbyGroup(group, currentPerson, shoppingListToDisplay, new getAllFavoriteListItemsCallback());
+		administration.getAllFavoriteListItemsbyGroup(group, new getAllFavoriteListItemsCallback());
 	}
 
 	private void loadListitems() {
@@ -445,6 +449,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 			shoppingListToDisplay = sl;
 			infoTitleLabel.setText(sl.getTitle());
 			
+			infoTitleLabel.setVisible(true);
+			editButton.setVisible(true);
+			
 			if(initial == true) {
 				loadFavoriteItems();
 			}
@@ -483,10 +490,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 	public ArrayList<ListItem> myListItems() {
 		
 		ArrayList<ListItem> myItems = new ArrayList<ListItem>();
-		
-		Person p = new Person();
-		
-		p.setId(1);
 		
 		for (ListItem listitem: allListItems) {
 			if (listitem.getBuyerID() == p.getId()) {
@@ -758,7 +761,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		}
 	}
 
-	private class getAllFavoriteListItemsCallback implements AsyncCallback<ArrayList<ListItem>>{
+	private class getAllFavoriteListItemsCallback implements AsyncCallback<ArrayList<Item>>{
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -767,10 +770,20 @@ public class ShowShoppingListForm extends VerticalPanel {
 		}
 
 		@Override
-		public void onSuccess(ArrayList<ListItem> result) {
+		public void onSuccess(ArrayList<Item> result) {
 			// TODO Auto-generated method stub
-			
+			if (result.isEmpty() == false) {
+				
+				StandardListItemDialog slid = new StandardListItemDialog();
+				
+			for (Item i : result) {
+				slid.setShoppingList(shoppingListToDisplay);
+				slid.setShowShoppingListForm(ShowShoppingListForm.this);
+				slid.displayListItem(i, shoppingListToDisplay, group);
+				slid.show();
+			}
 			Notification.show("Favorisierte Artikel wurden hinzugefügt");
+			}
 		}
 		
 	}

@@ -14,6 +14,7 @@ import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
+import de.hdm.softwarepraktikum.shared.bo.Store;
 
 
 public class ListItemMapper {
@@ -341,7 +342,7 @@ public class ListItemMapper {
 			String st = "SELECT * from ListItem JOIN Responsibility ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID"+ 
 					" JOIN  ShoppingList ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID"+
 					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE `Group`.Group_ID= " + groupId +
-					" AND ListItem.BoughtOn BETWEEN \"" + start + " \"AND \" " + end + "\"";
+					" AND ListItem.BoughtOn BETWEEN \"" + start + " \"AND \" " + end + "\"" + " ORDER BY Store_ID ASC";
 				
 			try {
 				
@@ -356,6 +357,7 @@ public class ListItemMapper {
 					listItem.setAmount(rs.getDouble("Amount"));
 					listItem.setItemId(rs.getInt("Item_ID"));
 					listItem.setResID(rs.getInt("Responsibility_ID"));
+					listItem.setChangedate(rs.getTimestamp("BoughtOn"));
 					
 					//Ab hier Resposibility Tabelle eigentlich
 					listItem.setBuyerID(rs.getInt("Person_ID"));
@@ -380,7 +382,7 @@ public class ListItemMapper {
 				
 			String st = "SELECT * from ListItem JOIN Responsibility ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID"+ 
 					" JOIN  ShoppingList ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID"+
-					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE `Group`.Group_ID= " + groupId;
+					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE `Group`.Group_ID= " + groupId + " ORDER BY Store_ID ASC";
 				
 			try {
 				
@@ -395,6 +397,7 @@ public class ListItemMapper {
 					listItem.setAmount(rs.getDouble("Amount"));
 					listItem.setItemId(rs.getInt("Item_ID"));
 					listItem.setResID(rs.getInt("Responsibility_ID"));
+					listItem.setChangedate(rs.getTimestamp("BoughtOn"));
 					
 					//Ab hier Resposibility Tabelle eigentlich
 					listItem.setBuyerID(rs.getInt("Person_ID"));
@@ -424,7 +427,7 @@ public class ListItemMapper {
 			String st = "SELECT * from ListItem JOIN Responsibility ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID"+ 
 					" JOIN  ShoppingList ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID"+
 					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE Person_ID= " + personId +
-					" AND ListItem.BoughtOn BETWEEN \"" + from + " \"AND \" " + to + "\"";
+					" AND ListItem.BoughtOn BETWEEN \"" + from + " \"AND \" " + to + "\"" + " ORDER BY Store_ID ASC";
 				
 			try {
 				
@@ -439,6 +442,7 @@ public class ListItemMapper {
 					listItem.setAmount(rs.getDouble("Amount"));
 					listItem.setItemId(rs.getInt("Item_ID"));
 					listItem.setResID(rs.getInt("Responsibility_ID"));
+					listItem.setChangedate(rs.getTimestamp("BoughtOn"));
 					
 					//Ab hier Resposibility Tabelle eigentlich
 					listItem.setBuyerID(rs.getInt("Person_ID"));
@@ -464,7 +468,7 @@ public class ListItemMapper {
 				
 			String st = "SELECT * from ListItem JOIN Responsibility ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID"+ 
 					" JOIN  ShoppingList ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID"+
-					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE Person_ID= " + personId;
+					" JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE Person_ID= " + personId + " ORDER BY Store_ID ASC";
 			
 			
 				
@@ -481,6 +485,7 @@ public class ListItemMapper {
 					listItem.setAmount(rs.getDouble("Amount"));
 					listItem.setItemId(rs.getInt("Item_ID"));
 					listItem.setResID(rs.getInt("Responsibility_ID"));
+					listItem.setChangedate(rs.getTimestamp("BoughtOn"));
 					
 					//Ab hier Resposibility Tabelle eigentlich
 					listItem.setBuyerID(rs.getInt("Person_ID"));
@@ -522,6 +527,34 @@ public class ListItemMapper {
 				
 			}
 			return setAsFav;
+		}
+		
+		//Methode prueft ob Listitems aus einer Gruppe mit bestimmtem Haendler in DB vorhanden
+		
+		public boolean checkforStoreByGroup(Store s) {
+			
+			boolean available = false;
+			Connection con = DBConnection.connection();
+			
+			try {
+				
+				Statement stmt = con.createStatement();
+		
+				ResultSet rs = stmt.executeQuery("SELECT Responsibility_ID FROM Responsibility WHERE Store_ID = "+s.getId());
+			
+					if (rs.next()) {
+
+						available = true;
+
+					} 
+				
+			
+				}catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+			return available; 
+			
 		}
 			
 }

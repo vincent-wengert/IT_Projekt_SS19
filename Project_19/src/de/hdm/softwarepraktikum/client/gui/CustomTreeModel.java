@@ -319,7 +319,7 @@ public class CustomTreeModel implements TreeViewModel {
 		public void onSelectionChange(SelectionChangeEvent event) {
 
 			Object selection = selectionModel.getSelectedObject();
-
+			
 			if (selection instanceof Group) {
 				setSelectedGroup((Group) selection);
 
