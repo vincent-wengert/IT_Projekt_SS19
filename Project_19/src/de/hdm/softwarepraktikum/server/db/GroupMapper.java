@@ -309,7 +309,7 @@ public class GroupMapper {
 	
 	/**
 	 * Methode, um alle Einkaufslisten einer Gruppe auszulesen.
-	 * @param p
+	 * @param currentPerson
 	 * @return ShoppingLists
 	 */
 	 

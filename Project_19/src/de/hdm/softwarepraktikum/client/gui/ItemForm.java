@@ -61,6 +61,7 @@ public class ItemForm extends VerticalPanel{
 	private Boolean isFavorite = false;
 	private static ItemForm itemForm = null;
 	private AllItemsCellList aicl = null;
+	private Group selectedGroup;
 	
 
 	public ItemForm() {
@@ -230,15 +231,13 @@ public class ItemForm extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			setTableEditable(false);
-			Group g = new Group();
-			g.setId(-1);
 			if(itemToDisplayProduct.getIsFavorite() == true) {
 				itemToDisplayProduct.setFavorite(false);
-				shoppinglistAdministration.removeFavoriteItem(itemToDisplayProduct, g, new removeFavoriteItemCallback());
+				shoppinglistAdministration.removeFavoriteItem(itemToDisplayProduct, selectedGroup, new removeFavoriteItemCallback());
 				favButton.setStylePrimaryName("FavoriteItemFalse");
 			} else {
 				itemToDisplayProduct.setFavorite(true);
-				shoppinglistAdministration.addFavoriteItem(itemToDisplayProduct, g, new addFavoriteItemCallback());
+				shoppinglistAdministration.addFavoriteItem(itemToDisplayProduct, selectedGroup, new addFavoriteItemCallback());
 				favButton.setStylePrimaryName("FavoriteItemTrue");
 			}
 			
@@ -403,6 +402,10 @@ public class ItemForm extends VerticalPanel{
 				Notification.show("Der Artikel ist kein Favorit mehr");
 				aicl.updateCelllist(itemToDisplayProduct);
 			}
+		}
+
+		public void setGroup(Group selectedGroup) {
+			this.selectedGroup = selectedGroup;
 		}
 		
 }

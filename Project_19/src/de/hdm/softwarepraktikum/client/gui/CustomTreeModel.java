@@ -18,6 +18,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.TreeViewModel;
 
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Person;
@@ -49,7 +50,7 @@ public class CustomTreeModel implements TreeViewModel {
 
 	private Map<Group, ListDataProvider<ShoppingList>> shoppingListHolderDataProviders = null;
 
-	Person p = new Person();
+	Person currentPerson = CurrentPerson.getPerson();
 	
 	/**
 	 * This selection model is shared across all leaf nodes. A selection model can
@@ -59,7 +60,6 @@ public class CustomTreeModel implements TreeViewModel {
 	 */
 
 	public CustomTreeModel() {
-		p.setId(1);
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEventHandler());
 		shoppingListHolderDataProviders = new HashMap<Group, ListDataProvider<ShoppingList>>();
 	}
@@ -240,7 +240,7 @@ public class CustomTreeModel implements TreeViewModel {
 	public <T> NodeInfo<?> getNodeInfo(T value) {
 		if (value == null) {
 			
-			administration.getAllGroupsByPerson(p, new AsyncCallback<ArrayList<Group>>() {
+			administration.getAllGroupsByPerson(currentPerson, new AsyncCallback<ArrayList<Group>>() {
 
 				@Override
 				public void onFailure(Throwable caught) {

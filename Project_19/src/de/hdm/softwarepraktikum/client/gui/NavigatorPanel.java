@@ -37,7 +37,7 @@ import de.hdm.softwarepraktikum.shared.bo.Store;
 
 public class NavigatorPanel extends TabPanel {
 
-	private Person p = CurrentPerson.getPerson();
+	private Person currentPerson = CurrentPerson.getPerson();
 	
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	
@@ -56,7 +56,6 @@ public class NavigatorPanel extends TabPanel {
 	private NewShoppingListForm nslf = new NewShoppingListForm();
 	private Group selectedGroup;
 	
-	private Grid itemsGrid = new Grid(2,2);
 	private Grid storesGrid = new Grid(2,2);
 	
 	//Create a model for the tree.
@@ -82,8 +81,7 @@ public class NavigatorPanel extends TabPanel {
   * Diese Methode wird aufgerufen, sobald ein Objekt dieser Klasse instanziert wird. 
   */
 public void onLoad() {
-	SearchFormArticles sfa = new SearchFormArticles();
-	itemsGrid.setWidget(0, 0, sfa);
+
 	
 	SearchFormStores sfs = new SearchFormStores();
 	storesGrid.setWidget(0, 0, sfs);
@@ -98,9 +96,9 @@ public void onLoad() {
 	this.add(contentPanelArticles, "Alle Artikel");
 	this.add(contentPanelStores, "Alle Händler");
 	
-	itemsGrid.setWidget(1, 0, aicl);
+	
 	aicl.setNavigator(this);
-	contentPanelArticles.add(itemsGrid);
+	contentPanelArticles.add(aicl);
 
     
     tree.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
@@ -160,93 +158,6 @@ public AllStoresCellList getAllStoresCellList() {
 
 public CustomTreeModel getCtm() {
 	return model;
-}
-
-private void setSelectedGroup(Group g) {
-	this.selectedGroup = g;
-}
-
-public Group getSelectedGroup() {
-	return this.selectedGroup;
-}
-/**
-* In dieser Methode wird das Design des NavigatorPanels und der Buttons festgelegt.
-* Ebenso wird die searchbar mit <code>Item</code> Suggestions befüllt.
-* Diese Methode wird aufgerufen, sobald eine Instanz der Klasse <code> NavigationPanel</code> aufgerufen wird. 
-*/
-private class SearchFormArticles extends VerticalPanel {
-
-	private Grid groupGrid = new Grid(2, 2);
-	
-	private Label favLabel = new Label("Favoriten-Gruppe");
-	
-	private ListBox groupListBox = new ListBox();
- 	private Button confirmButton = new Button("Bestätigen");
- 	
- 	
- 	private ArrayList<Group> allGroups = new ArrayList<Group>();
- 	
- 	
-
-
-@SuppressWarnings("deprecation")
-public void onLoad() {
-	
-	
-	groupGrid.setWidget(0, 0, favLabel);
-	groupGrid.setWidget(1, 0, groupListBox);
-	groupGrid.setWidget(1, 1, confirmButton);
-	
-	groupListBox.setWidth("10vw");
-	
-	
-	
-	confirmButton.setStylePrimaryName("selectGroupButton");
-	favLabel.setStylePrimaryName("favLabel");
-	
-	confirmButton.addClickHandler(new groupListBoxSelectionClickHandler());
-	
-	
-	administration.getAllGroupsByPerson(p, new AsyncCallback<ArrayList<Group>>() {
-		
-		@Override
-		public void onSuccess(ArrayList<Group> result) {
-
-				// TODO Auto-generated method stub
-				allGroups = result;
-				for(Group g : result) {
-				groupListBox.addItem(g.getTitle());
-				}
-		}
-		
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			Notification.show(caught.toString());
-		}
-	});
-	
-	
-	this.add(groupGrid);
-	
-	
-	
-	}
-
-
-private class groupListBoxSelectionClickHandler implements ClickHandler{
-
-	@Override
-	public void onClick(ClickEvent arg0) {
-		// TODO Auto-generated method stub
-		for (Group g : allGroups) {
-			if (g.getTitle().equals(groupListBox.getSelectedItemText())) {
-				NavigatorPanel.this.setSelectedGroup(g);
-				Window.alert(selectedGroup.getTitle());
-			}
-		}
-	}	
-	}
 }
 
 

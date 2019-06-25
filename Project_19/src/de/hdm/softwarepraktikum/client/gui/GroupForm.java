@@ -334,6 +334,7 @@ public class GroupForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			if (initial == true) {
+				membersList.add(currentPerson);
 				administration.createGroup(groupNameBox.getText(),membersList, new createGroupCallback());
 				setEditable(false);
 				setTableEditable(editable);

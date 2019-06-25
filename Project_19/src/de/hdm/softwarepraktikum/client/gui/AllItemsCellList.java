@@ -7,11 +7,17 @@ import java.util.Map;
 import com.google.gwt.aria.client.AlertdialogRole;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell.Context;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
@@ -24,6 +30,7 @@ import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
 import de.hdm.softwarepraktikum.server.ShoppingListAdministrationImpl;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
+import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import java_cup.version;
@@ -31,7 +38,7 @@ import java_cup.version;
 public class AllItemsCellList extends VerticalPanel{
 	private NavigatorPanel navigator;
 	
-	Person p = CurrentPerson.getPerson();
+	Person currentPerson = CurrentPerson.getPerson();
 	
 	ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	
@@ -46,9 +53,16 @@ public class AllItemsCellList extends VerticalPanel{
 	private ArrayList<Item> items = new ArrayList<Item>();
 	
 	private Item itemToDisplay = null;
+	private Group selectedGroup = null;
 	
+	private Grid itemsGrid = new Grid(2,2);
 	
 	public void onLoad() {
+		
+		SearchFormArticles sfa = new SearchFormArticles();
+		itemsGrid.setWidget(0, 0, sfa);
+		
+		
 		
 		ItemDemoKeyProvider keyProvider = new ItemDemoKeyProvider();
 		selectionModel = new SingleSelectionModel<Item>(keyProvider);
@@ -56,16 +70,22 @@ public class AllItemsCellList extends VerticalPanel{
 		cellList.setSelectionModel(selectionModel);
 		
 		
-//		if(navigator.getSelectedGroup()!=null) {
-		administration.getAllItemsByGroup(-1, p.getId(),  new GetAllItemsCallback());
-//		}
+		if(selectedGroup!=null) {
+			Window.alert(selectedGroup.getTitle());
+		administration.getAllItemsByGroup(selectedGroup.getId(), currentPerson.getId(),  new GetAllItemsCallback());
+		}
 		dataProvider.addDataDisplay(cellList);
 		cellList.setRowData(0, dataProvider.getList());
 		cellList.setRowCount(items.size(), true);
 		
-		this.add(cellList);
 		
+		itemsGrid.setWidget(1, 0, cellList);
+		
+		
+		this.add(itemsGrid);
 	}
+	
+	
 	
 	public void getAllItems() {
 	
@@ -92,9 +112,13 @@ public class AllItemsCellList extends VerticalPanel{
 		this.itemForm = itemForm;
 	}
 	
+	public void setSelectedGroup(Group g) {
+		this.selectedGroup = g;
+	}
+	
 	public void removeItem(Item i) {
-		if(navigator.getSelectedGroup()!=null) {
-		administration.getAllItemsByGroup(navigator.getSelectedGroup().getId(), p.getId(), new GetAllItemsCallback());
+		if(selectedGroup!=null) {
+		administration.getAllItemsByGroup(selectedGroup.getId(), currentPerson.getId(), new GetAllItemsCallback());
 		}
 		dataProvider.getList().remove(i);
 		dataProvider.refresh();
@@ -158,13 +182,14 @@ public class AllItemsCellList extends VerticalPanel{
 		itemForm.setSelected(i);
 		itemForm.setEditable(false);
 		itemForm.setInitial(false);
+		itemForm.setGroup(selectedGroup);
 		RootPanel.get("Details").add(itemForm);
 	}
 	
 	public void updateCelllist(Item item) {
 		dataProvider.getList().clear();
-		if(navigator.getSelectedGroup()!=null) {
-		administration.getAllItemsByGroup(navigator.getSelectedGroup().getId(), p.getId(), new GetAllItemsCallback());
+		if(selectedGroup != null) {
+		administration.getAllItemsByGroup(selectedGroup.getId(), currentPerson.getId(), new GetAllItemsCallback());
 		}
 		dataProvider.refresh();
 		selectionModel.setSelected(item, true);
@@ -172,4 +197,93 @@ public class AllItemsCellList extends VerticalPanel{
 		//navigator.selectTab(1)
 	}
 	
+
+	
+	/**
+	* In dieser Methode wird das Design des NavigatorPanels und der Buttons festgelegt.
+	* Ebenso wird die searchbar mit <code>Item</code> Suggestions befüllt.
+	* Diese Methode wird aufgerufen, sobald eine Instanz der Klasse <code> NavigationPanel</code> aufgerufen wird. 
+	*/
+	class SearchFormArticles extends VerticalPanel {
+
+		private Grid groupGrid = new Grid(2, 2);
+		
+		private Label favLabel = new Label("Favoriten-Gruppe");
+		
+		private ListBox groupListBox = new ListBox();
+	 	private Button confirmButton = new Button("Bestätigen");
+	 	
+	 	
+	 	private ArrayList<Group> allGroups = new ArrayList<Group>();
+	 	
+	 	
+
+
+	@SuppressWarnings("deprecation")
+	public void onLoad() {
+		
+		administration.getAllGroupsByPerson(currentPerson, new AsyncCallback<ArrayList<Group>>() {
+			
+			@Override
+			public void onSuccess(ArrayList<Group> result) {
+
+				
+					// TODO Auto-generated method stub
+					allGroups = result;
+					for(Group g : result) {
+					groupListBox.addItem(g.getTitle());
+					}
+					
+					for (Group g : allGroups) {
+						if (g.getTitle().equals(groupListBox.getSelectedItemText())) {
+							//Window.alert(g.getTitle());
+							AllItemsCellList.this.selectedGroup = g;
+							AllItemsCellList.this.updateCelllist(null);
+						}
+					}
+					
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				Notification.show(caught.toString());
+			}
+		});
+		
+
+		groupGrid.setWidget(0, 0, favLabel);
+		groupGrid.setWidget(1, 0, groupListBox);
+		groupGrid.setWidget(1, 1, confirmButton);
+		
+		groupListBox.setWidth("10vw");
+		
+		
+		
+		confirmButton.setStylePrimaryName("selectGroupButton");
+		favLabel.setStylePrimaryName("favLabel");
+		
+		confirmButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent arg0) {
+				// TODO Auto-generated method stub
+				for (Group g : allGroups) {
+					if (g.getTitle().equals(groupListBox.getSelectedItemText())) {
+						AllItemsCellList.this.selectedGroup = g;
+						AllItemsCellList.this.updateCelllist(null);
+					}
+				}
+			}
+		});
+		
+		
+		this.add(groupGrid);
+		
+		
+		
+		}
+	}
 }
+
+

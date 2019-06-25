@@ -200,7 +200,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	
 	/**
 	 * Methode um die ShoppingLists einer Person anzuzeigen
-	 * @param p
+	 * @param currentPerson
 	 * @return Liste der jeweiligen ShoppingLists
 	 * @throws IllegalArgumentException
 	 */
