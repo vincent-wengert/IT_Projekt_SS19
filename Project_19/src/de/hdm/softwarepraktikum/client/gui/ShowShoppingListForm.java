@@ -369,11 +369,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 				
 				//Die Person columns vergleichen.
 				
-				String a = new String();
-				a = Integer.toString(o1.getBuyerID());
+				String a = String.valueOf(o1.getBuyerID());
 				
-				String b = new String();
-				b = Integer.toString(o2.getBuyerID());
+				String b = String.valueOf(o2.getBuyerID());
 				
 				if (o1 != null) {
 					if (o2 != null) {
@@ -774,9 +772,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 			// TODO Auto-generated method stub
 			if (result.isEmpty() == false) {
 				
-				StandardListItemDialog slid = new StandardListItemDialog();
-				
 			for (Item i : result) {
+				StandardListItemDialog slid = new StandardListItemDialog();
 				slid.setShoppingList(shoppingListToDisplay);
 				slid.setShowShoppingListForm(ShowShoppingListForm.this);
 				slid.displayListItem(i, shoppingListToDisplay, group);
@@ -791,6 +788,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	/**
 	 * ListHandler mit dem in der CellTable die Liste sortiert wird
 	 */
+	
 	private class deleteListItemCallback implements AsyncCallback<Void> {
 
 		@Override
