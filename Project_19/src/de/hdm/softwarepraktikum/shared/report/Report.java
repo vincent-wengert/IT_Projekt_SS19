@@ -3,7 +3,9 @@ package de.hdm.softwarepraktikum.shared.report;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Report implements Serializable {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class Report implements IsSerializable {
 	
 	/** Original-Kommentar
 	 * <p>
