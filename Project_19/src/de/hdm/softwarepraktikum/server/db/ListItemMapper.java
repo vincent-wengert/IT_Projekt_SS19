@@ -531,7 +531,7 @@ public class ListItemMapper {
 		
 		//Methode prueft ob Listitems aus einer Gruppe mit bestimmtem Haendler in DB vorhanden
 		
-		public boolean checkforStoreByGroup(Group g, Store s) {
+		public boolean checkforStoreByGroup(Store s) {
 			
 			boolean available = false;
 			Connection con = DBConnection.connection();
@@ -540,8 +540,7 @@ public class ListItemMapper {
 				
 				Statement stmt = con.createStatement();
 		
-				ResultSet rs = stmt.executeQuery("SELECT ListItem_ID FROM ListItem JOIN Responsibility ON ListItem.Responsibility_ID = Responsibility.Responsibility_ID \r\n" + 
-						"JOIN ShoppingList ON Responsibility.Shoppinglist_ID = ShoppingList.ShoppingList_ID WHERE ShoppingList.Group_ID = "+g.getId()+" AND Store_ID = "+s.getId());
+				ResultSet rs = stmt.executeQuery("SELECT Responsibility_ID FROM Responsibility WHERE Store_ID = "+s.getId());
 			
 					if (rs.next()) {
 
