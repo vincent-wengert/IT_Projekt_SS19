@@ -407,7 +407,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	
 	public void loadFavoriteItems() {
 		ctm.setLoadFavoriteItems(false);	
-		administration.getAllFavoriteListItemsbyGroup(group, currentPerson, shoppingListToDisplay, new getAllFavoriteListItemsCallback());
+		administration.getAllFavoriteListItemsbyGroup(group, new getAllFavoriteListItemsCallback());
 	}
 
 	private void loadListitems() {
@@ -761,7 +761,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		}
 	}
 
-	private class getAllFavoriteListItemsCallback implements AsyncCallback<ArrayList<ListItem>>{
+	private class getAllFavoriteListItemsCallback implements AsyncCallback<ArrayList<Item>>{
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -770,10 +770,20 @@ public class ShowShoppingListForm extends VerticalPanel {
 		}
 
 		@Override
-		public void onSuccess(ArrayList<ListItem> result) {
+		public void onSuccess(ArrayList<Item> result) {
 			// TODO Auto-generated method stub
-			
+			if (result.isEmpty() == false) {
+				
+				StandardListItemDialog slid = new StandardListItemDialog();
+				
+			for (Item i : result) {
+				slid.setShoppingList(shoppingListToDisplay);
+				slid.setShowShoppingListForm(ShowShoppingListForm.this);
+				slid.displayListItem(i, shoppingListToDisplay, group);
+				slid.show();
+			}
 			Notification.show("Favorisierte Artikel wurden hinzugefügt");
+			}
 		}
 		
 	}

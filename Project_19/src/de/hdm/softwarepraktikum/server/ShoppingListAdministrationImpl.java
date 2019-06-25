@@ -631,37 +631,10 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 	}
 	
-	public ArrayList<ListItem> getAllFavoriteListItemsbyGroup (Group g, Person p, ShoppingList sl) {
+	public ArrayList<Item> getAllFavoriteListItemsbyGroup (Group g) {
 		
-		ArrayList<Item> favItems = favoriteItemMapper.findFavItems(g);
-		
-		ArrayList<ListItem> listItemstoAdd = new ArrayList<ListItem>();
-				
-		for(Item i : favItems) { 		
-			Responsibility res = new Responsibility();
-			res.setBuyerID(p.getId());
-			res.setStoreID(1);
-			res.setSlID(sl.getId());
-			
-			this.responsibilityMapper.insert(res); 
-			
-			ListItem li = new ListItem();
-			
-			li.setItemId(i.getId());
-			li.setBuyerID(p.getId());
-			li.setStoreID(1);
-			li.setSlID(sl.getId());
-			li.setGrID(g.getId());
-			li.setAmount(0);
-			li.setUnit("leer");
-			li.setName(i.getName());
-			li.setChecked(false);
-			
-			listItemstoAdd.add(this.listItemMapper.insert(li, res));
-		}
-		
-		return listItemstoAdd;
-		
+		return this.favoriteItemMapper.findFavItems(g);
+	
 		
 	}
 
