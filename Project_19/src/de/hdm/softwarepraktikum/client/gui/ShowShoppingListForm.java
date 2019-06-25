@@ -369,11 +369,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 				
 				//Die Person columns vergleichen.
 				
-				String a = new String();
-				a = Integer.toString(o1.getBuyerID());
+				String a = String.valueOf(o1.getBuyerID());
 				
-				String b = new String();
-				b = Integer.toString(o2.getBuyerID());
+				String b = String.valueOf(o2.getBuyerID());
 				
 				if (o1 != null) {
 					if (o2 != null) {
@@ -407,7 +405,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	
 	public void loadFavoriteItems() {
 		ctm.setLoadFavoriteItems(false);	
-		administration.getAllFavoriteListItemsbyGroup(group, currentPerson, shoppingListToDisplay, new getAllFavoriteListItemsCallback());
+		administration.getAllFavoriteListItemsbyGroup(group, new getAllFavoriteListItemsCallback());
 	}
 
 	private void loadListitems() {
@@ -761,7 +759,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		}
 	}
 
-	private class getAllFavoriteListItemsCallback implements AsyncCallback<ArrayList<ListItem>>{
+	private class getAllFavoriteListItemsCallback implements AsyncCallback<ArrayList<Item>>{
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -770,10 +768,19 @@ public class ShowShoppingListForm extends VerticalPanel {
 		}
 
 		@Override
-		public void onSuccess(ArrayList<ListItem> result) {
+		public void onSuccess(ArrayList<Item> result) {
 			// TODO Auto-generated method stub
-			
+			if (result.isEmpty() == false) {
+				
+			for (Item i : result) {
+				StandardListItemDialog slid = new StandardListItemDialog();
+				slid.setShoppingList(shoppingListToDisplay);
+				slid.setShowShoppingListForm(ShowShoppingListForm.this);
+				slid.displayListItem(i, shoppingListToDisplay, group);
+				slid.show();
+			}
 			Notification.show("Favorisierte Artikel wurden hinzugefügt");
+			}
 		}
 		
 	}
@@ -781,6 +788,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	/**
 	 * ListHandler mit dem in der CellTable die Liste sortiert wird
 	 */
+	
 	private class deleteListItemCallback implements AsyncCallback<Void> {
 
 		@Override

@@ -37,7 +37,7 @@ public class GroupMapper {
 	private static GroupMapper groupMapper = null;
 	
 	/**
-	   * Gesch�tzter Konstruktor - verhindert die M�glichkeit, mit <code>new</code>
+	   * Geschuetzter Konstruktor - verhindert die Moeglichkeit, mit <code>new</code>
 	   * neue Instanzen dieser Klasse zu erzeugen.
 	   */
 	
@@ -60,7 +60,7 @@ public class GroupMapper {
 	
 	
 	/*
-	 * Eink�ufergruppe anhand ihrer Id suchen.
+	 * Einkaeufergruppe anhand ihrer Id suchen.
 	 */
 	
 	public Group findById(int id) {
@@ -72,12 +72,12 @@ public class GroupMapper {
 			//leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 			
-			//Statement ausf�llen und als Query an die DB schicken
+			//Statement ausfuellen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery("Select Group_ID, Title, user FROM Group" + "WHERE Group_ID= " + id);
 			
 			/*
-		     * Da id Prim�rschl�ssel ist, kann max. nur ein Tupel zur�ckgegeben
-		     * werden. Pr�fe, ob ein Ergebnis vorliegt.group
+		     * Da id Primaerschluessel ist, kann max. nur ein Tupel zurueckgegeben
+		     * werden. Pruefe, ob ein Ergebnis vorliegt.
 		     */
 			if (rs.next()) {
 				//Ergebnis-Tupel in Objekt umwandeln
@@ -95,6 +95,11 @@ public class GroupMapper {
 	return null;
 	}
 	
+	/**
+	 * Methode um ein <code>Group</code> Objekt in der Datenbank zu speichern
+	 * @param g
+	 * @return das neu gespiecherte Group-Objekt.
+	 */
 	public Group insert(Group g) {
 		
 		
@@ -105,18 +110,18 @@ public class GroupMapper {
 			Statement stmt = con.createStatement();
 			
 		/*
-		 * Zun�chst schauen wir nach, welches der momentan h�chste
-		 * Prim�rschl�sselwert ist.
+		 * Zunaechst schauen wir nach, welches der momentan hoechste
+		 * Primaerschluesselwert ist.
 		 */
 			
 			
 		ResultSet rs = stmt.executeQuery("SELECT MIN(Group_ID) AS minid " + "FROM `Group` ");
 		
-		// Wenn wir etwas zur�ckerhalten, kann dies nur einzeilig sein
+		// Wenn wir etwas zurueckerhalten, kann dies nur einzeilig sein
 		if (rs.next()) {
 		/*
-		 * i erh�lt den bisher maximalen, nun um 1 inkrementierten
-		 * Prim�rschl�ssel.
+		 * i erhaelt den bisher maximalen, nun um 1 inkrementierten
+		 * Primaerschluessel.
 		 */
 		g.setId(rs.getInt("minid") - 1);
 				
@@ -137,7 +142,7 @@ public class GroupMapper {
 		}
 			
 		/*
-		 * R�ckgabe, der evtl. korrigierten Group.
+		 * Rueckgabe, der evtl. korrigierten Group.
 		 */
 		return g;
 	}
@@ -146,17 +151,13 @@ public class GroupMapper {
 	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
 	 * 
 	 * @param g
-	 *            das Objekt, das in die DB geschrieben werden soll
-	 * @return das als Parameter �bergebene Objekt
+	 * @return das als Parameter uebergebene Objekt
 	 */
 	
 	public Group update(Group g) {
 		Connection con = DBConnection.connection();
 		
 		try {
-			//Statement stmt = con.createStatement();
-			
-			//stmt.executeUpdate("UPDATE `Group` " + "SET Title=\"" + g.getTitle() + "\" " + "WHERE Group_ID=" + g.getId());
 			
 			PreparedStatement st = con.prepareStatement("UPDATE Group SET Title = ?, Changedate = ? WHERE Group_ID = ?");
 			
@@ -169,11 +170,11 @@ public class GroupMapper {
 			e.printStackTrace();
 		}
 		
-		// Um Analogie zu insert(Group g) zu wahren, wird g zur�ckgegeben
+		// Um Analogie zu insert(Group g) zu wahren, wird g zurueckgegeben
 				return g;
 	}
 	
-	//L�schung einer Gruppe
+	//Loeschung einer Gruppe
 	public void delete(Group g) {
 		Connection con = DBConnection.connection();
 		
@@ -204,29 +205,29 @@ public class GroupMapper {
 			ResultSet rs = stmt
 					.executeQuery("SELECT Group_ID, Title, member " + "FROM `Group` " + "ORDER BY Title");
 			
-			// F�r jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
+			// Fuer jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
 			while(rs.next()) {
 				Group g = new Group();
 				g.setId(rs.getInt("Group_ID"));
 				g.setTitle(rs.getString("Title"));
 				
 				
-				//Hinzuf�gen des neuen Objekts zum Ergebnisvektor
+				//Hinzufuegen des neuen Objekts zum Ergebnisvektor
 				result.add(g);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		//Ergebnis zur�ckgeben
+		//Ergebnis zurueckgeben
 		return result;
 	}
 	
 	/**
-	 * Auslesen aller Gruppen eines durch Fremdschl�ssel (id) gegebenen
+	 * Auslesen aller Gruppen eines durch Fremdschluessel (id) gegebenen
 	 * Kunden.
 	 * @param memberID
-	 * @return
+	 * @return Eine ArrayList mit <code>Group</code>-Objekten, in welchen ein Nutzer Mitglied ist.
 	 */
 	public ArrayList<Group> findByMember(int memberID) {
 	    Connection con = DBConnection.connection();
@@ -239,13 +240,13 @@ public class GroupMapper {
 	    		  + " JOIN `Group` ON Participant.Group_Group_ID = Group_ID"
 	    		  + " WHERE Participant.Person_PersonID =" + memberID);
 	    		  
-	      // F�r jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
+	      // Fuer jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
 	      while (rs.next()) {
 	        Group g = new Group();
 	        g.setId(rs.getInt("Group_ID"));
 	        g.setTitle(rs.getString("Title"));
 
-	        // Hinzuf�gen des neuen Objekts zum Ergebnisvektor
+	        // Hinzufuegen des neuen Objekts zum Ergebnisvektor
 	        result.add(g);
 	      }
 	    }
@@ -253,7 +254,7 @@ public class GroupMapper {
 	      e2.printStackTrace();
 	    }
 
-	    // Ergebnisvektor zur�ckgeben
+	    // Ergebnisvektor zurueckgeben
 	    return result;
 	  }
 	
@@ -266,12 +267,17 @@ public class GroupMapper {
 	 public ArrayList<Group> findByMember(Person member) {
 
 		    /*
-		     * Wir lesen einfach die id (Prim�rschl�ssel) des Person-Objekts
+		     * Wir lesen einfach die id (Primaerschluessel) des Person-Objekts
 		     * aus und delegieren die weitere Bearbeitung an findByMember(int memberID).
 		     */
 		    return findByMember(member.getId());
 		  }
 	 
+	 /**
+	  * Mitgliedschaft einer Person zu einer Gruppe hinzufuegen
+	  * @param p
+	  * @param g
+	  */
 	 public void addMembership(Person p, Group g) {
 	 
 		 Connection con = DBConnection.connection();
@@ -287,7 +293,12 @@ public class GroupMapper {
 				e2.printStackTrace();
 			}
 	 }
-
+	 
+	/**
+	 * Loeschen einer Mitgliedschaft zu einer Gruppe 
+	 * @param p
+	 * @param g
+	 */
 	public void deleteMembership(Person p, Group g) {
 		
 		Connection con = DBConnection.connection();

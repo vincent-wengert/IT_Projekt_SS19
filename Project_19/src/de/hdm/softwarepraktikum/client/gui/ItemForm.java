@@ -137,7 +137,7 @@ public class ItemForm extends VerticalPanel{
 		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
 		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
 
-		itemNameBox.setMaxLength(10);
+		itemNameBox.setMaxLength(15);
 
 		itemGrid.setCellSpacing(10);
 		itemGrid.setWidget(0, 0, itemNameLabel);

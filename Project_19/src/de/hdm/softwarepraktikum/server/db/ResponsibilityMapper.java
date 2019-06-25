@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import de.hdm.softwarepraktikum.shared.bo.Item;
+
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.Store;
@@ -16,23 +16,33 @@ import de.hdm.softwarepraktikum.shared.bo.Store;
 
 public class ResponsibilityMapper {
 
-	/* 
-	 * Speicherung der Instanz dieser Mapperklasse.
-	 */
+	/**
+	   * Die Klasse ResponsibilityMapper wird nur einmal instantiiert. Man spricht hierbei
+	   * von einem sogenannten <b>Singleton</b>.
+	   * <p>
+	   * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal fuer
+	   * saemtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	   * einzige Instanz dieser Klasse.
+	   * 
+	   * @author Niklas Öxle
+	   */
+	
 	
 	private static ResponsibilityMapper responsibilityMapper = null;
 	
-	/*
-	 * Konstruktor ist geschÃ¼tzt, um weitere Instanzierung zu verhindern.
+	/**
+	 * Geschuetzter Konstruktor - verhindert die Moeglichkeit, mit <code>new</code>
+	 * neue Instanzen dieser Klasse zu erzeugen.
 	 */
 
 	protected ResponsibilityMapper() {
 		
 	}
 	
-	/*
+	/**
 	 * Einhaltung der Singleton Eigenschaft des Mappers.
-	 */
+	 * @return: gibt den responsibilityMapper zurueck
+	 */ 
 	
 	public static ResponsibilityMapper responsibilityMapper() {
 		if (responsibilityMapper == null) {
@@ -42,8 +52,10 @@ public class ResponsibilityMapper {
 		return responsibilityMapper;
 	}
 	
-	/*
-	 * Artikel anhand seiner Id zu suchen.
+	/**
+	 * Methode um ein einzelnes <code>Responsibilty</code> Objekt anhand einer ID zu suchen.
+     * @param id:  ID der zu findenden Responsibilty wird übergeben.
+     * @return Die anhand der id gefundene Responsibility wird zurückgegeben.
 	 */
 	
 	public Responsibility findById(int id) {
@@ -79,33 +91,36 @@ public class ResponsibilityMapper {
 		return rl;
 	}
 	
-	/*
-	 * Methode zum Auflisten aller Artikel.
-	 */
+	/** 
+     * Methode um alle in der Datenbank vorhandenen Responsibilty-Datensätze welchen ein bestimmter Store zugeordnet 
+     * ist auszugeben.
+     * Diese werden als einzelne <code>Responsibility</code> Objekte innerhalb einer ArrayList zurückgegeben.
+     * 
+     * @param store : Store, welcher der Responsibility zugeordnet ist.
+     * @return ArrayList aller Responsibilites welchen ein bestimmter Store zugeordnet 
+     * ist wird zurückgegeben.
+     */
 	
 	public ArrayList<Responsibility> findbystore(Store s) {
 		
 		ArrayList<Responsibility> result = new ArrayList<Responsibility>();
 		
-		//Herstellung einer Verbindung zur DB-Connection
+		
 		Connection con =DBConnection.connection();
 		try {
-			//leeres SQL-Statement (JDBC) anlegen
+			
 			Statement stmt = con.createStatement();
 			
-			//Statement ausfï¿½llen und als Query an die DB schicken
+			
 			ResultSet rs = stmt.executeQuery("Select Responsibilty_ID,Store_ID FROM Responsibility" + "WHERE Store_ID= " + s.getId());
 			
-			/*
-		     * Da id Primï¿½rschlï¿½ssel ist, kann max. nur ein Tupel zurï¿½ckgegeben
-		     * werden. Prï¿½fe, ob ein Ergebnis vorliegt.
-		     */
+			
 			while(rs.next()) {
 				Responsibility r = new Responsibility();
 				r.setId(rs.getInt("Responsibility_ID"));
 				r.setStoreID(rs.getInt("Store_ID"));
 				
-				//Hinzufï¿½gen des neuen Objekts zum Ergebnisvektor
+				
 				result.add(r);
 	}
 		}catch (SQLException e) {
@@ -117,33 +132,36 @@ public class ResponsibilityMapper {
 		
 	}
 	
-	/*
-	 * Methode um einen Artikel anhand seines Objektes zu suchen.
-	 */
+	/** 
+     * Methode um alle in der Datenbank vorhandenen Responsibilty-Datensätze welchen eine bestimmte Person zugeordnet 
+     * ist auszugeben.
+     * Diese werden als einzelne <code>Responsibility</code> Objekte innerhalb einer ArrayList zurückgegeben.
+     * 
+     * @param p : Person , welche der Responsibility zugeordnet ist.
+     * @return ArrayList aller Responsibilites welchen eine bestimmte Person zugeordnet 
+     * ist wird zurückgegeben.
+     */
 	
 	public ArrayList<Responsibility> findByPerson(Person p) {
           
 		ArrayList<Responsibility> result = new ArrayList<Responsibility>();
 		
-		//Herstellung einer Verbindung zur DB-Connection
+		
 		Connection con =DBConnection.connection();
 		try {
-			//leeres SQL-Statement (JDBC) anlegen
+			
 			Statement stmt = con.createStatement();
 			
-			//Statement ausfï¿½llen und als Query an die DB schicken
+			
 			ResultSet rs = stmt.executeQuery("Select Responsibilty_ID,Store_ID FROM Responsibility" + "WHERE Person_ID= " + p.getId());
 			
-			/*
-		     * Da id Primï¿½rschlï¿½ssel ist, kann max. nur ein Tupel zurï¿½ckgegeben
-		     * werden. Prï¿½fe, ob ein Ergebnis vorliegt.
-		     */
+			
 			while(rs.next()) {
 				Responsibility r = new Responsibility();
 				r.setId(rs.getInt("Responsibility_id"));
 				r.setBuyerID(rs.getInt("Person_id"));
 				
-				//Hinzufï¿½gen des neuen Objekts zum Ergebnisvektor
+				
 				result.add(r);
 	}
 		}catch (SQLException e) {
@@ -152,11 +170,13 @@ public class ResponsibilityMapper {
 		}
 	return result;
 		
-		
-	}
+		}
 	
-	/*
-	 * Delete Methode, um einen Artikel aus der Datenbank zu entfernen.
+	
+	
+	/**
+	 * Methode um ein Responsibility-Datensatz in der Datenbank zu löschen.
+	 * @param rs : Die zu loeschende Responsibility wird uebergeben
 	 */
 	
 	public void delete(Responsibility rs) {
@@ -172,6 +192,11 @@ public class ResponsibilityMapper {
       		e.printStackTrace();}
       	}
 		
+	
+	/**
+	 * Methode um ein Responsibility-Datensatz in der Datenbank zu löschen.
+	 * @param id : Die ID der zu loeschenden Responsibility wird uebergeben
+	 */
   	  
 public void deletebyID(int id) {
 		
@@ -188,6 +213,11 @@ public void deletebyID(int id) {
 	}
 	
 
+/**
+ * Methode um ein Responsibility-Datensatz in der Datenbank zu löschen.
+ * @param id : Die ID der Shoppinglist welche mit der Responsibilty verbunden wird uebergeben.
+ */
+
 public void deletebySLID(int id) {
 	
 	Connection con = DBConnection.connection();
@@ -202,8 +232,11 @@ public void deletebySLID(int id) {
   	}
 }
 
-	/*
-	 * Update Methode, um einen Artikel erneut zu schreiben.
+     /**
+	 * Wiederholtes Schreiben eines <code>Responsibility</code> Objekts in die Datenbank.
+	 * @param rs : Die zu aktualisierende Responsibilty wird übergeben
+	 * @return: die aktualisierte Responsibility wird zurückgegeben
+	 * 
 	 */
 	
 	public Responsibility updateResponsibility(Responsibility rs) {
@@ -228,8 +261,11 @@ public void deletebySLID(int id) {
 		
 	}
 	
-	/*
-	 * Insert Methode, um einen neuen Artikel der Datenbank hinzuzufÃ¼gen.
+	/**
+	 * Methode um ein Responsibilty Objekt in der Datenbank zu speichern
+	 * @param rl : eine neue zu speichernde Responsibilty in der Datenbank wird uebergeben
+	 * @return: die neu gespeicherte Responsibilty wird zurückgegeben
+	 * 
 	 */
 	
 	public Responsibility insert(Responsibility rl) {
