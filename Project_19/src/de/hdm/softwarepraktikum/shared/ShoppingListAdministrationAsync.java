@@ -9,7 +9,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
-import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
@@ -31,7 +30,7 @@ public interface ShoppingListAdministrationAsync {
 
 	void createGroup(String title, ArrayList<Person> member, AsyncCallback<Group> callback);
 
-	void createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, Unit unit,
+	void createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, String unit,
 			Boolean isChecked, AsyncCallback<ListItem> callback);
 
 	void createPerson(String gmail, String name, AsyncCallback<Person> callback);
@@ -84,7 +83,7 @@ public interface ShoppingListAdministrationAsync {
 	
 	void findShoppingListbyId(int id, AsyncCallback<ShoppingList> callback);
 
-	void getAllItems(int id, AsyncCallback<ArrayList<Item>> callback);
+	void getAllItems(AsyncCallback<ArrayList<Item>> callback);
 
 	void updateStore(Store s, AsyncCallback<Void> callback);
 
@@ -99,5 +98,12 @@ public interface ShoppingListAdministrationAsync {
 	void getAllCheckedItemsByGroup(Group g, AsyncCallback<ArrayList<ListItem>> callback);
 
 	void deleteGroup(Group g, AsyncCallback<Void> callback);
+	
+	void setFavAutomated(Group g, AsyncCallback<Void> callback);
+
+	void getAllItemsByGroup(int groupId, int currentPersonId, AsyncCallback<ArrayList<Item>> callback);
+
+	void getAllFavoriteListItemsbyGroup(Group g, Person p, ShoppingList sl,
+			AsyncCallback<ArrayList<ListItem>> callback);
 
 }

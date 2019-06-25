@@ -74,7 +74,6 @@ public class Project_19 implements EntryPoint {
 
 				if (p.isLoggedIn()) {
 					if (p.getName() == null) {
-						Window.alert("kein name");
 					Anchor shoppingListEditorLink = new Anchor();
 					shoppingListEditorLink.setHref(GWT.getHostPageBaseURL() + "Project_19.html");
 					RootPanel.get("Navigator").setVisible(false);
@@ -83,12 +82,10 @@ public class Project_19 implements EntryPoint {
 			
 
 					}else{
-						Window.alert("angemeldet");
 						ShoppingListEditor editor = new ShoppingListEditor();
 						editor.loadForms();
 						}
 				}else{
-					Window.alert("loadlogin");
 					loadLogin();
 					}	
 
@@ -142,7 +139,6 @@ public class Project_19 implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-			Window.alert("login");
 			Window.open(signInLink.getHref(), "_self", "");
 			
 			}

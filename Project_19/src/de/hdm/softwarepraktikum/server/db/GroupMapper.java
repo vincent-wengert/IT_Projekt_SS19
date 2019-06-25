@@ -110,7 +110,7 @@ public class GroupMapper {
 		 */
 			
 			
-		ResultSet rs = stmt.executeQuery("SELECT MAX(Group_ID) AS maxid " + "FROM `Group` ");
+		ResultSet rs = stmt.executeQuery("SELECT MIN(Group_ID) AS minid " + "FROM `Group` ");
 		
 		// Wenn wir etwas zur�ckerhalten, kann dies nur einzeilig sein
 		if (rs.next()) {
@@ -118,7 +118,7 @@ public class GroupMapper {
 		 * i erh�lt den bisher maximalen, nun um 1 inkrementierten
 		 * Prim�rschl�ssel.
 		 */
-		g.setId(rs.getInt("maxid") + 1);
+		g.setId(rs.getInt("minid") - 1);
 				
 		PreparedStatement stmt2 = con.prepareStatement(
 				"INSERT INTO `Group` (Group_ID, Title, Creationdate, Changedate) " + "VALUES (?, ?, ?, ?)",

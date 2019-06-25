@@ -47,6 +47,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private Person p = CurrentPerson.getPerson();
 	
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
+	private Person currentPerson = CurrentPerson.getPerson();
 	
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel shoppingListPanel = new HorizontalPanel();
@@ -83,6 +84,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private Column<ListItem, String> deleteColumn;
 
 	private CustomTreeModel ctm = null;
+	
+	private Boolean loadFavorites;
 
 	
 	ShoppingList shoppingListToDisplay = null;
@@ -197,7 +200,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		TextColumn<ListItem> unitColumn = new TextColumn<ListItem>() {
 			@Override
 			public String getValue(ListItem i) {
-				return i.getUnit().toString();
+				return i.getUnit();
 			}
 		};
 
@@ -397,7 +400,12 @@ public class ShowShoppingListForm extends VerticalPanel {
 		this.add(bottomButtonsPanel);
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
 	}
+
 	
+	public void loadFavoriteItems() {
+		ctm.setLoadFavoriteItems(false);	
+		administration.getAllFavoriteListItemsbyGroup(group, currentPerson, shoppingListToDisplay, new getAllFavoriteListItemsCallback());
+	}
 
 	private void loadListitems() {
 		administration.getAllStores(new getAllStoresCallback());
@@ -431,12 +439,16 @@ public class ShowShoppingListForm extends VerticalPanel {
 		return this.group;
 	}
 	
-	public void setSelected(ShoppingList sl) {
+	public void setSelected(ShoppingList sl, Boolean initial) {
 		if (sl != null) {
 			ShowShoppingListForm.this.shoppingListPanel.clear();
 			dataProvider.getList().clear();
 			shoppingListToDisplay = sl;
 			infoTitleLabel.setText(sl.getTitle());
+			
+			if(initial == true) {
+				loadFavoriteItems();
+			}
 			
 			additionalInfoGrid.setVisible(true);
 			additionalInfoGrid.setWidget(0, 0, new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
@@ -743,6 +755,22 @@ public class ShowShoppingListForm extends VerticalPanel {
 		}
 	}
 
+	private class getAllFavoriteListItemsCallback implements AsyncCallback<ArrayList<ListItem>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Notification.show("Favorite Items konnten nicht geladen werden" + caught.toString());
+		}
+
+		@Override
+		public void onSuccess(ArrayList<ListItem> result) {
+			// TODO Auto-generated method stub
+			
+			Notification.show("Favorisierte Artikel wurden hinzugefügt");
+		}
+		
+	}
 	
 	/**
 	 * ListHandler mit dem in der CellTable die Liste sortiert wird
@@ -758,7 +786,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 		public void onSuccess(Void result) {
 			shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
 			administration.updateShoppingList(shoppingListToDisplay, new UpdateShoppinglistCallback());
-			Window.alert(Integer.toString(selectedListitemIndex));
 			int index = selectedListitemIndex;
 			if (selectedListitemIndex != null) {
 				dataProvider.getList().remove(index);

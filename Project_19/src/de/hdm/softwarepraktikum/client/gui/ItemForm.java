@@ -1,5 +1,6 @@
 package de.hdm.softwarepraktikum.client.gui;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -22,7 +23,6 @@ import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
-import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 
 
 /**
@@ -231,7 +231,7 @@ public class ItemForm extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			setTableEditable(false);
 			Group g = new Group();
-			g.setId(1);
+			g.setId(-1);
 			if(itemToDisplayProduct.getIsFavorite() == true) {
 				itemToDisplayProduct.setFavorite(false);
 				shoppinglistAdministration.removeFavoriteItem(itemToDisplayProduct, g, new removeFavoriteItemCallback());
@@ -285,6 +285,7 @@ public class ItemForm extends VerticalPanel{
 			} else {
 			itemToDisplayProduct.setName(itemNameBox.getText());
 			itemToDisplayProduct.setIsGlobal(isGlobalBox.getValue());
+			itemToDisplayProduct.setChangedate(new Timestamp(System.currentTimeMillis()));
 			shoppinglistAdministration.updateItem(itemToDisplayProduct, new UpdateItemCallback());
 			}
 			setTableEditable(false);

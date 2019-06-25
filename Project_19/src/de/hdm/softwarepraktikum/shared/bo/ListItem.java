@@ -4,8 +4,6 @@ import java.util.Objects;
 
 import org.eclipse.jdt.core.compiler.IScanner;
 
-import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
-
 public class ListItem extends BusinessObject{
 
 	/**
@@ -18,7 +16,7 @@ public class ListItem extends BusinessObject{
 	private boolean isChecked = false;
 	private double amount;
 	private int itemId;
-	private Unit unit;
+	private String unit;
 	private int buyerID;
 	private int storeID;
 	private int slID;
@@ -26,7 +24,7 @@ public class ListItem extends BusinessObject{
 	private int ResID;
 	
 	
-	public ListItem(String name, Unit unit, double amount, Boolean isChecked) {
+	public ListItem(String name, String unit, double amount, Boolean isChecked) {
 		this.name = name;
 		this.unit = unit;
 		this.amount = amount;
@@ -42,33 +40,33 @@ public class ListItem extends BusinessObject{
 		return this.tempID;
 	}
 	
-	public Unit getItemUnit (String unit) {
-		if (Objects.equals(unit.trim(), "L")) {
-			return Unit.L;
-			}
-		else if(Objects.equals(unit.trim(), "KG")) {
-			return Unit.KG;
-			} 
-		else if (Objects.equals(unit.trim(), "ST")){
-			return Unit.ST;
-			} 
-		else if (Objects.equals(unit.trim(), "ML")){
-			return Unit.ML;	
-			}
-		else if (unit.trim() == null){
-			return null;
-		}
-		else {
-			System.out.println(unit);
-			return Unit.KG;
-		}
-	}
+//	public Unit getItemUnit (String unit) {
+//		if (Objects.equals(unit.trim(), "L")) {
+//			return Unit.L;
+//			}
+//		else if(Objects.equals(unit.trim(), "KG")) {
+//			return Unit.KG;
+//			} 
+//		else if (Objects.equals(unit.trim(), "ST")){
+//			return Unit.ST;
+//			} 
+//		else if (Objects.equals(unit.trim(), "ML")){
+//			return Unit.ML;	
+//			}
+//		else if (unit.trim() == null){
+//			return null;
+//		}
+//		else {
+//			System.out.println(unit);
+//			return Unit.KG;
+//		}
+//	}
 
-	public enum Unit{
-		KG, ST, L, ML;
+	public void setUnit(String unit){
+		this.unit = unit;
 	}
 	
-	public Unit getUnit() {
+	public String  getUnit() {
 		return unit;
 	}
 	
@@ -78,10 +76,6 @@ public class ListItem extends BusinessObject{
 	
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	public void setUnit(Unit input) {
-		unit = input;
 	}
 	
 	public boolean getChecked() {

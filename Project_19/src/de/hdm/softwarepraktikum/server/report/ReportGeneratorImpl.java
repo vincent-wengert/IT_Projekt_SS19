@@ -216,7 +216,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     				listItemRow.addColumn(new Column(getItemName(i.getItemId())));
     				
     				//erste Spalte: ID hinzuf�gen
-    				listItemRow.addColumn(new Column(String.valueOf(i.getUnit())));
+    				listItemRow.addColumn(new Column(i.getUnit()));
     				
     				//erste Spalte: ID hinzuf�gen
     				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
@@ -297,7 +297,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				listItemRow.addColumn(new Column(getItemName(i.getItemId())));
 				
 				//erste Spalte: ID hinzuf�gen
-				listItemRow.addColumn(new Column(String.valueOf(i.getUnit())));
+				listItemRow.addColumn(new Column(i.getUnit()));
 				
 				//erste Spalte: ID hinzuf�gen
 				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
@@ -379,7 +379,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     				listItemRow.addColumn(new Column(getItemName(i.getItemId())));
     				
     				//erste Spalte: ID hinzuf�gen
-    				listItemRow.addColumn(new Column(String.valueOf(i.getUnit())));
+    				listItemRow.addColumn(new Column(i.getUnit()));
     				
     				//erste Spalte: ID hinzuf�gen
     				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
@@ -473,7 +473,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     				listItemRow.addColumn(new Column(getItemName(i.getItemId())));
     				
     				//erste Spalte: ID hinzuf�gen
-    				listItemRow.addColumn(new Column(String.valueOf(i.getUnit())));
+    				listItemRow.addColumn(new Column(i.getUnit()));
     				
     				//erste Spalte: ID hinzuf�gen
     				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));

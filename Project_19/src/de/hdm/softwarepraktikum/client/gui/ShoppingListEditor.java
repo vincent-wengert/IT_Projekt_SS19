@@ -29,8 +29,6 @@ public class ShoppingListEditor {
 		 * erstelle Item und Shoppinglisten angezeigt werden können. 
 		 */
 		menuPanel.setCtm(navigator.getCtm());
-		
-		menuPanel.setAllShoppinglistCelllist(navigator.getAllShoppingListsCellList());
 		menuPanel.setAllStoresCelllist(navigator.getAllStoresCellList());
 		menuPanel.setAllItemsCelllist(navigator.getAllItemsCellList());
 		menuPanel.setNavigator(navigator);

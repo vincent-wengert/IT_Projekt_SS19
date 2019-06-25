@@ -31,7 +31,6 @@ import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
-import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import java_cup.internal_error;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
@@ -273,7 +272,7 @@ public class ListItemDialog extends PopupPanel {
 			if(updateItem == false) {
 			if (existingButton.getValue()==true ) {
 				getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
-				administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Double.parseDouble(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new createListItemCallback());
+				administration.createListItem(selectedItem, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Double.parseDouble(amountTextBox.getText()), unitListBox.getSelectedItemText(), false, new createListItemCallback());
 			}
 			else if (newButton.getValue()==true ) {
 				administration.createItem(itemTextBox.getText(), isGlobalBox.getValue(), new CreateItemListItemCallback());
@@ -285,7 +284,7 @@ public class ListItemDialog extends PopupPanel {
 			selectedListItem.setAmount(Double.parseDouble(amountTextBox.getText()));
 			selectedListItem.setStoreID(selectedStore.getId());
 			selectedListItem.setBuyerID(selectedPerson.getId());
-			selectedListItem.setUnit(getItemUnit(unitListBox.getSelectedItemText()));
+			selectedListItem.setUnit(unitListBox.getSelectedItemText());
 			
 			
 			administration.updateListItem(selectedListItem, new UpdateListItemCallback());
@@ -486,7 +485,7 @@ public class ListItemDialog extends PopupPanel {
 		public void onSuccess(Item result) {
 			// TODO Auto-generated method stub
 			getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
-			administration.createListItem(result, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Double.parseDouble(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new AsyncCallback<ListItem>() {
+			administration.createListItem(result, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Double.parseDouble(amountTextBox.getText()), unitListBox.getSelectedItemText(), false, new AsyncCallback<ListItem>() {
 			//administration.createListItem(result, selectedPerson.getId(), selectedStore.getId(), 1, 1, Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new AsyncCallback<ListItem>() {
 
 				@Override
@@ -504,23 +503,6 @@ public class ListItemDialog extends PopupPanel {
 			});
 			
 
-		}
-	}
-	
-	public Unit getItemUnit (String unit) {
-		if (Objects.equals(unit.trim(), "L")) {
-			return Unit.L;
-		}
-		else if(Objects.equals(unit.trim(), "KG")) {
-			return Unit.KG;
-		} 
-		else if(Objects.equals(unit.trim(), "ST")){
-			return Unit.ST;
-		}
-		else if(Objects.equals(unit.trim(), "ML")) {
-			return Unit.ML;
-		} else {
-			return null;
 		}
 	}
 }

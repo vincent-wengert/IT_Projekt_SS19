@@ -10,7 +10,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
-import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
@@ -33,11 +32,15 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void deleteItem(Item i);
 	
-	public ArrayList<Item> getAllItems(int id);
+	public ArrayList<Item> getAllItems();
+	
+	public ArrayList<Item> getAllItemsByGroup(int groupId, int currentPersonId);
+	
+	public ArrayList<ListItem> getAllFavoriteListItemsbyGroup (Group g, Person p, ShoppingList sl);
 	
 	public Item getItem(int id);
 	
-	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, Unit unit, Boolean isChecked);
+	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, String unit, Boolean isChecked);
 	
 	public ListItem updateListItem(ListItem li);
 	
@@ -101,4 +104,6 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void deleteGroup(Group g);
 
+	public void setFavAutomated(Group g);
+	
 }

@@ -118,8 +118,11 @@ public class Reportform {
 
 		selectionGrid.setWidget(1, 4, los);
 
-		storeListBox.setWidth("15vw");
-		groupListBox.setWidth("15vw");
+		storeListBox.setWidth("20vw");
+		storeListBox.setHeight("2.5vw");
+		groupListBox.setWidth("20vw");
+		groupListBox.setHeight("2.5vw");
+		
 
 		menu.add(selectionGrid);
 //			menu.setCellHorizontalAlignment(selectionGrid, ALIGN_CENTER);

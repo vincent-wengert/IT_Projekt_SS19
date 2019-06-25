@@ -18,7 +18,6 @@ import de.hdm.softwarepraktikum.shared.bo.BusinessObject;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
-import de.hdm.softwarepraktikum.shared.bo.ListItem.Unit;
 import java_cup.internal_error;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
@@ -310,11 +309,11 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * @return ArrayList<Item>
 	 */
 	
-	public ArrayList<Item> getAllItems(int id) throws IllegalArgumentException{
+	public ArrayList<Item> getAllItemsByGroup(int groupId, int currentPersonId) throws IllegalArgumentException{
 		
 		Group group = new Group();
-		group.setId(id);
-		ArrayList<Item> allItems = this.itemMapper.findAll();
+		group.setId(groupId);
+		ArrayList<Item> allItems = this.itemMapper.findAllByGroup(currentPersonId);
 		
 		for (Item item : allItems) {
 			item.setFavorite(this.favoriteItemMapper.checkFav(item, group));
@@ -324,8 +323,16 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 	}
 	
-
+	public ArrayList<Item> getAllItems() throws IllegalArgumentException{
+		
+		ArrayList<Item> allItems = this.itemMapper.findAll();
+		
+		return allItems;
+		
+	}
 	
+
+
 	/*
 	   * ***************************************************************************
 	   * ABSCHNITT, Ende: Methoden für Item-Objekte
@@ -344,7 +351,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * @return Das in die Datenbank gespeicherte ListITemObjekt wird zurückgegeben
 	 */
 	
-	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, Unit unit, Boolean isChecked) throws IllegalArgumentException {
+	public ListItem createListItem(Item item, int buyerID, int storeID, int slID, int grID, double amount, String unit, Boolean isChecked) throws IllegalArgumentException {
 		
 		Responsibility res = new Responsibility();
 		res.setBuyerID(buyerID);
@@ -595,6 +602,53 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	public Boolean checkFav(Group group, Item i) throws IllegalArgumentException{
 		Boolean isFav = favoriteItemMapper.checkFav(i, group);
 		return isFav;
+	}
+	
+	
+	public void setFavAutomated(Group g) throws IllegalArgumentException{
+		
+		ArrayList<Integer> fav = listItemMapper.autoSetFav(g);
+	
+		for(int i = 0;i<fav.size();i++) {
+			
+	
+			
+		}
+		
+	}
+	
+	public ArrayList<ListItem> getAllFavoriteListItemsbyGroup (Group g, Person p, ShoppingList sl) {
+		
+		ArrayList<Item> favItems = favoriteItemMapper.findFavItems(g);
+		
+		ArrayList<ListItem> listItemstoAdd = new ArrayList<ListItem>();
+				
+		for(Item i : favItems) { 		
+			Responsibility res = new Responsibility();
+			res.setBuyerID(p.getId());
+			res.setStoreID(1);
+			res.setSlID(sl.getId());
+			
+			this.responsibilityMapper.insert(res); 
+			
+			ListItem li = new ListItem();
+			
+			li.setItemId(i.getId());
+			li.setBuyerID(p.getId());
+			li.setStoreID(1);
+			li.setSlID(sl.getId());
+			li.setGrID(g.getId());
+			li.setAmount(0);
+			li.setUnit("leer");
+			li.setName(i.getName());
+			li.setChecked(false);
+			
+			listItemstoAdd.add(this.listItemMapper.insert(li, res));
+		}
+		
+		return listItemstoAdd;
+		
+		
 	}
 
 	/*

@@ -9,6 +9,7 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -49,12 +50,12 @@ public class NewShoppingListForm extends VerticalPanel {
 	private Label shoppinglistNameLabel = new Label("Name der Einkaufsliste");
 	private Label groupNameLabel = new Label("Gruppe");
 
-
 	private TextBox shoppinglistNameBox = new TextBox();
+	private CheckBox addFavItems = new CheckBox("Favorisierte Artikel hinzufügen");
 
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
-	private Grid shoppinglistGrid = new Grid(2, 2);
+	private Grid shoppinglistGrid = new Grid(3, 2);
 	
 	private MultiWordSuggestOracle groupSearchBar = new MultiWordSuggestOracle();
 	private final SuggestBox groupSuggestBox = new SuggestBox(groupSearchBar);
@@ -66,7 +67,6 @@ public class NewShoppingListForm extends VerticalPanel {
 	private Integer groupID;
 	
 	private NewShoppingListForm newShoppingListForm;
-	private AllShoppingListsCellList aslcl = new AllShoppingListsCellList();
 
 	public NewShoppingListForm() {
 
@@ -117,6 +117,7 @@ public class NewShoppingListForm extends VerticalPanel {
 		shoppinglistGrid.setWidget(0, 1, shoppinglistNameBox);
 		shoppinglistGrid.setWidget(1, 0, groupNameLabel);
 		shoppinglistGrid.setWidget(1, 1, groupSuggestBox);
+		shoppinglistGrid.setWidget(2, 0, addFavItems);
 
 
 		this.add(bottomButtonsPanel);
@@ -135,16 +136,6 @@ public class NewShoppingListForm extends VerticalPanel {
 		this.newShoppingListForm = newShoppingListForm;
 	}
 	
-	/**
-	 * Methode um die aktuelle <code>AllShoppingListsCellList</code> Instanz zu setzen.
-	 * Diese Instanz wird für das Aktualisieren nach dem Anlegen einer Einkaufliste benötigt.
-	 * 
-	 * @param newShoppingListForm das zu setzende <code>AllShoppingListsCellList</code> Objekt.
-	 */
-	public void setAllShoppingListCelllist(AllShoppingListsCellList allShoppingListsCellList) {
-
-		this.aslcl = aslcl;
-	}
 	
 	public void setCtm(CustomTreeModel ctm) {
 		this.ctm = ctm;
@@ -224,6 +215,7 @@ public class NewShoppingListForm extends VerticalPanel {
 		}
 	}
 	
+	
 	/**
 	 * Nachdem ein neues <code>Shoppinglist</code> Objekt erstellt wurde, wird dieses der Liste der aktuellen
 	 *  <code>AllShoppinglistsCelllist</code> Instanz hinzugefügt.
@@ -239,6 +231,7 @@ public class NewShoppingListForm extends VerticalPanel {
 		public void onSuccess(ShoppingList shoppingList) {
 			//add item to cellist
 			Notification.show("Einkaufsliste wurde erstellt");
+			ctm.setLoadFavoriteItems(addFavItems.getValue());
 			ctm.updateShoppingListToGroup(shoppingList, groupToDisplay);
 		}
 	}
