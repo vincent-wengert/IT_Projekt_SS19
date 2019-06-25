@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 
@@ -39,6 +40,8 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
  */
 
 public class GroupForm extends VerticalPanel {
+
+	private Person currentPerson = CurrentPerson.getPerson();
 
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	private CustomTreeModel ctm = null;
@@ -207,7 +210,10 @@ public class GroupForm extends VerticalPanel {
 		addMemberListBox.clear();
 		
 		for(Person person : allPersons) {
-			addMemberListBox.addItem(person.getGmail());	
+			if(person.getId() != currentPerson.getId()) {
+				addMemberListBox.addItem(person.getGmail());
+			}
+				
 		}
 		
 		for(Person person : groupToDisplay.getMember()) {
@@ -390,20 +396,21 @@ public class GroupForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			for (Person p : allPersons) {
+				//TODO hier kommt der angemeldete user rein
 				if (p.getName().equals(groupMembersListBox.getSelectedItemText())) {
 					selectedPerson = p;
 					if(initial == true) {
-					groupMembersListBox.removeItem(groupMembersListBox.getSelectedIndex());
-					membersList.remove(p);
-					groupMembersListBox.setVisibleItemCount(membersList.size()+1);
-					addMemberListBox.addItem(selectedPerson.getGmail());
+						groupMembersListBox.removeItem(groupMembersListBox.getSelectedIndex());
+						membersList.remove(p);
+						groupMembersListBox.setVisibleItemCount(membersList.size()+1);
+						addMemberListBox.addItem(selectedPerson.getGmail());
 
 					}else {
-					groupMembersListBox.removeItem(groupMembersListBox.getSelectedIndex());
-					membersList.remove(p);
-					groupMembersListBox.setVisibleItemCount(groupToDisplay.getMember().size());
-					addMemberListBox.addItem(selectedPerson.getGmail());
-					administration.deleteGroupMembership(selectedPerson, groupToDisplay , new RemoveGroupMembershipCallback());
+						groupMembersListBox.removeItem(groupMembersListBox.getSelectedIndex());
+						membersList.remove(p);
+						groupMembersListBox.setVisibleItemCount(groupToDisplay.getMember().size());
+						addMemberListBox.addItem(selectedPerson.getGmail());
+						administration.deleteGroupMembership(selectedPerson, groupToDisplay , new RemoveGroupMembershipCallback());
 					}
 				}
 			}	

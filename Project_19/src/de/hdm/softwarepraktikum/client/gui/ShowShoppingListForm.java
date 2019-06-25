@@ -34,6 +34,7 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
+import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
@@ -43,6 +44,7 @@ import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
 public class ShowShoppingListForm extends VerticalPanel {
+	private Person p = CurrentPerson.getPerson();
 	
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	
@@ -470,10 +472,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 	public ArrayList<ListItem> myListItems() {
 		
 		ArrayList<ListItem> myItems = new ArrayList<ListItem>();
-		
-		Person p = new Person();
-		
-		p.setId(1);
 		
 		for (ListItem listitem: allListItems) {
 			if (listitem.getBuyerID() == p.getId()) {
