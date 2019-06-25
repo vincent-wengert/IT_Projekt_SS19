@@ -39,7 +39,6 @@ public class NavigatorPanel extends TabPanel {
 
 	private Person p = CurrentPerson.getPerson();
 	
-<<<<<<< HEAD
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	
 	private VerticalPanel contentPanelGroups = new VerticalPanel();
@@ -51,12 +50,11 @@ public class NavigatorPanel extends TabPanel {
 	private ItemForm itemForm = new ItemForm();
 	private StoreForm storeForm = new StoreForm();
 	
-	private AllShoppingListsCellList aslcl = new AllShoppingListsCellList();
 	private AllStoresCellList ascl = new AllStoresCellList();
 	private GroupForm gf = new GroupForm();
 	private ShowShoppingListForm sslf = new ShowShoppingListForm();
 	private NewShoppingListForm nslf = new NewShoppingListForm();
-	private Group selectedGroup = new Group();
+	private Group selectedGroup;
 	
 	private Grid itemsGrid = new Grid(2,2);
 	private Grid storesGrid = new Grid(2,2);
@@ -70,37 +68,7 @@ public class NavigatorPanel extends TabPanel {
 	 * CustomTreeModel#getNodeInfo();
 	 */
 	private CellTree tree = new CellTree(model, null);
-=======
-private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 
-private VerticalPanel contentPanelGroups = new VerticalPanel();
-private VerticalPanel contentPanelStores = new VerticalPanel();
-private VerticalPanel contentPanelArticles = new VerticalPanel();
-
-
-private AllItemsCellList aicl = new AllItemsCellList();
-private ItemForm itemForm = new ItemForm();
-private StoreForm storeForm = new StoreForm();
-
-private AllStoresCellList ascl = new AllStoresCellList();
-private GroupForm gf = new GroupForm();
-private ShowShoppingListForm sslf = new ShowShoppingListForm();
-private NewShoppingListForm nslf = new NewShoppingListForm();
-private Group selectedGroup;
-
-private Grid itemsGrid = new Grid(2,2);
-private Grid storesGrid = new Grid(2,2);
-
-//Create a model for the tree.
-private CustomTreeModel model = new CustomTreeModel();
-
-/*
- * Create the tree using the model. We use <code>null</code> as the default
- * value of the root node. The default value will be passed to
- * CustomTreeModel#getNodeInfo();
- */
-private CellTree tree = new CellTree(model, null);
->>>>>>> refs/heads/master
 		
 /**
  * ***************************************************************************
