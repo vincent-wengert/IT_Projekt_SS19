@@ -15,8 +15,8 @@ public class StoreMapper {
 	   * Die Klasse StoreMapper wird nur einmal instantiiert. Man spricht hierbei
 	   * von einem sogenannten <b>Singleton</b>.
 	   * <p>
-	   * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal fÃ¼r
-	   * sÃ¤mtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	   * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal fuer
+	   * saemtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	   * einzige Instanz dieser Klasse.
 	   * 
 	   * @author Niklas Öxle
@@ -34,7 +34,7 @@ public class StoreMapper {
 		
 		
 		
-		/*
+		/**
 		 * Einhaltung der Singleton Eigenschaft des Mappers.
 		 * @return: gibt den StoreMapper zurueck
 		 */ 
@@ -48,9 +48,9 @@ public class StoreMapper {
 		}
 	
 		
-		/*
+		/**
 		 * Methode um ein Store Objekt in der Datenbank zu speichern
-		 * @parameter "s": ein neuer zu speichender Store in der Datenbank wird uebergeben
+		 * @param s : ein neuer zu speichernder Store in der Datenbank wird uebergeben
 		 * @return: der neu gespeicherte Store wird zurückgegeben
 		 * 
 		 */
@@ -64,10 +64,7 @@ public class StoreMapper {
 
 				
 				if (rs.next()) {
-				/* 
-				 * s erhaelt den bisher maximalen, nun um 1 inkrementierten
-				 * Primaerschluessel.
-				 */
+				
 					s.setId(rs.getInt("maxid") + 1);
 
 				}
@@ -96,12 +93,13 @@ public class StoreMapper {
 			return s;
 				}
 		
-	      /*
+	      /**
 			 * Wiederholtes Schreiben eines <code>Store</code> Objekts in die Datenbank.
-			 * @parameter "r": Der zu aktualisierende Store wid übergeben
+			 * @param r : Der zu aktualisierende Store wird übergeben
 			 * @return: der aktualisierte Store wird zurückgegeben
 			 * 
 			 */
+	      
 		public Store updateStore(Store r) {
 			
 			Connection con = DBConnection.connection();
@@ -128,9 +126,9 @@ public class StoreMapper {
 
 
 
-		/*
+		/**
 		 * Methode um ein Store-Datensatz in der Datenbank zu löschen.
-		 * @parameter "s": Der zu loeschende Store wird uebergeben
+		 * @param s : Der zu loeschende Store wird uebergeben
 		 */
 		
 public void deleteStore(Store s) {
@@ -148,10 +146,10 @@ public void deleteStore(Store s) {
 }
 				
 		
-/*
- * Methode um ein einzelnes <code>Store</code> Objekt anhand einer ID  suchen.
+/**
+ * Methode um ein einzelnes <code>Store</code> Objekt anhand einer ID zu suchen.
  * 
- * @param id:  ID des zu findenden Stores wird übergeben.
+ * @param ID :  ID des zu findenden Stores wird übergeben.
  * @return Der anhand der id gefundene Store wird zurückgegeben.
  */
 
@@ -187,9 +185,9 @@ public void deleteStore(Store s) {
 			return null;
 		}
 	
-	 /* 
+	 /** 
      * Methode um alle in der Datenbank vorhandenen Stores-Datensätze abzurufen.
-     * Diese werden als einzelne <code>Storey</code> Objekte innerhalb einer ArrayList zurückgegeben.
+     * Diese werden als einzelne <code>Store</code> Objekte innerhalb einer ArrayList zurückgegeben.
      * 
      * @return ArrayList aller Stores wird zurückgegeben.
      */

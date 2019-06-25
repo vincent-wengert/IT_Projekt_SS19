@@ -5,33 +5,43 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
+
 import java.util.ArrayList;
 
 import de.hdm.softwarepraktikum.shared.bo.Group;
-import de.hdm.softwarepraktikum.shared.bo.Item;
-import de.hdm.softwarepraktikum.shared.bo.Person;
+
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 public class ShoppingListMapper {
 	
-	/* 
-	 * Speicherung der Instanz dieser Mapperklasse.
-	 */
+	/**
+	   * Die Klasse ShoppingListMapper wird nur einmal instantiiert. Man spricht hierbei
+	   * von einem sogenannten <b>Singleton</b>.
+	   * <p>
+	   * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal fuer
+	   * saemtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	   * einzige Instanz dieser Klasse.
+	   * 
+	   * @author Niklas Öxle
+	   */
+	
 	
 	private static ShoppingListMapper shoppinglistMapper = null;
 	
-	/*
-	 * Konstruktor ist geschÃ¼tzt, um weitere Instanzierung zu verhindern.
+	/**
+	 * Geschuetzter Konstruktor - verhindert die Moeglichkeit, mit <code>new</code>
+	 * neue Instanzen dieser Klasse zu erzeugen.
 	 */
-
+	
+	
 	protected ShoppingListMapper() {
 		
 	}
 	
 	/*
 	 * Einhaltung der Singleton Eigenschaft des Mappers.
-	 */
+	 * @return: gibt den ShoppingListMapper zurueck
+	 */ 
 	
 	public static ShoppingListMapper shoppinglistMapper() {
 		if (shoppinglistMapper == null) {
@@ -42,28 +52,27 @@ public class ShoppingListMapper {
 	}
 	
 	/**
-	 * Finden einer ShoppingList anhand ihrer id.
-	 * @param id
-	 * @return ShoppingList-Objekt
+	 * Methode um ein einzelnes <code>ShoppingList</code> Objekt anhand einer ID zu suchen.
+     * @param id:  ID der zu findenden ShoppingList wird übergeben.
+     * @return Die anhand der id gefundene ShoppingList wird zurückgegeben.
 	 */
+	
+	
 	public ShoppingList findById(int id) {
 		
-		//Herstellung einer Verbindung zur DB-Connection
+		
 		Connection con =DBConnection.connection();
 		
 		try {
-			//leeres SQL-Statement (JDBC) anlegen
+			
 			Statement stmt = con.createStatement();
 			
-			//Statement ausfï¿½llen und als Query an die DB schicken
+			
 			ResultSet rs = stmt.executeQuery("Select ShoppingList_ID, Title, ChangeDate, CreationDate FROM ShoppingList WHERE ShoppingList_ID=" + id);
 			
-			/*
-		     * Da id Primï¿½rschlï¿½ssel ist, kann max. nur ein Tupel zurï¿½ckgegeben
-		     * werden. Prï¿½fe, ob ein Ergebnis vorliegt.
-		     */
+			
 			if (rs.next()) {
-				//Ergebnis-Tupel in Objekt umwandeln
+				
 				ShoppingList sl = new ShoppingList();
 				sl.setId(rs.getInt("ShoppingList_ID"));
 				sl.setTitle(rs.getString("Title"));
@@ -80,15 +89,17 @@ public class ShoppingListMapper {
 			}
 	
 	
-	/**
-	 * Methode, um alle ShoppingLists auszugeben.
-	 * @return ShoppingList-Objekte
-	 */
+	/** 
+     * Methode um alle in der Datenbank vorhandenen ShopingList-Datensätze abzurufen.
+     * Diese werden als einzelne <code>ShoppingList</code> Objekte innerhalb einer ArrayList zurückgegeben.
+     * 
+     * @return ArrayList aller ShoppingLists wird zurückgegeben.
+     */
 	public ArrayList<ShoppingList> findAllShoppingLists() {
 		
 		Connection con = DBConnection.connection();
 		
-		//Ergebnisvektor vorbereiten
+		
 		ArrayList<ShoppingList> result = new ArrayList<ShoppingList>();
 		
 		try {
@@ -97,7 +108,7 @@ public class ShoppingListMapper {
 			
 			ResultSet rs = stmt.executeQuery("SELECT ShoppingList_ID, Title, " + "FROM ShoppingList " + "ORDER BY Title");
 			
-			// Fuer jeden Eintrag im Suchergebnis wird nun ein ShoppingList-Objekt erstellt.
+			
 			
 			while(rs.next()) {
 				ShoppingList sl = new ShoppingList();
@@ -105,20 +116,24 @@ public class ShoppingListMapper {
 				sl.setTitle(rs.getString("Title"));
 				
 				
-				//Hinzufï¿½gen des neuen Objekts zum Ergebnisvektor
+				
 				result.add(sl);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		//Ergebnis zurï¿½ckgeben
+		
 		return result;
 	}
 	
-	/*
-	 * Methode, um alle Shoppinglists einer Gruppe zu finden.
-	 */
+	/** 
+     * Methode um alle in der Datenbank vorhandenen ShopingList-Datensätze einer bestimmten Gruppe abzurufen.
+     * Diese werden als einzelne <code>ShoppingList</code> Objekte innerhalb einer ArrayList zurückgegeben.
+     * 
+     * @param groupID : ID der Gruppe, welcher die ShoppingLists zugeordnet sind.
+     * @return ArrayList aller ShoppingLists einer Gruppe wird zurückgegeben.
+     */
 	
 	public ArrayList<ShoppingList> findByGroup(int groupID) {
 		
@@ -130,7 +145,7 @@ public class ShoppingListMapper {
 
 	      ResultSet rs = stmt.executeQuery("SELECT ShoppingList_ID, Title, CreationDate, ChangeDate FROM ShoppingList WHERE Group_ID = " + groupID);
 
-	      // Fuer jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
+	      
 	      while (rs.next()) {
 	    	ShoppingList sl = new ShoppingList();
 	        sl.setId(rs.getInt("ShoppingList_ID"));
@@ -138,7 +153,7 @@ public class ShoppingListMapper {
 	        sl.setCreationdate(rs.getTimestamp("CreationDate"));
 	        sl.setChangedate(rs.getTimestamp("ChangeDate"));
 
-	        // Hinzufï¿½gen des neuen Objekts zum Ergebnisvektor
+	        
 	        result.add(sl);
 	      }
 	    }
@@ -146,21 +161,22 @@ public class ShoppingListMapper {
 	      e2.printStackTrace();
 	    }
 
-	    // Ergebnisvektor zurï¿½ckgeben
+	    
 	    return result;
 	}
 	
-	/**
-	 * Auslesen aller SL einer Group (durch <code>Group</code>-Objekt 
-	 * gegeben).
-	 * @param g Groupobjekt, dessen SL ausgelesen werden sollen.
-	 * @return alle SL der Person
-	 */
+	/** 
+     * Methode um alle in der Datenbank vorhandenen ShopingList-Datensätze einer bestimmten Gruppe abzurufen.
+     * Diese werden als einzelne <code>ShoppingList</code> Objekte innerhalb einer ArrayList zurückgegeben.
+     * 
+     * @param g :Gruppe, welcher die ShoppingLists zugeordnet sind.
+     * @return findByGroup(int groupID)
+     */
 	
 	public ArrayList<ShoppingList> findByGroup(Group g) {
 		
 		/*
-	     * Wir lesen die id (Primï¿½rschlï¿½ssel) des Group-Objekts
+	     * Wir lesen die id (Primaerschluessel) des Group-Objekts
 	     * aus und delegieren die weitere Bearbeitung an findByGroup(int groupID).
 	     */
 		return findByGroup(g.getId());
@@ -170,9 +186,10 @@ public class ShoppingListMapper {
 	
 
 	/**
-	 * InsertMethode, um ein SL Objekt in der DB anzulegen.
-	 * @param sl
-	 * @return
+	 * Methode um ein ShoppingList Objekt in der Datenbank zu speichern
+	 * @param sl : eine neue zu speichernde ShoppingList in der Datenbank wird uebergeben
+	 * @return: die neu gespeicherte ShoppingList wird zurückgegeben
+	 * 
 	 */
 	
 	public ShoppingList insert(ShoppingList sl) {
@@ -212,9 +229,13 @@ Connection con = DBConnection.connection();
         return sl;
 	}
 	
-	/*
-	 * Update Methode, um eine SL erneut zu schreiben.
+	  /**
+	 * Wiederholtes Schreiben eines <code>ShppingList</code> Objekts in die Datenbank.
+	 * @param sl : Die zu aktualisierende ShoppingList wird übergeben
+	 * @return: die aktualisierte ShoppingList wird zurückgegeben
+	 * 
 	 */
+	
 		public ShoppingList update(ShoppingList sl) {
 		
 			Connection con = DBConnection.connection();
@@ -234,14 +255,15 @@ Connection con = DBConnection.connection();
 				e.printStackTrace();
 			}
 			
-			// Um Analogie zu insert(Shoppinglist sl) zu wahren, wirdsl zurï¿½ckgegeben
+			
 					return sl;
 		        
 		}
 	
 		
-		/*
-		 * Delete Methode, um eine SL aus der Datenbank zu entfernen.
+		/**
+		 * Methode um ein ShoppingList-Datensatz in der Datenbank zu löschen.
+		 * @param sl : Die zu loeschende ShoppingList wird uebergeben
 		 */
 		
 		public void delete(ShoppingList sl) {
@@ -260,53 +282,5 @@ Connection con = DBConnection.connection();
 		
 	
 	
-	/*
-	 * Eine Methode, um alle SL einer Person zu finden.
-	 */
 	
-		public ArrayList<ShoppingList> findByMember(int memberID) {
-		    Connection con = DBConnection.connection();
-		    ArrayList<ShoppingList> result = new ArrayList<ShoppingList>();
-
-		    try {
-		      Statement stmt = con.createStatement();
-
-		      ResultSet rs = stmt.executeQuery("SELECT id, member FROM group "
-		          + "WHERE member=" + memberID);
-
-		      // Fï¿½r jeden Eintrag im Suchergebnis wird nun ein Group-Objekt erstellt.
-		      while (rs.next()) {
-		    	ShoppingList sl = new ShoppingList();
-		        sl.setId(rs.getInt("id"));
-		      
-
-		        // Hinzufï¿½gen des neuen Objekts zum Ergebnisvektor
-		        result.add(sl);
-		      }
-		    }
-		    catch (SQLException e2) {
-		      e2.printStackTrace();
-		    }
-
-		     //Ergebnisvektor zurï¿½ckgeben
-		    return result;
-		  }
-		
-		/**
-		 * Auslesen aller SL einer Person (durch <code> Person</code>-Objekt 
-		 * gegeben).
-		 * @param member Personobjekt, dessen SL ausgelesen werden sollen.
-		 * @return alle SL der Person
-		 */
-		 public ArrayList<ShoppingList> findByMember(Person member) {
-    
-			    /*
-			     * Wir lesen einfach die id (Primï¿½rschlï¿½ssel) des Person-Objekts
-			     * aus und delegieren die weitere Bearbeitung an findByMember(int memberID).
-			     */
-			    return findByMember(member.getId());
-			  }
-
-		
-			
 		}
