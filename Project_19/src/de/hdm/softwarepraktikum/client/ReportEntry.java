@@ -43,11 +43,8 @@ public class ReportEntry implements EntryPoint {
 		/*
 		 * Über diese Methoden werden Instanzen der Asynchronen Interfaces gebildet
 		 */
-		Window.alert("login");
 		loginService = ClientsideSettings.getLoginService();
-		Window.alert("login1");
 		loginService.login(GWT.getHostPageBaseURL()+"ReportGenerator.html", new loginServiceCallback());	
-		Window.alert("login2");
 	}
 	
 	
@@ -63,7 +60,6 @@ public class ReportEntry implements EntryPoint {
 
 		@Override
 		public void onSuccess(Person p) {
-			Window.alert("onSucess");
 					CurrentReportPerson.setPerson(p);
 						if (p.isLoggedIn()) {
 							if (p.getName() == null) {
