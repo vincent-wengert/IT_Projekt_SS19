@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.hdm.softwarepraktikum.shared.bo.Group;
-
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 
 public class ShoppingListMapper {
@@ -95,6 +94,8 @@ public class ShoppingListMapper {
      * 
      * @return ArrayList aller ShoppingLists wird zurückgegeben.
      */
+	
+	
 	public ArrayList<ShoppingList> findAllShoppingLists() {
 		
 		Connection con = DBConnection.connection();
@@ -280,7 +281,4 @@ Connection con = DBConnection.connection();
 	}
 		
 		
-	
-	
-	
 		}
