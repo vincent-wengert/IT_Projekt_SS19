@@ -26,7 +26,7 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ArrayList<Person> getAllPersons();
 	
-	Item createItem(String name, boolean value);
+	Item createItem(String name, boolean value, int ownerID);
 	
 	public void updateItem(Item i);
 	

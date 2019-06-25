@@ -245,19 +245,13 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * @throws IllegalArgumentException
 	 */
 	
-	public Item createItem(String name, boolean value) throws IllegalArgumentException {
+	public Item createItem(String name, boolean value, int ownerID) throws IllegalArgumentException {
 		
 		Item i = new Item();
 		
 		i.setName(name);
 		i.setIsGlobal(value);
-		
-		/**
-		 * Setzen einer vorläufigen ID. Der insert Aufruf liefert dann ein Objekt,
-		 * dessen Numme rmit de rDatenbank konsistent ist.
-		 */
-		
-		i.setId(1);
+		i.setOwnerID(ownerID);
 		
 		/**
 		 * Objekt in Datenbank speichern.
