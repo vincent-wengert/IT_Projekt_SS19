@@ -147,7 +147,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	
   
     	// Jeder Report erh�lt einen Titel (�berschrift)
-    	result.setTitle("AlleItems");
+    	result.setTitle("Alle gekauften Items der Gruppe im angegebenen Zeitraum");
     	
     	/*
          * Datum der Erstellung hinzuf�gen. new Timestamp() erzeugt autom. einen
@@ -180,56 +180,52 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     				}
     			}
     			
-    	//Sicherheitsabfrage
-    	if(items !=null) {
-  
-    		   // Zusammenstellung der Kopfdaten (Headline) des Reports 
-        	Row headline = new Row();
-        	headline.addColumn(new Column("Gruppe"));
-        	headline.addColumn(new Column("Verantwortliche/r"));
-        	headline.addColumn(new Column("Laden"));
-        	headline.addColumn(new Column("Artikelname"));
-        	headline.addColumn(new Column("Einheit"));
-        	headline.addColumn(new Column("Menge"));
-        	headline.addColumn(new Column("Gekauft am"));
-        	
-       	 		
-       	 	result.addRow(headline);
-    		  	
-       	    /*
-       	     * Auslesen s�mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugef�gt werden.
-       	     */
-        	for(ListItem i : items) {
-      
+    			ArrayList<Integer> groupIds = new ArrayList<Integer>();
+    			for (ListItem li : items) {
+    				if(groupIds.contains(li.getStoreID()) != true) {
+    					groupIds.add(li.getStoreID());
+    					System.out.println(String.valueOf(li.getStoreID()));  
+    				}
     				
-    				//Eine leere Zeile anlegen.
-    				Row listItemRow = new Row();
-    				
-    				// erste Spalte: Gruppe
-    				listItemRow.addColumn(new Column(getGroupName(i.getGrID(), p)));
-    				
-    				listItemRow.addColumn(new Column(getPersonName(i.getBuyerID())));
-    				
-    				//zweite Spalte: Laden
-    				listItemRow.addColumn(new Column(getStoreName(i.getStoreID())));
-    				
-    				//dritte Spalte: Artikelname
-    				listItemRow.addColumn(new Column(getItemName(i.getItemId())));
-    				
-    				//erste Spalte: ID hinzuf�gen
-    				listItemRow.addColumn(new Column(i.getUnit()));
-    				
-    				//erste Spalte: ID hinzuf�gen
-    				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
+    			}
+    			//Sicherheitsabfrage
+    	    	if(items !=null) {
+    	  
+    	        // Zusammenstellung der Kopfdaten (Headline) des Reports 
+    	    	Row headline = new Row();
+    	    	
+    	    	headline.addColumn(new Column("Laden"));
+    	    	headline.addColumn(new Column());
+    		 		
+    	   	 	result.addRow(headline);
+    	   	 	
+    			  	
+    	   	    /*
+    	   	     * Auslesen s�mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugef�gt werden.
+    	   	     */
+    	    	for(Integer i : groupIds) {
+    	    			
+    	    			
+    					
+    					//Eine leere Zeile anlegen.
+    					Row listItemRow = new Row();
     						
-    				
-    				result.addRow(listItemRow);
-    		}
-    	//R�ckgabe des fertigen Reports
-    	return result;
-    	}
-    	
-    return null;
+    					listItemRow.addColumn(new Column(getStoreName(i)));	
+    					        
+    					SubColumn subC = new SubColumn();
+    					ArrayList<Row> subRow = this.getSubTable(i, p, items);
+    					for (Row r : subRow) {
+    						subC.addRow(r);
+    					}
+    					listItemRow.addColumn(subC);	
+    					
+    					result.addRow(listItemRow);
+    	    	
+    	    		}
+    	    	//R�ckgabe des fertigen Reports
+    	    	return result;
+    	    	}
+    	    	return null;
 	}
 
 	@Override
@@ -265,48 +261,44 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			}
 		}
 		
-		
+		ArrayList<Integer> groupIds = new ArrayList<Integer>();
+		for (ListItem li : items) {
+			if(groupIds.contains(li.getStoreID()) != true) {
+				groupIds.add(li.getStoreID());
+				System.out.println(String.valueOf(li.getStoreID()));  
+			}
+			
+		}
 		//Sicherheitsabfrage
     	if(items !=null) {
   
         // Zusammenstellung der Kopfdaten (Headline) des Reports 
     	Row headline = new Row();
-    	headline.addColumn(new Column("Gruppe"));
-    	headline.addColumn(new Column("Laden"));
-    	headline.addColumn(new Column("Artikelname"));
-    	headline.addColumn(new Column("Einheit"));
-    	headline.addColumn(new Column("Menge"));
-    	headline.addColumn(new Column("Gekauft am"));
     	
-   	 		
+    	headline.addColumn(new Column("Laden"));
+    	headline.addColumn(new Column());
+	 		
    	 	result.addRow(headline);
+   	 	
 		  	
    	    /*
    	     * Auslesen s�mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugef�gt werden.
    	     */
-    	for(ListItem i : items) {
-  
+    	for(Integer i : groupIds) {
+    			
+    			
 				
 				//Eine leere Zeile anlegen.
 				Row listItemRow = new Row();
-				
-				listItemRow.addColumn(new Column(getGroupName(i.getGrID(), p)));
-				
-				//zweite Spalte: Laden
-				listItemRow.addColumn(new Column(getStoreName(i.getStoreID())));
-				
-				//dritte Spalte: Artikelname
-				listItemRow.addColumn(new Column(getItemName(i.getItemId())));
-				
-				//vierte Spalte: Einheit hinzuf�gen
-				listItemRow.addColumn(new Column(i.getUnit()));
-				
-				//fuenfte Spalte: Menge hinzuf�gen
-				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
-				
-				//sechste Spalte: Kaufdatum hinzuf�gen
-				listItemRow.addColumn(new Column(i.getChangeDateString()));
-						
+					
+				listItemRow.addColumn(new Column(getStoreName(i)));	
+				        
+				SubColumn subC = new SubColumn();
+				ArrayList<Row> subRow = this.getSubTable(i, p, items);
+				for (Row r : subRow) {
+					subC.addRow(r);
+				}
+				listItemRow.addColumn(subC);	
 				
 				result.addRow(listItemRow);
     	
@@ -351,52 +343,48 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			}
 		}
 				
-				
+		ArrayList<Integer> groupIds = new ArrayList<Integer>();
+		for (ListItem li : items) {
+			if(groupIds.contains(li.getStoreID()) != true) {
+				groupIds.add(li.getStoreID());
+				System.out.println(String.valueOf(li.getStoreID()));  
+			}
+			
+		}
 		//Sicherheitsabfrage
     	if(items !=null) {
   
-    		   // Zusammenstellung der Kopfdaten (Headline) des Reports 
-        	Row headline = new Row();
-        	headline.addColumn(new Column("Gruppe"));
-        	headline.addColumn(new Column("Laden"));
-        	headline.addColumn(new Column("Artikelname"));
-        	headline.addColumn(new Column("Einheit"));
-        	headline.addColumn(new Column("Menge"));
-        	headline.addColumn(new Column("Gekauft am"));
-        	
-       	 		
-       	 	result.addRow(headline);
-    		  	
-       	    /*
-       	     * Auslesen s�mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugef�gt werden.
-       	     */
-        	for(ListItem i : items) {
-      
-    				
-    				//Eine leere Zeile anlegen.
-    				Row listItemRow = new Row();
-    				
-    				listItemRow.addColumn(new Column(getGroupName(i.getGrID(), p)));
-    				
-    				//zweite Spalte: Laden
-    				listItemRow.addColumn(new Column(getStoreName(i.getStoreID())));
-    				
-    				//dritte Spalte: Artikelname
-    				listItemRow.addColumn(new Column(getItemName(i.getItemId())));
-    				
-    				//erste Spalte: ID hinzuf�gen
-    				listItemRow.addColumn(new Column(i.getUnit()));
-    				
-    				//erste Spalte: ID hinzuf�gen
-    				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
-    				
-    				//sechste Spalte: Kaufdatum hinzuf�gen
-    				listItemRow.addColumn(new Column(i.getChangeDateString()));
-    						
-    				
-    				result.addRow(listItemRow);
-        	
-        		}
+        // Zusammenstellung der Kopfdaten (Headline) des Reports 
+    	Row headline = new Row();
+    	
+    	headline.addColumn(new Column("Laden"));
+    	headline.addColumn(new Column());
+	 		
+   	 	result.addRow(headline);
+   	 	
+		  	
+   	    /*
+   	     * Auslesen s�mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugef�gt werden.
+   	     */
+    	for(Integer i : groupIds) {
+    			
+    			
+				
+				//Eine leere Zeile anlegen.
+				Row listItemRow = new Row();
+					
+				listItemRow.addColumn(new Column(getStoreName(i)));	
+				        
+				SubColumn subC = new SubColumn();
+				ArrayList<Row> subRow = this.getSubTable(i, p, items);
+				for (Row r : subRow) {
+					subC.addRow(r);
+				}
+				listItemRow.addColumn(subC);	
+				
+				result.addRow(listItemRow);
+    	
+    		}
     	//R�ckgabe des fertigen Reports
     	return result;
     	}
@@ -446,54 +434,47 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			    }
 			}
 		}
-    			
-    	//Sicherheitsabfrage
+		ArrayList<Integer> groupIds = new ArrayList<Integer>();
+		for (ListItem li : items) {
+			if(groupIds.contains(li.getStoreID()) != true) {
+				groupIds.add(li.getStoreID());
+				System.out.println(String.valueOf(li.getStoreID()));  
+			}
+			
+		}
+		//Sicherheitsabfrage
     	if(items !=null) {
   
-    		   // Zusammenstellung der Kopfdaten (Headline) des Reports 
-        	Row headline = new Row();
-        	headline.addColumn(new Column("Gruppe"));
-        	headline.addColumn(new Column("Verantwortliche/r"));
-        	headline.addColumn(new Column("Laden"));
-        	headline.addColumn(new Column("Artikelname"));
-        	headline.addColumn(new Column("Einheit"));
-        	headline.addColumn(new Column("Menge"));
-        	headline.addColumn(new Column("Gekauft am"));
-        	
-       	 		
-       	 	result.addRow(headline);
-    		  	
-       	    /*
-       	     * Auslesen s�mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugef�gt werden.
-       	     */
-        	for(ListItem i : items) {
-      
-    				
-    				//Eine leere Zeile anlegen.
-    				Row listItemRow = new Row();
-    				
-    				listItemRow.addColumn(new Column(getGroupName(i.getGrID(), p)));
-    				
-    				listItemRow.addColumn(new Column(getPersonName(i.getBuyerID())));
-    				
-    				//zweite Spalte: Laden
-    				listItemRow.addColumn(new Column(getStoreName(i.getStoreID())));
-    				
-    				//dritte Spalte: Artikelname
-    				listItemRow.addColumn(new Column(getItemName(i.getItemId())));
-    				
-    				//erste Spalte: ID hinzuf�gen
-    				listItemRow.addColumn(new Column(i.getUnit()));
-    				
-    				//erste Spalte: ID hinzuf�gen
-    				listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
-    				
-    				//sechste Spalte: Kaufdatum hinzuf�gen
-    				listItemRow.addColumn(new Column(i.getChangeDateString()));
-    						
-    				
-    				result.addRow(listItemRow);
-
+        // Zusammenstellung der Kopfdaten (Headline) des Reports 
+    	Row headline = new Row();
+    	
+    	headline.addColumn(new Column("Laden"));
+    	headline.addColumn(new Column());
+	 		
+   	 	result.addRow(headline);
+   	 	
+		  	
+   	    /*
+   	     * Auslesen s�mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugef�gt werden.
+   	     */
+    	for(Integer i : groupIds) {
+    			
+    			
+				
+				//Eine leere Zeile anlegen.
+				Row listItemRow = new Row();
+					
+				listItemRow.addColumn(new Column(getStoreName(i)));	
+				        
+				SubColumn subC = new SubColumn();
+				ArrayList<Row> subRow = this.getSubTable(i, p, items);
+				for (Row r : subRow) {
+					subC.addRow(r);
+				}
+				listItemRow.addColumn(subC);	
+				
+				result.addRow(listItemRow);
+    	
     		}
     	//R�ckgabe des fertigen Reports
     	return result;
@@ -501,6 +482,53 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	
     return null;
 	}
+	
+	
+	/**
+	 * Erstellen einer Subtable bestehend aus Properties und PropertyValues Objekten eines Contacts.
+	 * Diese werden in Rows und Columns geschrieben. Falls der <code>Contact</code> keine <code>
+	 * Property</code> besitzt, wird eine Column mit dem Wert "-" befüllt.
+	 * 
+	 * @param c der Contact der die Property und PropertyValues besitzt, u der User für die Participationprüfung
+	 * @return ArrayList mit Rows, die wiederum Columns besitzen und so eine Table formen
+	 */
+	public ArrayList<Row> getSubTable(int storeId, Person p, ArrayList<ListItem> items) {
+    	ArrayList<Row> subTableRows = new ArrayList<Row>();
+	
+	if (items.isEmpty() == false) {
+		Row headline = new Row();
+		headline.addColumn(new Column("Gruppe"));
+    	headline.addColumn(new Column("Artikelname"));
+    	headline.addColumn(new Column("Menge"));
+    	headline.addColumn(new Column("Einheit"));
+    	headline.addColumn(new Column("Gekauft am"));
+    	subTableRows.add(headline);
+			for (ListItem i : items) {
+				if (i.getStoreID() == storeId) {
+						Row listItemRow = new Row();
+						//zweite Spalte: Gruppe
+						listItemRow.addColumn(new Column(getGroupName(i.getGrID(), p)));
+
+						//dritte Spalte: Artikelname
+						listItemRow.addColumn(new Column(getItemName(i.getItemId())));
+						
+						//vierte Spalte: Einheit hinzuf�gen
+						listItemRow.addColumn(new Column(i.getUnit()));
+						
+						//fuenfte Spalte: Menge hinzuf�gen
+						listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
+						
+						//sechste Spalte: Kaufdatum hinzuf�gen
+						listItemRow.addColumn(new Column(i.getChangeDateString()));
+						
+					
+						subTableRows.add(listItemRow);
+			}
+	
+	  	}
+	}
+	return subTableRows;
+}
 	
 	private String getItemName(int itemID) {
 		ArrayList<Item> allItems = getAllItems();
