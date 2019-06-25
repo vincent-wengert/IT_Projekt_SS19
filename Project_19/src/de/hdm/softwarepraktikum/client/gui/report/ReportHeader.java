@@ -44,7 +44,7 @@ public class ReportHeader extends HorizontalPanel {
  	private Button reportGeneratorButton = new Button("Reportgenerator");
  	private Image logo = new Image ();
  	private Label userLabel = new Label();
-	private Anchor shoppingListEditorLink = new Anchor("Shoppinglisst-Editor");
+	private Anchor shoppingListEditorLink = new Anchor("Shoppinglist-Editor");
 
 
  	/**
