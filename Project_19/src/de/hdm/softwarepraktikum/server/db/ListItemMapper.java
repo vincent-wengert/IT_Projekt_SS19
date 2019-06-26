@@ -23,17 +23,17 @@ public class ListItemMapper {
 	   * Die Klasse ListItemMapper wird nur einmal instantiiert. Man spricht hierbei
 	   * von einem sogenannten <b>Singleton</b>.
 	   * <p>
-	   * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal f�r
-	   * s�mtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	   * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal fuer
+	   * saemtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	   * einzige Instanz dieser Klasse.
 	   * 
-	   * @author Peter Thies
+	   * @author Bruno Herceg & Niklas Oexle
 	   */
 	
 	private static ListItemMapper listItemMapper = null;
 	
 	/**
-	   * Gesch�tzter Konstruktor - verhindert die M�glichkeit, mit <code>new</code>
+	   * Geschuetzter Konstruktor - verhindert die Moeglichkeit, mit <code>new</code>
 	   * neue Instanzen dieser Klasse zu erzeugen.
 	   */
 	
@@ -63,19 +63,19 @@ public class ListItemMapper {
 			Statement stmt = con.createStatement();
 			
 		/*
-		 * Zun�chst schauen wir nach, welches der momentan h�chste
-		 * Prim�rschl�sselwert ist.
+		 * Zunaechst schauen wir nach, welches der momentan hoechste
+		 * Primaerschluesselwert ist.
 		 */
 			
 			
 			
 		ResultSet rs = stmt.executeQuery("SELECT MAX(ListItem_ID) AS maxid " + "FROM ListItem");
 		
-		// Wenn wir etwas zur�ckerhalten, kann dies nur einzeilig sein
+		// Wenn wir etwas zurueckerhalten, kann dies nur einzeilig sein
 		if (rs.next()) {
 		/*
-		 * i erh�lt den bisher maximalen, nun um 1 inkrementierten
-		 * Prim�rschl�ssel.
+		 * i erhaelt den bisher maximalen, nun um 1 inkrementierten
+		 * Primaerschluessel.
 		 */
 		li.setId(rs.getInt("maxid") + 1);
 				
@@ -103,7 +103,7 @@ public class ListItemMapper {
 	}
 		
 		/*
-		 * R�ckgabe des evtl. korrigierten ListItems.
+		 * Rueckgabe des evtl. korrigierten ListItems.
 		 */
 		return li;
 	}
@@ -112,8 +112,8 @@ public class ListItemMapper {
 	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
 	 * 
 	 * @param li
-	 *            das Objekt, das in die DB geschrieben werden soll
-	 * @return das als Parameter �bergebene Objekt
+	 * das Objekt, das in die DB geschrieben werden soll
+	 * @return das als Parameter uebergebene Objekt
 	 */
 	
 	public ListItem update(ListItem li) {
@@ -146,11 +146,11 @@ public class ListItemMapper {
 			e.printStackTrace();
 		}
 		
-		// Um Analogie zu insert(listitem li) zu wahren, wird li zur�ckgegeben
+		// Um Analogie zu insert(listitem li) zu wahren, wird li zurueckgegeben
 				return li;
 	}
 	
-	//L�schung eines Listitems
+	//Loeschung eines Listitems
 		public void delete(ListItem li) {
 			Connection con = DBConnection.connection();
 			
@@ -205,6 +205,10 @@ public class ListItemMapper {
 		}
 		
 		//Liste mit allen ListItems
+		/**
+		 * Methode, um alle ListItems zu finden.
+		 * @return ArrayList mit <code>ListItem</code>-Objekten
+		 */
 		public ArrayList<ListItem> findAllListItems() {
 			
 			ArrayList<ListItem> result = new ArrayList<ListItem>();
@@ -236,6 +240,10 @@ public class ListItemMapper {
 			} return result;
 		}
 
+		/**
+		 * Methode, um das abhaken eines <code>ListItem</code>-Objekts zu speichern.
+		 * @param li
+		 */
 		public void checkListItem(ListItem li) {
 				
 				Connection con = DBConnection.connection();
@@ -258,6 +266,11 @@ public class ListItemMapper {
 				}
 			}
 		
+		/**
+		 * Methode, um alle <code>ListItem</code>-Objekte einer ShoppingList zu finden.
+		 * @param sl
+		 * @return ArrayList mit allen ListItems einer ShoppingList
+		 */
 		public ArrayList<ListItem> findAllListItemsby(ShoppingList sl) {
 			Connection con = DBConnection.connection();
 			
@@ -304,6 +317,11 @@ public class ListItemMapper {
 				
 			}
 
+		/**
+		 * Methode, um alle abgehakten <code>ListItem</code>-Objekte einer ShoppingList zu finden.
+		 * @param sl
+		 * @return ArrayList mit allen abgehakten ListItems einer ShoppingList
+		 */
 		public ArrayList<ListItem> findAllCheckedListItems(ShoppingList sl) {
 			// TODO Auto-generated method stub
 			Connection con = DBConnection.connection();
@@ -333,7 +351,13 @@ public class ListItemMapper {
 				return allCheckedListItems;
 		}
 		
-		
+		/**
+		 * Methode um abgehakte <code>ListItem</code>-Objekte einer Gruppe in einem bestimmten Zeitraum zu finden.
+		 * @param groupId
+		 * @param start
+		 * @param end
+		 * @return ArrayList mit abgehakten ListItems einer Gruppe in einem bestimmten Zeitraum
+		 */
 		public ArrayList<ListItem> getCheckedListItemsOfGroupBetweenDates(int groupId, Timestamp start, Timestamp end) {
 			Connection con = DBConnection.connection();
 			
@@ -375,6 +399,11 @@ public class ListItemMapper {
 				
 			}
 		
+		/**
+		 * Methode um abgehakte <code>ListItem</code>-Objekte einer Gruppe zu finden.
+		 * @param groupId
+		 * @return ArrayList mit abgehakten ListItems einer Gruppe
+		 */
 		public ArrayList<ListItem> getCheckedListItemsOfGroup(int groupId) {
 			Connection con = DBConnection.connection();
 			
@@ -415,6 +444,13 @@ public class ListItemMapper {
 				
 			}
 		
+		/**
+		 * Methode um abgehakte <code>ListItem</code>-Objekte einer Person in einem bestimmten Zeitraum zu finden.
+		 * @param personId
+		 * @param start
+		 * @param end
+		 * @return ArrayList mit abgehakten ListItems einer Person in einem bestimmten Zeitraum
+		 */
 		public ArrayList<ListItem> getCheckedListItemsOfPersonBetweenDates(int personId, Timestamp start, Timestamp end) {
 			Connection con = DBConnection.connection();
 			
@@ -461,6 +497,11 @@ public class ListItemMapper {
 				
 			}
 		
+		/**
+		 * Methode um abgehakte <code>ListItem</code>-Objekte einer Person zu finden.
+		 * @param personId
+		 * @return ArrayList mit abgehakten ListItems einer Person
+		 */
 		public ArrayList<ListItem> getCheckedListItemsOfPerson(int personId) {
 			Connection con = DBConnection.connection();
 			
@@ -529,8 +570,10 @@ public class ListItemMapper {
 			return setAsFav;
 		}
 		
-		//Methode prueft ob Listitems aus einer Gruppe mit bestimmtem Haendler in DB vorhanden
-		
+		/**
+		 * Methode prueft ob Listitems aus einer Gruppe mit bestimmtem Haendler in der DB vorhanden ist.
+		 * @param s
+		 */
 		public boolean checkforStoreByGroup(Store s) {
 			
 			boolean available = false;
