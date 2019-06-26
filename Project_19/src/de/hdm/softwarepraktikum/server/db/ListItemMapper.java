@@ -556,5 +556,24 @@ public class ListItemMapper {
 			return available; 
 			
 		}
+		
+		public void deleteListItemByPersonID(Person p) {
+			Connection con = DBConnection.connection();
+			
+			try {
+				Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE ListItem FROM responsibility INNER JOIN listitem ON \r\n" + 
+					"ListItem.Responsibility_ID = responsibility.Responsibility_ID \r\n" + 
+					"WHERE responsibility.Person_ID = 1;" + p.getId());
+			
+				
+				
+			  	}
+			  catch(SQLException e) {
+		  		e.printStackTrace();
+		  	}
+		}
+
+	
 			
 }
