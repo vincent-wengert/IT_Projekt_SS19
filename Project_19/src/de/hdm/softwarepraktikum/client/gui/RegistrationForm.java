@@ -148,8 +148,9 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if(firstNameTextBox.getText()!=null&&firstNameTextBox.getText()!=null) {
+				if(firstNameTextBox.getText() != "" && lastNameTextBox.getText() != "") {
 					String uName= lastNameTextBox.getText() +" "+ firstNameTextBox.getText();
+					Window.alert(uName);
 					p.setName(uName);
 					administration.updatePerson(p, new SavePersonCallback());
 				}else {
