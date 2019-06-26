@@ -40,6 +40,7 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 public class Header extends HorizontalPanel{
 		
 		private Person currentPerson = CurrentPerson.getPerson();
+		private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	
 	 	private HorizontalPanel homeButtonPanel = new HorizontalPanel();
 	 	private HorizontalPanel topPanel = new HorizontalPanel();
@@ -79,7 +80,7 @@ public class Header extends HorizontalPanel{
 	 		logoutMenu.addItem("Kontoeinstellungen", new Command() {
 	 	         @Override
 	 	         public void execute() {
-	 	        	 ListItemDialog lid = new ListItemDialog(true);
+	 	        	 EditPersonDialog epd = new EditPersonDialog();
 	 	         }
 	 	      });
 	 		
@@ -91,6 +92,24 @@ public class Header extends HorizontalPanel{
 	 				if(Window.confirm("Konto wirklich l\u00F6schen?") == true){
 	 					if(Window.confirm("Diese Aktion kann nicht r\u00FCckg\u00E4ngig gemacht werden. Sind Sie sicher?") == true) {
 	 						//TODO logik um account zu löschen
+	 						
+	 		 				
+	 		 				administration.deletePerson(currentPerson, new AsyncCallback<Void>() {
+
+								@Override
+								public void onFailure(Throwable arg0) {
+									// TODO Auto-generated method stub
+									
+								}
+
+								@Override
+								public void onSuccess(Void arg0) {
+									// TODO Auto-generated method stub
+									currentPerson.setLogoutUrl(currentPerson.getLogoutUrl());
+			 		 				Window.open(currentPerson.getLogoutUrl(), "_self", "");
+								}
+	 		 					
+	 		 				});
 	 					}
 	 				}
 	 			}

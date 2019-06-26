@@ -248,7 +248,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			  public void update(int index, ListItem object, String value) {
 				  
 			    // The user clicked on the button for the passed auction.
-				  	ListItemDialog lid = new ListItemDialog(false);
+				  	ListItemDialog lid = new ListItemDialog();
 				  	lid.setGroup(group);
 					lid.setShoppingList(shoppingListToDisplay);
 					lid.setShowShoppingListForm(ShowShoppingListForm.this);
@@ -506,7 +506,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			ListItemDialog lid = new ListItemDialog(false);
+			ListItemDialog lid = new ListItemDialog();
 			lid.setGroup(group);
 			lid.setShoppingList(shoppingListToDisplay);
 			lid.setShowShoppingListForm(ShowShoppingListForm.this);

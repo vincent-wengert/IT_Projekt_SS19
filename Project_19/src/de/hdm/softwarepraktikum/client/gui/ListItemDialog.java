@@ -68,7 +68,6 @@ public class ListItemDialog extends PopupPanel {
 	private Button cancelButton = new Button("\u2716");
 
 	private Grid itemGrid = new Grid(2, 2);
-	private Grid settingsGrid = new Grid(1,2);
 
 	private RadioButton existingButton = new RadioButton("Bestehend");
 	private RadioButton newButton = new RadioButton("Neu");
@@ -86,10 +85,6 @@ public class ListItemDialog extends PopupPanel {
 
 	private Label unitLabel = new Label("Einheit auswählen");
 	private Label amountLabel = new Label("Menge eingeben");
-	
-	private Label accountLabel = new Label(currentPerson.getGmail());
-	private Label nameChangeLabel = new Label("Namen \u00E4ndern");
-	private Label accountDeleteLabel  = new Label("Konto l\u00F6schen");
 
 	private ListBox itemListBox = new ListBox();
 	private ListBox personListBox = new ListBox();
@@ -101,8 +96,6 @@ public class ListItemDialog extends PopupPanel {
 	private TextBox amountTextBox = new TextBox();
 	private TextBox itemTextBox = new TextBox();
 	
-	private TextBox userNameTextBox = new TextBox();
-	
 	private Boolean updateItem = false;
 
 	/**
@@ -110,109 +103,76 @@ public class ListItemDialog extends PopupPanel {
 	 * <code>Store</code>,<code>Person</code> geladen und mitels einer SuggestBox
 	 * angezeigt, um so ein <code>Listitem</code> zu erstellen.
 	 */
-	public ListItemDialog(Boolean accountSettings) {
-		if(accountSettings == true) {
-			this.setTitle("Einstellungen");
-			this.setGlassEnabled(true);
-			this.add(verticalPanel);
-			verticalPanel.setSpacing(20);
+	public ListItemDialog() {
+		this.load();
 
-			accountLabel.setStylePrimaryName("textLabel");
-			cancelButton.setStylePrimaryName("cancelButton");
-			confirmButton.setStylePrimaryName("confirmButton");
-			
-			cancelButton.setPixelSize(130, 40);
-			confirmButton.setPixelSize(130, 40);
-			
-			settingsGrid.setWidget(0, 0, nameChangeLabel);
-			settingsGrid.setWidget(0, 1, userNameTextBox);
-//			itemGrid.setWidget(1, 0, accountDeleteLabel);
+		this.setTitle("Artikel hinzufugen");
+		this.setGlassEnabled(true);
+		this.add(verticalPanel);
 
-			settingsGrid.setCellSpacing(5);
-			
-			userNameTextBox.setText(currentPerson.getName());
+		verticalPanel.setSpacing(20);
 
-			bottomButtonsPanel.add(confirmButton);
-			bottomButtonsPanel.add(cancelButton);
+		cancelButton.setStylePrimaryName("cancelButton");
+		confirmButton.setStylePrimaryName("confirmButton");
+		itemLabel.setStylePrimaryName("textLabel");
+		personLabel.setStylePrimaryName("textLabel");
+		storeLabel.setStylePrimaryName("textLabel");
 
-			verticalPanel.add(accountLabel);
-			verticalPanel.add(settingsGrid);
-			verticalPanel.add(bottomButtonsPanel);
-			
-			confirmButton.addClickHandler(new ConfirmClickHandler());
-			cancelButton.addClickHandler(new CancelClickHandler());
+		cancelButton.setPixelSize(130, 40);
+		confirmButton.setPixelSize(130, 40);
+		bottomButtonsPanel.setSpacing(20);
+		personListBox.setSize("320px", " 40px");
+		storeListBox.setSize("320px", " 40px");
+		itemListBox.setSize("320px", " 40px");
+		unitListBox.setSize("160px", "40px");
+		amountTextBox.setSize("100px", "40px");
+		itemTextBox.setSize("320px", "40px");
 
-			verticalPanel.setCellHorizontalAlignment(bottomButtonsPanel, HasHorizontalAlignment.ALIGN_CENTER);
-		} else {
-			this.load();
+		bottomButtonsPanel.add(confirmButton);
+		bottomButtonsPanel.add(cancelButton);
 
-			this.setTitle("Artikel hinzufugen");
-			this.setGlassEnabled(true);
-			this.add(verticalPanel);
+		radioButtonPanel.setSpacing(5);
+		radioButtonPanel.add(existingButton);
+		radioButtonPanel.add(existingLabel);
+		radioButtonPanel.add(newButton);
+		radioButtonPanel.add(newLabel);
 
-			verticalPanel.setSpacing(20);
+		verticalPanel.add(itemLabel);
+		verticalPanel.add(radioButtonPanel);
+		verticalPanel.add(itemListBox);
+		verticalPanel.add(itemTextBox);
 
-			cancelButton.setStylePrimaryName("cancelButton");
-			confirmButton.setStylePrimaryName("confirmButton");
-			itemLabel.setStylePrimaryName("textLabel");
-			personLabel.setStylePrimaryName("textLabel");
-			storeLabel.setStylePrimaryName("textLabel");
+		itemGrid.setWidget(0, 1, unitLabel);
+		itemGrid.setWidget(0, 0, amountLabel);
+		itemGrid.setWidget(1, 0, amountTextBox);
+		itemGrid.setWidget(1, 1, unitListBox);
+		itemGrid.setCellSpacing(5);
+		verticalPanel.add(itemGrid);
 
-			cancelButton.setPixelSize(130, 40);
-			confirmButton.setPixelSize(130, 40);
-			bottomButtonsPanel.setSpacing(20);
-			personListBox.setSize("320px", " 40px");
-			storeListBox.setSize("320px", " 40px");
-			itemListBox.setSize("320px", " 40px");
-			unitListBox.setSize("160px", "40px");
-			amountTextBox.setSize("100px", "40px");
-			itemTextBox.setSize("320px", "40px");
+		verticalPanel.add(storeLabel);
+		verticalPanel.add(storeListBox);
 
-			bottomButtonsPanel.add(confirmButton);
-			bottomButtonsPanel.add(cancelButton);
+		verticalPanel.add(personLabel);
+		verticalPanel.add(personListBox);
+		
+		verticalPanel.add(isGlobalBox);
 
-			radioButtonPanel.setSpacing(5);
-			radioButtonPanel.add(existingButton);
-			radioButtonPanel.add(existingLabel);
-			radioButtonPanel.add(newButton);
-			radioButtonPanel.add(newLabel);
+		verticalPanel.add(bottomButtonsPanel);
 
-			verticalPanel.add(itemLabel);
-			verticalPanel.add(radioButtonPanel);
-			verticalPanel.add(itemListBox);
-			verticalPanel.add(itemTextBox);
+		confirmButton.addClickHandler(new ConfirmClickHandler());
+		cancelButton.addClickHandler(new CancelClickHandler());
 
-			itemGrid.setWidget(0, 1, unitLabel);
-			itemGrid.setWidget(0, 0, amountLabel);
-			itemGrid.setWidget(1, 0, amountTextBox);
-			itemGrid.setWidget(1, 1, unitListBox);
-			itemGrid.setCellSpacing(5);
-			verticalPanel.add(itemGrid);
+		existingButton.addValueChangeHandler(new ExisitingValueChangeHandler());
+		newButton.addValueChangeHandler(new NewValueChangeHandler());
 
-			verticalPanel.add(storeLabel);
-			verticalPanel.add(storeListBox);
-
-			verticalPanel.add(personLabel);
-			verticalPanel.add(personListBox);
-			
-			verticalPanel.add(isGlobalBox);
-
-			verticalPanel.add(bottomButtonsPanel);
-
-			confirmButton.addClickHandler(new ConfirmClickHandler());
-			cancelButton.addClickHandler(new CancelClickHandler());
-
-			existingButton.addValueChangeHandler(new ExisitingValueChangeHandler());
-			newButton.addValueChangeHandler(new NewValueChangeHandler());
-
-			verticalPanel.setCellHorizontalAlignment(radioButtonPanel, HasHorizontalAlignment.ALIGN_CENTER);
-			verticalPanel.setCellHorizontalAlignment(personListBox, HasHorizontalAlignment.ALIGN_CENTER);
-			verticalPanel.setCellHorizontalAlignment(itemListBox, HasHorizontalAlignment.ALIGN_CENTER);
-			verticalPanel.setCellHorizontalAlignment(itemTextBox, HasHorizontalAlignment.ALIGN_CENTER);
-			verticalPanel.setCellHorizontalAlignment(storeListBox, HasHorizontalAlignment.ALIGN_CENTER);
-			verticalPanel.setCellHorizontalAlignment(bottomButtonsPanel, HasHorizontalAlignment.ALIGN_CENTER);
-			verticalPanel.setCellHorizontalAlignment(isGlobalBox, HasHorizontalAlignment.ALIGN_CENTER);
-		}
+		verticalPanel.setCellHorizontalAlignment(radioButtonPanel, HasHorizontalAlignment.ALIGN_CENTER);
+		verticalPanel.setCellHorizontalAlignment(personListBox, HasHorizontalAlignment.ALIGN_CENTER);
+		verticalPanel.setCellHorizontalAlignment(itemListBox, HasHorizontalAlignment.ALIGN_CENTER);
+		verticalPanel.setCellHorizontalAlignment(itemTextBox, HasHorizontalAlignment.ALIGN_CENTER);
+		verticalPanel.setCellHorizontalAlignment(storeListBox, HasHorizontalAlignment.ALIGN_CENTER);
+		verticalPanel.setCellHorizontalAlignment(bottomButtonsPanel, HasHorizontalAlignment.ALIGN_CENTER);
+		verticalPanel.setCellHorizontalAlignment(isGlobalBox, HasHorizontalAlignment.ALIGN_CENTER);
+		
 		
 		this.center();
 	}
@@ -347,6 +307,8 @@ public class ListItemDialog extends PopupPanel {
 			ListItemDialog.this.hide();
 		}
 	}
+	
+	
 	
 	/**
 	 * Implementierung des NewValueChangeHandler
