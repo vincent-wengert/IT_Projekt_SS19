@@ -76,17 +76,28 @@ public class Header extends HorizontalPanel{
 	 		
 	 		MenuBar logoutMenu = new MenuBar(true);
 	 		logoutMenu.setAnimationEnabled(true);
-	 		logoutMenu.addItem("Angemeldet als: " + currentPerson.getGmail(), new Command() {
+	 		logoutMenu.addItem("Kontoeinstellungen", new Command() {
 	 	         @Override
 	 	         public void execute() {
-	 	        	 //TODO was geschiehen soll wenn current person angeklickt wird
-	 
+	 	        	 ListItemDialog lid = new ListItemDialog(true);
 	 	         }
 	 	      });
 	 		
 	 		logoutMenu.addSeparator();
 	 		
+	 		logoutMenu.addItem("Konto l\u00F6schen", new Command() {
+	 			@Override
+	 			public void execute() {
+	 				if(Window.confirm("Konto wirklich l\u00F6schen?") == true){
+	 					if(Window.confirm("Diese Aktion kann nicht r\u00FCckg\u00E4ngig gemacht werden. Sind Sie sicher?") == true) {
+	 						//TODO logik um account zu l�schen
+	 					}
+	 				}
+	 			}
+	 		});
 	 		
+	 		logoutMenu.addSeparator();
+
 	 		/**
 	 		 * Durch ein Klick auf den Logout-Button wird der User auf die
 	 		 * Begrüßungsseite weitergeleitet
