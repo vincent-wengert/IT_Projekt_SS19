@@ -46,6 +46,8 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public ListItem updateListItem(ListItem li);
 	
+	public Boolean checkForExistingListItems(Integer id);
+	
 	public void checkListItem(Integer id, Boolean checked);
 	
 	public void deleteListItem(ListItem li);
@@ -95,6 +97,8 @@ public interface ShoppingListAdministration extends RemoteService {
 	public void updateStore(Store s);
 	
 	public void deleteStore(Store s);
+	
+	public Boolean checkforExisitingStores(Integer storeId);
 	
 	public Responsibility createResponsibility(int buyerID, int storeID, int slID);
 	

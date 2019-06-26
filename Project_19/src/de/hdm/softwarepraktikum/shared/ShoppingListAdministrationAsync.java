@@ -92,6 +92,8 @@ public interface ShoppingListAdministrationAsync {
 	void getAllGroupMembers(int id, AsyncCallback<ArrayList<Person>> callback);
 	
 	void getAllStores(AsyncCallback<ArrayList<Store>> callback);
+	
+	void checkforExisitingStores(Integer storeId, AsyncCallback<Boolean> callback);
 
 	void getAllGroupsByPerson(Person p, AsyncCallback<ArrayList<Group>> callback);
 
@@ -106,5 +108,7 @@ public interface ShoppingListAdministrationAsync {
 	void getAllItemsByGroup(int groupId, int currentPersonId, AsyncCallback<ArrayList<Item>> callback);
 
 	void getAllFavoriteListItemsbyGroup(Group g, AsyncCallback<ArrayList<Item>> callback);
+
+	void checkForExistingListItems(Integer id, AsyncCallback<Boolean> callback);
 
 }

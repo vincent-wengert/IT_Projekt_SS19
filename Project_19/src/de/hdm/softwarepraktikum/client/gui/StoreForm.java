@@ -55,8 +55,6 @@ public class StoreForm extends VerticalPanel{
 	private Button cancelButton = new Button("\u2716");
 	private Grid storeGrid = new Grid(4, 3);
 	
-//	private FieldVerifier verifier = new FieldVerifier();
-
 	private StoreForm sf;
 	private Boolean editable;
 	private Boolean initial;
@@ -92,8 +90,6 @@ public class StoreForm extends VerticalPanel{
 	public void onLoad() {
 
 		this.setWidth("100%");
-//		postCodeLabel.setStylePrimaryName("textLabel");
-//		storeNameLabel.setStylePrimaryName("textLabel");
 		editButton.setStylePrimaryName("editButton");
 		deleteButton.setStylePrimaryName("deleteButton");
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
@@ -260,8 +256,7 @@ public class StoreForm extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 			if(Window.confirm("Wollen Sie wirklich entfernen?") == true) {
-				shoppinglistAdministration.deleteStore(storeToDisplay, new DeleteStoreCallback());
-				ascl.updateCellList(null);
+				shoppinglistAdministration.checkforExisitingStores(storeToDisplay.getId(), new checkForExistingStoresCallback());
 			}
 		}
 	}
@@ -298,6 +293,28 @@ public class StoreForm extends VerticalPanel{
 			ascl.setSelectedStore(storeToDisplay);
 		}
 		
+	}
+	
+	
+	
+	
+	private class checkForExistingStoresCallback implements AsyncCallback<Boolean> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(Boolean result) {
+			//add item to cellist
+			if(result == true) {
+				Window.alert("Der Laden kann nicht gelöscht, da dieser noch in einer Einkaufliste vorhanden ist."
+						+ " Wenn dieser dennoch gelöscht werden möchte dann kontaktieren sie den Administrator");
+			}else {
+			shoppinglistAdministration.deleteStore(storeToDisplay, new DeleteStoreCallback());
+			ascl.updateCellList(null);
+			}
+		}
 	}
 	
 	private class DeleteStoreCallback implements AsyncCallback<Void> {

@@ -544,7 +544,7 @@ public class ListItemMapper {
 				return listItems;	
 			}
 		
-		// Überprüfung ob Artikel mehr als 5x gekauft wurde
+		// ï¿½berprï¿½fung ob Artikel mehr als 5x gekauft wurde
 		public ArrayList<Integer> autoSetFav(Group g) {
 			
 			ArrayList<Integer> setAsFav = new ArrayList<Integer>(); 
@@ -571,38 +571,8 @@ public class ListItemMapper {
 			}
 			return setAsFav;
 		}
-		
-		/**
-		 * Methode prueft ob Listitems aus einer Gruppe mit bestimmtem Haendler in der DB vorhanden ist.
-		 * @param s
-		 */
-		public boolean checkforStoreByGroup(Store s) {
-			
-			boolean available = false;
-			Connection con = DBConnection.connection();
-			
-			try {
-				
-				Statement stmt = con.createStatement();
-		
-				ResultSet rs = stmt.executeQuery("SELECT Responsibility_ID FROM Responsibility WHERE Store_ID = "+s.getId());
-			
-					if (rs.next()) {
 
-						available = true;
-
-					} 
-				
-			
-				}catch (SQLException e) {
-				e.printStackTrace();
-				
-			}
-			return available; 
-			
-		}
-		
-		//Löschen von Listitems anhand der Person ID
+		//Lï¿½schen von Listitems anhand der Person ID
 		public void deleteListItemByPersonID(Person p) {
 			Connection con = DBConnection.connection();
 			
@@ -621,7 +591,7 @@ public class ListItemMapper {
 		}
 
 		
-		//Löschen eines Listitems anhand der Item ID - Notwendig falls zugehöriges Item gelöscht wird
+		//Lï¿½schen eines Listitems anhand der Item ID - Notwendig falls zugehï¿½riges Item gelï¿½scht wird
 		public void deleteListItemByItemID(Item i) {
 			// TODO Auto-generated method stub
 				Connection con = DBConnection.connection();
@@ -637,7 +607,5 @@ public class ListItemMapper {
 			  		e.printStackTrace();
 			  	}
 		}
-
-	
 			
 }

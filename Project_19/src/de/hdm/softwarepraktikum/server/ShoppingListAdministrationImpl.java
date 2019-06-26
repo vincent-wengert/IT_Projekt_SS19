@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import org.apache.http.impl.NoConnectionReuseStrategy;
+
 import de.hdm.softwarepraktikum.server.db.ListItemMapper;
 import de.hdm.softwarepraktikum.server.db.PersonMapper;
 import de.hdm.softwarepraktikum.server.db.ResponsibilityMapper;
@@ -24,6 +26,7 @@ import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
+import com.google.appengine.api.search.query.ExpressionParser.index_return;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -332,6 +335,12 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	}
 	
 
+	public Boolean checkForExistingListItems(Integer id) throws IllegalArgumentException{
+		Item i = new Item();
+		i.setId(id);
+		
+		return itemMapper.checkForExistingListitems(i);
+	}
 
 	/*
 	   * ***************************************************************************
@@ -411,7 +420,6 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 	}
 
-// in mapper ausformulieren
 	/**
 	 * Methode um ListItems als eingekauft zu merkieren
 	 * @param ListItem li
@@ -595,7 +603,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		favoriteItemMapper.delete(i, g);
 	}
 
-	//Rückgabe aller favorisierten Items
+	//Rï¿½ckgabe aller favorisierten Items
 	public ArrayList<Item> getFavItems(Group g) throws IllegalArgumentException {
 		
 		ArrayList<Item> favItems = favoriteItemMapper.findFavItems(g);
@@ -685,6 +693,12 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		return this.storeMapper.findAllStore();
 	}
 	
+	public Boolean checkforExisitingStores(Integer storeId) {
+		Store store = new Store();
+		store.setId(storeId);
+		
+		return this.storeMapper.checkforExisitingStores(store);
+	}
 	/*
 	   * ***************************************************************************
 	   * ABSCHNITT, Ende: Methoden fÃ¼r Store-Objekte
@@ -820,7 +834,6 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	
 	/*

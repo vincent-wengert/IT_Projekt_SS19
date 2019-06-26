@@ -19,7 +19,7 @@ public class StoreMapper {
 	   * saemtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	   * einzige Instanz dieser Klasse.
 	   * 
-	   * @author Niklas Öxle
+	   * @author Niklas ï¿½xle
 	   */
 	
 		private static StoreMapper storeMapper = null;
@@ -51,7 +51,7 @@ public class StoreMapper {
 		/**
 		 * Methode um ein Store Objekt in der Datenbank zu speichern
 		 * @param s : ein neuer zu speichernder Store in der Datenbank wird uebergeben
-		 * @return: der neu gespeicherte Store wird zurückgegeben
+		 * @return: der neu gespeicherte Store wird zurï¿½ckgegeben
 		 * 
 		 */
 	      public Store insert(Store s) {
@@ -95,8 +95,8 @@ public class StoreMapper {
 		
 	      /**
 			 * Wiederholtes Schreiben eines <code>Store</code> Objekts in die Datenbank.
-			 * @param r : Der zu aktualisierende Store wird übergeben
-			 * @return: der aktualisierte Store wird zurückgegeben
+			 * @param r : Der zu aktualisierende Store wird ï¿½bergeben
+			 * @return: der aktualisierte Store wird zurï¿½ckgegeben
 			 * 
 			 */
 	      
@@ -127,7 +127,7 @@ public class StoreMapper {
 
 
 		/**
-		 * Methode um ein Store-Datensatz in der Datenbank zu löschen.
+		 * Methode um ein Store-Datensatz in der Datenbank zu lï¿½schen.
 		 * @param s : Der zu loeschende Store wird uebergeben
 		 */
 		
@@ -149,8 +149,8 @@ public void deleteStore(Store s) {
 /**
  * Methode um ein einzelnes <code>Store</code> Objekt anhand einer ID zu suchen.
  * 
- * @param ID :  ID des zu findenden Stores wird übergeben.
- * @return Der anhand der id gefundene Store wird zurückgegeben.
+ * @param ID :  ID des zu findenden Stores wird ï¿½bergeben.
+ * @return Der anhand der id gefundene Store wird zurï¿½ckgegeben.
  */
 
 	public Store findByID(int ID) {
@@ -186,10 +186,10 @@ public void deleteStore(Store s) {
 		}
 	
 	 /** 
-     * Methode um alle in der Datenbank vorhandenen Stores-Datensätze abzurufen.
-     * Diese werden als einzelne <code>Store</code> Objekte innerhalb einer ArrayList zurückgegeben.
+     * Methode um alle in der Datenbank vorhandenen Stores-Datensï¿½tze abzurufen.
+     * Diese werden als einzelne <code>Store</code> Objekte innerhalb einer ArrayList zurï¿½ckgegeben.
      * 
-     * @return ArrayList aller Stores wird zurückgegeben.
+     * @return ArrayList aller Stores wird zurï¿½ckgegeben.
      */
 		public ArrayList<Store> findAllStore(){
 			
@@ -226,6 +226,33 @@ public void deleteStore(Store s) {
 		
 		}
 	
+		//Methode prueft ob Listitems aus einer Gruppe mit bestimmtem Haendler in DB vorhanden
+		
+				public boolean checkforExisitingStores(Store s) {
+					
+					boolean available = false;
+					Connection con = DBConnection.connection();
+					
+					try {
+						
+						Statement stmt = con.createStatement();
+				
+						ResultSet rs = stmt.executeQuery("SELECT Responsibility_ID FROM Responsibility WHERE Store_ID = "+s.getId());
+					
+							if (rs.next()) {
+
+								available = true;
+
+							} 
+						
+					
+						}catch (SQLException e) {
+						e.printStackTrace();
+						
+					}
+					return available; 
+					
+				}
 
 	
 }
