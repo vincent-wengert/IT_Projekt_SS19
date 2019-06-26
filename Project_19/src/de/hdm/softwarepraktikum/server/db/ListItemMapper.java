@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import de.hdm.softwarepraktikum.shared.bo.Group;
+import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Responsibility;
@@ -600,6 +601,7 @@ public class ListItemMapper {
 			
 		}
 		
+		//Löschen von Listitems anhand der Person ID
 		public void deleteListItemByPersonID(Person p) {
 			Connection con = DBConnection.connection();
 			
@@ -615,6 +617,24 @@ public class ListItemMapper {
 			  catch(SQLException e) {
 		  		e.printStackTrace();
 		  	}
+		}
+
+		
+		//Löschen eines Listitems anhand der Item ID - Notwendig falls zugehöriges Item gelöscht wird
+		public void deleteListItemByItemID(Item i) {
+			// TODO Auto-generated method stub
+				Connection con = DBConnection.connection();
+				
+				try {
+					Statement stmt = con.createStatement();
+				stmt.executeUpdate("DELETE FROM ListItem WHERE Item_ID = "+i.getId());
+				
+					
+					
+				  	}
+				  catch(SQLException e) {
+			  		e.printStackTrace();
+			  	}
 		}
 
 	
