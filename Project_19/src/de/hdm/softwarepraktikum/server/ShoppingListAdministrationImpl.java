@@ -414,7 +414,6 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 	}
 
-// in mapper ausformulieren
 	/**
 	 * Methode um ListItems als eingekauft zu merkieren
 	 * @param ListItem li
@@ -687,6 +686,12 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		return this.storeMapper.findAllStore();
 	}
 	
+	public Boolean checkforExisitingStores(Integer storeId) {
+		Store store = new Store();
+		store.setId(storeId);
+		
+		return this.storeMapper.checkforExisitingStores(store);
+	}
 	/*
 	   * ***************************************************************************
 	   * ABSCHNITT, Ende: Methoden für Store-Objekte

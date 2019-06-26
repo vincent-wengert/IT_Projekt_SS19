@@ -96,6 +96,8 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void deleteStore(Store s);
 	
+	public Boolean checkforExisitingStores(Integer storeId);
+	
 	public Responsibility createResponsibility(int buyerID, int storeID, int slID);
 	
 	public void updateResponsibility(Responsibility r);

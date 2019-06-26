@@ -404,7 +404,7 @@ public class ItemForm extends VerticalPanel{
 				//add item to cellist
 				if(item == true) {
 					Window.alert("Der Artikel kann nicht gelöscht, da dieser noch in einer Einkaufliste vorhanden ist."
-							+ " Wenn dieser doch gelöscht werden möchte dann kontaktieren sie den Administrator");
+							+ " Wenn dieser dennoch gelöscht werden soll dann kontaktieren sie den Administrator");
 				} else {
 					shoppinglistAdministration.deleteItem(itemToDisplayProduct, new DeleteItemCallback());
 					aicl.updateCelllist(null);

@@ -528,33 +528,5 @@ public class ListItemMapper {
 			}
 			return setAsFav;
 		}
-		
-		//Methode prueft ob Listitems aus einer Gruppe mit bestimmtem Haendler in DB vorhanden
-		
-		public boolean checkforStoreByGroup(Store s) {
-			
-			boolean available = false;
-			Connection con = DBConnection.connection();
-			
-			try {
-				
-				Statement stmt = con.createStatement();
-		
-				ResultSet rs = stmt.executeQuery("SELECT Responsibility_ID FROM Responsibility WHERE Store_ID = "+s.getId());
-			
-					if (rs.next()) {
-
-						available = true;
-
-					} 
-				
-			
-				}catch (SQLException e) {
-				e.printStackTrace();
-				
-			}
-			return available; 
-			
-		}
 			
 }
