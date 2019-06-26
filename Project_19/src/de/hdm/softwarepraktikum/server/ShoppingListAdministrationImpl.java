@@ -171,6 +171,10 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 */
 	
 	public void deletePerson(Person p) throws IllegalArgumentException {
+		
+		responsibilityMapper.deleteByPersonID(p);
+		listItemMapper.deleteListItemByPersonID(p);
+		personMapper.deleteparticipationByPersonID(p);
 		personMapper.delete(p);
 	}
 	

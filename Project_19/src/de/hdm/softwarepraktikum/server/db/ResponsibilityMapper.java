@@ -305,6 +305,26 @@ public void deletebySLID(int id) {
 				
         return rl;
     }
+	
+	
+	public void deleteByPersonID(Person p) {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement stmt = con.createStatement();
+		stmt.executeUpdate("DELETE FROM Responsibility WHERE Person_ID = " + p.getId());
+		
+			
+			
+		  	}
+		  catch(SQLException e) {
+	  		e.printStackTrace();
+	  	}
+	
+		
+	}
+	
+	
 		
 	}
 
