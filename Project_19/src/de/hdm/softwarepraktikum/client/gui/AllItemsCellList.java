@@ -45,6 +45,7 @@ public class AllItemsCellList extends VerticalPanel{
 	private SingleSelectionModel<Item> selectionModel = null;
 	private ItemDemoKeyProvider keyProvider= null; 
 	private CellList<Item> cellList = new CellList<Item>(new ItemCell(), keyProvider);
+	private SearchFormArticles sfa  = new SearchFormArticles();
 	
 	private ItemForm itemForm = new ItemForm();
 	
@@ -58,8 +59,6 @@ public class AllItemsCellList extends VerticalPanel{
 	private Grid itemsGrid = new Grid(2,2);
 	
 	public void onLoad() {
-		
-		SearchFormArticles sfa = new SearchFormArticles();
 		itemsGrid.setWidget(0, 0, sfa);
 		
 		
@@ -197,7 +196,13 @@ public class AllItemsCellList extends VerticalPanel{
 		//navigator.selectTab(1)
 	}
 	
-
+	public void updateAddedGroup(Group g) {
+		itemsGrid.remove(sfa);
+		SearchFormArticles nsfa = new SearchFormArticles();
+		itemsGrid.setWidget(0, 0, nsfa);
+	}
+	
+	
 	
 	/**
 	* In dieser Methode wird das Design des NavigatorPanels und der Buttons festgelegt.
@@ -251,6 +256,7 @@ public class AllItemsCellList extends VerticalPanel{
 			}
 		});
 		
+		
 
 		groupGrid.setWidget(0, 0, favLabel);
 		groupGrid.setWidget(1, 0, groupListBox);
@@ -276,14 +282,23 @@ public class AllItemsCellList extends VerticalPanel{
 				}
 			}
 		});
-		
-		
+
 		this.add(groupGrid);
-		
-		
-		
+
 		}
+	
+	public ArrayList<Group> getAllGroups(){
+		return this.allGroups;
+	}
+	
+	public void setAllGroups(ArrayList<Group> allGroups) {
+		this.allGroups = allGroups;
+	}
+	
+ 
+	public void updateListBox(Group g) {
+		groupListBox.addItem(g.getTitle());
 	}
 }
-
+}
 
