@@ -19,6 +19,7 @@ body{
 	}
 	
 #Header{	
+	
    	background-color:rgba(225, 225, 225, 0.8);
     color:white;
     width: 100%;
@@ -45,13 +46,14 @@ body{
 	background-repeat: no-repeat;
 	/* background-image: url("images/Menu.png") !important ; */
 	background-color:rgba(225, 225, 225, 0.8);
+	display: none;
 }
 
 #Navigator{
 	
 	line-height: 40px;
     background-color:rgba(225, 225, 225, 0.8);
-    min-width: 35vw;
+    width: 10%;
     float:left;
   	margin-right:10px;
   	height: 76vh;
@@ -63,7 +65,7 @@ body{
 	background-color:rgba(225, 225, 225, 0.8);
 	right: 0px;
 	min-width: 45vw;
-	min-height: 76vh;
+	height: 76vh;
     overflow: auto;
     margin: 0px auto;
 }
@@ -151,7 +153,6 @@ body{
 	width: 100%;
 	margin-bottom: 1px;
 }
-
 .createGroupButton{
 	margin-bottom: 2vh !important;
 	margin-top: 2vh !important;
@@ -279,6 +280,7 @@ body{
 	background-position: center center;
 	height: 8vh;
 	width: 8vh;
+	display: none;
 	
 }
 
@@ -290,10 +292,10 @@ body{
 	background-image: url("images/favButton.png");
 	background-repeat:no-repeat;
 	background-position: center center;
-	background-size: 90%;
 	height: 8vh;
 	width: 8vh;
-	
+	background-size: 90%;
+	display: none;
 }
 
 .FavoriteItemTrue{
@@ -306,7 +308,7 @@ body{
 	background-position: center center;
 	height: 8vh;
 	width: 8vh;
-	
+	display: none;
 }
 
 .FavoriteItemTrue:hover{
@@ -320,7 +322,8 @@ body{
 	background-size: 90%;
 	height: 8vh;
 	width: 8vh;
-	
+	background-size: 90%;
+	display: none;
 }
 
 .editButton{
@@ -331,8 +334,8 @@ body{
 	background-image: url("images/editButton.png");
 	background-repeat:no-repeat;
 	background-position: center center;
-	height: 8vh;
-	width: 8vh;
+	display: none;
+	
 }
 
 .editButton:hover{
@@ -344,8 +347,7 @@ body{
 	background-repeat:no-repeat;
 	background-position: center center;
 	background-size: 90%;
-	height: 8vh;
-	width: 8vh;
+	display: none;
 }
 
 .selectGroupButton{
@@ -414,9 +416,7 @@ body{
 	background-image: url("images/deleteButton.png");
 	background-repeat:no-repeat;
 	background-position: center center;
-	height: 8vh;
-	width: 8vh;
-	
+	display: none;
 }
 
 .deleteButton:hover{
@@ -428,9 +428,7 @@ body{
 	background-repeat:no-repeat;
 	background-position: center center;
 	background-size: 90%;
-	height: 8vh;
-	width: 8vh;
-	
+	display: none;
 }
 
 .shareButton{
@@ -491,7 +489,8 @@ body{
 }
 
 
-.editorButton {  	
+.editorButton {
+  	
 	font-weigth: bolder;
     color: white;
     cursor: pointer;
