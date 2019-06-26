@@ -226,6 +226,7 @@ public class StoreForm extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
+			if(cityNameBox.getText()!="" && postCodeBox.getText()!="" && streetNameBox.getText()!="" && houseNumberBox.getText()!="" && storeNameBox.getText()!="") {
 			if(initial == false) {
 				storeToDisplay.setCity(cityNameBox.getText());
 				storeToDisplay.setPostcode(Integer.parseInt(postCodeBox.getText()));
@@ -237,6 +238,9 @@ public class StoreForm extends VerticalPanel{
 			} else {
 				shoppinglistAdministration.createStore(storeNameBox.getText(), streetNameBox.getText(), Integer.parseInt(postCodeBox.getText()), cityNameBox.getText(), Integer.parseInt(houseNumberBox.getText()), new CreateStoreCallback());
 				setTableEditable(false);
+			}
+			}else {
+				Window.alert("Bitte füllen sie alle Felder des Ladens richtig aus");
 			}
 		}
 	}

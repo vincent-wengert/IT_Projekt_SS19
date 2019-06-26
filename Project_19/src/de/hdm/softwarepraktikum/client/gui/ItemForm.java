@@ -283,6 +283,7 @@ public class ItemForm extends VerticalPanel{
 		@Override
 		public void onClick(ClickEvent event) {
 		
+			if(itemNameBox.getText()!="") {
 			if (initial == true) {
 			shoppinglistAdministration.createItem(itemNameBox.getText(), isGlobalBox.getValue(), currentPerson.getId(), new CreateItemCallback());
 			} else {
@@ -292,8 +293,11 @@ public class ItemForm extends VerticalPanel{
 			shoppinglistAdministration.updateItem(itemToDisplayProduct, new UpdateItemCallback());
 			}
 			setTableEditable(false);
-		}
-	}
+			}else {
+				Window.alert("Bitte geben sie einen Artikelnamen ein");
+				}
+			}
+	 	}
 	 
 		/**
 		 * EditClickHandler der das Loschen des Items ermöglicht.
