@@ -43,7 +43,6 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
          * 
          */
 		if (googleUser != null) {
-			System.out.println(googleUser.getEmail());
 			Person existingP =  PersonMapper.personMapper().findByGmail(googleUser.getEmail());
 			
 			//Falls der <code>Person<code> dem System bekannt ist, wird dieser eingeloggt.

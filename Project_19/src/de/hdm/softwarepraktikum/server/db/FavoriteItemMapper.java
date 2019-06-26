@@ -11,6 +11,16 @@ import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 
+/**
+ * Die Klasse FavoriteItemMapper wird nur einmal instantiiert. Man spricht hierbei
+ * von einem sogenannten <b>Singleton</b>.
+ * <p>
+ * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal fuer
+ * saemtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+ * einzige Instanz dieser Klasse.
+ * @author 
+ *
+ */
 public class FavoriteItemMapper {
 	
 	/* 
@@ -20,7 +30,7 @@ public class FavoriteItemMapper {
 	private static FavoriteItemMapper favoriteItemMapper = null;
 	
 	/*
-	 * Konstruktor ist geschÃ¼tzt, um weitere Instanzierung zu verhindern.
+	 * Konstruktor ist geschuetzt, um weitere Instantiierung zu verhindern.
 	 */
 
 	protected FavoriteItemMapper() {
@@ -39,8 +49,11 @@ public class FavoriteItemMapper {
 		return favoriteItemMapper;
 	}
 	
-	/*
+
+	/**
 	 * Insert Methode, um einen neuen Artikel der Datenbank hinzuzufuegen.
+	 * @param i
+	 * @param g
 	 */
 	
 	public void insert(Item i, Group g) {
@@ -84,7 +97,7 @@ public class FavoriteItemMapper {
 			e.printStackTrace();
 		}
 		
-		// Um Analogie zu insert(item i) zu wahren, wird i zurï¿½ckgegeben
+		// Um Analogie zu insert(item i) zu wahren, wird i zurueckgegeben
 				return i;
 	}
 	
@@ -107,7 +120,11 @@ public class FavoriteItemMapper {
 	}
 	
 	
-	
+	/**
+	 * Methode, um alle favorisierten Artikel einer Gruppe zu finden.
+	 * @param g
+	 * @return ArrayList mit allen favorisierten Items der Gruppe.
+	 */
 	public ArrayList<Item> findFavItems(Group g) {
 		// TODO Auto-generated method stub
 		
@@ -121,7 +138,7 @@ public class FavoriteItemMapper {
 
 		      ResultSet rs = stmt.executeQuery("SELECT Favorites.Item_Item_ID, Item.Name FROM Favorites INNER JOIN Item ON Favorites.Item_Item_ID = Item.Item_ID WHERE Group_Group_ID =" + g.getId());
 
-		      // Fï¿½r jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
+		      // Fuer jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
 		      while (rs.next()) {
 		    	Item i = new Item();
 		    	System.out.println(rs.getString("Name"));
@@ -129,7 +146,7 @@ public class FavoriteItemMapper {
 		        i.setName(rs.getString("Name"));
 		      
 
-		        // Hinzufï¿½gen des neuen Items zum Ergebnisvektor
+		        // Hinzufuegen des neuen Items zum Ergebnisvektor
 		        favItems.add(i);
 		      }
 		    }
@@ -137,13 +154,18 @@ public class FavoriteItemMapper {
 		      e2.printStackTrace();
 		    }
 
-		    // Ergebnisvektor zurï¿½ckgeben
+		    // Ergebnisvektor zurueckgeben
 		    return favItems;
 		    
 	}
 	
-	//Ueberpruefen ob Eintrag in Favoritentabelle
-	
+
+	/**
+	 * Ueberpruefen ob Eintrag in Favoritentabelle vorhanden ist.
+	 * @param i
+	 * @param g
+	 * @return favorite
+	 */
 	public Boolean checkFav(Item i, Group g) {
 		
 		Connection con = DBConnection.connection();
@@ -169,7 +191,11 @@ public class FavoriteItemMapper {
 	
 	}
 	
-	
+	/**
+	 * Methode, die anhand der Id prüft, ob ein Item als Favorit gespeichert ist.
+	 * @param item_id
+	 * @return boolean, ob ein Item Favorite ist
+	 */
 	public boolean checkById(int item_id) {
 		
 		Connection con = DBConnection.connection();

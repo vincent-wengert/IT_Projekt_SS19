@@ -159,7 +159,7 @@ public class GroupMapper {
 		
 		try {
 			
-			PreparedStatement st = con.prepareStatement("UPDATE Group SET Title = ?, Changedate = ? WHERE Group_ID = ?");
+			PreparedStatement st = con.prepareStatement("UPDATE `Group` SET Title = ?, Changedate = ? WHERE Group_ID= ?");
 			
 			st.setString(1, g.getTitle());
 			st.setTimestamp(2, g.getChangedate());

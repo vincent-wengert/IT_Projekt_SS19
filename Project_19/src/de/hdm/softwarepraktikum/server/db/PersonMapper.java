@@ -17,7 +17,7 @@ public class PersonMapper {
 	   * saemtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	   * einzige Instanz dieser Klasse.
 	   * 
-	   * @author Niklas Öxle
+	   * @author Niklas ï¿½xle
 	   */
 
 	private static PersonMapper personMapper = null;
@@ -50,7 +50,7 @@ public class PersonMapper {
 	
 
 	/**
-	 * Methode um ein Person-Datensatz in der Datenbank zu löschen.
+	 * Methode um ein Person-Datensatz in der Datenbank zu lï¿½schen.
 	 * @param person : Die zu loeschende Person wird uebergeben
 	 */
 	
@@ -62,8 +62,7 @@ public class PersonMapper {
 		try {
 
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("DELETE FROM Person WHERE PersonID =" + person.getId());
-
+			stmt.executeUpdate("DELETE FROM Person WHERE Person_ID = "+person.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -72,8 +71,8 @@ public class PersonMapper {
 
 	  /**
 		 * Wiederholtes Schreiben eines <code>Person</code> Objekts in die Datenbank.
-		 * @param person : Die zu aktualisierende Person wird übergeben
-		 * @return: die aktualisierte Person wird zurückgegeben
+		 * @param person : Die zu aktualisierende Person wird ï¿½bergeben
+		 * @return: die aktualisierte Person wird zurï¿½ckgegeben
 		 * 
 		 */
 	
@@ -83,12 +82,11 @@ public class PersonMapper {
 
 		try {
 
-			PreparedStatement st = con.prepareStatement("UPDATE Person SET Gmail= ?, Name= ? WHERE PersonID = ?");
+			PreparedStatement st = con.prepareStatement("UPDATE Person SET Gmail= "+person.getGmail()+", Name= "+person.getName()+ " WHERE PersonID ="+person.getId());
 			
 			st.setString(1, person.getGmail());
 			st.setString(2, person.getName());
 			st.setInt(3, person.getId());
-			System.out.println("updaze Person " + st);
 			st.executeUpdate();
 
 		} catch (SQLException e) {
@@ -104,7 +102,7 @@ public class PersonMapper {
 	/**
 	 * Methode um ein Person Objekt in der Datenbank zu speichern
 	 * @param person : eine neue zu speichernde Person in der Datenbank wird uebergeben
-	 * @return: die neu gespeicherte Person wird zurückgegeben
+	 * @return: die neu gespeicherte Person wird zurï¿½ckgegeben
 	 * 
 	 */
 	
@@ -148,8 +146,8 @@ public class PersonMapper {
 
 	/**
 	 * Methode um ein einzelnes <code>Person</code> Objekt anhand einer ID zu suchen.
-     * @param id :  ID der zu findenden Person wird übergeben.
-     * @return Die anhand der id gefundene Person wird zurückgegeben.
+     * @param id :  ID der zu findenden Person wird ï¿½bergeben.
+     * @return Die anhand der id gefundene Person wird zurï¿½ckgegeben.
 	 */
 	
 	
@@ -187,10 +185,10 @@ public class PersonMapper {
 		
 
 	/** 
-     * Methode um alle in der Datenbank vorhandenen Person-Datensätze abzurufen.
-     * Diese werden als einzelne <code>Person</code> Objekte innerhalb einer ArrayList zurückgegeben.
+     * Methode um alle in der Datenbank vorhandenen Person-Datensï¿½tze abzurufen.
+     * Diese werden als einzelne <code>Person</code> Objekte innerhalb einer ArrayList zurï¿½ckgegeben.
      * 
-     * @return ArrayList aller Persons wird zurückgegeben.
+     * @return ArrayList aller Persons wird zurï¿½ckgegeben.
      */
 
 	public ArrayList<Person> findAll() {
@@ -230,7 +228,7 @@ public class PersonMapper {
 
 	/** 
      * Methode um eine Person mittels dem Attribut Gmail zu finden.
-     * Diese werden als einzelne <code>Person</code> Objekt zurückgegeben
+     * Diese werden als einzelne <code>Person</code> Objekt zurï¿½ckgegeben
      * 
      * @param gmail: gmail der gesuchten Person
      * @return person : Das Person- Objekt mit der uebergebenen gmail
@@ -241,8 +239,6 @@ public class PersonMapper {
 		Connection con = DBConnection.connection();
 
 		try {
-			System.out.println("Email ist" + gmail);
-
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery("SELECT PersonID, Gmail, Name FROM Person WHERE Gmail ='"+gmail+"'");
@@ -358,5 +354,23 @@ public class PersonMapper {
 
 		return groupMembers;
 
+	}
+
+	public void deleteparticipationByPersonID(Person p) {
+		// TODO Auto-generated method stub
+		
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement stmt = con.createStatement();
+		stmt.executeUpdate("DELETE FROM Participant WHERE Person_PersonID = " + p.getId());
+		
+			
+			
+		  	}
+		  catch(SQLException e) {
+	  		e.printStackTrace();
+	  	}
+		
 	}
 }
