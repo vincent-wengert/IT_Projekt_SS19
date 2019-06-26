@@ -26,6 +26,8 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import cern.clhep.Units;
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
@@ -263,7 +265,15 @@ public class ListItemDialog extends PopupPanel {
 		unitListBox.addItem("ST");
 	}
 
-	
+	private Boolean isSaveable() {
+		if(amountTextBox.getText() == null || personListBox.getSelectedItemText() == null || itemListBox.getSelectedItemText() == null || unitListBox.getSelectedItemText() == null) {
+			Window.alert("Bitte füllen sie alle Felder aus");
+
+			return false;
+		}else {
+		return true;
+		}
+	}
 	
 	/**
 	 * Implementierung des ConfirmClickHandler
@@ -272,6 +282,7 @@ public class ListItemDialog extends PopupPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			
+		if(isSaveable() == true) {
 			if(updateItem == false) {
 			if (existingButton.getValue()==true ) {
 				getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
@@ -294,7 +305,8 @@ public class ListItemDialog extends PopupPanel {
 			}
 
 			ListItemDialog.this.hide();
-		}
+			} 
+		}	
 	}
 	
 	/**

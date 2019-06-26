@@ -105,4 +105,5 @@ public interface ShoppingListAdministrationAsync {
 
 	void getAllFavoriteListItemsbyGroup(Group g, AsyncCallback<ArrayList<Item>> callback);
 
+	void checkForExistingListItems(Integer id, AsyncCallback<Boolean> callback);
 }

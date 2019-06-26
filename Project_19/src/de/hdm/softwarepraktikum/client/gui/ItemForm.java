@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
+import com.google.gwt.dev.shell.CheckForUpdates;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -301,8 +302,7 @@ public class ItemForm extends VerticalPanel{
 			@Override
 			public void onClick(ClickEvent event) {
 				if(Window.confirm("Wollen Sie wirklich entfernen?") == true) {
-					shoppinglistAdministration.deleteItem(itemToDisplayProduct, new DeleteItemCallback());
-					aicl.updateCelllist(null);
+					shoppinglistAdministration.checkForExistingListItems(itemToDisplayProduct.getId(), new CheckForExistingListitemCallback());
 				}
 			}
 		}
@@ -385,6 +385,30 @@ public class ItemForm extends VerticalPanel{
 				//add item to cellist
 				Notification.show("Der Artikel wurde als Favorit markiert");
 				aicl.updateCelllist(itemToDisplayProduct);
+			}
+		}
+		
+		
+		/**
+		 * Hiermit kann <code>Item</code> Objekt geloscht werden und aus der 
+		 *  <code>AllItemsCelllist</code> Instanz entfernt werden.
+		 */
+		private class CheckForExistingListitemCallback implements AsyncCallback<Boolean> {
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(Boolean item) {
+				//add item to cellist
+				if(item == true) {
+					Window.alert("Der Artikel kann nicht gelöscht, da dieser noch in einer Einkaufliste vorhanden ist."
+							+ " Wenn dieser doch gelöscht werden möchte dann kontaktieren sie den Administrator");
+				} else {
+					shoppinglistAdministration.deleteItem(itemToDisplayProduct, new DeleteItemCallback());
+					aicl.updateCelllist(null);
+				}
 			}
 		}
 		
