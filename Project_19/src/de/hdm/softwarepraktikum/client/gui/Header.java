@@ -42,7 +42,6 @@ public class Header extends HorizontalPanel{
 		private Person currentPerson = CurrentPerson.getPerson();
 	
 	 	private HorizontalPanel homeButtonPanel = new HorizontalPanel();
-	 	private HorizontalPanel topPanel = new HorizontalPanel();
 	 	
 	 	private Button editorButton = new Button ("Editor");
 	 	private Button reportGeneratorButton = new Button("Reportgenerator");
@@ -55,9 +54,8 @@ public class Header extends HorizontalPanel{
 	 	 * und zu den Buttons die ClickHandler hinzugefÃ¼gt.
 	 	 */
 	 	public Header() {
-	 		topPanel.add(homeButtonPanel);
-	 		
-	 		this.add(topPanel);
+	 		this.add(homeButtonPanel);
+
 
 	 		editorButton.addClickHandler(new HomeClickHandler());
 	 		reportGeneratorButton.addClickHandler(new ReportGeneratorClickHandler());
@@ -90,7 +88,7 @@ public class Header extends HorizontalPanel{
 	 			public void execute() {
 	 				if(Window.confirm("Konto wirklich l\u00F6schen?") == true){
 	 					if(Window.confirm("Diese Aktion kann nicht r\u00FCckg\u00E4ngig gemacht werden. Sind Sie sicher?") == true) {
-	 						//TODO logik um account zu löschen
+	 						//TODO logik um account zu lï¿½schen
 	 					}
 	 				}
 	 			}
@@ -115,32 +113,10 @@ public class Header extends HorizontalPanel{
 	 			}
 	 		});
 	 		
-	 		/*
-	 		menu.addItem(new MenuItem("Editor", new Command() {
-	 			@Override
-	 			public void execute() {
-		 			Window.Location.reload();
-	 			}
-	 		}));
-
-	 		menu.addSeparator();
-	 		
-	 		menu.addItem(new MenuItem("Report Generator", new Command() {
-	 			@Override
-	 			public void execute() {
-	 				reportGeneratorLink.setHref(GWT.getHostPageBaseURL()+"ReportGenerator.html");
-		 			Window.open(reportGeneratorLink.getHref(), "_self", "");
-	 			}
-	 		}));
-
-	 		menu.addSeparator();
-	 		
-	 		**/
-	 		
 	 		menu.addItem(new MenuItem("Angemeldet als: " + currentPerson.getName(), logoutMenu));
 	 		
 
-	 		this.setStylePrimaryName("Header2");
+	 		this.setStylePrimaryName("Header");
 	 		
 
 	 		homeButtonPanel.add(editorButton);
@@ -158,9 +134,6 @@ public class Header extends HorizontalPanel{
 	 		
 	 		homeButtonPanel.setCellHorizontalAlignment(editorButton, ALIGN_LEFT);
 	 		homeButtonPanel.setCellHorizontalAlignment(reportGeneratorButton, ALIGN_RIGHT);
-	 		
-	 		this.setCellHorizontalAlignment(topPanel, ALIGN_RIGHT);
-	 		this.setCellVerticalAlignment(topPanel, ALIGN_MIDDLE);
 
 	 	}
 	 	
