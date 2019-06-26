@@ -544,6 +544,7 @@ public class ListItemMapper {
 				return listItems;	
 			}
 		
+		// Überprüfung ob Artikel mehr als 5x gekauft wurde
 		public ArrayList<Integer> autoSetFav(Group g) {
 			
 			ArrayList<Integer> setAsFav = new ArrayList<Integer>(); 
@@ -607,9 +608,9 @@ public class ListItemMapper {
 			
 			try {
 				Statement stmt = con.createStatement();
-			stmt.executeUpdate("DELETE ListItem FROM responsibility INNER JOIN listitem ON \r\n" + 
-					"ListItem.Responsibility_ID = responsibility.Responsibility_ID \r\n" + 
-					"WHERE responsibility.Person_ID = 1;" + p.getId());
+			stmt.executeUpdate("DELETE ListItem FROM Responsibility INNER JOIN ListItem ON \r\n" + 
+					"ListItem.Responsibility_ID = Responsibility.Responsibility_ID \r\n" + 
+					"WHERE Responsibility.Person_ID = 1;" + p.getId());
 			
 				
 				
