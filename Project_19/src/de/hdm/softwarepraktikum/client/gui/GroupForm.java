@@ -45,6 +45,7 @@ public class GroupForm extends VerticalPanel {
 
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	private CustomTreeModel ctm = null;
+	private AllItemsCellList aicl = null;
 
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
@@ -522,7 +523,27 @@ public class GroupForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Group result) {
 			ctm.updateAddedGroup(result);
-			Notification.show("Gruppe wurde erstellt");
+			aicl.updateAddedGroup(result);
+//			administration.getAllGroupsByPerson(currentPerson, new AsyncCallback<ArrayList<Group>>() {
+//
+//				@Override
+//				public void onFailure(Throwable arg0) {
+//					// TODO Auto-generated method stub
+//					
+//				}
+//
+//				@Override
+//				public void onSuccess(ArrayList<Group> result) {
+//					// TODO Auto-generated method stub
+//					aicl.getSearchFormArticles().setAllGroups(result);
+//					
+//					for(Group g: aicl.getSearchFormArticles().getAllGroups()) {
+//						Window.alert(Integer.toString(aicl.getSearchFormArticles().hashCode()));
+//						aicl.getSearchFormArticles().getListBox().addItem(g.getTitle());
+//					}
+//				}
+//				
+//			});
 		}
 	}
 	
@@ -556,6 +577,10 @@ public class GroupForm extends VerticalPanel {
 			RootPanel.get("Details").clear();
 		}
 		
+	}
+
+	public void setAICL(AllItemsCellList aicl) {
+		this.aicl = aicl;
 	}
 
 }

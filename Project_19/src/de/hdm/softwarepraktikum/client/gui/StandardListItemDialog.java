@@ -80,8 +80,6 @@ public class StandardListItemDialog extends PopupPanel {
 	private ListBox personListBox = new ListBox();
 	private ListBox storeListBox = new ListBox();
 	private ListBox unitListBox = new ListBox();
-	
-	private CheckBox isGlobalBox = new CheckBox("Für alle Nutzer sichtbar");
 
 	private TextBox amountTextBox = new TextBox();
 	
@@ -92,7 +90,8 @@ public class StandardListItemDialog extends PopupPanel {
 	 * angezeigt, um so ein <code>Listitem</code> zu erstellen.
 	 */
 	public StandardListItemDialog() {
-		this.setTitle("Artikel hinzufugen");
+		itemLabel.setText("Eigenschaften anlegen");
+
 		this.setGlassEnabled(true);
 		this.add(verticalPanel);
 
@@ -133,8 +132,6 @@ public class StandardListItemDialog extends PopupPanel {
 		verticalPanel.add(personLabel);
 		verticalPanel.add(personListBox);
 		
-		verticalPanel.add(isGlobalBox);
-
 		verticalPanel.add(bottomButtonsPanel);
 
 		confirmButton.addClickHandler(new ConfirmClickHandler());
@@ -144,7 +141,6 @@ public class StandardListItemDialog extends PopupPanel {
 		verticalPanel.setCellHorizontalAlignment(itemListBox, HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setCellHorizontalAlignment(storeListBox, HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setCellHorizontalAlignment(bottomButtonsPanel, HasHorizontalAlignment.ALIGN_CENTER);
-		verticalPanel.setCellHorizontalAlignment(isGlobalBox, HasHorizontalAlignment.ALIGN_CENTER);
 		this.center();
 	}
 
@@ -165,7 +161,6 @@ public class StandardListItemDialog extends PopupPanel {
 	 * shoppinglistAdministration geladen
 	 */
 	private void load() {
-		isGlobalBox.setVisible(false);
 		administration.getAllItems(new GetAllItemsCallback());
 		administration.getAllStores(new GetAllStoresCallback());
 		administration.getAllPersons(new GetAllGroupMembersCallback());
@@ -201,7 +196,6 @@ public class StandardListItemDialog extends PopupPanel {
 		this.shoppingList = shoppingList;
 		this.selectedItem = itemDisplay;
 		
-		itemLabel.setText("Hinzufügenden Standardartikels bearbeiten");
 		itemListBox.setVisible(true);
 	}
 
@@ -245,7 +239,6 @@ public class StandardListItemDialog extends PopupPanel {
 		@Override
 		public void onValueChange(ValueChangeEvent event) {
 			itemListBox.setVisible(false);
-			isGlobalBox.setVisible(true);
 
 		}
 	}
@@ -259,7 +252,6 @@ public class StandardListItemDialog extends PopupPanel {
 		@Override
 		public void onValueChange(ValueChangeEvent event) {
 			itemListBox.setVisible(true);
-			isGlobalBox.setVisible(false);
 		}
 	}
 	

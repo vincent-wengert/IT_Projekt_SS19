@@ -62,8 +62,7 @@ public class PersonMapper {
 		try {
 
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("DELETE FROM Person WHERE PersonID =" + person.getId());
-
+			stmt.executeUpdate("DELETE FROM Person WHERE Person_ID = "+person.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -355,5 +354,23 @@ public class PersonMapper {
 
 		return groupMembers;
 
+	}
+
+	public void deleteparticipationByPersonID(Person p) {
+		// TODO Auto-generated method stub
+		
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement stmt = con.createStatement();
+		stmt.executeUpdate("DELETE FROM Participant WHERE Person_PersonID = " + p.getId());
+		
+			
+			
+		  	}
+		  catch(SQLException e) {
+	  		e.printStackTrace();
+	  	}
+		
 	}
 }

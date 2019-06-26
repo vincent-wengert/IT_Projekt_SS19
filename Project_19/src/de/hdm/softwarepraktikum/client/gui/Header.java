@@ -40,9 +40,9 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 public class Header extends HorizontalPanel{
 		
 		private Person currentPerson = CurrentPerson.getPerson();
+		private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	
 	 	private HorizontalPanel homeButtonPanel = new HorizontalPanel();
-	 	private HorizontalPanel topPanel = new HorizontalPanel();
 	 	
 	 	private Button editorButton = new Button ("Editor");
 	 	private Button reportGeneratorButton = new Button("Reportgenerator");
@@ -55,9 +55,8 @@ public class Header extends HorizontalPanel{
 	 	 * und zu den Buttons die ClickHandler hinzugefügt.
 	 	 */
 	 	public Header() {
-	 		topPanel.add(homeButtonPanel);
-	 		
-	 		this.add(topPanel);
+	 		this.add(homeButtonPanel);
+
 
 	 		editorButton.addClickHandler(new HomeClickHandler());
 	 		reportGeneratorButton.addClickHandler(new ReportGeneratorClickHandler());
@@ -76,17 +75,43 @@ public class Header extends HorizontalPanel{
 	 		
 	 		MenuBar logoutMenu = new MenuBar(true);
 	 		logoutMenu.setAnimationEnabled(true);
-	 		logoutMenu.addItem("Angemeldet als: " + currentPerson.getGmail(), new Command() {
+	 		logoutMenu.addItem("Kontoeinstellungen", new Command() {
 	 	         @Override
 	 	         public void execute() {
-	 	        	 //TODO was geschiehen soll wenn current person angeklickt wird
-	 
+	 	        	 EditPersonDialog epd = new EditPersonDialog();
 	 	         }
 	 	      });
 	 		
 	 		logoutMenu.addSeparator();
 	 		
+	 		logoutMenu.addItem("Konto l\u00F6schen", new Command() {
+	 			@Override
+	 			public void execute() {
+	 				if(Window.confirm("Konto wirklich l\u00F6schen?") == true){
+	 					if(Window.confirm("Diese Aktion kann nicht r\u00FCckg\u00E4ngig gemacht werden. Sind Sie sicher?") == true) {
+	 		 				administration.deletePerson(currentPerson, new AsyncCallback<Void>() {
+
+								@Override
+								public void onFailure(Throwable arg0) {
+									// TODO Auto-generated method stub
+									
+								}
+
+								@Override
+								public void onSuccess(Void arg0) {
+									// TODO Auto-generated method stub
+									currentPerson.setLogoutUrl(currentPerson.getLogoutUrl());
+			 		 				Window.open(currentPerson.getLogoutUrl(), "_self", "");
+								}
+	 		 					
+	 		 				});
+	 					}
+	 				}
+	 			}
+	 		});
 	 		
+	 		logoutMenu.addSeparator();
+
 	 		/**
 	 		 * Durch ein Klick auf den Logout-Button wird der User auf die
 	 		 * Begrüßungsseite weitergeleitet
@@ -104,32 +129,10 @@ public class Header extends HorizontalPanel{
 	 			}
 	 		});
 	 		
-	 		/*
-	 		menu.addItem(new MenuItem("Editor", new Command() {
-	 			@Override
-	 			public void execute() {
-		 			Window.Location.reload();
-	 			}
-	 		}));
-
-	 		menu.addSeparator();
-	 		
-	 		menu.addItem(new MenuItem("Report Generator", new Command() {
-	 			@Override
-	 			public void execute() {
-	 				reportGeneratorLink.setHref(GWT.getHostPageBaseURL()+"ReportGenerator.html");
-		 			Window.open(reportGeneratorLink.getHref(), "_self", "");
-	 			}
-	 		}));
-
-	 		menu.addSeparator();
-	 		
-	 		**/
-	 		
 	 		menu.addItem(new MenuItem("Angemeldet als: " + currentPerson.getName(), logoutMenu));
 	 		
 
-	 		this.setStylePrimaryName("Header2");
+	 		this.setStylePrimaryName("Header");
 	 		
 
 	 		homeButtonPanel.add(editorButton);
@@ -147,9 +150,6 @@ public class Header extends HorizontalPanel{
 	 		
 	 		homeButtonPanel.setCellHorizontalAlignment(editorButton, ALIGN_LEFT);
 	 		homeButtonPanel.setCellHorizontalAlignment(reportGeneratorButton, ALIGN_RIGHT);
-	 		
-	 		this.setCellHorizontalAlignment(topPanel, ALIGN_RIGHT);
-	 		this.setCellVerticalAlignment(topPanel, ALIGN_MIDDLE);
 
 	 	}
 	 	

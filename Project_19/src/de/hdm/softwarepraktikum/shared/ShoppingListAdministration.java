@@ -22,6 +22,8 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void updatePerson(Person p);
 	
+	public void deletePerson(Person p);
+	
 	public Person createPerson(String gmail, String name);
 	
 	public ArrayList<Person> getAllPersons();

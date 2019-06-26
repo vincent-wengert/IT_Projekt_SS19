@@ -169,11 +169,16 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	
 	/**
 	 * Methode um ein <code>Person</code> Objekt aus der Datenbank zu lÃ¶schen
+	 * Referenzen zu Person-Objekt werden in der Reihenfolge Responsibility, Listitems, Participation gelöscht, anschließend das Person-Objekt
 	 * @param p
 	 * @throws IllegalArgumentException
 	 */
 	
 	public void deletePerson(Person p) throws IllegalArgumentException {
+		
+		responsibilityMapper.deleteByPersonID(p);
+		listItemMapper.deleteListItemByPersonID(p);
+		personMapper.deleteparticipationByPersonID(p);
 		personMapper.delete(p);
 	}
 	
@@ -281,6 +286,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 
 
 	public void deleteItem(Item i) throws IllegalArgumentException {
+		listItemMapper.deleteListItemByItemID(i);
 		itemMapper.delete(i);
 	}
 	
@@ -611,7 +617,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		return isFav;
 	}
 	
-	
+	//Methode setzt Artikel automatisiert als Favoriten falls dieser mehr als 4x eingekauft wurde
 	public void setFavAutomated(Group g) throws IllegalArgumentException{
 		
 		ArrayList<Integer> fav = listItemMapper.autoSetFav(g);
@@ -633,6 +639,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 	}
 	
+	//Methode liefert die Gruppenfavoriten als Arrayliste zurück
 	public ArrayList<Item> getAllFavoriteListItemsbyGroup (Group g) {
 		
 		return this.favoriteItemMapper.findFavItems(g);

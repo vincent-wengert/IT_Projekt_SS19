@@ -15,6 +15,17 @@ import de.hdm.softwarepraktikum.shared.bo.Store;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * Die Klasse ItemMapper wird nur einmal instantiiert. Man spricht hierbei
+ * von einem sogenannten <b>Singleton</b>.
+ * <p>
+ * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal fuer
+ * saemtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+ * einzige Instanz dieser Klasse.
+ * @author Bruno Herceg & Niklas Oexle
+ *
+ */
 public class ItemMapper {
 	
 	
@@ -25,7 +36,7 @@ public class ItemMapper {
 	private static ItemMapper itemMapper = null;
 	
 	/*
-	 * Konstruktor ist geschÃ¼tzt, um weitere Instanzierung zu verhindern.
+	 * Konstruktor ist geschuetzt, um weitere Instanzierung zu verhindern.
 	 */
 
 	protected ItemMapper() {
@@ -57,18 +68,18 @@ public class ItemMapper {
 			Statement stmt = con.createStatement();
 			
 		/*
-		 * Zunï¿½chst schauen wir nach, welches der momentan hï¿½chste
-		 * Primï¿½rschlï¿½sselwert ist.
+		 * Zunaechst schauen wir nach, welches der momentan hï¿½chste
+		 * Primaerschluesselwert ist.
 		 */
 			
 			
 		ResultSet rs = stmt.executeQuery("SELECT MAX(Item_ID) AS maxid " + "FROM Item");
 		
-		// Wenn wir etwas zurï¿½ckerhalten, kann dies nur einzeilig sein
+		// Wenn wir etwas zurueckerhalten, kann dies nur einzeilig sein
 		if (rs.next()) {
 		/*
-		 * i erhï¿½lt den bisher maximalen, nun um 1 inkrementierten
-		 * Primï¿½rschlï¿½ssel.
+		 * i erhaelt den bisher maximalen, nun um 1 inkrementierten
+		 * Primaerschluessel.
 		 */
 		i.setId(rs.getInt("maxid") + 1);
 				
@@ -93,13 +104,17 @@ public class ItemMapper {
 	}
 		
 		/*
-		 * Rï¿½ckgabe des evtl. korrigierten Items.
+		 * Rueckgabe des evtl. korrigierten Items.
 		 */
 		return i;
 	}
 	
 	
-	//Eigenschaften eines Stores aendern
+	/**
+	 * Eigenschaften eines Stores aendern
+	 * @param i
+	 * @return das geanderte Item i
+	 */
 			public Item update(Item i) {
 				
 				Connection con = DBConnection.connection();
@@ -138,10 +153,10 @@ public class ItemMapper {
 		}
 	}
 	
-	/*
+	/**
 	 * Methode, um Artikel anhand ihrer ID zu suchen.
+	 * @param id
 	 */
-	
 	public Item findById(int id) {
 		
 		//Herstellung einer Verbindung zur DB-Connection
@@ -155,8 +170,8 @@ public class ItemMapper {
 			ResultSet rs = stmt.executeQuery("Select id, name, isglobal FROM item" + "WHERE id= " + id);
 			
 			/*
-		     * Da id Primï¿½rschlï¿½ssel ist, kann max. nur ein Tupel zurï¿½ckgegeben
-		     * werden. Prï¿½fe, ob ein Ergebnis vorliegt.
+		     * Da id Primaerschluessel ist, kann max. nur ein Tupel zurueckgegeben
+		     * werden. Pruefe, ob ein Ergebnis vorliegt.
 		     */
 			if (rs.next()) {
 				//Ergebnis-Tupel in Objekt umwandeln
@@ -210,6 +225,11 @@ public class ItemMapper {
 		return result;
 	}
 	
+	/**
+	 * Methode, um alle Items einer Gruppe zu finden.
+	 * @param id
+	 * @return ArrayList mit allen Items einer Gruppe
+	 */
 	public ArrayList<Item> findAllByGroup(int id) {
 		//Ergebnisvektor vorbereiten
 		ArrayList<Item> result = new ArrayList<Item>();
@@ -222,7 +242,7 @@ public class ItemMapper {
 			ResultSet rs = stmt
 					.executeQuery("SELECT * FROM Item WHERE Item.IsGlobal = true  OR Item.IsGlobal = false AND Item.Owner_ID=" + id);
 			
-			// Fï¿½r jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
+			// Fuer jeden Eintrag im Suchergebnis wird nun ein Item-Objekt erstellt.
 			while(rs.next()) {
 				Item i = new Item();
 				i.setId(rs.getInt("Item_ID"));
@@ -240,6 +260,10 @@ public class ItemMapper {
 		return result;
 	}
 	
+	/**
+	 * Methode um zu prüfen, ob ListItems zu einem Item existieren.
+	 * @param i
+	 */
 	public boolean checkForExistingListitems(Item i) {
 		
 		boolean available = false;

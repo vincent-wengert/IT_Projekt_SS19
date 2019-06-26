@@ -1,14 +1,11 @@
 package de.hdm.softwarepraktikum.client.gui.report;
 
-import java.sql.Date;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.shared.DateTimeFormat;
-import com.google.gwt.layout.client.Layout.Alignment;
-import com.google.gwt.resources.converter.ElseNodeCreator;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -16,7 +13,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -25,19 +22,16 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.client.ReportEntry.CurrentReportPerson;
 import de.hdm.softwarepraktikum.client.gui.Footer;
-import de.hdm.softwarepraktikum.client.gui.ListItemDialog;
 import de.hdm.softwarepraktikum.client.gui.Notification;
 import de.hdm.softwarepraktikum.shared.ReportGeneratorAsync;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Group;
-import de.hdm.softwarepraktikum.shared.bo.Item;
-import de.hdm.softwarepraktikum.shared.bo.ListItem;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 import de.hdm.softwarepraktikum.shared.report.HTMLReportWriter;
 import de.hdm.softwarepraktikum.shared.report.ItemsByGroupReport;
 import de.hdm.softwarepraktikum.shared.report.ItemsByPersonReport;
-import java_cup.internal_error;
+
 
 /**
  * Diese Klasse bildet die Hauptform des ReportGenerator Clients. Hier werden
@@ -49,6 +43,9 @@ import java_cup.internal_error;
  */
 
 public class Reportform {
+	
+	
+	
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 	private ReportGeneratorAsync reportadministration = ClientsideSettings.getReportGenerator();
 	private HorizontalPanel menu = new HorizontalPanel();
@@ -84,9 +81,17 @@ public class Reportform {
 
 	private Timestamp fromDate = null;
 	private Timestamp toDate = null;
+	
+		
+	/**
+	 * Durch diese Methode , wird nach  erfolgreichem Login des Users, der Report-
+	 * Generator Client aufgerufen
+	 * 
+	 */
 
 	public void loadReportGenerator() {
-		// Divs laden
+		
+		
 		RootPanel.get("Selection").clear();
 		RootPanel.get("Result").clear();
 		RootPanel.get("Header").clear();
@@ -125,7 +130,6 @@ public class Reportform {
 		
 
 		menu.add(selectionGrid);
-//			menu.setCellHorizontalAlignment(selectionGrid, ALIGN_CENTER);
 		menu.setWidth("100%");
 		menu.setStylePrimaryName("menue");
 
@@ -142,6 +146,13 @@ public class Reportform {
 		administration.getAllGroupsByPerson(userPerson, new GetAllGroupCallback());
 
 	}
+	
+	
+	/**
+	 * Diese Methode wird aufgerufen, um den ausgewaehlten Store und Gruppe fuer den Report auszuwaehlen.
+	 * Falls die Auswahl leer ist, wird das jeweilige Objekt auf null gesetzt.
+	 * 
+	 */
 
 	private void getSelectedValues() {
 
@@ -166,6 +177,13 @@ public class Reportform {
 		}
 	}
 
+	
+	/**
+	 * Diese Methode wird aufgerufen, um die ausgewaehlten Datumsanagben fuer den Report auszuwaehlen.
+	 * 
+	 * @return : boolean
+	 */
+	
 	private Boolean getIntervallDefined() {
 		if (fromDateBox.getValue() == null && toDateBox.getValue() == null) {
 			return false;
@@ -181,6 +199,13 @@ public class Reportform {
 		}
 		return false;
 	}
+	
+	
+	/**
+	 * Diese Methode wird aufgerufen, um einen Report zu generieren, je nach optional 
+	 * ausgewählten Parametern.
+	 * 
+	 */
 
 	private void loadReports() {
 
@@ -249,7 +274,7 @@ public class Reportform {
 	}
 
 	/**
-	 * ClickHandler Klasse zum Aufrufen der <code>AllContactReportForm</code>.
+	 * ClickHandler Klasse zum Aufrufen der loadReports() Methode.
 	 */
 
 	private class getInformationClickHandler implements ClickHandler {
@@ -257,7 +282,13 @@ public class Reportform {
 		public void onClick(ClickEvent event) {
 			loadReports();
 		}
+		
 	}
+	
+	
+	/**
+	  * Diese innere Klasse wird als Callback für das Laden des ItemsByGroupReport benötigt.
+	  */
 
 	private class getReportOfGroupCallback implements AsyncCallback<ItemsByGroupReport> {
 
@@ -279,6 +310,12 @@ public class Reportform {
 		}
 
 	}
+	
+	
+	
+	/**
+	  * Diese innere Klasse wird als Callback für das Laden des ItemsByPersonReport benötigt.
+	  */
 
 	private class getReportOfPersonCallback implements AsyncCallback<ItemsByPersonReport> {
 
@@ -301,6 +338,10 @@ public class Reportform {
 
 	}
 
+	/**
+	  * Diese innere Klasse wird als Callback für das Laden der angelegten Stores benoetigt.
+	  */
+	
 	private class GetAllStoresCallback implements AsyncCallback<ArrayList<Store>> {
 
 		@Override
@@ -320,6 +361,12 @@ public class Reportform {
 		}
 	}
 
+	
+	/**
+	  * Diese innere Klasse wird als Callback für das Laden der angelegten Stores benoetigt.
+	  */
+	
+	
 	private class GetAllGroupCallback implements AsyncCallback<ArrayList<Group>> {
 
 		@Override

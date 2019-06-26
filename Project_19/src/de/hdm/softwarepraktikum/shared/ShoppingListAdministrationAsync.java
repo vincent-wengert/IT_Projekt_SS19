@@ -21,6 +21,8 @@ public interface ShoppingListAdministrationAsync {
 	public void createItem(String name, boolean value, int ownerID, AsyncCallback<Item> callback) throws IllegalArgumentException;
 
 	void updatePerson(Person p, AsyncCallback<Void> callback);
+	
+	void deletePerson(Person p, AsyncCallback <Void> callback);
 
 	void getAllPersons(AsyncCallback<ArrayList<Person>> callback);
 

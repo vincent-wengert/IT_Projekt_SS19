@@ -69,7 +69,7 @@ public class ListItemDialog extends PopupPanel {
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
 
-	Grid itemGrid = new Grid(2, 2);
+	private Grid itemGrid = new Grid(2, 2);
 
 	private RadioButton existingButton = new RadioButton("Bestehend");
 	private RadioButton newButton = new RadioButton("Neu");
@@ -106,7 +106,6 @@ public class ListItemDialog extends PopupPanel {
 	 * angezeigt, um so ein <code>Listitem</code> zu erstellen.
 	 */
 	public ListItemDialog() {
-		
 		this.load();
 
 		this.setTitle("Artikel hinzufugen");
@@ -175,6 +174,8 @@ public class ListItemDialog extends PopupPanel {
 		verticalPanel.setCellHorizontalAlignment(storeListBox, HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setCellHorizontalAlignment(bottomButtonsPanel, HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setCellHorizontalAlignment(isGlobalBox, HasHorizontalAlignment.ALIGN_CENTER);
+		
+		
 		this.center();
 	}
 
@@ -318,6 +319,8 @@ public class ListItemDialog extends PopupPanel {
 			ListItemDialog.this.hide();
 		}
 	}
+	
+	
 	
 	/**
 	 * Implementierung des NewValueChangeHandler
