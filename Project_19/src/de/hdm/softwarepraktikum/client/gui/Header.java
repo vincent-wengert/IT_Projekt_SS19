@@ -48,7 +48,7 @@ public class Header extends HorizontalPanel{
 	 	private Button reportGeneratorButton = new Button("Reportgenerator");
 	 	private Anchor reportGeneratorLink = new Anchor("ReportGenerator");
 
-
+	 	private MenuItem logout;
 
 	 	/**
 	 	 * Im Konstruktor dieser Klasse werden die Buttons in die Panels
@@ -79,6 +79,7 @@ public class Header extends HorizontalPanel{
 	 	         @Override
 	 	         public void execute() {
 	 	        	 EditPersonDialog epd = new EditPersonDialog();
+	 	        	 epd.setHeader(Header.this);
 	 	         }
 	 	      });
 	 		
@@ -129,8 +130,9 @@ public class Header extends HorizontalPanel{
 	 			}
 	 		});
 	 		
-	 		menu.addItem(new MenuItem("Angemeldet als: " + currentPerson.getName(), logoutMenu));
+	 		logout  = new MenuItem("Angemeldet als: " + currentPerson.getName(), logoutMenu);
 	 		
+	 		menu.addItem(logout);
 
 	 		this.setStylePrimaryName("Header");
 	 		
@@ -144,16 +146,15 @@ public class Header extends HorizontalPanel{
 	 		reportGeneratorButton.setStylePrimaryName("reportGeneratorButton");
 	 		
 	 		menu.setStylePrimaryName("menuBar");
-	 		
-	 		
 
-	 		
 	 		homeButtonPanel.setCellHorizontalAlignment(editorButton, ALIGN_LEFT);
 	 		homeButtonPanel.setCellHorizontalAlignment(reportGeneratorButton, ALIGN_RIGHT);
 
 	 	}
 	 	
-	 	
+	 	public MenuItem getLogoutMenu() {
+	 		return this.logout;
+	 	}
 	 	
 	 	/**
 	 	 * Durch ein Klick auf den ReportGenerator-Button wird man 

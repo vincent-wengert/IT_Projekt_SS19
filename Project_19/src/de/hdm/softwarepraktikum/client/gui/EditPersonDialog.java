@@ -33,6 +33,8 @@ public class EditPersonDialog extends PopupPanel{
 	private Label accountLabel = new Label(currentPerson.getGmail());
 	private Label nameChangeLabel = new Label("Namen \u00E4ndern");
 	
+	private Header header;
+	
 	public EditPersonDialog() {
 		this.setTitle("Einstellungen");
 		this.setGlassEnabled(true);
@@ -69,6 +71,10 @@ public class EditPersonDialog extends PopupPanel{
 		this.center();
 	}
 	
+	public void setHeader(Header header) {
+		this.header = header;
+	}
+	
 	private class UpdatePersonClickHandler implements ClickHandler {
 
 		@Override
@@ -86,7 +92,7 @@ public class EditPersonDialog extends PopupPanel{
 				@Override
 				public void onSuccess(Void arg0) {
 					EditPersonDialog.this.hide();
-					
+					header.getLogoutMenu().setHTML(currentPerson.getName());
 				}
 				
 			});
