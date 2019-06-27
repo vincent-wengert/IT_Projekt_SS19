@@ -117,6 +117,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		bottomButtonsPanel.setStylePrimaryName("bottomButtonsPanel");
 		addListItemPanel.setStylePrimaryName("addListItemPanel");
 		additionalInfoGrid.setStylePrimaryName("additionalInfoGrid");
+		topButtonsPanel.setStylePrimaryName("topButtonsPanel2");
 		
 		bottomButtonsPanel.setSpacing(20);
 
@@ -128,15 +129,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 		addListItemButton.setVisible(true);
 		myItemsCheckbox.setStylePrimaryName("myItemsCheckbox");
 		
-		editButton.setWidth("8vh");
-		editButton.setHeight("8vh");
-		
-		deleteButton.setWidth("8vh");
-		deleteButton.setHeight("8vh");
-
-		formHeaderPanel.setHeight("8vh");
-		formHeaderPanel.setWidth("100%");
-		
 		shoppinglistNameBox.setMaxLength(10);
 		shoppinglistNameBox.setVisible(false);
 		shoppinglistNameBox.setStylePrimaryName("shoppinglistNameBox");
@@ -147,6 +139,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 		confirmButton.setStylePrimaryName("confirmButton");
 		cancelButton.setPixelSize(130, 40);
 		confirmButton.setPixelSize(130, 40);
+		
+		cellTable.setStylePrimaryName("cellTable");
 		
 
 		formHeaderPanel.add(infoTitleLabel);

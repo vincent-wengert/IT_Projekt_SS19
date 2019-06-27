@@ -88,7 +88,6 @@ public class StoreForm extends VerticalPanel{
 	 * 
 	 */
 	public void onLoad() {
-
 		this.setWidth("100%");
 		editButton.setStylePrimaryName("editButton");
 		deleteButton.setStylePrimaryName("deleteButton");
@@ -97,29 +96,16 @@ public class StoreForm extends VerticalPanel{
 		bottomButtonsPanel.setStylePrimaryName("bottomButtonsPanel");
 		cancelButton.setStylePrimaryName("cancelButton");
 		confirmButton.setStylePrimaryName("confirmButton");
+		topButtonsPanel.setStylePrimaryName("topButtonsPanel2");
 
-		formHeaderPanel.setHeight("8vh");
-		formHeaderPanel.setWidth("100%");
 		cancelButton.setPixelSize(130, 40);
 		confirmButton.setPixelSize(130, 40);
 		
 		houseNumberBox.setWidth("42%");
 		streetNameBox.setWidth("95%");
-		
-		editButton.setHeight("8vh");
-		editButton.setWidth("8vh");
-		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_LEFT);
-		deleteButton.setHeight("8vh");
-		deleteButton.setWidth("8vh");
-		topButtonsPanel.setCellHorizontalAlignment(deleteButton, ALIGN_RIGHT);
 
 		formHeaderPanel.add(infoTitleLabel);
 		formHeaderPanel.add(topButtonsPanel);
-		formHeaderPanel.setCellVerticalAlignment(infoTitleLabel, ALIGN_BOTTOM);
-		formHeaderPanel.setCellHorizontalAlignment(infoTitleLabel, ALIGN_LEFT);
-		
-		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
-		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
 		
 		topButtonsPanel.add(editButton);
 		topButtonsPanel.add(deleteButton);

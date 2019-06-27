@@ -35,16 +35,15 @@ body{
 
 #Menu{
 
-	width: 15vh;
+	width: 10vh;
 	float: left;
 	left: 0px;
 	margin-top: 0px;
 	padding-top: 0px;
 	margin-right: 10px;
-	height: 76vh;
+	height: 48vh;
 	background-repeat: no-repeat;
-	/* background-image: url("images/Menu.png") !important ; */
-	background-color:rgba(225, 225, 225, 0.8);
+	background-color: transparent;
 }
 
 #Navigator{
@@ -139,12 +138,23 @@ body{
 
 .MenuPanel {
 	background-color: #1F2833;
-	height: 76vh !important;
+	height: 48vh;
+	width: 8vh;
 }
 
 .homeButtonPanel {
 	float: right !important;
 	
+}
+
+.topButtonsPanel {
+	width: 18vh;
+	float: right !important;
+}
+
+.topButtonsPanel2 {
+	width: 12vh !important;
+	float: right !important;
 }
 
 .Header {
@@ -153,106 +163,101 @@ body{
 }
 
 .createGroupButton{
-	margin: 2vh !important;
+	margin: 2vh;
+	
 	background: transparent;
 	background-image: url("images/group.png");
 	background-repeat:no-repeat;
 	border: none;
 	background-size: cover;
-	height: 10vh;
-	width: 10vh;
+	height: 6vh;
+	width: 6vh;
 }
 .createGroupButton:hover{
 	background-color: grey;
-	margin: 2vh !important;
 	color: white;
+	margin: 2vh;
 	background-image: url("images/group.png");
 	background-size: cover;
 	background-repeat: no-repeat;
-	height: 10vh;
-	width: 10vh;
+	height: 6vh;
+	width: 6vh;
 }
 						
 .createShoppinglistButton{
-	outline: white;
 	position: relative;
-	margin: 2vh !important;
-	color: white;
+	margin: 2vh;
 	border: none;
 	background: transparent;
 	background-image: url("images/shoppinglist.png");
 	background-repeat:no-repeat;
-	background-position: center center;
+	background-position: center;
 	background-size: cover;
-	height: 10vh;
-	width: 10vh;
+	height: 6vh;
+	width: 6vh;
 }
 
 .createShoppinglistButton:hover{
 	background-color: grey;
 	position: relative;
-	margin: 2vh !important;
+	margin: 2vh;
 	color: white;
 	border:solid black 1px;
 	background-image: url("images/shoppinglist.png");
 	background-size: cover;
-	height: 10vh;
-	width: 10vh;
+	height: 6vh;
+	width: 6vh;
 }
 
 .createArticleButton{		
-	outline: white;
 	position: relative;
-	margin: 2vh !important;
-	color: white;
+	margin: 2vh;
 	border: none;
 	background: transparent;
 	background-image: url("images/article.png");
 	background-repeat:no-repeat;
-	background-position: center center;
+	background-position: center;
 	background-size: cover;
-	height: 10vh;
-	width: 10vh;
+	height: 6vh;
+	width: 6vh;
 }
 
 .createArticleButton:hover{
 	background-color: grey;
 	position: relative;
-	margin: 2vh !important;
+	margin: 2vh;
 	color: white;
 	border:solid black 1px;
 	background-image: url("images/article.png");
 	background-size: cover;
-	height: 10vh;
-	width: 10vh;
+	height: 6vh;
+	width: 6vh;
 }
 
 .createStoreButton{	
-	outline: white;
 	position: relative;
-	margin: 2vh !important;
-	color: white;
+	margin: 2vh;
 	border: none;
 	background: transparent;
 	background-image: url("images/store.png");
 	background-repeat:no-repeat;
 	background-position: center;
 	background-size: cover;
-	height: 10vh;
-	width: 10vh;
+	height: 6vh;
+	width: 6vh;
 	
 }
 
 .createStoreButton:hover{	
 	background-color: grey;
 	position: relative;
-	margin: 2vh !important;
+	margin: 2vh;
 	color: white;
 	border:solid black 1px;
 	background-image: url("images/store.png");
 	background-size: cover;
-	height: 10vh;
-	width: 10vh;
+	height: 6vh;
+	width: 6vh;
 }
 
 .FavoriteItemFalse{
@@ -263,8 +268,10 @@ body{
 	background-image: url("images/favButton.png");
 	background-repeat:no-repeat;
 	background-position: center center;
-	height: 8vh;
-	width: 8vh;
+	background-size: cover;
+	height: 6vh;
+	width: 6vh;
+	float: right;
 	
 }
 
@@ -277,8 +284,8 @@ body{
 	background-repeat:no-repeat;
 	background-position: center center;
 	background-size: 90%;
-	height: 8vh;
-	width: 8vh;
+	height: 6vh;
+	width: 6vh;
 	
 }
 
@@ -290,8 +297,9 @@ body{
 	background-image: url("images/favButtonClick.png");
 	background-repeat:no-repeat;
 	background-position: center center;
-	height: 8vh;
-	width: 8vh;
+	background-size: cover;
+	height: 6vh;
+	width: 6vh;
 	
 }
 
@@ -304,8 +312,8 @@ body{
 	background-repeat:no-repeat;
 	background-position: center center;
 	background-size: 90%;
-	height: 8vh;
-	width: 8vh;
+	height: 6vh;
+	width: 6vh;
 	
 }
 
@@ -317,8 +325,10 @@ body{
 	background-image: url("images/editButton.png");
 	background-repeat:no-repeat;
 	background-position: center center;
-	height: 8vh;
-	width: 8vh;
+	background-size: cover;
+	height: 6vh;
+	width: 6vh;
+	float: right !important;
 }
 
 .editButton:hover{
@@ -330,8 +340,38 @@ body{
 	background-repeat:no-repeat;
 	background-position: center center;
 	background-size: 90%;
-	height: 8vh;
-	width: 8vh;
+	height: 6vh;
+	width: 6vh;
+	float: right !important;
+}
+
+
+.deleteButton{
+	border: none;
+	background: transparent;
+	background-image: url("images/deleteButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+	background-size: cover;
+	height: 6vh;
+	width: 6vh;
+	float: right;
+	
+}
+
+.deleteButton:hover{
+	
+	border:solid black 1px;
+	cursor: pointer;
+	background-color:#6f7277;
+	background-image: url("images/deleteButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+	background-size: 90%;
+	height: 6vh;
+	width: 6vh;
+	float: right;
+	
 }
 
 .selectGroupButton{
@@ -346,9 +386,6 @@ body{
 	background-color:#1F2833;
 	font-color: solid white;
 	
-}
-
-.favLabel {
 }
 
 .shoppinglistNameBox {
@@ -392,31 +429,6 @@ body{
 	background-image: url("images/editButton.png");
 	background-repeat:no-repeat;
 	background-position: center center;
-}
-
-.deleteButton{
-	border: none;
-	background: transparent;
-	background-image: url("images/deleteButton.png");
-	background-repeat:no-repeat;
-	background-position: center center;
-	height: 8vh;
-	width: 8vh;
-	
-}
-
-.deleteButton:hover{
-	
-	border:solid black 1px;
-	cursor: pointer;
-	background-color:#6f7277;
-	background-image: url("images/deleteButton.png");
-	background-repeat:no-repeat;
-	background-position: center center;
-	background-size: 90%;
-	height: 8vh;
-	width: 8vh;
-	
 }
 
 .shareButton{
@@ -485,6 +497,7 @@ body{
 	border: none;
 	height: 7vh;
 	width: 15vw;
+	font-size: 1em 3vw !important;
 }
 
 
@@ -530,8 +543,9 @@ body{
 	color:white;
 	margin:10px;
 	font-weight: bold;
-	font-size: 200% !important;
+	font-size: 150% !important;
 	margin-Bottom:7px;
+	width: 100% !important;
 	
 }
 
@@ -669,11 +683,12 @@ body{
 	width: 15vw !important;
 	margin-left: 1px !important;
 	text-align: center !important;
-	
+	text-size: 5vh !important;
 }
 
 .formHeaderPanel {
 	background-color: #1F2833 !important;
+	width: 100%;
 }
 
 .gwt-MenuBar .gwt-MenuItemSeparator {
@@ -682,6 +697,10 @@ body{
 }
 
 .gwt-MenuBar .gwt-MenuItem {
+}
+
+.gwt-cellTableSelectedRow {
+    background: red !important;
 }
 
 @-webkit-keyframes refreshInfoLabelAnimation {

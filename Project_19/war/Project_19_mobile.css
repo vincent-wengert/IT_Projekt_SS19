@@ -334,8 +334,7 @@ body{
 	background-image: url("images/editButton.png");
 	background-repeat:no-repeat;
 	background-position: center center;
-	display: none;
-	
+
 }
 
 .editButton:hover{
@@ -347,7 +346,6 @@ body{
 	background-repeat:no-repeat;
 	background-position: center center;
 	background-size: 90%;
-	display: none;
 }
 
 .selectGroupButton{
@@ -498,6 +496,7 @@ body{
 	border: none;
 	height: 7vh;
 	width: 15vw;
+	display: none;
 }
 
 
@@ -510,6 +509,7 @@ body{
 	border:solid black 1px;
 	height: 7vh;
 	width: 15vw;
+	display: none;
 	
 }
 .reportGeneratorButton {
@@ -523,6 +523,7 @@ body{
     border: none;
     height: 7vh;
 	width: 15vw;
+	display: none;
     
 }
 
@@ -537,6 +538,7 @@ body{
     margin-right: 1px;
     height: 7vh;
 	width: 15vw;
+	display: none;
 }
 
 .infoTitleLabel {
@@ -678,9 +680,10 @@ body{
 
 .menuBar {
 	background-color: #1F2833;
-	height: 7vh !important;
+	height: 4vh !important;
 	width: 15vw !important;
-	margin-left: 1px !important;
+	margin-right: 2vh;
+	margin-left: 2vh !important;
 	text-align: center !important;
 	
 }
