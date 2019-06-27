@@ -94,8 +94,7 @@ public class Header extends HorizontalPanel{
 
 								@Override
 								public void onFailure(Throwable arg0) {
-									// TODO Auto-generated method stub
-									
+									Notification.show(arg0.toString());
 								}
 
 								@Override
