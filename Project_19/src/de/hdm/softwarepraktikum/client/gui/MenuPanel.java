@@ -168,6 +168,7 @@ public class MenuPanel extends VerticalPanel {
 			groupForm = new GroupForm();
 
 			groupForm.setCtm(ctm);
+			groupForm.setAllItemsCelllist(allItemsCellList);
 			groupForm.setEditable(true);
 			groupForm.setInitial(true);
 			RootPanel.get("Details").add(groupForm);

@@ -94,7 +94,6 @@ public class NavigatorPanel extends TabPanel {
 		// Alle Forms in den jeweiligen Klassen werden gesetzt
 		model.setGroupForm(gf);
 		gf.setCtm(model);
-		gf.setAllItemsCelllist(aicl);
 		model.setShoppingListForm(sslf);
 		sslf.setCtm(model);
 		model.setNewShoppingListForm(nslf);

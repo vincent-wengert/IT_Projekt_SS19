@@ -29,8 +29,7 @@ import de.hdm.softwarepraktikum.shared.bo.Store;
 
 public class StoreForm extends VerticalPanel {
 
-	private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings
-			.getShoppinglistAdministration();
+	private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings.getShoppinglistAdministration();
 
 	private Store storeToDisplay = null;
 	private AllStoresCellList ascl = null;
