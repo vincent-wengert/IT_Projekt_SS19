@@ -153,35 +153,30 @@ body{
 }
 
 .createGroupButton{
-	margin-bottom: 2vh !important;
-	margin-top: 2vh !important;
+	margin: 2vh !important;
 	background: transparent;
 	background-image: url("images/group.png");
 	background-repeat:no-repeat;
 	border: none;
 	background-size: cover;
-	height: 15vh;
-	width: 15vh;
+	height: 10vh;
+	width: 10vh;
 }
 .createGroupButton:hover{
 	background-color: grey;
-	right: 0px;
-	margin-bottom: 2vh !important;
-	margin-top: 2vh !important;
+	margin: 2vh !important;
 	color: white;
 	background-image: url("images/group.png");
 	background-size: cover;
 	background-repeat: no-repeat;
-	height: 15vh;
-	width: 15vh;
+	height: 10vh;
+	width: 10vh;
 }
 						
 .createShoppinglistButton{
 	outline: white;
 	position: relative;
-	right: 0px;
-	margin-bottom: 2vh !important;
-	margin-top: 2vh !important;
+	margin: 2vh !important;
 	color: white;
 	border: none;
 	background: transparent;
@@ -189,30 +184,26 @@ body{
 	background-repeat:no-repeat;
 	background-position: center center;
 	background-size: cover;
-	height: 15vh;
-	width: 15vh;
+	height: 10vh;
+	width: 10vh;
 }
 
 .createShoppinglistButton:hover{
 	background-color: grey;
 	position: relative;
-	right: 0px;
-	margin-bottom: 2vh !important;
-	margin-top: 2vh !important;
+	margin: 2vh !important;
 	color: white;
 	border:solid black 1px;
 	background-image: url("images/shoppinglist.png");
 	background-size: cover;
-	height: 15vh;
-	width: 15vh;
+	height: 10vh;
+	width: 10vh;
 }
 
 .createArticleButton{		
 	outline: white;
 	position: relative;
-	right: 0px;
-	margin-bottom: 2vh !important;
-	margin-top: 2vh !important;
+	margin: 2vh !important;
 	color: white;
 	border: none;
 	background: transparent;
@@ -220,53 +211,48 @@ body{
 	background-repeat:no-repeat;
 	background-position: center center;
 	background-size: cover;
-	height: 15vh;
-	width: 15vh;
+	height: 10vh;
+	width: 10vh;
 }
 
 .createArticleButton:hover{
 	background-color: grey;
 	position: relative;
-	right: 0px;
-	margin-bottom: 2vh !important;
-	margin-top: 2vh !important;
+	margin: 2vh !important;
 	color: white;
 	border:solid black 1px;
 	background-image: url("images/article.png");
 	background-size: cover;
-	height: 15vh;
-	width: 15vh;
+	height: 10vh;
+	width: 10vh;
 }
 
 .createStoreButton{	
 	outline: white;
 	position: relative;
-	right: 0px;
-	margin-bottom: 2vh !important;
-	margin-top: 2vh !important;
+	margin: 2vh !important;
 	color: white;
 	border: none;
 	background: transparent;
 	background-image: url("images/store.png");
 	background-repeat:no-repeat;
-	background-position: center center;
+	background-position: center;
 	background-size: cover;
-	height: 15vh;
-	width: 15vh;
+	height: 10vh;
+	width: 10vh;
+	
 }
 
 .createStoreButton:hover{	
 	background-color: grey;
 	position: relative;
-	right: 0px;
-	margin-bottom: 2vh !important;
-	margin-top: 2vh !important;
+	margin: 2vh !important;
 	color: white;
 	border:solid black 1px;
 	background-image: url("images/store.png");
 	background-size: cover;
-	height: 15vh;
-	width: 15vh;
+	height: 10vh;
+	width: 10vh;
 }
 
 .FavoriteItemFalse{
