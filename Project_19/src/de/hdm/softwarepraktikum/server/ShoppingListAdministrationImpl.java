@@ -26,7 +26,6 @@ import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
-import com.google.appengine.api.search.query.ExpressionParser.index_return;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -169,7 +168,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	
 	/**
 	 * Methode um ein <code>Person</code> Objekt aus der Datenbank zu lÃ¶schen
-	 * Referenzen zu Person-Objekt werden in der Reihenfolge Responsibility, Listitems, Participation gelöscht, anschließend das Person-Objekt
+	 * Referenzen zu Person-Objekt werden in der Reihenfolge Responsibility, Listitems, Participation gelï¿½scht, anschlieï¿½end das Person-Objekt
 	 * @param p
 	 * @throws IllegalArgumentException
 	 */
@@ -639,7 +638,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 	}
 	
-	//Methode liefert die Gruppenfavoriten als Arrayliste zurück
+	//Methode liefert die Gruppenfavoriten als Arrayliste zurï¿½ck
 	public ArrayList<Item> getAllFavoriteListItemsbyGroup (Group g) {
 		
 		return this.favoriteItemMapper.findFavItems(g);

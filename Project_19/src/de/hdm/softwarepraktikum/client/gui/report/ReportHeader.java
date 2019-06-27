@@ -29,7 +29,7 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 
 /**
  * Die <code>Header</code>-Klasse ist der Kopfbereich des Reports. 
- * Der Header wird �ber alle Seiten des Tools gleich angezeigt. 
+ * Der Header wird ueber alle Seiten des Tools gleich angezeigt. 
  * 
  * @author Niklas Oexle, Bruno Herceg
  * @version 1.0
@@ -51,7 +51,7 @@ public class ReportHeader extends HorizontalPanel {
 
  	/**
  	 * Im Konstruktor dieser Klasse werden die Buttons in die Panels
- 	 * und zu den Buttons die ClickHandler hinzugefügt.
+ 	 * und zu den Buttons die ClickHandler hinzugefuegt.
  	 */
  	public ReportHeader() {
  		topPanel.add(homeButtonPanel);
@@ -65,7 +65,7 @@ public class ReportHeader extends HorizontalPanel {
  	/**
  	 * In dieser Methode werden die Desings der Buttons festgelegt. Auch
  	 * die ShoppingList-Editor und ReportGenerator-Buttons werden zum Kopfbereich
- 	 * des Shoppinglisttool hinzugefügt. 
+ 	 * des Shoppinglisttool hinzugefuegt. 
  	 */
  	public void onLoad() {
  		MenuBar menu = new MenuBar();
@@ -103,7 +103,7 @@ public class ReportHeader extends HorizontalPanel {
  		
  		/**
  		 * Durch ein Klick auf den Logout-Button wird der User auf die
- 		 * Begrüßungsseite weitergeleitet
+ 		 * Begrue�ungsseite weitergeleitet
  		 */
  		
  		logoutMenu.addItem("Logout", new Command() {
@@ -138,7 +138,6 @@ public class ReportHeader extends HorizontalPanel {
  		homeButtonPanel.setCellHorizontalAlignment(reportGeneratorButton, ALIGN_RIGHT);
  		this.setCellHorizontalAlignment(topPanel, ALIGN_RIGHT);
  		this.setCellVerticalAlignment(topPanel, ALIGN_MIDDLE);
-
  	
  	}
  	

@@ -35,9 +35,9 @@ import de.hdm.softwarepraktikum.shared.report.ItemsByPersonReport;
 
 /**
  * Diese Klasse bildet die Hauptform des ReportGenerator Clients. Hier werden
- * alle relevanten HTML-Layout Elemente zu einer Form zusammengefï¿½hrt.
+ * alle relevanten HTML-Layout Elemente zu einer Form zusammengefuehrt.
  * 
- * @autor Niklas ï¿½xle
+ * @autor Niklas Oexle
  * @version 1.0
  * 
  */
@@ -243,28 +243,28 @@ public class Reportform {
 			}
 
 		} else if (getIntervallDefined() == false) {
-			// Alles leer --> dann Person
+			// Nichts ausgewaehlt: alle eingekauften Artikel der Person werden angezeigt.
 			if (selectedGroup == null && selectedStore == null) {
 				Window.alert("nur Person ohne Gruppe");
 				reportadministration.getReportOfPerson(userPerson, selectedStore, selectedGroup,
 						new getReportOfPersonCallback());
 			}
 
-			// Nur Gruppe
+			// Nur Gruppe ausgewählt
 			if (selectedGroup != null && selectedStore == null) {
 				Window.alert("nur Person in Gruppe");
 				reportadministration.getReportOfGroup(personCheckBox.getValue(), userPerson, selectedGroup,
 						selectedStore, new getReportOfGroupCallback());
 			}
 
-			// Nur Store (und Person)
+			// Nur Store ausgewaehlt (und Person)
 			if (selectedGroup == null && selectedStore != null) {
 				Window.alert("nur Store");
 				reportadministration.getReportOfPerson(userPerson, selectedStore, selectedGroup,
 						new getReportOfPersonCallback());
 			}
 
-			// Nur Gruppe
+			// Gruppe und Store ausgewaehlt
 			if (selectedGroup != null && selectedStore != null) {
 				Window.alert("Gruppe und Store");
 				reportadministration.getReportOfGroup(personCheckBox.getValue(), userPerson, selectedGroup,

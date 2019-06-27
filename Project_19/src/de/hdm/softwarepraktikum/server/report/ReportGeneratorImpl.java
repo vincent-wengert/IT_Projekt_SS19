@@ -32,10 +32,10 @@ import de.hdm.softwarepraktikum.shared.report.SimpleParagraph;
 
 /**
  * Die Klasse <code>ReportGeneratorImpl</code> implementiert das Interface
- * ReportGenerator. In der Klasse ist neben ShoppingListAdministrationImpl sÃƒÂ¤mtliche
+ * ReportGenerator. In der Klasse ist neben ShoppingListAdministrationImpl saemtliche
  * Applikationslogik vorhanden.
  * 
- * @author Luca Randecker
+ * @author Niklas Öxle
  * @version 1.0
  */
 
@@ -43,22 +43,46 @@ import de.hdm.softwarepraktikum.shared.report.SimpleParagraph;
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator{
 	
 	/**
-	 * Der ReportGenerator benÃƒÂ¶tigt Zugriff auf die ContactAdministation,
-	 * da dort wichtige Methoden fÃƒÂ¼r die Koexistenz von Datenobjekten enthalten sind.
+	 * Der ReportGenerator benoetigt  Zugriff auf die ShoppinglistAdministration,
+	 * da dort wichtige Methoden fuerr die Koexistenz von Datenobjekten enthalten sind.
 	 */
     private ShoppingListAdministration administration = null;
 
-    /*
+    /**
      * Referenz auf den listItemMapper, welcher ListItem Objekte mit der Datenbank
      * abgleicht.
      */
     private ListItemMapper listItemMapper = null;
     
     
+    /**
+     * <p>
+     * Ein <code>RemoteServiceServlet</code> wird unter GWT mittels
+     * <code>GWT.create(Klassenname.class)</code> Client-seitig erzeugt. Hierzu
+     * ist ein solcher No-Argument-Konstruktor anzulegen. Ein Aufruf eines anderen
+     * Konstruktors ist durch die Client-seitige Instantiierung durch
+     * <code>GWT.create(Klassenname.class)</code> nach derzeitigem Stand nicht
+     * möglich.
+     * </p>
+     * <p>
+     * Es bietet sich also an, eine separate Instanzenmethode zu erstellen, die
+     * Client-seitig direkt nach <code>GWT.create(Klassenname.class)</code>
+     * aufgerufen wird, um eine Initialisierung der Instanz vorzunehmen.
+     * </p>
+     */
+    
     
 	public ReportGeneratorImpl() throws IllegalArgumentException {	
 	}
 
+	
+	 /**
+     * Initialsierungsmethode. Siehe dazu Anmerkungen zum No-Argument-Konstruktor.
+     * 
+     * @see #ReportGeneratorImpl()
+     */
+	
+	
 	@Override
 	public void init() throws IllegalArgumentException {
 		
@@ -73,25 +97,51 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		this.listItemMapper = ListItemMapper.listitemMapper();
 	}
 	
+	/**
+     * Auslesen der zugehörigen ShoppingListAdministration.
+     * 
+     * @return das ShoppingListAdministration Objekt
+     */
+	
 	protected ShoppingListAdministration getShoppingListAdministration() {
 		// TODO Auto-generated method stub
 		return this.administration;
 	}
 	
 
-
+	/**
+	 * Gibt alle Items zurueck
+	 * 
+	 * 
+	 * @return ArrayList<Item> mit allen Items
+	 */  
 
 	@Override
 	public ArrayList<Item> getAllItems() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return administration.getAllItems();
 	}
+	
+	/**
+	 * Gibt alle Stores zurueck.
+	 * 
+	 * 
+	 * @return ArrayList<Store> mit allen Stores
+	 */  
 
 	@Override
 	public ArrayList<Store> getAllStores() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return administration.getAllStores();
 	}
+	
+	
+	/**
+	 * Gibt alle Gruppen- Objekte der uebergebenen Person zurueck.
+	 * 
+	 * @param p, das übergebene Personobjekt für das die ArrayList erstellt werden soll.
+	 * @return ArrayList<Group> mit allen Groups
+	 */ 
 
 	@Override
 	public ArrayList<Group> getAllGroups(Person p) throws IllegalArgumentException {
@@ -99,19 +149,31 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return administration.getAllGroupsByPerson(p);
 	}
 	
+	/**
+	 * Gibt alle Persons zurueck.
+	 *  
+	 * @return ArrayList<Person> mit allen Person.
+	 */  
+	
 	@Override
 	public ArrayList<Person> getAllPersons() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return administration.getAllPersons();
 	}
 
-
+    
 	@Override
 	public ArrayList<ShoppingList> getAllParticipations(Person p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	
+	/**
+	 * Methode um ein Impressum einem Report hinzuzufuegen
+	 *  
+	 * @param r, Report dem das Impressum hinzugefuegt werden soll..
+	 */  
 	
 	public void AddImprint(Report r) throws IllegalArgumentException {
 		/*
@@ -135,6 +197,13 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/**
+     * Erstellen von <code>ItemsByGroupReport</code>-Objekten.
+     * 
+     * @param filterPerson, p, g, s, from, to : Parameter nach denen gefiltert werden soll.
+     * @return der fertige Report
+     */
 
 	@Override
 	public ItemsByGroupReport getReportOfGroupBetweenDates(Boolean filterPerson, Person p, Group g, Store s, Timestamp from, Timestamp to) throws IllegalArgumentException {
@@ -146,7 +215,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	ItemsByGroupReport result = new ItemsByGroupReport();
     	
   
-    	// Jeder Report erhï¿½lt einen Titel (ï¿½berschrift)
+    	// Jeder Report erhaelt einen Titel (Ueberschrift)
     	result.setTitle("Alle gekauften Items der Gruppe im angegebenen Zeitraum");
     	
     	/*
@@ -200,9 +269,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	   	 	result.addRow(headline);
     	   	 	
     			  	
-    	   	    /*
-    	   	     * Auslesen sï¿½mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugefï¿½gt werden.
-    	   	     */
     	    	for(Integer i : groupIds) {
     	    			
     	    			
@@ -228,6 +294,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	    	return null;
 	}
 
+	
+	/**
+     * Erstellen von <code>ItemsByPersonReport</code>-Objekten, ohne Datumseingrenzung.
+     * 
+     * @param  p, g, s, : Parameter nach denen gefiltert werden soll.
+     * @return der fertige Report
+     */
+	
 	@Override
 	public ItemsByPersonReport getReportOfPerson(Person p, Store s, Group g) throws IllegalArgumentException {
 		if(this.getShoppingListAdministration() == null) {
@@ -280,10 +354,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	 		
    	 	result.addRow(headline);
    	 	
-		  	
-   	    /*
-   	     * Auslesen sï¿½mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugefï¿½gt werden.
-   	     */
+		
     	for(Integer i : groupIds) {
     			
     			
@@ -303,11 +374,19 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				result.addRow(listItemRow);
     	
     		}
-    	//Rï¿½ckgabe des fertigen Reports
+    	//Rueckgabe des fertigen Reports
     	return result;
     	}
     	return null;
 	}
+	
+	
+	/**
+     * Erstellen von <code>ItemsByPersonReport</code>-Objekten, mit Datumseingrenzung.
+     * 
+     * @param  p, g, s, from, to : Parameter nach denen gefiltert werden soll.
+     * @return der fertige Report
+     */
 	
 	@Override
 	public ItemsByPersonReport getReportOfPersonBetweenDates(Person p, Store s, Group g, Timestamp from, Timestamp to) throws IllegalArgumentException {
@@ -363,9 +442,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
    	 	result.addRow(headline);
    	 	
 		  	
-   	    /*
-   	     * Auslesen sï¿½mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugefï¿½gt werden.
-   	     */
     	for(Integer i : groupIds) {
     			
     			
@@ -390,6 +466,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	}
     	return null;
 	}
+	
+	
+	/**
+     * Erstellen von <code>ItemsByGroupReport</code>-Objekten, ohne Datumseingrenzung.
+     * 
+     * @param filterPerson, p, g, s: Parameter nach denen gefiltert werden soll.
+     * @return der fertige Report
+     */
 
 	@Override
 	public ItemsByGroupReport getReportOfGroup(Boolean filterPerson, Person p, Group g, Store s) throws IllegalArgumentException {
@@ -454,9 +538,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
    	 	result.addRow(headline);
    	 	
 		  	
-   	    /*
-   	     * Auslesen sï¿½mtlicher Contact Objekte und deren PropertyValues, welche dem Report hinzugefï¿½gt werden.
-   	     */
     	for(Integer i : groupIds) {
     			
     			
@@ -485,11 +566,12 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	
 	
 	/**
-	 * Erstellen einer Subtable bestehend aus Properties und PropertyValues Objekten eines Contacts.
-	 * Diese werden in Rows und Columns geschrieben. Falls der <code>Contact</code> keine <code>
-	 * Property</code> besitzt, wird eine Column mit dem Wert "-" befÃ¼llt.
+	 * Erstellen einer Subtable bestehend aus ListItems einer Person.
+	 * Diese werden in Rows und Columns geschrieben.
 	 * 
-	 * @param c der Contact der die Property und PropertyValues besitzt, u der User fÃ¼r die ParticipationprÃ¼fung
+	 * @param storeID , Store welcher dem ListItem zugeordnet ist.
+	 * @param p , Person welche dem ListItem zugeordnet ist.
+	 * @param items , ArrayList mit ListItems
 	 * @return ArrayList mit Rows, die wiederum Columns besitzen und so eine Table formen
 	 */
 	public ArrayList<Row> getSubTable(int storeId, Person p, ArrayList<ListItem> items) {
@@ -532,7 +614,16 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	  	}
 	}
 	return subTableRows;
+	
 }
+	
+	
+	/**
+	 * Methode um den Name eines Items auszugeben
+	 *  
+	 * @param itemID, ID des auszugebenden Items
+	 * @return Name des Items.
+	 */  
 	
 	private String getItemName(int itemID) {
 		ArrayList<Item> allItems = getAllItems();
@@ -544,6 +635,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return String.valueOf(itemID);
 	}
 	
+	/**
+	 * Methode um den Name einer Gruppe auszugeben, die einer bestimmten Person zugeordnet ist.
+	 *  
+	 * @param groupID, ID der asuzugebenden Person
+	 * @param p , Person die Teil der Gruppe ist,
+	 * @return Name des Items.
+	 */  
+	
 	private String getGroupName(int groupID, Person p) {
 		ArrayList<Group> allGroups = getAllGroups(p);
 		for(Group group : allGroups) {
@@ -553,6 +652,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		}
 		return String.valueOf(groupID);
 	}
+	
+	
+	/**
+	 * Methode um den Namen eines Stores auszugeben.
+	 *  
+	 * @param storeID, ID des auszugebenden Stores
+	 * @return Name des Stores.
+	 */  
 	
 	private String getStoreName(int storeID) {
 		ArrayList<Store> allStores = getAllStores();
@@ -564,6 +671,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return String.valueOf(storeID);
 	}
 	
+	
+	/**
+	 * Methode um den Namen einer Person auszugeben.
+	 *  
+	 * @param personID, ID der auszugebenden Person
+	 * @return Name der Person.
+	 */  
+	
 	private String getPersonName(int personID) {
 		ArrayList<Person> allPersons = getAllPersons();
 		for(Person person : allPersons) {
@@ -574,9 +689,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return String.valueOf(personID);
 	}
 
-
-	
-	
 	
 	
 }

@@ -64,24 +64,24 @@ public class MenuPanel extends VerticalPanel{
 		
 		this.setStylePrimaryName("MenuPanel");
 
-		createGroupButton.setWidth("15vh");
-		createGroupButton.setHeight("15vh");
+		//createGroupButton.setWidth("15vh");
+		//createGroupButton.setHeight("15vh");
 		createGroupButton.setStylePrimaryName("createGroupButton");
 		createGroupButton.setTitle("Gruppe erstellen");
-		this.setCellHorizontalAlignment(createGroupButton, ALIGN_CENTER);
+		// this.setCellHorizontalAlignment(createGroupButton, ALIGN_CENTER);
 						
-		createShoppinglistButton.setWidth("15vh");
-		createShoppinglistButton.setHeight("15vh");
+		//createShoppinglistButton.setWidth("15vh");
+		//createShoppinglistButton.setHeight("15vh");
 		createShoppinglistButton.setStylePrimaryName("createShoppinglistButton");
 		createShoppinglistButton.setTitle("Einkaufsliste erstellen");
 	
-		createArticleButton.setWidth("15vh");
-		createArticleButton.setHeight("15vh");
+		//createArticleButton.setWidth("15vh");
+		//createArticleButton.setHeight("15vh");
 		createArticleButton.setStylePrimaryName("createArticleButton");
 		createArticleButton.setTitle("Artikel erstellen");
 
-		createStoreButton.setWidth("15vh");
-		createStoreButton.setHeight("15vh");
+		//createStoreButton.setWidth("15vh");
+		//createStoreButton.setHeight("15vh");
 		createStoreButton.setStylePrimaryName("createStoreButton");
 		createStoreButton.setTitle("Händler erstellen");
 		
