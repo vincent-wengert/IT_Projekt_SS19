@@ -97,7 +97,7 @@ public class NewShoppingListForm extends VerticalPanel {
 
 		this.setWidth("100%");
 
-		administration.getAllGroupsByPerson(p, new getAllGroupsByPersonCallback());
+		this.load();
 
 		shoppinglistNameLabel.setStylePrimaryName("textLabel");
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
@@ -135,6 +135,10 @@ public class NewShoppingListForm extends VerticalPanel {
 		this.add(bottomButtonsPanel);
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
 
+	}
+	
+	private void load() {
+		administration.getAllGroupsByPerson(p, new getAllGroupsByPersonCallback());
 	}
 
 	/**

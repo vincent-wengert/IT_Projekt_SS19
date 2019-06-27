@@ -79,7 +79,7 @@ public class NavigatorPanel extends TabPanel {
 		this.setWidth("35vw");
 		this.setAnimationEnabled(true);
 
-		this.add(contentPanelGroups, "Gruppen");
+		this.add(contentPanelGroups, "Alle Gruppen");
 		this.selectTab(0);
 		this.add(contentPanelArticles, "Alle Artikel");
 		this.add(contentPanelStores, "Alle Händler");

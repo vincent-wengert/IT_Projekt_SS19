@@ -4,7 +4,6 @@ package de.hdm.softwarepraktikum.client.gui.report;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import org.eclipse.jdt.core.dom.ThisExpression;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

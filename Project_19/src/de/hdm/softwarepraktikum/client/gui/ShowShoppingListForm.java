@@ -170,7 +170,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		cancelButton.setPixelSize(130, 40);
 		confirmButton.setPixelSize(130, 40);
 		
-		cellTable.setStylePrimaryName("cellTable");
+
 
 		formHeaderPanel.add(infoTitleLabel);
 		formHeaderPanel.add(topButtonsPanel);
@@ -195,8 +195,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 		keyProvider = new ListItemKeyProvider();
 		multiSelectionModel = new MultiSelectionModel<ListItem>(keyProvider);
 		cellTable = new CellTable<ListItem>();
-		dataProvider.addDataDisplay(cellTable);
-
+		dataProvider.addDataDisplay(cellTable);	
+		cellTable.setStylePrimaryName("cellTable");
 		cellTable.setSelectionModel(multiSelectionModel,
 				DefaultSelectionEventManager.<ListItem>createCheckboxManager());
 
@@ -465,31 +465,31 @@ public class ShowShoppingListForm extends VerticalPanel {
 	/**
 	 * Setzt die aktuell ausgewählte <code>ShoppingList</code>
 	 * 
-	 * @param sl      Die zu setzende <code>ShoppingList</code>
+	 * @param shoppinglist      Die zu setzende <code>ShoppingList</code>
 	 * @param initial Setzt ob die Einkaufsliste initial angelegt wird
 	 */
-	public void setSelected(ShoppingList sl, Boolean initial) {
-		if (sl != null) {
-			selectedListitemIndex = null;
-			ShowShoppingListForm.this.shoppingListPanel.clear();
-			dataProvider.getList().clear();
-			shoppingListToDisplay = sl;
-			infoTitleLabel.setText(sl.getTitle());
+	public void setSelected(ShoppingList shoppinglist, Boolean initial) {
+		if(shoppinglist!=null) {
+		selectedListitemIndex = null;
+		ShowShoppingListForm.this.shoppingListPanel.clear();
+		dataProvider.getList().clear();
+		shoppingListToDisplay = shoppinglist;
+		infoTitleLabel.setText(shoppinglist.getTitle());
 
-			infoTitleLabel.setVisible(true);
-			editButton.setVisible(true);
+		infoTitleLabel.setVisible(true);
+		editButton.setVisible(true);
 
-			if (initial == true) {
-				loadFavoriteItems();
-			}
+		if (initial == true) {
+			loadFavoriteItems();
+		}
 
-			additionalInfoGrid.setVisible(true);
-			additionalInfoGrid.setWidget(0, 0,
-					new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
-			additionalInfoGrid.setWidget(0, 1,
-					new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
-			additionalInfoGrid.setWidget(1, 0, myItemsCheckbox);
-		} else {
+		additionalInfoGrid.setVisible(true);
+		additionalInfoGrid.setWidget(0, 0,
+				new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
+		additionalInfoGrid.setWidget(0, 1,
+				new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
+		additionalInfoGrid.setWidget(1, 0, myItemsCheckbox);
+		}else {
 			this.clear();
 		}
 	}
