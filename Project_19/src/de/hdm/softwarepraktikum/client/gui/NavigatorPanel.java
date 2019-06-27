@@ -34,170 +34,134 @@ import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
-
 public class NavigatorPanel extends TabPanel {
 
 	private Person currentPerson = CurrentPerson.getPerson();
-	
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
-	
+
 	private VerticalPanel contentPanelGroups = new VerticalPanel();
 	private VerticalPanel contentPanelStores = new VerticalPanel();
 	private VerticalPanel contentPanelArticles = new VerticalPanel();
-	
-	
+
+	private AllStoresCellList ascl = new AllStoresCellList();
 	private AllItemsCellList aicl = new AllItemsCellList();
+
 	private ItemForm itemForm = new ItemForm();
 	private StoreForm storeForm = new StoreForm();
-	
-	private AllStoresCellList ascl = new AllStoresCellList();
 	private GroupForm gf = new GroupForm();
+
 	private ShowShoppingListForm sslf = new ShowShoppingListForm();
 	private NewShoppingListForm nslf = new NewShoppingListForm();
-	private Group selectedGroup;
-	
-	private Grid storesGrid = new Grid(2,2);
-	
-	//Create a model for the tree.
+
+	private Grid storesGrid = new Grid(2, 2);
+
 	private CustomTreeModel model = new CustomTreeModel();
-	
-	/*
-	 * Create the tree using the model. We use <code>null</code> as the default
-	 * value of the root node. The default value will be passed to
-	 * CustomTreeModel#getNodeInfo();
-	 */
 	private CellTree tree = new CellTree(model, null);
 
-		
-/**
- * ***************************************************************************
- * ABSCHNITT der Methoden
- * ***************************************************************************
- */
+	private Group selectedGroup;
 
+	/**
+	 * ***************************************************************************
+	 * ABSCHNITT der Methoden
+	 * ***************************************************************************
+	 */
 
- /**
-  * In dieser Methode wird das Design des NavigatorPanels und der Widgets festgelegt. 
-  * Diese Methode wird aufgerufen, sobald ein Objekt dieser Klasse instanziert wird. 
-  */
-public void onLoad() {
+	/**
+	 * In dieser Methode wird das Design des <code>NavigatorPanels</code> und der
+	 * Widgets festgelegt. Diese Methode wird aufgerufen, sobald ein Objekt dieser
+	 * Klasse instanziert wird.
+	 */
+	public void onLoad() {
 
-	
-	storesGrid.setWidget(0, 0, ascl);
-	contentPanelStores.add(storesGrid);
+		storesGrid.setWidget(0, 0, ascl);
+		contentPanelStores.add(storesGrid);
 
-	this.setWidth("35vw");
-	this.setAnimationEnabled(true);
+		this.setWidth("35vw");
+		this.setAnimationEnabled(true);
 
-	this.add(contentPanelGroups, "Gruppen");
-	this.selectTab(0);
-	this.add(contentPanelArticles, "Alle Artikel");
-	this.add(contentPanelStores, "Alle Händler");
-	
-	
-	aicl.setNavigator(this);
-	contentPanelArticles.add(aicl);
+		this.add(contentPanelGroups, "Gruppen");
+		this.selectTab(0);
+		this.add(contentPanelArticles, "Alle Artikel");
+		this.add(contentPanelStores, "Alle Händler");
 
-    
-    tree.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		aicl.setNavigator(this);
+		contentPanelArticles.add(aicl);
 
-    // Add the tree to the root layout panel.
-    contentPanelGroups.add(tree);
-    
-    model.setGroupForm(gf);
-    gf.setCtm(model);
-    gf.setAICL(aicl);
-    model.setShoppingListForm(sslf);
-    sslf.setCtm(model);
-    model.setNewShoppingListForm(nslf);
-    nslf.setCtm(model);
-    model.setTree(tree);
+		tree.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
-    aicl.setItemForm(itemForm);
-    itemForm.setAllItemsCelllist(aicl);
-    ascl.setStoreForm(storeForm);
-    storeForm.setAllStoresCellList(ascl);
-    
-    this.addSelectionHandler(new SelectionHandler<Integer>()
-	{
-		@Override
-		public void onSelection(SelectionEvent<Integer> event) {
-			int tabID = event.getSelectedItem();
-			Widget tabWidget = getWidget(tabID);
-			
-			if(tabWidget != null) {
-				ascl.getSelectionModel().clear();
-				aicl.getSelectionModel().clear();
-				model.getSelectionModel().clear();
+		contentPanelGroups.add(tree);
+
+		// Alle Forms in den jeweiligen Klassen werden gesetzt
+		model.setGroupForm(gf);
+		gf.setCtm(model);
+		gf.setAllItemsCelllist(aicl);
+		model.setShoppingListForm(sslf);
+		sslf.setCtm(model);
+		model.setNewShoppingListForm(nslf);
+		nslf.setCtm(model);
+		model.setTree(tree);
+		aicl.setItemForm(itemForm);
+		itemForm.setAllItemsCelllist(aicl);
+		ascl.setStoreForm(storeForm);
+		storeForm.setAllStoresCellList(ascl);
+
+		// Selectionhandler dem Tabpanel hinzufügen
+		this.addSelectionHandler(new SelectionHandler<Integer>() {
+			@Override
+			public void onSelection(SelectionEvent<Integer> event) {
+				int tabID = event.getSelectedItem();
+				Widget tabWidget = getWidget(tabID);
+
+				if (tabWidget != null) {
+					ascl.getSelectionModel().clear();
+					aicl.getSelectionModel().clear();
+					model.getSelectionModel().clear();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Methode um die <code>AllItemsCellList</code> abzufragen.
+	 * 
+	 * @return Die <code>AllItemsCellList</code> wird zurückgegeben.
+	 */
+	public AllItemsCellList getAllItemsCellList() {
+		return aicl;
+	}
+
+	/**
+	 * Methode um die <code>AllStoresCellList</code> abzufragen.
+	 * 
+	 * @return Die <code>AllStoresCellList</code> wird zurückgegeben.
+	 */
+	public AllStoresCellList getAllStoresCellList() {
+		return ascl;
+	}
+
+	/**
+	 * Methode um das <code>CustomTreeModel</code> abzufragen.
+	 * 
+	 * @return Die <code>CustomTreeModel</code> wird zurückgegeben.
+	 */
+	public CustomTreeModel getCtm() {
+		return model;
+	}
+
+	/**
+	 * ***************************************************************************
+	 * ABSCHNITT der ClickHandler/Events
+	 * ***************************************************************************
+	 */
+	/**
+	 * Implementierung des KeyDownHandler Events. In diesem wird nach dem Betätigen
+	 * der ENTER Taste der Suchvorgang gestartet.
+	 */
+	private class EnterKeyDownHandler implements KeyDownHandler {
+		public void onKeyDown(KeyDownEvent event) {
+			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+				Notification.show("Enter");
 			}
 		}
 	}
-	);
-	}
-
-/**
- * Methode um die AllItemsCellList abzufragen.
- * 
- * @return Die AllItemsCellList wird zurückgegeben.
- */
-public AllItemsCellList getAllItemsCellList() {
-	return aicl;
 }
-
-/**
- * Methode um die AllStoresCellList abzufragen.
- * 
- * @return Die AllStoresCellList wird zurückgegeben.
- */
-public AllStoresCellList getAllStoresCellList() {
-	return ascl;
-}
-
-
-
-public CustomTreeModel getCtm() {
-	return model;
-}
-
-
-/**
- * Implementierung des KeyDownHandler Events. In diesem wird nach dem Betätigen der ENTER Taste 
- * der Suchvorgang gestartet.
- */
-private class EnterKeyDownHandler implements KeyDownHandler {
- public void onKeyDown(KeyDownEvent event) {
-	 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-		 Notification.show("Enter");
-		}
-	}
- }
- 
- 
-
-/**
- * Implementierung des CancelClickHandlers. In diesem werden die Suchwerte 
- * nach einem Klick auf dem CancelButton zurückgesetzt.
- */
-private class CancelClickHandler implements ClickHandler {
-	@Override
-	public void onClick(ClickEvent event) {
-	}
-}
-
-/**
- * Implementierung des RefreshClickHandler.In diesem wird die SearchBar aktualisiert, 
- * sobald  in das Textfeld geklickt wird.
- */
-@SuppressWarnings("deprecation")
-private class RefreshClickHandler implements ClickListener {
-
-	@Override
-	public void onClick(Widget sender) {
-		
-		}
-	}
-
-
-
-}
-

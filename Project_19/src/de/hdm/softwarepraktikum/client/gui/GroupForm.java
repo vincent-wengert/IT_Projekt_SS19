@@ -565,7 +565,7 @@ public class GroupForm extends VerticalPanel {
 		
 	}
 
-	public void setAICL(AllItemsCellList aicl) {
+	public void setAllItemsCelllist(AllItemsCellList aicl) {
 		this.aicl = aicl;
 	}
 
