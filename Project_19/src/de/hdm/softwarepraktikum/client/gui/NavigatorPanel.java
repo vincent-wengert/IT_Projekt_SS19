@@ -83,9 +83,7 @@ public class NavigatorPanel extends TabPanel {
 public void onLoad() {
 
 	
-	SearchFormStores sfs = new SearchFormStores();
-	storesGrid.setWidget(0, 0, sfs);
-	storesGrid.setWidget(1, 0, ascl);
+	storesGrid.setWidget(0, 0, ascl);
 	contentPanelStores.add(storesGrid);
 
 	this.setWidth("35vw");
@@ -161,41 +159,6 @@ public CustomTreeModel getCtm() {
 	return model;
 }
 
-
-/**
-* In dieser Methode wird das Design des NavigatorPanels und der Buttons festgelegt.
-* Ebenso wird die searchbar mit <code>Store</code> Suggestions befüllt.
-* Diese Methode wird aufgerufen, sobald eine Instanz der Klasse <code> NavigationPanel</code> aufgerufen wird. 
-*/
-private class SearchFormStores extends VerticalPanel {
-
-	private Grid searchGridStores = new Grid(1, 3);
-
-	private Button cancelButton = new Button("\u2716");
-	private MultiWordSuggestOracle searchbar = new MultiWordSuggestOracle();
-	private SuggestBox searchTextBox = new SuggestBox(searchbar);
-
-
-@SuppressWarnings("deprecation")
-public void onLoad() {
-	
-	cancelButton.addClickHandler(new CancelClickHandler());
-	searchTextBox.addKeyDownHandler(new EnterKeyDownHandler());
-	searchTextBox.addClickListener(new RefreshClickHandler());
-	
-	searchTextBox.setSize("440px", "27px");
-	cancelButton.setPixelSize(30, 30);
-	searchTextBox.getElement().setPropertyString("placeholder", "Suchbegriff eingeben...");
-	cancelButton.setStylePrimaryName("cancelSearchButton");	
-	
-	searchGridStores.setWidget(0, 0, searchTextBox);
-	searchGridStores.setWidget(0, 1, cancelButton);
-
-	this.add(searchGridStores);
-
-	
-		  }
-	}
 
 /**
  * Implementierung des KeyDownHandler Events. In diesem wird nach dem Betätigen der ENTER Taste 

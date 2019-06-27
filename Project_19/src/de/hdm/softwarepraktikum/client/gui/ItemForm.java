@@ -107,29 +107,14 @@ public class ItemForm extends VerticalPanel{
 		bottomButtonsPanel.setStylePrimaryName("bottomButtonsPanel");
 		cancelButton.setStylePrimaryName("cancelButton");
 		confirmButton.setStylePrimaryName("confirmButton");
+		topButtonsPanel.setStylePrimaryName("topButtonsPanel");
 
-		
-		editButton.setHeight("8vh");
-		editButton.setWidth("8vh");
-		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_LEFT);
-		favButton.setHeight("8vh");
-		favButton.setWidth("8vh");
-		topButtonsPanel.setCellHorizontalAlignment(favButton, ALIGN_LEFT);
-		deleteButton.setHeight("8vh");
-		deleteButton.setWidth("8vh");
-		topButtonsPanel.setCellHorizontalAlignment(deleteButton, ALIGN_RIGHT);
-		
-		
-		formHeaderPanel.setHeight("8vh");
-		formHeaderPanel.setWidth("100%");
-		infoTitleLabel.setWidth("100%");
 		
 		cancelButton.setPixelSize(130, 40);
 		confirmButton.setPixelSize(130, 40);
 
 		formHeaderPanel.add(infoTitleLabel);
-		formHeaderPanel.setCellVerticalAlignment(infoTitleLabel, ALIGN_BOTTOM);
-		formHeaderPanel.setCellHorizontalAlignment(infoTitleLabel, ALIGN_LEFT);
+		
 
 		bottomButtonsPanel.setSpacing(20);
 		formHeaderPanel.add(topButtonsPanel);
@@ -137,9 +122,7 @@ public class ItemForm extends VerticalPanel{
 		this.add(formHeaderPanel);
 		this.add(itemGrid);
 		this.setCellHorizontalAlignment(itemGrid, ALIGN_CENTER);
-		
-		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
-		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
+	
 
 		itemNameBox.setMaxLength(15);
 

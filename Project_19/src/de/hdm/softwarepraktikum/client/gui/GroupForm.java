@@ -110,7 +110,6 @@ public class GroupForm extends VerticalPanel {
 		this.load();
 		
 		this.setWidth("100%");
-		// groupNameLabel.setStylePrimaryName("textLabel");
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
 		bottomButtonsPanel.setStylePrimaryName("bottomButtonsPanel");
@@ -118,27 +117,14 @@ public class GroupForm extends VerticalPanel {
 		confirmButton.setStylePrimaryName("confirmButton");
 		editButton.setStylePrimaryName("editButton");
 		deleteButton.setStylePrimaryName("deleteButton");
+		topButtonsPanel.setStylePrimaryName("topButtonsPanel2");
 
-		editButton.setHeight("8vh");
-		editButton.setWidth("8vh");
-		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_LEFT);
-		deleteButton.setHeight("8vh");
-		deleteButton.setWidth("8vh");
-		topButtonsPanel.setCellHorizontalAlignment(deleteButton, ALIGN_RIGHT);
-
-		formHeaderPanel.setHeight("8vh");
-		formHeaderPanel.setWidth("100%");
 		cancelButton.setPixelSize(130, 40);
 		confirmButton.setPixelSize(130, 40);
 		addMemberListBox.setSize("320px", "40px");
 
 		formHeaderPanel.add(infoTitleLabel);
 		formHeaderPanel.add(topButtonsPanel);
-		formHeaderPanel.setCellVerticalAlignment(infoTitleLabel, ALIGN_BOTTOM);
-		formHeaderPanel.setCellHorizontalAlignment(infoTitleLabel, ALIGN_LEFT);
-
-		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
-		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
 
 		topButtonsPanel.add(editButton);
 		topButtonsPanel.add(deleteButton);
