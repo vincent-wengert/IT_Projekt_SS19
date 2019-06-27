@@ -24,6 +24,12 @@ public class Person extends BusinessObject{
 	public Person(){
 	}
 	
+	/**
+	 * **************************************************************************************
+	 * ABSCHNITT Anfang: Getter und Setter der Attribute
+	 * **************************************************************************************
+	 */
+	
 	
 	/**
 	*
@@ -120,6 +126,12 @@ public class Person extends BusinessObject{
     public void setLogoutUrl(String logoutUrl) {
    	 this.logoutUrl = logoutUrl;
     }
+    
+    /**
+	 * **************************************************************************************
+	 * ABSCHNITT Ende: Getter und Setter der Attribute
+	 * **************************************************************************************
+	 */
     
 	
 
