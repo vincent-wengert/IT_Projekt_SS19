@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.softwarepraktikum.client.gui.Notification;
 import de.hdm.softwarepraktikum.client.gui.RegistrationForm;
 import de.hdm.softwarepraktikum.client.gui.ShoppingListEditor;
-import de.hdm.softwarepraktikum.client.gui.report.Reportform;
+import de.hdm.softwarepraktikum.client.gui.report.ReportForm;
 import de.hdm.softwarepraktikum.shared.LoginServiceAsync;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 
@@ -68,7 +68,7 @@ public class ReportEntry implements EntryPoint {
 								
 								RootPanel.get("Result").add(new RegistrationForm(reportGeneratorLink,p));
 							}else{
-								Reportform reportGenForm = new Reportform();
+								ReportForm reportGenForm = new ReportForm();
 								reportGenForm.loadReportGenerator();
 								}
 						}else{
