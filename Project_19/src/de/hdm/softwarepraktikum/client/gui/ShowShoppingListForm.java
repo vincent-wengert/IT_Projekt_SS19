@@ -8,9 +8,12 @@ import java.util.Comparator;
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -33,6 +36,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 
+
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
@@ -52,10 +56,13 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel shoppingListPanel = new HorizontalPanel();
 	private HorizontalPanel topButtonsPanel = new HorizontalPanel();
+
+	private HorizontalPanel deleteListItemPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
 	private HorizontalPanel addListItemPanel = new HorizontalPanel();
 
 	private Button addListItemButton = new Button();
+	private Button deleteListItemButton = new Button();
 	private Button editButton = new Button();
 	private Button deleteButton = new Button();
 	private Button confirmButton = new Button("\u2714");
@@ -79,14 +86,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 	
 	private Grid additionalInfoGrid = new Grid(2, 2);
 
-	
-	private Column<ListItem, String> editColumn;
-	private Column<ListItem, String> deleteColumn;
-
 	private CustomTreeModel ctm = null;
 	
 	private Boolean loadFavorites;
-
 	
 	ShoppingList shoppingListToDisplay = null;
 	Integer selectedListitemIndex = null;
@@ -95,6 +97,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 	public ShowShoppingListForm() {
 		addListItemButton.addClickHandler(new AddListItemClickHandler());
+		deleteListItemButton.addClickHandler(new DeleteListItemClickHandler());
 		editButton.addClickHandler(new EditClickHandler());
 		confirmButton.addClickHandler(new ConfirmClickHandler());
 		cancelButton.addClickHandler(new CancelClickHandler());
@@ -104,6 +107,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		topButtonsPanel.add(deleteButton);
 		formHeaderPanel.add(shoppinglistNameBox);
 		addListItemPanel.add(addListItemButton);
+		deleteListItemPanel.add(deleteListItemButton);
 		bottomButtonsPanel.add(confirmButton);
 		bottomButtonsPanel.add(cancelButton);
 	}
@@ -112,6 +116,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 		
 		loadListitems();
 		this.setWidth("100%");
+		deleteListItemPanel.setStylePrimaryName("bottomButtonsPanel");
+		
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
 		bottomButtonsPanel.setStylePrimaryName("bottomButtonsPanel");
@@ -123,6 +129,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		addListItemButton.setStylePrimaryName("addListItemButton");
 		editButton.setStylePrimaryName("editButton");
 		deleteButton.setStylePrimaryName("deleteButton");
+		deleteListItemButton.setStylePrimaryName("deleteButton");
 		addListItemButton.setHeight("8vh");
 		addListItemButton.setWidth("8vh");
 		addListItemButton.setVisible(true);
@@ -133,6 +140,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 		
 		deleteButton.setWidth("8vh");
 		deleteButton.setHeight("8vh");
+		
+		deleteListItemButton.setWidth("8vh");
+		deleteListItemButton.setHeight("8vh");
 
 		formHeaderPanel.setHeight("8vh");
 		formHeaderPanel.setWidth("100%");
@@ -157,7 +167,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
 		
 		bottomButtonsPanel.setCellHorizontalAlignment(myItemsCheckbox, ALIGN_CENTER);
-
+		
+		deleteListItemPanel.setCellHorizontalAlignment(deleteListItemButton, ALIGN_CENTER);
+		
 		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_LEFT);
 		topButtonsPanel.setCellHorizontalAlignment(deleteButton, ALIGN_RIGHT);
 		
@@ -174,6 +186,30 @@ public class ShowShoppingListForm extends VerticalPanel {
 	
 		cellTable.setSelectionModel(multiSelectionModel,
 				DefaultSelectionEventManager.<ListItem>createCheckboxManager());
+		
+		//Get the selected Row and set the Index for updating or deleting the Listitem in this row
+		  cellTable.addCellPreviewHandler(event -> {
+		    if (BrowserEvents.CLICK.equalsIgnoreCase(event.getNativeEvent().getType())) {
+		        this.selectedListitemIndex = event.getIndex();
+		    }
+		});
+		  
+		  //Set a Double ClickHandler for editing
+		    cellTable.addDomHandler(new DoubleClickHandler() {
+
+		        @Override
+		        public void onDoubleClick(DoubleClickEvent event) {
+				  	ListItemDialog lid = new ListItemDialog();
+				  	if(selectedListitemIndex!=null) {
+				  	lid.setGroup(group);
+					lid.setShoppingList(shoppingListToDisplay);
+					lid.setShowShoppingListForm(ShowShoppingListForm.this);
+					lid.displayListItem(allListItems.get(selectedListitemIndex), shoppingListToDisplay, group, true);
+					lid.show();
+				  	}
+		        }
+		    }, DoubleClickEvent.getType());
+		    
 
 		ListHandler<ListItem> sortHandler = new ListHandler<ListItem>(null);
 
@@ -231,51 +267,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 			}
 		};
 		
-		ButtonCell editCell = new ButtonCell();
-		
-		editColumn = new Column<ListItem, String>(editCell) {
-		  @Override
-		  public String getValue(ListItem object) {
-		    // The value to display in the button.
-		    return "Bearbeiten";
-		  }
-		};
-		//table.addColumn(buttonColumn, "Action");
-		
-		
-		editColumn.setFieldUpdater(new FieldUpdater<ListItem, String>() {
-			  @Override
-			  public void update(int index, ListItem object, String value) {
-				  
-			    // The user clicked on the button for the passed auction.
-				  	ListItemDialog lid = new ListItemDialog();
-				  	lid.setGroup(group);
-					lid.setShoppingList(shoppingListToDisplay);
-					lid.setShowShoppingListForm(ShowShoppingListForm.this);
-					lid.displayListItem(allListItems.get(index), shoppingListToDisplay, group, true);
-					lid.show();
-			  }
-			});
-		
-		ButtonCell deleteCell = new ButtonCell();
-		
-		deleteColumn = new Column<ListItem, String>(deleteCell) {
-		  @Override
-		  public String getValue(ListItem object) {
-		    // The value to display in the button.
-		    return "Löschen";
-		  }
-		};
-		
-		
-		deleteColumn.setFieldUpdater(new FieldUpdater<ListItem, String>() {
-			  @Override
-			  public void update(int index, ListItem object, String value) {
-				  administration.deleteListItem(object, new deleteListItemCallback());
-				  selectedListitemIndex = index;
-			  }
-			});
-		
 		
 		Column<ListItem, Boolean> checkColumn = new Column<ListItem, Boolean>( new CheckboxCell(true,true)) {
 			@Override
@@ -293,13 +284,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 			}
 		});
 		
-		
-		
-			
-//			Dann, um einen Gegenstand zu wählen (und das zugehörige Markierungsfeld automatisch geprüft), müssen Sie einfach tun:
-
-//			multiselectionModel.setSelected(item, true);
-//			und Sie können in ähnlicher Weise erhalten Sie die Menge aller ausgewählten Elemente mit selectionModel.getSelectedSet()
 		
 		cellTable.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
 		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
@@ -395,7 +379,12 @@ public class ShowShoppingListForm extends VerticalPanel {
 		this.add(addListItemPanel);
 		this.setCellHorizontalAlignment(addListItemPanel, ALIGN_CENTER);
 		
+		this.add(deleteListItemPanel);
+		this.setCellHorizontalAlignment(deleteListItemPanel, ALIGN_CENTER);
+		deleteListItemPanel.setVisible(false);
+		
 		this.add(bottomButtonsPanel);
+
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
 	}
 
@@ -427,6 +416,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	}
 	
 	public void updateListItem() {
+		selectedListitemIndex = null;
 		dataProvider.getList().clear();
 		administration.getAllListItemsByShoppingLists(shoppingListToDisplay, new getAllListItemsbyShoppingListCallback());	
 	}
@@ -442,6 +432,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	
 	public void setSelected(ShoppingList sl, Boolean initial) {
 		if (sl != null) {
+			selectedListitemIndex = null;
 			ShowShoppingListForm.this.shoppingListPanel.clear();
 			dataProvider.getList().clear();
 			shoppingListToDisplay = sl;
@@ -499,8 +490,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 		
 
 	/**
-	 * Sobald der Button ausgewahlt wird werden neue <code>ListItem</code> Objekte
-	 * erzeugt und der Shoppinglist hinzugefugt.
+	 * Sobald der Button ausgewahlt wird ein <code>ListItemDialog</code> erstellt, durch den neue <code>ListItem</code> Objekte
+	 * erzeugt und der Shoppinglist hinzugefugt werden.
 	 */
 	class AddListItemClickHandler implements ClickHandler {
 
@@ -511,6 +502,26 @@ public class ShowShoppingListForm extends VerticalPanel {
 			lid.setShoppingList(shoppingListToDisplay);
 			lid.setShowShoppingListForm(ShowShoppingListForm.this);
 			lid.show();
+		}
+	}
+	
+	/**
+	 * Sobald der Button ausgewahlt wird werden ein <code>ListItem</code> Objekt
+	 * dem System und der Shoppinglist entfernt.
+	 */
+	class DeleteListItemClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+		  	if(selectedListitemIndex!=null) {
+		  		if(Window.confirm("Wollen Sie diesen Artikel wirklich entfernen?") == true) {
+		  			administration.deleteListItem(allListItems.get(selectedListitemIndex), new deleteListItemCallback());				
+		  			}else {
+		  			selectedListitemIndex = null;
+		  			}
+			  	}else {
+			  	Window.alert("Bitte selektieren sie ein Artikel in der Liste");
+			  	}
 		}
 	}
 
@@ -524,6 +535,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			infoTitleLabel.setVisible(false);
 			
 			addListItemButton.setVisible(false);
+			deleteListItemPanel.setVisible(true);
 			confirmButton.setVisible(true);
 			cancelButton.setVisible(true);
 			editButton.setVisible(false);
@@ -532,10 +544,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 			formHeaderPanel.setCellVerticalAlignment(shoppinglistNameBox, ALIGN_BOTTOM);
 			formHeaderPanel.setCellHorizontalAlignment(shoppinglistNameBox, ALIGN_LEFT);
 			
-			//cellTable.setColumnWidth(editColumn, 0, Unit.PX);
-			
-			cellTable.addColumn(editColumn);
-			cellTable.addColumn(deleteColumn);
 		}
 		
 	}
@@ -560,10 +568,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 			cancelButton.setVisible(false);
 			editButton.setVisible(true);
 			addListItemButton.setVisible(true);
+			deleteListItemPanel.setVisible(false);
 			myItemsCheckbox.setVisible(true);
 			
-			cellTable.removeColumn(editColumn);
-			cellTable.removeColumn(deleteColumn);
 			shoppingListToDisplay.setTitle(shoppinglistNameBox.getText());
 			shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
 			
@@ -581,9 +588,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 			editButton.setVisible(true);
 			addListItemButton.setVisible(true);
 			myItemsCheckbox.setVisible(true);
-			
-			cellTable.removeColumn(editColumn);
-			cellTable.removeColumn(deleteColumn);
 			
 			additionalInfoGrid.setVisible(true);
 			additionalInfoGrid.setWidget(0, 0, new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
@@ -805,7 +809,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 				dataProvider.getList().remove(index);
 				dataProvider.refresh();
 				cellTable.redraw();
-				
 				selectedListitemIndex = null;
 			}
 			Notification.show("Artikel wurde entfernt.");

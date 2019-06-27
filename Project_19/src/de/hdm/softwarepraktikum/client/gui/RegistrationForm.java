@@ -42,8 +42,8 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 		private Label lastNameLabel = new Label ("Name");
 		private Label firstNameLabel = new Label ("Vorname");
 
-		private DynamicTextbox firstNameTextBox = new DynamicTextbox();
-		private DynamicTextbox lastNameTextBox = new DynamicTextbox();
+		private TextBox firstNameTextBox = new TextBox();
+		private TextBox lastNameTextBox = new TextBox();
 		
 		private Button registerButton = new Button("Registrieren");
 		private Button cancelButton = new Button ("Abbrechen");
@@ -97,9 +97,6 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 			
 			firstNameTextBox.setMaxLength(30);
 			lastNameTextBox.setMaxLength(30);
-			
-			firstNameTextBox.setlabelText("Vorname");
-			lastNameTextBox.setlabelText("Name");
 
 			grid.setCellSpacing(10);
 			
@@ -158,32 +155,6 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 				}
 			}
 		
-
-		/**
-		 * ***************************************************************************
-		 * ABSCHNITT der Privaten Klassen
-		 * ***************************************************************************
-		 */
-		
-		/**
-		 * 
-		 * Mit der privaten Klasse <code>DynamicTextbox</code> werden dynamische Textboxen definiert,
-		 * die zusätzliche Attribute besitzen.
-		 * 
-		 */
-
-		private class DynamicTextbox extends TextBox {
-
-			String labelText;
-	
-			public String getlabelText() {
-				return labelText;
-			}
-			public void setlabelText(String labelText) {
-				this.labelText = labelText;
-			}
-			
-		}
 
 		/**
 		 * ***************************************************************************
