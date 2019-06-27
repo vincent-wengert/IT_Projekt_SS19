@@ -26,7 +26,10 @@ import de.hdm.softwarepraktikum.shared.LoginServiceAsync;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 
 /**
- * Entry point classes define <code>onModuleLoad()</code>.
+ * Entry-Point-Klasse des Editors.
+ * @author Vincent Wengert
+ * @Version 1.0
+ *
  */
 public class Project_19 implements EntryPoint {
 		 

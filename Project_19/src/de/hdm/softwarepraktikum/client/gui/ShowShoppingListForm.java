@@ -36,7 +36,6 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 
-
 import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
@@ -47,12 +46,22 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
+/**
+ * Die Klasse ShowShoppingListForm bildet die Vorlage um eine ShoppingList
+ * anzuzeigen. Hier ist die Hier können neuen ListItem erzeugt und der
+ * ShoppingList hinzugefügt, wie auch entfernt werden.
+ * 
+ * @autor Vincent Wengert
+ * @version 1.0
+ * @see de.hdm.softwarepraktikum.client.Project_19
+ */
+
 public class ShowShoppingListForm extends VerticalPanel {
+
 	private Person p = CurrentPerson.getPerson();
-	
+
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
-	private Person currentPerson = CurrentPerson.getPerson();
-	
+
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel shoppingListPanel = new HorizontalPanel();
 	private HorizontalPanel topButtonsPanel = new HorizontalPanel();
@@ -70,7 +79,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private CheckBox myItemsCheckbox = new CheckBox("Nur meine Items anzeigen");
 
 	private Label infoTitleLabel = new Label();
-	
+
 	private TextBox shoppinglistNameBox = new TextBox();
 
 	private CellTable<ListItem> cellTable = null;
@@ -83,18 +92,22 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private ArrayList<Item> allItems = new ArrayList<Item>();
 	private ArrayList<ListItem> allListItems = new ArrayList<ListItem>();
 	private ArrayList<ListItem> checkedListItems = new ArrayList<ListItem>();
-	
+
 	private Grid additionalInfoGrid = new Grid(2, 2);
 
 	private CustomTreeModel ctm = null;
-	
-	private Boolean loadFavorites;
-	
+
 	ShoppingList shoppingListToDisplay = null;
 	Integer selectedListitemIndex = null;
-	Group group = new Group();
-	
 
+	private Boolean loadFavorites;
+
+	Group group = new Group();
+
+	/**
+	 * Bei der Instanziierung der <code>ShowShoppingListForm</code>, werden die
+	 * ClickHandler den Buttons und dem Panel hinzugefügt
+	 */
 	public ShowShoppingListForm() {
 		addListItemButton.addClickHandler(new AddListItemClickHandler());
 		deleteListItemButton.addClickHandler(new DeleteListItemClickHandler());
@@ -112,18 +125,28 @@ public class ShowShoppingListForm extends VerticalPanel {
 		bottomButtonsPanel.add(cancelButton);
 	}
 
+	/**
+	 * ***************************************************************************
+	 * ABSCHNITT der Methoden
+	 * ***************************************************************************
+	 */
+
+	/**
+	 * In dieser Methode werden die Widgets der Form hinzugefügt. Außerdem findet
+	 * hier die Formatierungen der Widgets statt.
+	 */
 	public void onLoad() {
-		
+
 		loadListitems();
 		this.setWidth("100%");
 		deleteListItemPanel.setStylePrimaryName("bottomButtonsPanel");
-		
+
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
 		bottomButtonsPanel.setStylePrimaryName("bottomButtonsPanel");
 		addListItemPanel.setStylePrimaryName("addListItemPanel");
 		additionalInfoGrid.setStylePrimaryName("additionalInfoGrid");
-		
+
 		bottomButtonsPanel.setSpacing(20);
 
 		addListItemButton.setStylePrimaryName("addListItemButton");
@@ -134,30 +157,29 @@ public class ShowShoppingListForm extends VerticalPanel {
 		addListItemButton.setWidth("8vh");
 		addListItemButton.setVisible(true);
 		myItemsCheckbox.setStylePrimaryName("myItemsCheckbox");
-		
+
 		editButton.setWidth("8vh");
 		editButton.setHeight("8vh");
-		
+
 		deleteButton.setWidth("8vh");
 		deleteButton.setHeight("8vh");
-		
+
 		deleteListItemButton.setWidth("8vh");
 		deleteListItemButton.setHeight("8vh");
 
 		formHeaderPanel.setHeight("8vh");
 		formHeaderPanel.setWidth("100%");
-		
+
 		shoppinglistNameBox.setMaxLength(10);
 		shoppinglistNameBox.setVisible(false);
 		shoppinglistNameBox.setStylePrimaryName("shoppinglistNameBox");
-		
+
 		confirmButton.setVisible(false);
 		cancelButton.setVisible(false);
 		cancelButton.setStylePrimaryName("cancelButton");
 		confirmButton.setStylePrimaryName("confirmButton");
 		cancelButton.setPixelSize(130, 40);
 		confirmButton.setPixelSize(130, 40);
-		
 
 		formHeaderPanel.add(infoTitleLabel);
 		formHeaderPanel.add(topButtonsPanel);
@@ -165,16 +187,16 @@ public class ShowShoppingListForm extends VerticalPanel {
 		formHeaderPanel.setCellVerticalAlignment(infoTitleLabel, ALIGN_BOTTOM);
 		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
 		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
-		
+
 		bottomButtonsPanel.setCellHorizontalAlignment(myItemsCheckbox, ALIGN_CENTER);
-		
+
 		deleteListItemPanel.setCellHorizontalAlignment(deleteListItemButton, ALIGN_CENTER);
-		
+
 		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_LEFT);
 		topButtonsPanel.setCellHorizontalAlignment(deleteButton, ALIGN_RIGHT);
-		
+
 		this.add(formHeaderPanel);
-		
+
 		additionalInfoGrid.setCellSpacing(5);
 		this.add(additionalInfoGrid);
 		this.setCellHorizontalAlignment(additionalInfoGrid, ALIGN_CENTER);
@@ -183,47 +205,46 @@ public class ShowShoppingListForm extends VerticalPanel {
 		multiSelectionModel = new MultiSelectionModel<ListItem>(keyProvider);
 		cellTable = new CellTable<ListItem>();
 		dataProvider.addDataDisplay(cellTable);
-	
+
 		cellTable.setSelectionModel(multiSelectionModel,
 				DefaultSelectionEventManager.<ListItem>createCheckboxManager());
-		
-		//Get the selected Row and set the Index for updating or deleting the Listitem in this row
-		  cellTable.addCellPreviewHandler(event -> {
-		    if (BrowserEvents.CLICK.equalsIgnoreCase(event.getNativeEvent().getType())) {
-		        this.selectedListitemIndex = event.getIndex();
-		    }
-		});
-		  
-		  //Set a Double ClickHandler for editing
-		    cellTable.addDomHandler(new DoubleClickHandler() {
 
-		        @Override
-		        public void onDoubleClick(DoubleClickEvent event) {
-				  	ListItemDialog lid = new ListItemDialog();
-				  	if(selectedListitemIndex!=null) {
-				  	lid.setGroup(group);
+		// Eventhandler um die aktuell ausgewählte Zeile zu setzen
+		cellTable.addCellPreviewHandler(event -> {
+			if (BrowserEvents.CLICK.equalsIgnoreCase(event.getNativeEvent().getType())) {
+				this.selectedListitemIndex = event.getIndex();
+			}
+		});
+
+		// Doppelklick Event um das ausgewählte ListItem zu bearbeiten
+		cellTable.addDomHandler(new DoubleClickHandler() {
+			@Override
+			public void onDoubleClick(DoubleClickEvent event) {
+				ListItemDialog lid = new ListItemDialog();
+				if (selectedListitemIndex != null) {
+					lid.setGroup(group);
 					lid.setShoppingList(shoppingListToDisplay);
 					lid.setShowShoppingListForm(ShowShoppingListForm.this);
 					lid.displayListItem(allListItems.get(selectedListitemIndex), shoppingListToDisplay, group, true);
 					lid.show();
-				  	}
-		        }
-		    }, DoubleClickEvent.getType());
-		    
+				}
+			}
+		}, DoubleClickEvent.getType());
 
-		ListHandler<ListItem> sortHandler = new ListHandler<ListItem>(null);
-
+		/**
+		 * In diesem Abschnitt werden alle Reihen der Tabelle befüllt
+		 */
 		TextColumn<ListItem> nameColumn = new TextColumn<ListItem>() {
 			@Override
 			public String getValue(ListItem i) {
-					String itemName = new String("leer");
-					for (Item item : allItems) {
-						if (item.getId() == i.getItemId()) {
-							itemName = item.getName();
-						}
+				String itemName = new String("leer");
+				for (Item item : allItems) {
+					if (item.getId() == i.getItemId()) {
+						itemName = item.getName();
 					}
-					return itemName;
 				}
+				return itemName;
+			}
 		};
 
 		TextColumn<ListItem> amountColumn = new TextColumn<ListItem>() {
@@ -266,13 +287,12 @@ public class ShowShoppingListForm extends VerticalPanel {
 				return personName;
 			}
 		};
-		
-		
-		Column<ListItem, Boolean> checkColumn = new Column<ListItem, Boolean>( new CheckboxCell(true,true)) {
+
+		Column<ListItem, Boolean> checkColumn = new Column<ListItem, Boolean>(new CheckboxCell(true, true)) {
 			@Override
 			public Boolean getValue(ListItem object) {
 				// Get the value from the selection model
-				return multiSelectionModel.isSelected(object);		
+				return multiSelectionModel.isSelected(object);
 			}
 		};
 		checkColumn.setFieldUpdater(new FieldUpdater<ListItem, Boolean>() {
@@ -280,11 +300,11 @@ public class ShowShoppingListForm extends VerticalPanel {
 			@Override
 			public void update(int arg0, ListItem arg1, Boolean arg2) {
 				// TODO Auto-generated method stub
-		        administration.checkListItem(arg1.getId(), arg2, new CheckListItemCallback());
+				administration.checkListItem(arg1.getId(), arg2, new CheckListItemCallback());
 			}
 		});
-		
-		
+
+		// Die Spalten werden der Tabelle hinzugefügt
 		cellTable.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
 		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
 		cellTable.addColumn(nameColumn, "Artikel");
@@ -292,17 +312,15 @@ public class ShowShoppingListForm extends VerticalPanel {
 		cellTable.addColumn(unitColumn, "Einheit");
 		cellTable.addColumn(storeColumn, "Laden");
 		cellTable.addColumn(personColumn, "Verantwortlicher");
-		
+
 		/*
 		 * Store Column sortierbarkeit aktivieren.
 		 */
-		
 		storeColumn.setSortable(true);
-		
+
 		/*
 		 * ColumnSortEvent.ListHandler hinzufügen
 		 */
-		
 		ListHandler<ListItem> columnSortHandler2 = new ListHandler<ListItem>(dataProvider.getList());
 		columnSortHandler2.setComparator(storeColumn, new Comparator<ListItem>() {
 			@Override
@@ -310,39 +328,35 @@ public class ShowShoppingListForm extends VerticalPanel {
 				if (o1 == o2) {
 					return 0;
 				}
-				
-				//Die Store columns vergleichen.
-				
+
+				// Die Store columns vergleichen.
 				String a = new String();
 				a = Integer.toString(o1.getStoreID());
-				
+
 				String b = new String();
 				b = Integer.toString(o2.getStoreID());
-				
+
 				if (o1 != null) {
 					if (o2 != null) {
 						return a.compareTo(b);
-					
-				}
+					}
 				}
 				return -1;
-			}	
+			}
 		});
-		
+
 		cellTable.addColumnSortHandler(columnSortHandler2);
-		
+
 		cellTable.getColumnSortList().push(storeColumn);
-		
+
 		/*
 		 * Person Column sortierbarkeit aktivieren.
 		 */
-		
 		personColumn.setSortable(true);
-		
+
 		/*
 		 * ColumnSortEvent.ListHandler hinzufügen
 		 */
-		
 		ListHandler<ListItem> columnSortHandler3 = new ListHandler<ListItem>(dataProvider.getList());
 		columnSortHandler3.setComparator(personColumn, new Comparator<ListItem>() {
 			@Override
@@ -350,86 +364,119 @@ public class ShowShoppingListForm extends VerticalPanel {
 				if (o1 == o2) {
 					return 0;
 				}
-				
-				//Die Person columns vergleichen.
-				
+
+				// Die Person columns vergleichen.
 				String a = String.valueOf(o1.getBuyerID());
-				
 				String b = String.valueOf(o2.getBuyerID());
-				
+
 				if (o1 != null) {
 					if (o2 != null) {
 						return a.compareTo(b);
-					
-				}
+					}
 				}
 				return -1;
-			}	
+			}
 		});
-		
+
 		cellTable.addColumnSortHandler(columnSortHandler3);
-		
+
 		cellTable.getColumnSortList().push(personColumn);
 
 		shoppingListPanel.add(cellTable);
 
 		this.add(shoppingListPanel);
 		this.setCellHorizontalAlignment(shoppingListPanel, ALIGN_CENTER);
-			
+
 		this.add(addListItemPanel);
 		this.setCellHorizontalAlignment(addListItemPanel, ALIGN_CENTER);
-		
+
 		this.add(deleteListItemPanel);
 		this.setCellHorizontalAlignment(deleteListItemPanel, ALIGN_CENTER);
 		deleteListItemPanel.setVisible(false);
-		
+
 		this.add(bottomButtonsPanel);
 
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
 	}
 
+	/**
+	 * Setzt das aktuelle <code>CustomTreeModel</code>
+	 * 
+	 * @param model Das zu setzende <code>CustomTreeModel</code>
+	 */
+	public void setCtm(CustomTreeModel model) {
+		this.ctm = model;
+	}
+
+	/**
+	 * Setzt die aktuell ausgewählte <code>Group</code>
+	 * 
+	 * @param g Die zu setzende <code>Group</code>
+	 */
+	public void setGroup(Group g) {
+		this.group = g;
+	}
+
+	/**
+	 * Methode um die aktuell ausgewählte Gruppe zu erhalten
+	 * 
+	 * return die Gruppe in der die Einkaufsliste sich befindet
+	 */
+	public Group returnGroup() {
+		return this.group;
+	}
+
+	/**
+	 * Methode um alle Listitems in ShoppingListForm zu bekommen
+	 * 
+	 * return Alle Artikel werden zurückgegeben
+	 */
 	public ArrayList<ListItem> getAllListItems() {
 		return this.allListItems;
 	}
-	
+
+	/**
+	 * Load Methode, um wenn die List das erste mal angelegt wird und die in der
+	 * Gruppe selektierten Favoriten hinzugefügt werden sollen.
+	 */
 	public void loadFavoriteItems() {
-		ctm.setLoadFavoriteItems(false);	
+		ctm.setLoadFavoriteItems(false);
 		administration.getAllFavoriteListItemsbyGroup(group, new getAllFavoriteListItemsCallback());
 	}
 
+	/**
+	 * Load Methode, um alle <code>Store</code>, <code>Person</code> und
+	 * <code>Item</code> Instanzen aus der Datenbank zu erhalten
+	 */
 	private void loadListitems() {
 		administration.getAllStores(new getAllStoresCallback());
 		administration.getAllPersons(new getAllPersonsCallback());
 		administration.getAllItems(new getAllItemsCallback());
-		}
-
-
-	private class ListItemKeyProvider implements ProvidesKey<ListItem> {
-		@Override
-		public Object getKey(ListItem item) {
-			return (item == null) ? null : item.getId();
-		}
 	}
-	
+
+	/**
+	 * Methode, um den DataProvider zu leeren
+	 */
 	public void updateRemovedListItem() {
 		dataProvider.getList().clear();
 	}
-	
+
+	/**
+	 * Methode, um das <code>ListItem</code> zu aktualisieren
+	 */
 	public void updateListItem() {
 		selectedListitemIndex = null;
 		dataProvider.getList().clear();
-		administration.getAllListItemsByShoppingLists(shoppingListToDisplay, new getAllListItemsbyShoppingListCallback());	
+		administration.getAllListItemsByShoppingLists(shoppingListToDisplay,
+				new getAllListItemsbyShoppingListCallback());
 	}
 
-
-	public void setGroup(Group g) {
-		this.group = g;
-	}
-	
-	public Group returnGroup() {
-		return this.group;
-	}
-	
+	/**
+	 * Setzt die aktuell ausgewählte <code>ShoppingList</code>
+	 * 
+	 * @param sl      Die zu setzende <code>ShoppingList</code>
+	 * @param initial Setzt ob die Einkaufsliste initial angelegt wird
+	 */
 	public void setSelected(ShoppingList sl, Boolean initial) {
 		if (sl != null) {
 			selectedListitemIndex = null;
@@ -437,34 +484,40 @@ public class ShowShoppingListForm extends VerticalPanel {
 			dataProvider.getList().clear();
 			shoppingListToDisplay = sl;
 			infoTitleLabel.setText(sl.getTitle());
-			
+
 			infoTitleLabel.setVisible(true);
 			editButton.setVisible(true);
-			
-			if(initial == true) {
+
+			if (initial == true) {
 				loadFavoriteItems();
 			}
-			
+
 			additionalInfoGrid.setVisible(true);
-			additionalInfoGrid.setWidget(0, 0, new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
-			additionalInfoGrid.setWidget(0, 1, new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
+			additionalInfoGrid.setWidget(0, 0,
+					new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
+			additionalInfoGrid.setWidget(0, 1,
+					new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
 			additionalInfoGrid.setWidget(1, 0, myItemsCheckbox);
 		} else {
 			this.clear();
 		}
 	}
 
+	/**
+	 * Fügt das <code>ListItem</code> der <code>ShoppingList</code> hinzu
+	 * 
+	 * @param li Das zu setzenden <code>ListItem</code> Objekt
+	 */
 	public void AddListItem(ListItem li) {
 		shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
 		administration.updateShoppingList(shoppingListToDisplay, new UpdateShoppinglistCallback());
 		dataProvider.getList().add(li);
-		allItems=null;
+		allItems = null;
 		administration.getAllItems(new AsyncCallback<ArrayList<Item>>() {
-
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-			Notification.show("Artikel konnten leider nicht geladen werden" + caught.toString());
+				Notification.show("Artikel konnten leider nicht geladen werden" + caught.toString());
 			}
 
 			@Override
@@ -475,25 +528,34 @@ public class ShowShoppingListForm extends VerticalPanel {
 			}
 		});
 	}
-	
-	public ArrayList<ListItem> myListItems() {
-		
+
+	/**
+	 * Methode um alle Artikel auf die aktuell angemeldete Person zu filtern
+	 */
+	private ArrayList<ListItem> myListItems() {
 		ArrayList<ListItem> myItems = new ArrayList<ListItem>();
-		
-		for (ListItem listitem: allListItems) {
+		for (ListItem listitem : allListItems) {
 			if (listitem.getBuyerID() == p.getId()) {
 				myItems.add(listitem);
-				}
+			}
 		}
 		return myItems;
 	}
-		
+
+	// KeyProvider für die Celltable
+	private class ListItemKeyProvider implements ProvidesKey<ListItem> {
+		@Override
+		public Object getKey(ListItem item) {
+			return (item == null) ? null : item.getId();
+		}
+	}
 
 	/**
-	 * Sobald der Button ausgewahlt wird ein <code>ListItemDialog</code> erstellt, durch den neue <code>ListItem</code> Objekte
-	 * erzeugt und der Shoppinglist hinzugefugt werden.
+	 * Sobald der Button ausgewahlt wird ein <code>ListItemDialog</code> erstellt,
+	 * durch den neue <code>ListItem</code> Objekte erzeugt und der Shoppinglist
+	 * hinzugefugt werden.
 	 */
-	class AddListItemClickHandler implements ClickHandler {
+	private class AddListItemClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -504,62 +566,71 @@ public class ShowShoppingListForm extends VerticalPanel {
 			lid.show();
 		}
 	}
-	
+
 	/**
-	 * Sobald der Button ausgewahlt wird werden ein <code>ListItem</code> Objekt
-	 * dem System und der Shoppinglist entfernt.
+	 * Sobald der Button ausgewahlt wird werden ein <code>ListItem</code> Objekt dem
+	 * System und der Shoppinglist entfernt.
 	 */
-	class DeleteListItemClickHandler implements ClickHandler {
+	private class DeleteListItemClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-		  	if(selectedListitemIndex!=null) {
-		  		if(Window.confirm("Wollen Sie diesen Artikel wirklich entfernen?") == true) {
-		  			administration.deleteListItem(allListItems.get(selectedListitemIndex), new deleteListItemCallback());				
-		  			}else {
-		  			selectedListitemIndex = null;
-		  			}
-			  	}else {
-			  	Window.alert("Bitte selektieren sie ein Artikel in der Liste");
-			  	}
+			if (selectedListitemIndex != null) {
+				if (Window.confirm("Wollen Sie diesen Artikel wirklich entfernen?") == true) {
+					administration.deleteListItem(allListItems.get(selectedListitemIndex),
+							new deleteListItemCallback());
+				} else {
+					selectedListitemIndex = null;
+				}
+			} else {
+				Window.alert("Bitte selektieren sie ein Artikel in der Liste");
+			}
 		}
 	}
 
-	
-	public class EditClickHandler implements ClickHandler{
+	/**
+	 * Sobald der Button ausgewahlt wird werden ein <code>ListItem</code> Objekt dem
+	 * System und der Shoppinglist entfernt.
+	 */
+	private class EditClickHandler implements ClickHandler {
 
 		public void onClick(ClickEvent event) {
 			additionalInfoGrid.setVisible(false);
 			shoppinglistNameBox.setVisible(true);
 			shoppinglistNameBox.setText(infoTitleLabel.getText());
 			infoTitleLabel.setVisible(false);
-			
+
 			addListItemButton.setVisible(false);
 			deleteListItemPanel.setVisible(true);
 			confirmButton.setVisible(true);
 			cancelButton.setVisible(true);
 			editButton.setVisible(false);
 			myItemsCheckbox.setVisible(false);
-			
+
 			formHeaderPanel.setCellVerticalAlignment(shoppinglistNameBox, ALIGN_BOTTOM);
 			formHeaderPanel.setCellHorizontalAlignment(shoppinglistNameBox, ALIGN_LEFT);
-			
+
 		}
-		
 	}
-	
-	class DeleteShoppingListClickHandler implements ClickHandler {
-		
+
+	/**
+	 * Sobald der Button ausgewahlt wird wird die <code>ShoppingList</code> nach
+	 * einer Bestätigung gelöscht
+	 */
+	private class DeleteShoppingListClickHandler implements ClickHandler {
+
 		public void onClick(ClickEvent event) {
-			if(Window.confirm("Wollen Sie wirklich entfernen?") == true) {
+			if (Window.confirm("Wollen Sie wirklich entfernen?") == true) {
 				administration.deleteShoppingList(shoppingListToDisplay, new DeleteShoppinglistCallback());
 			}
 		}
 	}
-	
-	
-	class ConfirmClickHandler implements ClickHandler {
-		
+
+	/**
+	 * Clickhandler um die Änderungen am Titel der Einkaufsliste zu übernehmen
+	 */
+	private class ConfirmClickHandler implements ClickHandler {
+
 		public void onClick(ClickEvent event) {
 			infoTitleLabel.setText(shoppinglistNameBox.getText());
 			shoppinglistNameBox.setVisible(false);
@@ -570,16 +641,19 @@ public class ShowShoppingListForm extends VerticalPanel {
 			addListItemButton.setVisible(true);
 			deleteListItemPanel.setVisible(false);
 			myItemsCheckbox.setVisible(true);
-			
+
 			shoppingListToDisplay.setTitle(shoppinglistNameBox.getText());
 			shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
-			
+
 			administration.updateShoppingList(shoppingListToDisplay, new UpdateShoppinglistCallback());
 		}
 	}
-	
-	class CancelClickHandler implements ClickHandler {
-		
+
+	/**
+	 * Clickhandler um die Änderungen am Titel der Einkaufsliste abzubrechen
+	 */
+	private class CancelClickHandler implements ClickHandler {
+
 		public void onClick(ClickEvent event) {
 			shoppinglistNameBox.setVisible(false);
 			infoTitleLabel.setVisible(true);
@@ -588,35 +662,46 @@ public class ShowShoppingListForm extends VerticalPanel {
 			editButton.setVisible(true);
 			addListItemButton.setVisible(true);
 			myItemsCheckbox.setVisible(true);
-			
+
 			additionalInfoGrid.setVisible(true);
-			additionalInfoGrid.setWidget(0, 0, new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
-			additionalInfoGrid.setWidget(0, 1, new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
+			additionalInfoGrid.setWidget(0, 0,
+					new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
+			additionalInfoGrid.setWidget(0, 1,
+					new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
 			additionalInfoGrid.setWidget(1, 0, myItemsCheckbox);
-	
+
 		}
 	}
-	
-	class myItemsClickHandler implements ClickHandler {
-		
+
+	/**
+	 * Clickhandler um die Artikel auf die angemeldete Person zu beschränken
+	 */
+	private class myItemsClickHandler implements ClickHandler {
+
 		public void onClick(ClickEvent event) {
 			dataProvider.getList().clear();
-			if(myItemsCheckbox.getValue()== true) {
-			for(ListItem l : myListItems()) {
-				dataProvider.getList().add(l);
-				}
-			}else {
-				for(ListItem l : allListItems) {
+			if (myItemsCheckbox.getValue() == true) {
+				for (ListItem l : myListItems()) {
 					dataProvider.getList().add(l);
-					}
+				}
+			} else {
+				for (ListItem l : allListItems) {
+					dataProvider.getList().add(l);
+				}
 			}
 			dataProvider.refresh();
 		}
 	}
 
-
 	/**
-	 * ListHandler mit dem in der CellTable die Liste sortiert wird
+	 * ***************************************************************************
+	 * ABSCHNITT der Callbacks
+	 * ***************************************************************************
+	 */
+	
+	/**
+	 * Private Klasse des Callback um alle <code>Store</code> Instanzen aus dem
+	 * System zu bekommen.
 	 */
 	private class getAllStoresCallback implements AsyncCallback<ArrayList<Store>> {
 
@@ -624,33 +709,17 @@ public class ShowShoppingListForm extends VerticalPanel {
 		public void onFailure(Throwable caught) {
 			Notification.show(caught.toString());
 		}
-		
+
 		@Override
 		public void onSuccess(ArrayList<Store> result) {
 			// TODO Auto-generated method stub
 			allStores = result;
 		}
 	}
-	
-	/**
-	 * ListHandler mit dem in der CellTable die Liste sortiert wird
-	 */
-	private class DeleteShoppinglistCallback implements AsyncCallback<Void> {
 
-		@Override
-		public void onFailure(Throwable caught) {
-			Notification.show(caught.toString());
-		}
-		
-		@Override
-		public void onSuccess(Void result) {
-			Notification.show("Einkaufsliste wurde erfolgreich entfernt");
-			ctm.updateRemovedShoppingList(shoppingListToDisplay);
-		}
-	}
-	
 	/**
-	 * ListHandler mit dem in der CellTable die Liste sortiert wird
+	 * Private Klasse des Callback um alle <code>Items</code> Instanzen aus dem
+	 * System zu bekommen.
 	 */
 	private class getAllItemsCallback implements AsyncCallback<ArrayList<Item>> {
 
@@ -658,17 +727,19 @@ public class ShowShoppingListForm extends VerticalPanel {
 		public void onFailure(Throwable caught) {
 			Notification.show(caught.toString());
 		}
-		
+
 		@Override
 		public void onSuccess(ArrayList<Item> result) {
 			// TODO Auto-generated method stub
 			allItems = result;
-			administration.getAllListItemsByShoppingLists(shoppingListToDisplay, new getAllListItemsbyShoppingListCallback());	
+			administration.getAllListItemsByShoppingLists(shoppingListToDisplay,
+					new getAllListItemsbyShoppingListCallback());
 		}
 	}
-	
+
 	/**
-	 * ListHandler mit dem in der CellTable die Liste sortiert wird
+	 * Private Klasse des Callback um alle <code>Person</code> Instanzen aus dem
+	 * System zu bekommen.
 	 */
 	private class getAllPersonsCallback implements AsyncCallback<ArrayList<Person>> {
 
@@ -676,23 +747,44 @@ public class ShowShoppingListForm extends VerticalPanel {
 		public void onFailure(Throwable caught) {
 			Notification.show(caught.toString());
 		}
-		
+
 		@Override
 		public void onSuccess(ArrayList<Person> result) {
 			// TODO Auto-generated method stub
 			allPersons = result;
 
-
 		}
 	}
-	
+
+	/**
+	 * Private Klasse des Callback um eine <code>ShoppingList</code> Instanzen aus
+	 * dem System zu löschen.
+	 */
+	private class DeleteShoppinglistCallback implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Notification.show(caught.toString());
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			Notification.show("Einkaufsliste wurde erfolgreich entfernt");
+			ctm.updateRemovedShoppingList(shoppingListToDisplay);
+		}
+	}
+
+	/**
+	 * Private Klasse des Callback um ein <code>ListItem</code> Instanz aus dem
+	 * System abzuhaken.
+	 */
 	private class CheckListItemCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
 			Notification.show("Der Artikel konnte leider nicht abgehakt werden:" + caught.toString());
 		}
-		
+
 		@Override
 		public void onSuccess(Void result) {
 			// TODO Auto-generated method stub
@@ -701,11 +793,10 @@ public class ShowShoppingListForm extends VerticalPanel {
 			Notification.show("Artikel wurde erfolgreich abgehakt");
 		}
 	}
-	
-	
 
 	/**
-	 * ListHandler mit dem in der CellTable die Liste sortiert wird
+	 * Private Klasse des Callback um eine <code>ShoppingList</code> Instanzen aus
+	 * dem System zu aktualisieren.
 	 */
 	private class UpdateShoppinglistCallback implements AsyncCallback<Void> {
 
@@ -713,34 +804,37 @@ public class ShowShoppingListForm extends VerticalPanel {
 		public void onFailure(Throwable caught) {
 			Notification.show(caught.toString());
 		}
-		
+
 		@Override
 		public void onSuccess(Void result) {
 			administration.findShoppingListbyId(shoppingListToDisplay.getId(), new findShoppingListbyIdCallback());
 			ctm.updateShoppingList(shoppingListToDisplay);
 		}
 	}
-	
-	
-	private class findShoppingListbyIdCallback implements AsyncCallback<ShoppingList>{
-			@Override
-			public void onFailure(Throwable arg0) {
-				// TODO Auto-generated method stub
-				
-			}
 
-			@Override
-			public void onSuccess(ShoppingList result) {
-				// TODO Auto-generated method stub
-				additionalInfoGrid.setVisible(true);
-				additionalInfoGrid.setWidget(0, 0, new Label("Erstelldatum: " + result.getCreationDateString()));
-				additionalInfoGrid.setWidget(0, 1, new HTML("Änderungsdatum: " + result.getChangeDateString()));
-				additionalInfoGrid.setWidget(1, 0, myItemsCheckbox);
-			}
-		}
-	
 	/**
-	 * ListHandler mit dem in der CellTable die Liste sortiert wird
+	 * Private Klasse des Callback um eine <code>ShoppingList</code> Instanzen aus
+	 * dem System zu bekommen.
+	 */
+	private class findShoppingListbyIdCallback implements AsyncCallback<ShoppingList> {
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void onSuccess(ShoppingList result) {
+			// TODO Auto-generated method stub
+			additionalInfoGrid.setVisible(true);
+			additionalInfoGrid.setWidget(0, 0, new Label("Erstelldatum: " + result.getCreationDateString()));
+			additionalInfoGrid.setWidget(0, 1, new HTML("Änderungsdatum: " + result.getChangeDateString()));
+			additionalInfoGrid.setWidget(1, 0, myItemsCheckbox);
+		}
+	}
+
+	/**
+	 * Private Klasse des Callback um alle <code>Items</code> Instanzen aus einer
+	 * ShoppingList aus System zu bekommen.
 	 */
 	private class getAllListItemsbyShoppingListCallback implements AsyncCallback<ArrayList<ListItem>> {
 
@@ -748,14 +842,14 @@ public class ShowShoppingListForm extends VerticalPanel {
 		public void onFailure(Throwable caught) {
 			Notification.show(caught.toString());
 		}
-		
+
 		@Override
 		public void onSuccess(ArrayList<ListItem> result) {
 			// TODO Auto-generated method stub
 			allListItems = result;
-			for(ListItem l : result) {
+			for (ListItem l : result) {
 				dataProvider.getList().add(l);
-				if(l.getChecked() == true) {
+				if (l.getChecked() == true) {
 					multiSelectionModel.setSelected(l, true);
 				}
 			}
@@ -763,7 +857,11 @@ public class ShowShoppingListForm extends VerticalPanel {
 		}
 	}
 
-	private class getAllFavoriteListItemsCallback implements AsyncCallback<ArrayList<Item>>{
+	/**
+	 * Private Klasse des Callback um alle <code>Item</code> Instanzen aus einer
+	 * ShoppingList aus System zu bekommen die als Favorit markiert sind.
+	 */
+	private class getAllFavoriteListItemsCallback implements AsyncCallback<ArrayList<Item>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -775,31 +873,30 @@ public class ShowShoppingListForm extends VerticalPanel {
 		public void onSuccess(ArrayList<Item> result) {
 			// TODO Auto-generated method stub
 			if (result.isEmpty() == false) {
-				
-			for (Item i : result) {
-				StandardListItemDialog slid = new StandardListItemDialog();
-				slid.setShoppingList(shoppingListToDisplay);
-				slid.setShowShoppingListForm(ShowShoppingListForm.this);
-				slid.displayListItem(i, shoppingListToDisplay, group);
-				slid.show();
-			}
-			Notification.show("Favorisierte Artikel wurden hinzugefügt");
+
+				for (Item i : result) {
+					StandardListItemDialog slid = new StandardListItemDialog();
+					slid.setShoppingList(shoppingListToDisplay);
+					slid.setShowShoppingListForm(ShowShoppingListForm.this);
+					slid.displayListItem(i, shoppingListToDisplay, group);
+					slid.show();
+				}
+				Notification.show("Favorisierte Artikel wurden hinzugefügt");
 			}
 		}
-		
 	}
-	
+
 	/**
-	 * ListHandler mit dem in der CellTable die Liste sortiert wird
+	 * Private Klasse des Callback um eine <code>ListItem</code> Instanzen aus einer
+	 * ShoppingList aus System zu bekommen zu entfernen.
 	 */
-	
 	private class deleteListItemCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
 			Notification.show(caught.toString());
 		}
-		
+
 		@Override
 		public void onSuccess(Void result) {
 			shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
@@ -812,13 +909,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 				selectedListitemIndex = null;
 			}
 			Notification.show("Artikel wurde entfernt.");
-			}
 		}
-	
-
-
-	public void setCtm(CustomTreeModel model) {
-		this.ctm = model;
 	}
 }
-

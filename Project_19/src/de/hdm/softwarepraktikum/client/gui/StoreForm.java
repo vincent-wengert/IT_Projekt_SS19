@@ -16,18 +16,21 @@ import de.hdm.softwarepraktikum.client.ClientsideSettings;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Store;
+
 /**
- * In der Klasse <code>StoreForm</code> wird die Detailansicht der Stores implementiert.
- * Die Klasse wird bei der Erstellung eines neuen Stores und bei der Bearbeitung eines Stores aufgerufen.
+ * In der Klasse <code>StoreForm</code> wird die Detailansicht der Stores
+ * implementiert. Die Klasse wird bei der Erstellung eines neuen Stores und bei
+ * der Bearbeitung eines Stores aufgerufen.
  * 
  * @author Jan Duwe
  * @version 1.0
  *
  */
 
-public class StoreForm extends VerticalPanel{
-	
-	private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings.getShoppinglistAdministration();
+public class StoreForm extends VerticalPanel {
+
+	private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings
+			.getShoppinglistAdministration();
 
 	private Store storeToDisplay = null;
 	private AllStoresCellList ascl = null;
@@ -54,11 +57,15 @@ public class StoreForm extends VerticalPanel{
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
 	private Grid storeGrid = new Grid(4, 3);
-	
+
 	private StoreForm sf;
 	private Boolean editable;
 	private Boolean initial;
-	
+
+	/**
+	 * Bei der Instanziierung der <code>StoreForm</code>, werden die ClickHandler
+	 * den Buttons und dem Panel hinzugefügt
+	 */
 	public StoreForm() {
 
 		confirmButton.addClickHandler(new CreateClickHandler());
@@ -66,25 +73,20 @@ public class StoreForm extends VerticalPanel{
 
 		cancelButton.addClickHandler(new CancelClickHandler());
 		bottomButtonsPanel.add(cancelButton);
-		
+
 		editButton.addClickHandler(new EditClickHandler());
 		deleteButton.addClickHandler(new DeleteClickHandler());
 	}
-	
-	public void setSelected(Store s) {
-		if(s != null) {
-			storeToDisplay = s;
-			storeNameBox.setText(s.getName());
-			postCodeBox.setText(Integer.toString(s.getPostcode()));
-			cityNameBox.setText(s.getCity());
-			streetNameBox.setText(s.getStreet());
-			houseNumberBox.setText(Integer.toString(s.getHouseNumber()));
-			infoTitleLabel.setText(s.getName());
-		}
-	}
+
 	/**
-	 * In dieser Methode werden die Widgets der Form hinzugefügt.
-	 * Außerdem findet hier die Formatierungen der Widgets statt.
+	 * ***************************************************************************
+	 * ABSCHNITT der Methoden
+	 * ***************************************************************************
+	 */
+
+	/**
+	 * In dieser Methode werden die Widgets der Form hinzugefügt. Außerdem findet
+	 * hier die Formatierungen der Widgets statt.
 	 * 
 	 */
 	public void onLoad() {
@@ -102,10 +104,10 @@ public class StoreForm extends VerticalPanel{
 		formHeaderPanel.setWidth("100%");
 		cancelButton.setPixelSize(130, 40);
 		confirmButton.setPixelSize(130, 40);
-		
+
 		houseNumberBox.setWidth("42%");
 		streetNameBox.setWidth("95%");
-		
+
 		editButton.setHeight("8vh");
 		editButton.setWidth("8vh");
 		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_LEFT);
@@ -117,15 +119,15 @@ public class StoreForm extends VerticalPanel{
 		formHeaderPanel.add(topButtonsPanel);
 		formHeaderPanel.setCellVerticalAlignment(infoTitleLabel, ALIGN_BOTTOM);
 		formHeaderPanel.setCellHorizontalAlignment(infoTitleLabel, ALIGN_LEFT);
-		
+
 		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
 		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
-		
+
 		topButtonsPanel.add(editButton);
 		topButtonsPanel.add(deleteButton);
 
 		bottomButtonsPanel.setSpacing(20);
-		
+
 		streetHouseNumberPanel.add(streetNameBox);
 		streetHouseNumberPanel.add(houseNumberBox);
 
@@ -144,7 +146,7 @@ public class StoreForm extends VerticalPanel{
 		storeGrid.setWidget(1, 0, postCodeLabel);
 		storeGrid.setWidget(2, 0, cityNameLabel);
 		storeGrid.setWidget(3, 0, streetNameLabel);
-		
+
 		storeGrid.setWidget(0, 1, storeNameBox);
 		storeGrid.setWidget(1, 1, postCodeBox);
 		storeGrid.setWidget(2, 1, cityNameBox);
@@ -152,21 +154,53 @@ public class StoreForm extends VerticalPanel{
 
 		this.add(bottomButtonsPanel);
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);
-		
+
 		setTableEditable(editable);
 
 	}
-	
+
+	/**
+	 * Methode um die aktuelle <code>StoreForm</code> Instanz zu setzen.
+	 * 
+	 * @param storeForm das zu setzende <code>StoreForm</code> Objekt.
+	 */
 	public void setStoreForm(StoreForm storeForm) {
 		this.sf = storeForm;
 	}
-	
+
+	/**
+	 * Methode um die aktuelle <code>AllStoresCellList</code> Instanz zu setzen.
+	 * 
+	 * @param ascl das zu setzende <code>AllStoresCellList</code> Objekt.
+	 */
 	public void setAllStoresCellList(AllStoresCellList ascl) {
 		this.ascl = ascl;
 	}
-	
+
+	/**
+	 * Setzt den aktuell ausgewählten <code>Store</code>
+	 * 
+	 * @param s Das zu setzende <code>Store</code> Objekt
+	 */
+	public void setSelected(Store s) {
+		if (s != null) {
+			storeToDisplay = s;
+			storeNameBox.setText(s.getName());
+			postCodeBox.setText(Integer.toString(s.getPostcode()));
+			cityNameBox.setText(s.getCity());
+			streetNameBox.setText(s.getStreet());
+			houseNumberBox.setText(Integer.toString(s.getHouseNumber()));
+			infoTitleLabel.setText(s.getName());
+		}
+	}
+
+	/**
+	 * Methode um die Form in den Bearbeitungsmodus zu setzten
+	 * 
+	 * @param editable Der zu setzende Staus
+	 */
 	public void setTableEditable(boolean editable) {
-		if(editable == true) {
+		if (editable == true) {
 			storeNameBox.setEnabled(true);
 			postCodeBox.setEnabled(true);
 			cityNameBox.setEnabled(true);
@@ -174,7 +208,7 @@ public class StoreForm extends VerticalPanel{
 			houseNumberBox.setEnabled(true);
 			topButtonsPanel.setVisible(false);
 			bottomButtonsPanel.setVisible(true);
-		}else {
+		} else {
 			storeNameBox.setEnabled(false);
 			postCodeBox.setEnabled(false);
 			cityNameBox.setEnabled(false);
@@ -184,67 +218,82 @@ public class StoreForm extends VerticalPanel{
 			bottomButtonsPanel.setVisible(false);
 		}
 	}
-	
+
+	/**
+	 * Setzt die aktuellen Status der Tabelle
+	 * 
+	 * @param editable Der zu setzende Status
+	 */
 	public void setEditable(Boolean editable) {
 		this.editable = editable;
 	}
-	
+
+	/**
+	 * Setzt ob der das erste Mal angelegt wird
+	 * 
+	 * @param intital Der zu setzende Status
+	 */
 	public void setInitial(Boolean initial) {
 		this.initial = initial;
 	}
-	
+
 	/**
 	 * ***************************************************************************
 	 * ABSCHNITT der ClickHandler
 	 * ***************************************************************************
 	 */
 
-	
 	/**
 	 * Hiermit wird der Erstellvorgang eines neuen Store abbgebrochen.
 	 */
 	private class CancelClickHandler implements ClickHandler {
-		
+
 		@Override
 		public void onClick(ClickEvent event) {
-			
-			if(initial==true) {
+
+			if (initial == true) {
 				Notification.show("Erstellen abgebrochen");
 				RootPanel.get("Details").clear();
-			}else {
-				setTableEditable(false); 		//store wird neu geladen
+			} else {
+				setTableEditable(false); // store wird neu geladen
 			}
 		}
 	}
 
-	
 	/**
-	 * Sobald die Textfelder für den Namen und die Auswahl der Stores ausgefüllt wurden, wird
-	 * ein neuer <code>Store</code> nach dem Klicken des Bestätigungsbutton erstellt.
+	 * Sobald die Textfelder für den Namen und die Auswahl der Stores ausgefüllt
+	 * wurden, wird ein neuer <code>Store</code> nach dem Klicken des
+	 * Bestätigungsbutton erstellt.
 	 */
 	private class CreateClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			if(cityNameBox.getText()!="" && postCodeBox.getText()!="" && streetNameBox.getText()!="" && houseNumberBox.getText()!="" && storeNameBox.getText()!="") {
-			if(initial == false) {
-				storeToDisplay.setCity(cityNameBox.getText());
-				storeToDisplay.setPostcode(Integer.parseInt(postCodeBox.getText()));
-				storeToDisplay.setStreet(streetNameBox.getText());
-				storeToDisplay.setHouseNumber(Integer.parseInt(houseNumberBox.getText()));
-				storeToDisplay.setName(storeNameBox.getText());
-				shoppinglistAdministration.updateStore(storeToDisplay, new UpdateStoreCallback());
-				setTableEditable(false);
+			if (cityNameBox.getText() != "" && postCodeBox.getText() != "" && streetNameBox.getText() != ""
+					&& houseNumberBox.getText() != "" && storeNameBox.getText() != "") {
+				if (initial == false) {
+					storeToDisplay.setCity(cityNameBox.getText());
+					storeToDisplay.setPostcode(Integer.parseInt(postCodeBox.getText()));
+					storeToDisplay.setStreet(streetNameBox.getText());
+					storeToDisplay.setHouseNumber(Integer.parseInt(houseNumberBox.getText()));
+					storeToDisplay.setName(storeNameBox.getText());
+					shoppinglistAdministration.updateStore(storeToDisplay, new UpdateStoreCallback());
+					setTableEditable(false);
+				} else {
+					shoppinglistAdministration.createStore(storeNameBox.getText(), streetNameBox.getText(),
+							Integer.parseInt(postCodeBox.getText()), cityNameBox.getText(),
+							Integer.parseInt(houseNumberBox.getText()), new CreateStoreCallback());
+					setTableEditable(false);
+				}
 			} else {
-				shoppinglistAdministration.createStore(storeNameBox.getText(), streetNameBox.getText(), Integer.parseInt(postCodeBox.getText()), cityNameBox.getText(), Integer.parseInt(houseNumberBox.getText()), new CreateStoreCallback());
-				setTableEditable(false);
-			}
-			}else {
 				Window.alert("Bitte füllen sie alle Felder des Ladens richtig aus");
 			}
 		}
 	}
-	
+
+	/**
+	 * Hiermit wird der Erstellvorgang eines Stores begonnen.
+	 */
 	private class EditClickHandler implements ClickHandler {
 
 		@Override
@@ -254,17 +303,30 @@ public class StoreForm extends VerticalPanel{
 			setTableEditable(true);
 		}
 	}
-	
+
+	/**
+	 * Clickhandler um den Store zu löschen.
+	 */
 	private class DeleteClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			if(Window.confirm("Wollen Sie wirklich entfernen?") == true) {
-				shoppinglistAdministration.checkforExisitingStores(storeToDisplay.getId(), new checkForExistingStoresCallback());
+			if (Window.confirm("Wollen Sie wirklich entfernen?") == true) {
+				shoppinglistAdministration.checkforExisitingStores(storeToDisplay.getId(),
+						new checkForExistingStoresCallback());
 			}
 		}
 	}
-	
+
+	/**
+	 * ***************************************************************************
+	 * ABSCHNITT der Callbacks
+	 * ***************************************************************************
+	 */
+
+	/**
+	 * Private Klasse des Callback um eine <code>Store</code> Instanzen zu erzeugen.
+	 */
 	private class CreateStoreCallback implements AsyncCallback<Store> {
 
 		@Override
@@ -274,13 +336,17 @@ public class StoreForm extends VerticalPanel{
 
 		@Override
 		public void onSuccess(Store store) {
-			//add item to cellist
+			// add item to cellist
 			Notification.show("Store wurde erstellt");
 			RootPanel.get("Details").clear();
 			ascl.updateCellList(store);
 		}
 	}
-	
+
+	/**
+	 * Private Klasse des Callback um eine <code>Store</code> Instanzen zu
+	 * aktualisieren.
+	 */
 	private class UpdateStoreCallback implements AsyncCallback<Void> {
 
 		@Override
@@ -296,31 +362,13 @@ public class StoreForm extends VerticalPanel{
 			ascl.updateCellList(storeToDisplay);
 			ascl.setSelectedStore(storeToDisplay);
 		}
-		
-	}
-	
-	
-	
-	
-	private class checkForExistingStoresCallback implements AsyncCallback<Boolean> {
 
-		@Override
-		public void onFailure(Throwable caught) {
-		}
-
-		@Override
-		public void onSuccess(Boolean result) {
-			//add item to cellist
-			if(result == true) {
-				Window.alert("Der Laden kann nicht gelöscht, da dieser noch in einer Einkaufliste vorhanden ist."
-						+ " Wenn dieser dennoch gelöscht werden möchte dann kontaktieren sie den Administrator");
-			}else {
-			shoppinglistAdministration.deleteStore(storeToDisplay, new DeleteStoreCallback());
-			ascl.updateCellList(null);
-			}
-		}
 	}
-	
+
+	/**
+	 * Private Klasse des Callback um eine <code>Store</code> Instanzen zu
+	 * löschen.
+	 */
 	private class DeleteStoreCallback implements AsyncCallback<Void> {
 
 		@Override
@@ -335,6 +383,29 @@ public class StoreForm extends VerticalPanel{
 			RootPanel.get("Details").clear();
 			ascl.updateCellList(null);
 		}
-		
+
+	}
+
+	/**
+	 * Private Klasse des Callback um abzufragen ob zu einer <code>Store</code>
+	 * Instanzen <code>ListItem</code> Objekte vorhanden sind.
+	 */
+	private class checkForExistingStoresCallback implements AsyncCallback<Boolean> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(Boolean result) {
+			// add item to cellist
+			if (result == true) {
+				Window.alert("Der Laden kann nicht gelöscht, da dieser noch in einer Einkaufliste vorhanden ist."
+						+ " Wenn dieser dennoch gelöscht werden möchte dann kontaktieren sie den Administrator");
+			} else {
+				shoppinglistAdministration.deleteStore(storeToDisplay, new DeleteStoreCallback());
+				ascl.updateCellList(null);
+			}
+		}
 	}
 }

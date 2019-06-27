@@ -144,14 +144,39 @@ public class StandardListItemDialog extends PopupPanel {
 		this.center();
 	}
 
+	/**
+	 * ***************************************************************************
+	 * ABSCHNITT der Methoden
+	 * ***************************************************************************
+	 */
+	
+	/**
+	 * Setzen der <code>ShowShoppingListForm</code> Instanz innerhalb des
+	 * ListItemDialog. Diese wird für die Aktualisierung nach einer Änderung
+	 * benötigt.
+	 * 
+	 * @param sslf das zu setzende <code>ShowShoppingListForm</code> Objekt
+	 */
 	public void setShowShoppingListForm(ShowShoppingListForm sslf) {
 		this.sslf = sslf;
 	}
 	
+	/**
+	 * Setzen der <code>Group</code> Instanz innerhalb des ListItemDialog. Diese
+	 * wird für die Aktualisierung nach einer Änderung benötigt.
+	 * 
+	 * @param group das zu setzende <code>Group</code> Objekt
+	 */
 	public void setGroup(Group group) {
 		this.group = group;
 	}
 	
+	/**
+	 * Setzen der <code>ShoppingList</code> Instanz innerhalb des ListItemDialog.
+	 * Diese wird für die Aktualisierung nach einer Änderung benötigt.
+	 * 
+	 * @param sl das zu setzende <code>ShoppingList</code> Objekt
+	 */
 	public void setShoppingList(ShoppingList sl) {
 		this.shoppingList = sl;
 	}
@@ -168,6 +193,15 @@ public class StandardListItemDialog extends PopupPanel {
 		loadListBox();
 	}
 
+
+	/**
+	 * Setzen der ausgewählten Objekte in dem Listboxen, um diese dem zu
+	 * erstellenden ListItem zu übergeben.
+	 * 
+	 * @param person das zu setzende <code>String</code> Objekt
+	 * @param store  das zu setzende <code>String</code> Objekt
+	 * @param item   das zu setzende <code>String</code> Objekt
+	 */
 	public void getSelectedObjects(String person, String store, String item) {
 
 		for (Person p : allPersons) {
@@ -189,6 +223,16 @@ public class StandardListItemDialog extends PopupPanel {
 		}
 	}
 
+	/**
+	 * Anzeigen des ausgewählten <code>ListItem</code> in der Celltable in der
+	 * <code>ShowShoppingListForm</code>
+	 * 
+	 * @param li           das zu setzende <code>ListItem</code> Objekt
+	 * @param shoppingList das zu setzende <code>ShoppingList</code> Objekt
+	 * @param group        das zu setzende <code>Group</code> Objekt
+	 * @param update       der zu Boolean Wert ob das ListItem upgedatet wird
+	 * 
+	 */
 	public void displayListItem(Item itemDisplay, ShoppingList shoppingList, Group group) {
 		this.load();
 		
@@ -199,7 +243,10 @@ public class StandardListItemDialog extends PopupPanel {
 		itemListBox.setVisible(true);
 	}
 
-
+	/**
+	 * Anzeigen der möglichen Einheiten die ausgewählt werden können, in der
+	 * Einheiten ListBox
+	 */
 	public void loadListBox() {
 		unitListBox.addItem("KG");
 		unitListBox.addItem("L");
@@ -207,10 +254,15 @@ public class StandardListItemDialog extends PopupPanel {
 		unitListBox.addItem("ST");
 	}
 
-	
+	/**
+	 * ***************************************************************************
+	 * ABSCHNITT der ClickHandler/Events
+	 * ***************************************************************************
+	 */
 	
 	/**
-	 * Implementierung des ConfirmClickHandler
+	 * Implementierung des ConfirmClickHandler, dient zur Bestätigung im
+	 * Bearbeitungsprozess
 	 */
 	private class ConfirmClickHandler implements ClickHandler {
 		@Override
@@ -222,7 +274,7 @@ public class StandardListItemDialog extends PopupPanel {
 	}
 	
 	/**
-	 * Implementierung des CancelClickHandler
+	 * Implementierung des CancelClickHandler, dient zum Abbrechen des Bearbeitens
 	 */
 	private class CancelClickHandler implements ClickHandler {
 		@Override
@@ -231,32 +283,17 @@ public class StandardListItemDialog extends PopupPanel {
 		}
 	}
 	
+
 	/**
-	 * Implementierung des NewValueChangeHandler
+	 * ***************************************************************************
+	 * ABSCHNITT der Callbacks
+	 * ***************************************************************************
 	 */
-	private class NewValueChangeHandler<Boolean> implements ValueChangeHandler{
-
-		@Override
-		public void onValueChange(ValueChangeEvent event) {
-			itemListBox.setVisible(false);
-
-		}
-	}
-	
 	
 	/**
-	 * Implementierung des ExisitingValueChangeHandler
+	 * Private Klasse des Callback um alle <code>Items<code> Instanzen aus dem
+	 * System zu bekommen.
 	 */
-	private class ExisitingValueChangeHandler<Boolean> implements ValueChangeHandler{
-
-		@Override
-		public void onValueChange(ValueChangeEvent event) {
-			itemListBox.setVisible(true);
-		}
-	}
-	
-	
-	
 	private class GetAllItemsCallback implements AsyncCallback<ArrayList<Item>> {
 
 		@Override
@@ -292,6 +329,10 @@ public class StandardListItemDialog extends PopupPanel {
 		}
 	}
 		
+	/**
+	 * Private Klasse des Callback um alle <code>Store<code> Instanzen aus dem
+	 * System zu bekommen.
+	 */
 	private class GetAllStoresCallback implements AsyncCallback<ArrayList<Store>> {
 
 		@Override
@@ -322,12 +363,13 @@ public class StandardListItemDialog extends PopupPanel {
 						}
 					}
 					storeListBox.setSelectedIndex(indexToFind);
-				}
-			}
-		}
-	}
-}	
+				}	
+			}}}
+		}	
 		
+	/**
+	 * Private Klasse des Callback um alle <code>Person<code> Instanzen aus der Gruppe aus dem System zu bekommen.
+	 */
 	private class GetAllGroupMembersCallback implements AsyncCallback<ArrayList<Person>> {
 
 		@Override
@@ -363,6 +405,9 @@ public class StandardListItemDialog extends PopupPanel {
 			}
 		}
 	
+	/**
+	 * Private Klasse des Callback um eine <code>ListItem<code> Instanz im System zu erstellen.
+	 */
 	private class createListItemCallback implements AsyncCallback<ListItem> {
 
 		@Override
@@ -376,55 +421,6 @@ public class StandardListItemDialog extends PopupPanel {
 			StandardListItemDialog.this.hide();
 			sslf.AddListItem(result);
 			Notification.show("Artikel in der Einkaufsliste wurde erstellt");
-
 		}
 	} 
-	
-	private class UpdateListItemCallback implements AsyncCallback<ListItem> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Notification.show(caught.toString());
-		}
-		
-		@Override
-		public void onSuccess(ListItem result) {
-			// TODO Auto-generated method stub^
-			Notification.show("Artikel in der Einkaufsliste wurde aktualisiert");
-			sslf.updateListItem();
-
-		}
-	}
-	
-	private class CreateItemListItemCallback implements AsyncCallback<Item> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Notification.show(caught.toString());
-		}
-		
-		@Override
-		public void onSuccess(Item result) {
-			// TODO Auto-generated method stub
-			getSelectedObjects(personListBox.getSelectedItemText(), storeListBox.getSelectedItemText(), itemListBox.getSelectedItemText());
-			administration.createListItem(result, selectedPerson.getId(), selectedStore.getId(), shoppingList.getId(), group.getId(), Double.parseDouble(amountTextBox.getText()), unitListBox.getSelectedItemText(), false, new AsyncCallback<ListItem>() {
-			//administration.createListItem(result, selectedPerson.getId(), selectedStore.getId(), 1, 1, Integer.parseInt(amountTextBox.getText()), getItemUnit(unitListBox.getSelectedItemText()), false, new AsyncCallback<ListItem>() {
-
-				@Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void onSuccess(ListItem result) {
-					// TODO Auto-generated method stub
-					sslf.AddListItem(result);
-					Notification.show("Ein neuer Artikel wurde erstellt und der Einkaufsliste hinzugefügt");	
-				}
-			});
-			
-
-		}
-	}
 }

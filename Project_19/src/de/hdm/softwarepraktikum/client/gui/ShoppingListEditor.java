@@ -2,6 +2,15 @@ package de.hdm.softwarepraktikum.client.gui;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
+/**
+ * Diese Klasse bildet die Hauptform des Editor Clients. Hierin werden alle relevanten HTML-Layout Elemente
+ * zu einer Form zusammengeführt.
+ * 
+ * @autor Vincent Wengert
+ * @version 1.0
+ * @see de.hdm.softwarepraktikum.client.Project_19
+ */
+
 public class ShoppingListEditor {
 	private Header header = null;
 	private MenuPanel menuPanel = null;
@@ -9,7 +18,10 @@ public class ShoppingListEditor {
 	private Footer footer = null;
 
 			
-
+	/**
+	 * Durch diese Methode wird nach erfolgreichem Login des Users, die Formen des
+	 * Client Shoppinglistadministration zusammengeführt.
+	 */
 	public void loadForms() {
 		header = new Header();
 		navigator = new NavigatorPanel();
