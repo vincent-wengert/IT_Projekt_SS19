@@ -6,7 +6,14 @@ import java.util.Date;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 
+/*
+ * Die Kalsse stellt die Basisklasse dar, für alle in diesem Projekt
+ * relevanten Klassen zur Umsetzung der fachlichen Vorgaben.
+ */
+
+
 public abstract class BusinessObject implements IsSerializable{
+	
 
 	private static final long serialVersionUID = 1L;
 	private int id;
@@ -19,36 +26,78 @@ public abstract class BusinessObject implements IsSerializable{
      * aufgerufen. Dabei wird ein Creationdate erzeugt und dem Objekt zugewiesen.
      */
     public BusinessObject () {
+    
+    /**
+    * **************************************************************************************
+    * ABSCHNITT Anfang: Getter und Setter der Attribute
+    * **************************************************************************************
+    */
+
+    	
+    /*
+     * Setzen des Erstelldatums
+     */
    
     this.setCreationdate(new Timestamp(System.currentTimeMillis()));
     
     this.changedate=creationdate;
     	
     }
+    
+    /*
+     * Auslesen der ID
+     * @return Die ID wird zurückgegeben
+     */
 	
 	public int getId() {
 		return id;
 	}
+	
+	/*
+	 * Setzen der ID
+	 */
+	
 	public void setId(int id) {
 		this.id = id;
 	}
 	
+	/*
+	 * Auslesen des Erstelldatums
+	 * @return Das Creationdate wird zurückgegeben
+	 */
 	
 	public Timestamp getCreationdate() {
 		return this.creationdate;
 	}
+	
+	/*
+	 * Setzen des Erstelldatums
+	 */
+	
 	public void setCreationdate(Timestamp creationdate) {
 		this.creationdate = creationdate;
 	}
 	
+	/*
+	 * Auslesen des Änderungsdatums
+	 * @return Das Changedate wird zurückgegeben
+	 */
 	
 	public Timestamp getChangedate() {
 		return this.changedate;
 	}
+	
+	/*
+	 * Setzen des Änderungsdatums
+	 */
+	
 	public void setChangedate(Timestamp changedate) {
 		this.changedate = changedate;
 	}
-	// R�ckgabe Name + ID als String
+	
+	/*
+	 * Rückgabe Name + ID als String
+	 */
 	public String toString() {
 		return this.getClass().getName() + "#" + this.id;
 	}
@@ -74,7 +123,7 @@ public abstract class BusinessObject implements IsSerializable{
 	}
     
 	
-	//Pr�fen ob gleiches Objekt anhand der ID
+	//Prüfen ob gleiches Objekt anhand der ID
 	public boolean equals(Object obj) {
 		if (obj != null && obj instanceof BusinessObject) {
 		      BusinessObject bo = (BusinessObject) obj;
@@ -88,10 +137,16 @@ public abstract class BusinessObject implements IsSerializable{
 		      }
 		}
 		/*
-	     * Wenn bislang keine Gleichheit bestimmt werden konnte, dann m�ssen
-	     * schlie�lich false zur�ckgeben.
+	     * Wenn bislang keine Gleichheit bestimmt werden konnte, dann müssen
+	     * schließlich false zurückgeben.
 	     */
 	    return false;
 	}
+	
+	/**
+	 * **************************************************************************************
+	 * ABSCHNITT Ende: Getter und Setter der Attribute
+	 * **************************************************************************************
+	 */
 	
 }
