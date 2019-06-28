@@ -205,24 +205,11 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		return groups;
 	}
 	
-	/**
-	 * Methode um die ShoppingLists einer Person anzuzeigen
-	 * @param currentPerson
-	 * @return Liste der jeweiligen ShoppingLists
-	 * @throws IllegalArgumentException
-	 */
-	
 
-	
-	public ArrayList<Person> findByName (String name) throws IllegalArgumentException {
-		ArrayList<Person> prs = personMapper.findByName(name);
-		
-		return prs;
-	}
 	
 	
 	/** Wird das überhaupt benötigt??
-	 * Methode um eine ArrayList aller Personen einer Gruppe zu erhalten
+	 * Methode um eine ArrayList aller Personen zu erhalten
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
