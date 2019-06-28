@@ -31,6 +31,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.CellPreviewEvent;
+import com.google.gwt.view.client.CellPreviewEvent.Handler;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
@@ -93,7 +95,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private ArrayList<ListItem> allListItems = new ArrayList<ListItem>();
 	private ArrayList<ListItem> checkedListItems = new ArrayList<ListItem>();
 
-	private Grid additionalInfoGrid = new Grid(2, 2);
+	private Grid additionalInfoGrid = new Grid(3, 2);
 
 	private CustomTreeModel ctm = null;
 
@@ -153,9 +155,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		addListItemButton.setStylePrimaryName("addListItemButton");
 		editButton.setStylePrimaryName("editButton");
 		deleteButton.setStylePrimaryName("deleteButton");
-		deleteListItemButton.setStylePrimaryName("deleteButton");
-		addListItemButton.setHeight("8vh");
-		addListItemButton.setWidth("8vh");
+		deleteListItemButton.setStylePrimaryName("deleteListItemButton");
 		addListItemButton.setVisible(true);
 		myItemsCheckbox.setStylePrimaryName("myItemsCheckbox");
 
@@ -175,17 +175,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 		formHeaderPanel.add(infoTitleLabel);
 		formHeaderPanel.add(topButtonsPanel);
 
-		formHeaderPanel.setCellVerticalAlignment(infoTitleLabel, ALIGN_BOTTOM);
-		formHeaderPanel.setCellVerticalAlignment(topButtonsPanel, ALIGN_BOTTOM);
-		formHeaderPanel.setCellHorizontalAlignment(topButtonsPanel, ALIGN_RIGHT);
-
-		bottomButtonsPanel.setCellHorizontalAlignment(myItemsCheckbox, ALIGN_CENTER);
-
-		deleteListItemPanel.setCellHorizontalAlignment(deleteListItemButton, ALIGN_CENTER);
-
-		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_LEFT);
-		topButtonsPanel.setCellHorizontalAlignment(deleteButton, ALIGN_RIGHT);
-
 		this.add(formHeaderPanel);
 
 		additionalInfoGrid.setCellSpacing(5);
@@ -199,13 +188,16 @@ public class ShowShoppingListForm extends VerticalPanel {
 		cellTable.setStylePrimaryName("cellTable");
 		cellTable.setSelectionModel(multiSelectionModel,
 				DefaultSelectionEventManager.<ListItem>createCheckboxManager());
-
+		
 		// Eventhandler um die aktuell ausgewählte Zeile zu setzen
-		cellTable.addCellPreviewHandler(event -> {
-			if (BrowserEvents.CLICK.equalsIgnoreCase(event.getNativeEvent().getType())) {
-				this.selectedListitemIndex = event.getIndex();
-			}
-		});
+	       cellTable.addCellPreviewHandler(new CellPreviewEvent.Handler<ListItem>() {
+				@Override
+	            public void onCellPreview(CellPreviewEvent<ListItem> event) {
+	                if (BrowserEvents.CLICK.equalsIgnoreCase(event.getNativeEvent().getType())) {
+	                    ShowShoppingListForm.this.selectedListitemIndex = event.getIndex();
+	                }
+	            }
+	        });
 
 		// Doppelklick Event um das ausgewählte ListItem zu bearbeiten
 		cellTable.addDomHandler(new DoubleClickHandler() {
@@ -486,9 +478,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 		additionalInfoGrid.setVisible(true);
 		additionalInfoGrid.setWidget(0, 0,
 				new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
-		additionalInfoGrid.setWidget(0, 1,
+		additionalInfoGrid.setWidget(1, 0,
 				new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
-		additionalInfoGrid.setWidget(1, 0, myItemsCheckbox);
+		additionalInfoGrid.setWidget(2, 0, myItemsCheckbox);
 		}else {
 			this.clear();
 		}
@@ -652,6 +644,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			cancelButton.setVisible(false);
 			editButton.setVisible(true);
 			addListItemButton.setVisible(true);
+			deleteListItemPanel.setVisible(false);
 			myItemsCheckbox.setVisible(true);
 
 			additionalInfoGrid.setVisible(true);
