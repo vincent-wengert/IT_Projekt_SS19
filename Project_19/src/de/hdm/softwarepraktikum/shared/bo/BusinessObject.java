@@ -1,8 +1,9 @@
 package de.hdm.softwarepraktikum.shared.bo;
 
+import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Date;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 
@@ -19,6 +20,8 @@ public abstract class BusinessObject implements IsSerializable{
 	private int id;
 	private Timestamp creationdate;
 	private Timestamp changedate;
+	
+	
 	
     /**
      * Konstruktor des SharedBusinessObjects
@@ -37,13 +40,13 @@ public abstract class BusinessObject implements IsSerializable{
     /*
      * Setzen des Erstelldatums
      */
-   
-    this.setCreationdate(new Timestamp(System.currentTimeMillis()));
-    
-    this.changedate=creationdate;
+        this.setCreationdate(new Timestamp(System.currentTimeMillis()));
+        
+        this.changedate=creationdate;
     	
     }
     
+  
     /*
      * Auslesen der ID
      * @return Die ID wird zurückgegeben
@@ -66,17 +69,23 @@ public abstract class BusinessObject implements IsSerializable{
 	 * @return Das Creationdate wird zurückgegeben
 	 */
 	
+	
+	 
 	public Timestamp getCreationdate() {
 		return this.creationdate;
 	}
+	
+	
 	
 	/*
 	 * Setzen des Erstelldatums
 	 */
 	
+	
 	public void setCreationdate(Timestamp creationdate) {
 		this.creationdate = creationdate;
 	}
+	
 	
 	/*
 	 * Auslesen des Änderungsdatums
@@ -95,6 +104,8 @@ public abstract class BusinessObject implements IsSerializable{
 		this.changedate = changedate;
 	}
 	
+	
+	
 	/*
 	 * Rückgabe Name + ID als String
 	 */
@@ -108,8 +119,14 @@ public abstract class BusinessObject implements IsSerializable{
      * @return Das Creationdate wird zurückgegeben
      */
     public String getCreationDateString() {
-    	String creationDate = this.creationdate.toString().split("\\.")[0];
-    	return creationDate;
+    	
+//    	String creationDate = this.creationdate.toString().split("\\.")[0];
+    	
+    	Date date=new Date(creationdate.getTime());
+    	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy, HH:mm 'Uhr'");
+    	String test = fmt.format(date);
+  
+    	return test;
 	}
     
     /**
@@ -118,8 +135,14 @@ public abstract class BusinessObject implements IsSerializable{
      * @return Das Changedate wird zurückgegeben
      */
     public String getChangeDateString() {
-    	String changeDate = this.changedate.toString().split("\\.")[0];
-    	return changeDate;
+
+//    	String changeDate = this.changedate.toString().split("\\.")[0];
+    	
+    	Date date=new Date(changedate.getTime());
+    	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy, HH:mm 'Uhr'");
+    	String test = fmt.format(date);
+  
+    	return test;
 	}
     
 	
