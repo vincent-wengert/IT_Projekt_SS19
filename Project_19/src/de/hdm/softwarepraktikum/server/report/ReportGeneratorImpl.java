@@ -32,10 +32,10 @@ import de.hdm.softwarepraktikum.shared.report.SimpleParagraph;
 
 /**
  * Die Klasse <code>ReportGeneratorImpl</code> implementiert das Interface
- * ReportGenerator. In der Klasse ist neben ShoppingListAdministrationImpl saemtliche
+ * ReportGenerator. In der Klasse ist neben ShoppingListAdministrationImpl sämtliche
  * Applikationslogik vorhanden.
  * 
- * @author Niklas �xle
+ * @author Niklas Öxle
  * @version 1.0
  */
 
@@ -43,8 +43,8 @@ import de.hdm.softwarepraktikum.shared.report.SimpleParagraph;
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator{
 	
 	/**
-	 * Der ReportGenerator benoetigt  Zugriff auf die ShoppinglistAdministration,
-	 * da dort wichtige Methoden fuerr die Koexistenz von Datenobjekten enthalten sind.
+	 * Der ReportGenerator benötigt  Zugriff auf die ShoppinglistAdministration,
+	 * da dort wichtige Methoden fürr die Koexistenz von Datenobjekten enthalten sind.
 	 */
     private ShoppingListAdministration administration = null;
 
@@ -62,7 +62,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
      * ist ein solcher No-Argument-Konstruktor anzulegen. Ein Aufruf eines anderen
      * Konstruktors ist durch die Client-seitige Instantiierung durch
      * <code>GWT.create(Klassenname.class)</code> nach derzeitigem Stand nicht
-     * m�glich.
+     * möglich.
      * </p>
      * <p>
      * Es bietet sich also an, eine separate Instanzenmethode zu erstellen, die
@@ -90,6 +90,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		 * Ein ReportGeneratorImpl-Objekt instantiiert eine
 		 * ShoppingListAdministrationImpl-Instanz.
 		 */
+		
 		ShoppingListAdministrationImpl s = new ShoppingListAdministrationImpl();
 		s.init();
 		this.administration = s;
@@ -98,7 +99,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 	
 	/**
-     * Auslesen der zugeh�rigen ShoppingListAdministration.
+     * Auslesen der zugehörigen ShoppingListAdministration.
      * 
      * @return das ShoppingListAdministration Objekt
      */
@@ -110,8 +111,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	
 
 	/**
-	 * Gibt alle Items zurueck
-	 * 
+	 * Methode um alle Items auszugeben.
 	 * 
 	 * @return ArrayList<Item> mit allen Items
 	 */  
@@ -122,9 +122,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return administration.getAllItems();
 	}
 	
+	
 	/**
-	 * Gibt alle Stores zurueck.
-	 * 
+	 * Methode um alle Stores auszugeben.
 	 * 
 	 * @return ArrayList<Store> mit allen Stores
 	 */  
@@ -139,7 +139,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	/**
 	 * Gibt alle Gruppen- Objekte der uebergebenen Person zurueck.
 	 * 
-	 * @param p, das �bergebene Personobjekt f�r das die ArrayList erstellt werden soll.
+	 * @param p, das übergebene Personobjekt für das die ArrayList erstellt werden soll.
 	 * @return ArrayList<Group> mit allen Groups
 	 */ 
 
@@ -149,8 +149,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return administration.getAllGroupsByPerson(p);
 	}
 	
+	
 	/**
-	 * Gibt alle Persons zurueck.
+	 * Methode um alle Personen auszugeben.
 	 *  
 	 * @return ArrayList<Person> mit allen Person.
 	 */  
@@ -161,14 +162,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return administration.getAllPersons();
 	}
 
-    
-	@Override
-	public ArrayList<ShoppingList> getAllParticipations(Person p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
+	
+
 	/**
 	 * Methode um ein Impressum einem Report hinzuzufuegen
 	 *  
@@ -182,12 +178,12 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		CompositeParagraph imprint = new CompositeParagraph();
 		
 		imprint.addSubParagraph(new SimpleParagraph("Hochschule der Medien"));
-		imprint.addSubParagraph(new SimpleParagraph("Nobelstraï¿½e 10 70569 Stuttgart"));
+		imprint.addSubParagraph(new SimpleParagraph("NobelstraÃ¯Â¿Â½e 10 70569 Stuttgart"));
 		imprint.addSubParagraph(new SimpleParagraph("Telefon: 0711 8923-3242"));
 		imprint.addSubParagraph(new SimpleParagraph("E-Mail: info-wi7@hdm-stuttgart.de"));
 		imprint.addSubParagraph(new SimpleParagraph("Website: https://www.hdm-stuttgart.de/"));
 		
-		//Hinzufï¿½gen des Impressums zum Report.
+		//Hinzufügen des Impressums zum Report.
 		r.setImprint(imprint);
 		
 	}
@@ -198,10 +194,16 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		
 	}
 	
+	
 	/**
      * Erstellen von <code>ItemsByGroupReport</code>-Objekten.
      * 
-     * @param filterPerson, p, g, s, from, to : Parameter nach denen gefiltert werden soll.
+     * @param filterPerson , Boolean der überprüft ob nur Ergebnisse der Person angezeigt werden sollen.
+     * @param  p , Person nach der gefiltert werden soll.
+     * @param  g , Gruppe nach der gefiltert werden soll.
+     * @param  s, Store nach dem gefiltert werden soll
+     * @param  from ,  Datumsparameter nach dem gefiltert werden soll.
+     * @param  to , Datumsparameter nach dem gefiltert werden soll.
      * @return der fertige Report
      */
 
@@ -215,11 +217,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	ItemsByGroupReport result = new ItemsByGroupReport();
     	
   
-    	// Jeder Report erhaelt einen Titel (Ueberschrift)
+    	// Jeder Report erhaelt einen Titel (Überschrift)
     	result.setTitle("Alle gekauften Items der Gruppe im angegebenen Zeitraum");
     	
     	/*
-         * Datum der Erstellung hinzuf�gen. new Timestamp() erzeugt autom. einen
+         * Datum der Erstellung hinzufï¿½gen. new Timestamp() erzeugt autom. einen
          * "Timestamp" des Zeitpunkts der Instantiierung des Objekts.
          */
     	result.setCreationDate(new Timestamp(System.currentTimeMillis()));
@@ -288,7 +290,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     					result.addRow(listItemRow);
     	    	
     	    		}
-    	    	//R�ckgabe des fertigen Reports
+    	    	//Rückgabe des fertigen Reports
     	    	return result;
     	    	}
     	    	return null;
@@ -298,7 +300,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	/**
      * Erstellen von <code>ItemsByPersonReport</code>-Objekten, ohne Datumseingrenzung.
      * 
-     * @param  p, g, s, : Parameter nach denen gefiltert werden soll.
+     * @param p ,  Person nach welcher gefiltert wird
+     * @param g ,  Gruppe nach welcher gefiltert wird
+     * @param s ,  Store nach welchem gefiltert werden soll
+     * 
      * @return der fertige Report
      */
 	
@@ -384,7 +389,12 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	/**
      * Erstellen von <code>ItemsByPersonReport</code>-Objekten, mit Datumseingrenzung.
      * 
-     * @param  p, g, s, from, to : Parameter nach denen gefiltert werden soll.
+     * @param  p , Person nach der gefiltert werden soll.
+     * @param  g , Gruppe nach der gefiltert werden soll.
+     * @param  s, Store nach dem gefiltert werden soll
+     * @param  from ,  Datumsparameter nach dem gefiltert werden soll.
+     * @param  to , Datumsparameter nach dem gefiltert werden soll.
+     * 
      * @return der fertige Report
      */
 	
@@ -461,7 +471,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				result.addRow(listItemRow);
     	
     		}
-    	//R�ckgabe des fertigen Reports
+    	//Rï¿½ckgabe des fertigen Reports
     	return result;
     	}
     	return null;
@@ -471,7 +481,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	/**
      * Erstellen von <code>ItemsByGroupReport</code>-Objekten, ohne Datumseingrenzung.
      * 
-     * @param filterPerson, p, g, s: Parameter nach denen gefiltert werden soll.
+     * @param filterPerson , Boolean der überprüft ob nur Ergebnisse der Person angezeigt werden sollen.
+     * @param  p , Person nach der gefiltert werden soll.
+     * @param  g , Gruppe nach der gefiltert werden soll.
+     * @param  s, Store nach dem gefiltert werden soll
+     *
      * @return der fertige Report
      */
 
@@ -485,11 +499,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	ItemsByGroupReport result = new ItemsByGroupReport();
     	
   
-    	// Jeder Report erh�lt einen Titel (�berschrift)
+    	// Jeder Report erhaellt einen Titel (Überschrift)
     	result.setTitle("Alle Items einer Gruppe");
     	
     	/*
-         * Datum der Erstellung hinzuf�gen. new Timestamp() erzeugt autom. einen
+         * Datum der Erstellung hinzufügen. new Timestamp() erzeugt autom. einen
          * "Timestamp" des Zeitpunkts der Instantiierung des Objekts.
          */
     	result.setCreationDate(new Timestamp(System.currentTimeMillis()));
@@ -557,7 +571,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				result.addRow(listItemRow);
     	
     		}
-    	//R�ckgabe des fertigen Reports
+    	//Rückgabe des fertigen Reports
     	return result;
     	}
     	
@@ -595,16 +609,16 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 						//dritte Spalte: Artikelname
 						listItemRow.addColumn(new Column(getItemName(i.getItemId())));
 						
-						//vierte Spalte: Einheit hinzuf�gen
+						//vierte Spalte: Einheit hinzufï¿½gen
 						listItemRow.addColumn(new Column(i.getUnit()));
 						
-						//fuenfte Spalte: Menge hinzuf�gen
+						//fuenfte Spalte: Menge hinzufï¿½gen
 						listItemRow.addColumn(new Column(String.valueOf(i.getAmount())));
 						
 						//sechste Spalte: Person hinzuguegen, welche den Artikel gekauft hat
 						listItemRow.addColumn(new Column(getPersonName(i.getBuyerID())));
 						
-						//sechste Spalte: Kaufdatum hinzuf�gen
+						//sechste Spalte: Kaufdatum hinzufï¿½gen
 						listItemRow.addColumn(new Column(i.getChangeDateString()));
 						
 					
@@ -621,7 +635,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	/**
 	 * Methode um den Name eines Items auszugeben
 	 *  
-	 * @param itemID, ID des auszugebenden Items
+	 * @param itemID , ID des auszugebenden Items
 	 * @return Name des Items.
 	 */  
 	
@@ -638,7 +652,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	/**
 	 * Methode um den Name einer Gruppe auszugeben, die einer bestimmten Person zugeordnet ist.
 	 *  
-	 * @param groupID, ID der asuzugebenden Person
+	 * @param groupID , ID der asuzugebenden Person
 	 * @param p , Person die Teil der Gruppe ist,
 	 * @return Name des Items.
 	 */  
@@ -657,7 +671,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	/**
 	 * Methode um den Namen eines Stores auszugeben.
 	 *  
-	 * @param storeID, ID des auszugebenden Stores
+	 * @param storeID , ID des auszugebenden Stores
 	 * @return Name des Stores.
 	 */  
 	
@@ -675,7 +689,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	/**
 	 * Methode um den Namen einer Person auszugeben.
 	 *  
-	 * @param personID, ID der auszugebenden Person
+	 * @param personID , ID der auszugebenden Person
 	 * @return Name der Person.
 	 */  
 	

@@ -21,7 +21,7 @@ public class ShoppingListMapper {
 	   * saemtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	   * einzige Instanz dieser Klasse.
 	   * 
-	   * @author Niklas Öxle
+	   * @author Niklas Ã–xle
 	   */
 	
 	
@@ -37,9 +37,9 @@ public class ShoppingListMapper {
 		
 	}
 	
-	/*
+	/**
 	 * Einhaltung der Singleton Eigenschaft des Mappers.
-	 * @return: gibt den ShoppingListMapper zurueck
+	 * @return: gibt den ShoppingListMapper zurÃ¼ck
 	 */ 
 	
 	public static ShoppingListMapper shoppinglistMapper() {
@@ -52,8 +52,8 @@ public class ShoppingListMapper {
 	
 	/**
 	 * Methode um ein einzelnes <code>ShoppingList</code> Objekt anhand einer ID zu suchen.
-     * @param id:  ID der zu findenden ShoppingList wird übergeben.
-     * @return Die anhand der id gefundene ShoppingList wird zurückgegeben.
+     * @param id:  ID der zu findenden ShoppingList wird Ã¼bergeben.
+     * @return Die anhand der id gefundene ShoppingList wird zurÃ¼ckgegeben.
 	 */
 	
 	
@@ -89,10 +89,10 @@ public class ShoppingListMapper {
 	
 	
 	/** 
-     * Methode um alle in der Datenbank vorhandenen ShopingList-Datensätze abzurufen.
-     * Diese werden als einzelne <code>ShoppingList</code> Objekte innerhalb einer ArrayList zurückgegeben.
+     * Methode um alle in der Datenbank vorhandenen ShopingList-DatensÃ¤tze abzurufen.
+     * Diese werden als einzelne <code>ShoppingList</code> Objekte innerhalb einer ArrayList zurÃ¼ckgegeben.
      * 
-     * @return ArrayList aller ShoppingLists wird zurückgegeben.
+     * @return ArrayList aller ShoppingLists wird zurÃ¼ckgegeben.
      */
 	
 	
@@ -129,11 +129,11 @@ public class ShoppingListMapper {
 	}
 	
 	/** 
-     * Methode um alle in der Datenbank vorhandenen ShopingList-Datensätze einer bestimmten Gruppe abzurufen.
-     * Diese werden als einzelne <code>ShoppingList</code> Objekte innerhalb einer ArrayList zurückgegeben.
+     * Methode um alle in der Datenbank vorhandenen ShopingList-DatensÃ¤tze einer bestimmten Gruppe abzurufen.
+     * Diese werden als einzelne <code>ShoppingList</code> Objekte innerhalb einer ArrayList zurÃ¼ckgegeben.
      * 
      * @param groupID : ID der Gruppe, welcher die ShoppingLists zugeordnet sind.
-     * @return ArrayList aller ShoppingLists einer Gruppe wird zurückgegeben.
+     * @return ArrayList aller ShoppingLists einer Gruppe wird zurÃ¼ckgegeben.
      */
 	
 	public ArrayList<ShoppingList> findByGroup(int groupID) {
@@ -167,8 +167,8 @@ public class ShoppingListMapper {
 	}
 	
 	/** 
-     * Methode um alle in der Datenbank vorhandenen ShopingList-Datensätze einer bestimmten Gruppe abzurufen.
-     * Diese werden als einzelne <code>ShoppingList</code> Objekte innerhalb einer ArrayList zurückgegeben.
+     * Methode um alle in der Datenbank vorhandenen ShopingList-DatensÃ¤tze einer bestimmten Gruppe abzurufen.
+     * Diese werden als einzelne <code>ShoppingList</code> Objekte innerhalb einer ArrayList zurÃ¼ckgegeben.
      * 
      * @param g :Gruppe, welcher die ShoppingLists zugeordnet sind.
      * @return findByGroup(int groupID)
@@ -189,7 +189,7 @@ public class ShoppingListMapper {
 	/**
 	 * Methode um ein ShoppingList Objekt in der Datenbank zu speichern
 	 * @param sl : eine neue zu speichernde ShoppingList in der Datenbank wird uebergeben
-	 * @return: die neu gespeicherte ShoppingList wird zurückgegeben
+	 * @return: die neu gespeicherte ShoppingList wird zurÃ¼ckgegeben
 	 * 
 	 */
 	
@@ -232,8 +232,8 @@ Connection con = DBConnection.connection();
 	
 	  /**
 	 * Wiederholtes Schreiben eines <code>ShppingList</code> Objekts in die Datenbank.
-	 * @param sl : Die zu aktualisierende ShoppingList wird übergeben
-	 * @return: die aktualisierte ShoppingList wird zurückgegeben
+	 * @param sl : Die zu aktualisierende ShoppingList wird Ã¼bergeben
+	 * @return: die aktualisierte ShoppingList wird zurÃ¼ckgegeben
 	 * 
 	 */
 	
@@ -263,8 +263,8 @@ Connection con = DBConnection.connection();
 	
 		
 		/**
-		 * Methode um ein ShoppingList-Datensatz in der Datenbank zu löschen.
-		 * @param sl : Die zu loeschende ShoppingList wird uebergeben
+		 * Methode um ein ShoppingList-Datensatz in der Datenbank zu lÃ¶schen.
+		 * @param sl : Die zu lÃ¶schende ShoppingList wird uebergeben
 		 */
 		
 		public void delete(ShoppingList sl) {
