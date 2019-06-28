@@ -794,37 +794,32 @@ private FavoriteItemMapper favoriteItemMapper = null;
 
 	@Override
 	public void deleteGroup(Group g) {
-		
-		//loeschen der zugeh�rigen Shoppinglists, Responsibilities, ListItems
-		
+
+		// loeschen der zugeh�rigen Shoppinglists, Responsibilities, ListItems
+
 		ArrayList<ShoppingList> result = groupMapper.getShoppingListsPerGroup(g);
-		
-		    for(ShoppingList sl:result) {
+
+		for (ShoppingList sl : result) {
+			ArrayList<ListItem> listitems = listItemMapper.findAllListItemsby(sl);
+			for (ListItem li : listitems) {
+				listItemMapper.delete(li);
+			}
+			int shoppinglist = sl.getId();
+
+			responsibilityMapper.deletebySLID(shoppinglist);
+
 			shoppingListMapper.delete(sl);
-			
-			 int shoppinglist= sl.getId();
-			 responsibilityMapper.deletebySLID(shoppinglist);
-			 
-			 ArrayList<ListItem> listitems = listItemMapper.findAllListItemsby(sl);
-			 for(ListItem li:listitems) {
-					listItemMapper.delete(li);}
-			 
 		}
 		
-		
-		
 		 //loeschen der Participants
-		 
 		 ArrayList<Person> persons = personMapper.findAllGroupMembers(g);
 		 
 		 for(Person p:persons) {
-				groupMapper.deleteMembership(p, g); }
-		
+				groupMapper.deleteMembership(p, g); 
+				}
 		
 		//loeschen der Gruppe
-			groupMapper.delete(g);
-		
-		
+			groupMapper.delete(g);	
 	}
 
 
