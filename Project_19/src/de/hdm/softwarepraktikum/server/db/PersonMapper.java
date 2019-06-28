@@ -17,7 +17,7 @@ public class PersonMapper {
 	   * saemtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	   * einzige Instanz dieser Klasse.
 	   * 
-	   * @author Niklas �xle
+	   * @author Niklas Öxle
 	   */
 
 	private static PersonMapper personMapper = null;
@@ -50,7 +50,7 @@ public class PersonMapper {
 	
 
 	/**
-	 * Methode um ein Person-Datensatz in der Datenbank zu l�schen.
+	 * Methode um ein Person-Datensatz in der Datenbank zu löschen.
 	 * @param person : Die zu loeschende Person wird uebergeben
 	 */
 	
@@ -71,8 +71,8 @@ public class PersonMapper {
 
 	  /**
 		 * Wiederholtes Schreiben eines <code>Person</code> Objekts in die Datenbank.
-		 * @param person : Die zu aktualisierende Person wird �bergeben
-		 * @return: die aktualisierte Person wird zur�ckgegeben
+		 * @param person : Die zu aktualisierende Person wird übergeben
+		 * @return: die aktualisierte Person wird zurückgegeben
 		 * 
 		 */
 	
@@ -102,7 +102,7 @@ public class PersonMapper {
 	/**
 	 * Methode um ein Person Objekt in der Datenbank zu speichern
 	 * @param person : eine neue zu speichernde Person in der Datenbank wird uebergeben
-	 * @return: die neu gespeicherte Person wird zur�ckgegeben
+	 * @return: die neu gespeicherte Person wird zurückgegeben
 	 * 
 	 */
 	
@@ -146,8 +146,8 @@ public class PersonMapper {
 
 	/**
 	 * Methode um ein einzelnes <code>Person</code> Objekt anhand einer ID zu suchen.
-     * @param id :  ID der zu findenden Person wird �bergeben.
-     * @return Die anhand der id gefundene Person wird zur�ckgegeben.
+     * @param id :  ID der zu findenden Person wird übergeben.
+     * @return Die anhand der id gefundene Person wird zurückgegeben.
 	 */
 	
 	
@@ -185,10 +185,10 @@ public class PersonMapper {
 		
 
 	/** 
-     * Methode um alle in der Datenbank vorhandenen Person-Datens�tze abzurufen.
+     * Methode um alle in der Datenbank vorhandenen Person-Datensätze abzurufen.
      * Diese werden als einzelne <code>Person</code> Objekte innerhalb einer ArrayList zur�ckgegeben.
      * 
-     * @return ArrayList aller Persons wird zur�ckgegeben.
+     * @return ArrayList aller Persons wird zurückgegeben.
      */
 
 	public ArrayList<Person> findAll() {
@@ -228,10 +228,10 @@ public class PersonMapper {
 
 	/** 
      * Methode um eine Person mittels dem Attribut Gmail zu finden.
-     * Diese werden als einzelne <code>Person</code> Objekt zur�ckgegeben
+     * Diese werden als einzelne <code>Person</code> Objekt zurückgegeben
      * 
      * @param gmail: gmail der gesuchten Person
-     * @return person : Das Person- Objekt mit der uebergebenen gmail
+     * @return person : Das Person- Objekt mit der übergebenen gmail
      */
 
 	public Person findByGmail(String gmail) {
@@ -301,7 +301,7 @@ public class PersonMapper {
 	
 
 	/**
-	 * Auslesen der zugeh�rigen <code>Group</code>-Objekte zu einer gegebenen
+	 * Auslesen der zugehörigen <code>Group</code>-Objekte zu einer gegebenen
 	 * Person.
 	 * 
 	 * @param p

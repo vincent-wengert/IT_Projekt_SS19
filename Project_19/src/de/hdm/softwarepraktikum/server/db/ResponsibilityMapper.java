@@ -24,7 +24,7 @@ public class ResponsibilityMapper {
 	   * saemtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	   * einzige Instanz dieser Klasse.
 	   * 
-	   * @author Niklas Öxle
+	   * @author Niklas Ã–xle
 	   */
 	
 	
@@ -54,8 +54,8 @@ public class ResponsibilityMapper {
 	
 	/**
 	 * Methode um ein einzelnes <code>Responsibilty</code> Objekt anhand einer ID zu suchen.
-     * @param id:  ID der zu findenden Responsibilty wird übergeben.
-     * @return Die anhand der id gefundene Responsibility wird zurückgegeben.
+     * @param id:  ID der zu findenden Responsibilty wird ï¿½bergeben.
+     * @return Die anhand der id gefundene Responsibility wird zurï¿½ckgegeben.
 	 */
 	
 	public Responsibility findById(int id) {
@@ -92,13 +92,13 @@ public class ResponsibilityMapper {
 	}
 	
 	/** 
-     * Methode um alle in der Datenbank vorhandenen Responsibilty-Datensätze welchen ein bestimmter Store zugeordnet 
+     * Methode um alle in der Datenbank vorhandenen Responsibilty-DatensÃ¤tze welchen ein bestimmter Store zugeordnet 
      * ist auszugeben.
-     * Diese werden als einzelne <code>Responsibility</code> Objekte innerhalb einer ArrayList zurückgegeben.
+     * Diese werden als einzelne <code>Responsibility</code> Objekte innerhalb einer ArrayList zurÃ¼ckgegeben.
      * 
      * @param store : Store, welcher der Responsibility zugeordnet ist.
      * @return ArrayList aller Responsibilites welchen ein bestimmter Store zugeordnet 
-     * ist wird zurückgegeben.
+     * ist wird zurÃ¼ckgegeben.
      */
 	
 	public ArrayList<Responsibility> findbystore(Store s) {
@@ -133,13 +133,13 @@ public class ResponsibilityMapper {
 	}
 	
 	/** 
-     * Methode um alle in der Datenbank vorhandenen Responsibilty-Datensätze welchen eine bestimmte Person zugeordnet 
+     * Methode um alle in der Datenbank vorhandenen Responsibilty-DatensÃ¤tze welchen eine bestimmte Person zugeordnet 
      * ist auszugeben.
-     * Diese werden als einzelne <code>Responsibility</code> Objekte innerhalb einer ArrayList zurückgegeben.
+     * Diese werden als einzelne <code>Responsibility</code> Objekte innerhalb einer ArrayList zurÃ¼ckgegeben.
      * 
      * @param p : Person , welche der Responsibility zugeordnet ist.
      * @return ArrayList aller Responsibilites welchen eine bestimmte Person zugeordnet 
-     * ist wird zurückgegeben.
+     * ist wird zurÃ¼ckgegeben.
      */
 	
 	public ArrayList<Responsibility> findByPerson(Person p) {
@@ -175,7 +175,7 @@ public class ResponsibilityMapper {
 	
 	
 	/**
-	 * Methode um ein Responsibility-Datensatz in der Datenbank zu löschen.
+	 * Methode um ein Responsibility-Datensatz in der Datenbank zu lÃ¶schen.
 	 * @param rs : Die zu loeschende Responsibility wird uebergeben
 	 */
 	
@@ -194,8 +194,8 @@ public class ResponsibilityMapper {
 		
 	
 	/**
-	 * Methode um ein Responsibility-Datensatz in der Datenbank zu löschen.
-	 * @param id : Die ID der zu loeschenden Responsibility wird uebergeben
+	 * Methode um ein Responsibility-Datensatz in der Datenbank zu lÃ¶schen.
+	 * @param id : Die ID der zu lÃ¶schenden Responsibility wird uebergeben
 	 */
   	  
 public void deletebyID(int id) {
@@ -214,7 +214,7 @@ public void deletebyID(int id) {
 	
 
 /**
- * Methode um ein Responsibility-Datensatz in der Datenbank zu löschen.
+ * Methode um ein Responsibility-Datensatz in der Datenbank zu lÃ¶schen.
  * @param id : Die ID der Shoppinglist welche mit der Responsibilty verbunden wird uebergeben.
  */
 
@@ -234,8 +234,8 @@ public void deletebySLID(int id) {
 
      /**
 	 * Wiederholtes Schreiben eines <code>Responsibility</code> Objekts in die Datenbank.
-	 * @param rs : Die zu aktualisierende Responsibilty wird übergeben
-	 * @return: die aktualisierte Responsibility wird zurückgegeben
+	 * @param rs : Die zu aktualisierende Responsibilty wird Ã¼bergeben
+	 * @return: die aktualisierte Responsibility wird zurÃ¼ckgegeben
 	 * 
 	 */
 	
@@ -264,7 +264,7 @@ public void deletebySLID(int id) {
 	/**
 	 * Methode um ein Responsibilty Objekt in der Datenbank zu speichern
 	 * @param rl : eine neue zu speichernde Responsibilty in der Datenbank wird uebergeben
-	 * @return: die neu gespeicherte Responsibilty wird zurückgegeben
+	 * @return: die neu gespeicherte Responsibilty wird zurÃ¼ckgegeben
 	 * 
 	 */
 	

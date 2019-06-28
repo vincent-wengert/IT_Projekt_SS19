@@ -37,7 +37,7 @@ import de.hdm.softwarepraktikum.shared.report.ItemsByPersonReport;
  * Diese Klasse bildet die Hauptform des ReportGenerator Clients. Hier werden
  * alle relevanten HTML-Layout Elemente zu einer Form zusammengefuehrt.
  * 
- * @autor Niklas Oexle
+ * @autor Niklas Ã–xle
  * @version 1.0
  * 
  */
@@ -147,9 +147,14 @@ public class Reportform {
 
 	}
 	
+	/**
+	 * ***************************************************************************
+	 * ABSCHNITT der Methoden
+	 * ***************************************************************************
+	 */
 	
 	/**
-	 * Diese Methode wird aufgerufen, um den ausgewaehlten Store und Gruppe fuer den Report auszuwaehlen.
+	 * Diese Methode wird aufgerufen, um den ausgewÃ¤hlten Store und Gruppe fuer den Report auszuwÃ¤hlen.
 	 * Falls die Auswahl leer ist, wird das jeweilige Objekt auf null gesetzt.
 	 * 
 	 */
@@ -179,7 +184,7 @@ public class Reportform {
 
 	
 	/**
-	 * Diese Methode wird aufgerufen, um die ausgewaehlten Datumsanagben fuer den Report auszuwaehlen.
+	 * Diese Methode wird aufgerufen, um die ausgewaehlten Datumsangaben fuer den Report auszuwÃ¤hlen.
 	 * 
 	 * @return : boolean
 	 */
@@ -203,7 +208,7 @@ public class Reportform {
 	
 	/**
 	 * Diese Methode wird aufgerufen, um einen Report zu generieren, je nach optional 
-	 * ausgewählten Parametern.
+	 * ausgewÃ¤hlten Parametern.
 	 * 
 	 */
 
@@ -243,28 +248,28 @@ public class Reportform {
 			}
 
 		} else if (getIntervallDefined() == false) {
-			// Nichts ausgewaehlt: alle eingekauften Artikel der Person werden angezeigt.
+			// Nichts ausgewÃ¤hlt: alle eingekauften Artikel der Person werden angezeigt.
 			if (selectedGroup == null && selectedStore == null) {
 				Window.alert("nur Person ohne Gruppe");
 				reportadministration.getReportOfPerson(userPerson, selectedStore, selectedGroup,
 						new getReportOfPersonCallback());
 			}
 
-			// Nur Gruppe ausgewählt
+			// Nur Gruppe ausgewÃ¤hlt
 			if (selectedGroup != null && selectedStore == null) {
 				Window.alert("nur Person in Gruppe");
 				reportadministration.getReportOfGroup(personCheckBox.getValue(), userPerson, selectedGroup,
 						selectedStore, new getReportOfGroupCallback());
 			}
 
-			// Nur Store ausgewaehlt (und Person)
+			// Nur Store ausgewÃ¤hlt (und Person)
 			if (selectedGroup == null && selectedStore != null) {
 				Window.alert("nur Store");
 				reportadministration.getReportOfPerson(userPerson, selectedStore, selectedGroup,
 						new getReportOfPersonCallback());
 			}
 
-			// Gruppe und Store ausgewaehlt
+			// Gruppe und Store ausgewÃ¤hlt
 			if (selectedGroup != null && selectedStore != null) {
 				Window.alert("Gruppe und Store");
 				reportadministration.getReportOfGroup(personCheckBox.getValue(), userPerson, selectedGroup,
@@ -272,6 +277,14 @@ public class Reportform {
 			}
 		}
 	}
+	
+	
+	
+	/**
+	 * ***************************************************************************
+	 * ABSCHNITT der Clickhandler
+	 * ***************************************************************************
+	 */
 
 	/**
 	 * ClickHandler Klasse zum Aufrufen der loadReports() Methode.
@@ -287,7 +300,14 @@ public class Reportform {
 	
 	
 	/**
-	  * Diese innere Klasse wird als Callback für das Laden des ItemsByGroupReport benötigt.
+	 * ***************************************************************************
+	 * ABSCHNITT der Callbacks
+	 * ***************************************************************************
+	 */
+	
+	
+	/**
+	  * Diese innere Klasse wird als Callback fï¿½r das Laden des ItemsByGroupReport benï¿½tigt.
 	  */
 
 	private class getReportOfGroupCallback implements AsyncCallback<ItemsByGroupReport> {
@@ -314,7 +334,7 @@ public class Reportform {
 	
 	
 	/**
-	  * Diese innere Klasse wird als Callback für das Laden des ItemsByPersonReport benötigt.
+	  * Diese innere Klasse wird als Callback fï¿½r das Laden des ItemsByPersonReport benï¿½tigt.
 	  */
 
 	private class getReportOfPersonCallback implements AsyncCallback<ItemsByPersonReport> {
@@ -339,7 +359,7 @@ public class Reportform {
 	}
 
 	/**
-	  * Diese innere Klasse wird als Callback für das Laden der angelegten Stores benoetigt.
+	  * Diese innere Klasse wird als Callback fï¿½r das Laden der angelegten Stores benoetigt.
 	  */
 	
 	private class GetAllStoresCallback implements AsyncCallback<ArrayList<Store>> {
@@ -363,7 +383,7 @@ public class Reportform {
 
 	
 	/**
-	  * Diese innere Klasse wird als Callback für das Laden der angelegten Stores benoetigt.
+	  * Diese innere Klasse wird als Callback fï¿½r das Laden der angelegten Stores benoetigt.
 	  */
 	
 	

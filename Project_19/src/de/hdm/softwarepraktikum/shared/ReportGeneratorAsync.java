@@ -31,7 +31,6 @@ public interface ReportGeneratorAsync {
 	
 	public void AddImprint(AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
-	public void getAllParticipations(Person p, AsyncCallback<ArrayList<ShoppingList>> callback) throws IllegalArgumentException;
 
 	void getReportOfPerson(Person p, Store s, Group g, AsyncCallback<ItemsByPersonReport> callback);
 

@@ -67,17 +67,6 @@ public interface ReportGenerator extends RemoteService {
 	
 	public ArrayList<Person> getAllPersons() throws IllegalArgumentException;
 	
-	
-	/**
-	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#getAllParticipations
-	 * @param p
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	
-	public ArrayList<ShoppingList> getAllParticipations(Person p) throws IllegalArgumentException;
-
-
 	void AddImprint();
 
 	public ItemsByPersonReport getReportOfPerson(Person p, Store s, Group g) throws IllegalArgumentException;
