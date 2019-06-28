@@ -272,32 +272,6 @@ public class PersonMapper {
 	
 	
 	
-	public ArrayList<Person> findByName(String name) {
-		Connection con = DBConnection.connection();
-		ArrayList<Person> result = new ArrayList<Person>();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery("SELECT PersonID, Name " + "FROM Person " + "WHERE Name = '" + name + "'");
-
-			
-			while (rs.next()) {
-				Person p = new Person();
-				p.setId(rs.getInt("id"));
-				p.setName(rs.getString("name"));
-
-				
-				result.add(p);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		// Ergebnis zur�ckgeben
-		return result;
-	}
-	
 	
 
 	/**
