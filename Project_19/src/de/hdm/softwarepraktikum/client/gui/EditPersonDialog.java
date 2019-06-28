@@ -18,6 +18,11 @@ import de.hdm.softwarepraktikum.client.Project_19.CurrentPerson;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministrationAsync;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 
+/**
+ * Dieses PopupPanel wird der MenuBar im Header hinzugefügt um den Namen der aktuellen <code>Person</code> zu aktualisieren.
+ * @author Jan Duwe
+ *
+ */
 public class EditPersonDialog extends PopupPanel{
 	private Person currentPerson = CurrentPerson.getPerson();
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
@@ -31,10 +36,13 @@ public class EditPersonDialog extends PopupPanel{
 	private TextBox userNameTextBox = new TextBox();
 	
 	private Label accountLabel = new Label(currentPerson.getGmail());
-	private Label nameChangeLabel = new Label("Namen \u00E4ndern");
+	private Label nameChangeLabel = new Label("Name \u00E4ndern");
 	
 	private Header header;
 	
+	/**
+ 	 * Im Konstruktor der Klasse <code>EditPersonDialog</code> werden die Widget in das PopupPanel hinzugefügt.
+ 	 */
 	public EditPersonDialog() {
 		this.setTitle("Einstellungen");
 		this.setGlassEnabled(true);
@@ -71,10 +79,25 @@ public class EditPersonDialog extends PopupPanel{
 		this.center();
 	}
 	
+	/**
+	 * ************************* ABSCHNITT der Methoden *************************
+	 */
+	
+	/**
+	 * Methode zum Setzen des <code>Header</code> Objekts des <code>EditPersonDialog</code>.
+	 * @param header
+	 */
 	public void setHeader(Header header) {
 		this.header = header;
 	}
 	
+	/**
+	 * ************************* ABSCHNITT der Click-/EventHandler *************************
+	 */
+	
+	/**
+	 * ClickHandler zum aktualisieren des Namen der aktuellen <code>Person</code>.
+	 */
 	private class UpdatePersonClickHandler implements ClickHandler {
 
 		@Override
@@ -101,6 +124,9 @@ public class EditPersonDialog extends PopupPanel{
 		
 	}
 	
+	/**
+	 *ClickHandler um den Bearbeitungsvorgang abzubrechen.
+	 */
 	private class CancelClickHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {

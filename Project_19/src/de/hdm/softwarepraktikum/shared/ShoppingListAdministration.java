@@ -15,6 +15,10 @@ import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
+/*
+ * Interface fuer die Shoppinglist
+ */
+
 @RemoteServiceRelativePath("administration")
 public interface ShoppingListAdministration extends RemoteService {
 	

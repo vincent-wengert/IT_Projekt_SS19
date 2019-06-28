@@ -20,6 +20,7 @@ import de.hdm.softwarepraktikum.shared.report.ItemsByPersonReport;
 
 
 /**
+ * Interface fuer den Reportgenerator
  * Der ReportGenerator ist angelegt, um verschiende Reports zu erstellen, die
  * eine bestimmte Anzahl von Daten des Systems zweckspezifisch darstellen.
  * @author Luca Randecker
@@ -47,7 +48,7 @@ public interface ReportGenerator extends RemoteService {
 	//public ShoppingListAdministration getShoppingListAdministration(int id) throws IllegalArgumentException;
 	
 	/**
-	 * Diese Methode gibt die Einkaufsstatistik f�r eine Gruppe aus.
+	 * Diese Methode gibt die Einkaufsstatistik fï¿½r eine Gruppe aus.
 	 * @param a
 	 * @return alle eingekauften Produkte einer Gruppe 
 	 * @throws IllegalArgumentException
@@ -67,17 +68,6 @@ public interface ReportGenerator extends RemoteService {
 	
 	public ArrayList<Person> getAllPersons() throws IllegalArgumentException;
 	
-	
-	/**
-	 * @see de.hdm.softwarepraktikum.server.report.ReportGeneratorImpl#getAllParticipations
-	 * @param p
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	
-	public ArrayList<ShoppingList> getAllParticipations(Person p) throws IllegalArgumentException;
-
-
 	void AddImprint();
 
 	public ItemsByPersonReport getReportOfPerson(Person p, Store s, Group g) throws IllegalArgumentException;

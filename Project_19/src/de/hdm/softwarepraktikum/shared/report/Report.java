@@ -3,6 +3,7 @@ package de.hdm.softwarepraktikum.shared.report;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Report implements IsSerializable {
@@ -125,8 +126,11 @@ public class Report implements IsSerializable {
 	     */
 	    public String getCreationDateString() {
 	    	
-	    	String creationDate = this.created.toString().split("\\.")[0];
-	    	return creationDate;
+	    	Date date=new Date();
+	    	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy, HH:mm 'Uhr'");
+	    	String test = fmt.format(date);
+	  
+	    	return test;
 		}
 	
 

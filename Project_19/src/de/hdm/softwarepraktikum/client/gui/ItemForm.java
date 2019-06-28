@@ -67,7 +67,10 @@ public class ItemForm extends VerticalPanel{
 	private AllItemsCellList aicl = null;
 	private Group selectedGroup;
 	
-
+	/**
+	 * Bei der Instanziierung der <code>ItemForm</code> werden die
+	 * ClickHandler den Buttons und die Buttons anschließend dem Panel hinzugefügt.
+	 */
 	public ItemForm() {
 		favButton.addClickHandler(new FavClickHandler());
 		topButtonsPanel.add(favButton);
@@ -90,6 +93,9 @@ public class ItemForm extends VerticalPanel{
 		isGlobalBox.setValue(true);
 	}
 	
+	/**
+	 * ************************* ABSCHNITT der Methoden *************************
+	 */
 	
 	/**
 	 * In dieser Methode werden die Widgets der Form hinzugefügt.
@@ -114,8 +120,7 @@ public class ItemForm extends VerticalPanel{
 		confirmButton.setPixelSize(130, 40);
 
 		formHeaderPanel.add(infoTitleLabel);
-		
-
+	
 		bottomButtonsPanel.setSpacing(20);
 		formHeaderPanel.add(topButtonsPanel);
 		
@@ -139,7 +144,7 @@ public class ItemForm extends VerticalPanel{
 	}
 	
 	/**
-	 * Methode um die aktuelle <code>NewShowItemForm</code> Instanz zu setzen.
+	 * Methode um die aktuelle <code>ItemForm</code> Instanz zu setzen.
 	 * Diese Instanz wird für das Aktualisieren nach dem Anlegen eines Items benötigt.
 	 * 
 	 * @param newShowItemForm das zu setzende <code>newShowItemForm</code> Objekt.
@@ -150,7 +155,7 @@ public class ItemForm extends VerticalPanel{
 	}
 	
 	/**
-	 * Methode um die aktuelle <code>NewShowItemForm</code> Instanz zu setzen.
+	 * Methode um die aktuelle <code>AllItemsCellList</code> Instanz zu setzen.
 	 * Diese Instanz wird für das Aktualisieren nach dem Anlegen eines Items benötigt.
 	 * 
 	 * @param newShowItemForm das zu setzende <code>newShowItemForm</code> Objekt.
@@ -160,16 +165,37 @@ public class ItemForm extends VerticalPanel{
 		this.aicl = allItemsCellist;
 	}
 	
+	/**
+	 * Methode um den Boolean Wert editable zu setzen. 
+	 * @param editable Mithilfe des Wertes wird entschieden ob die <code>ItemForm</code> sich im Edit-Modus befindet oder nicht.
+	 */
 	public void setEditable(Boolean editable) {
 
 		this.editable = editable;
 	}
 	
+	/**
+	 * Methode um den Boolean Wert initial zu setzen. 
+	 * @param initial Mithilfe des Wertes wird entschieden ob die <code>ItemForm</code> sich im Neu-Anlegen-Modus befindet oder im Editier-Modus.
+	 */
 	public void setInitial(Boolean initial) {
 
 		this.initial = initial;
 	}
 	
+	/**
+	 * Methode um ausgewählte Gruppe zu setzen innerhalb der <code>AllItemsCellList</code>.
+	 * @param selectedGroup die zu setzende <code>Group</code>.
+	 */
+	public void setGroup(Group selectedGroup) {
+		this.selectedGroup = selectedGroup;
+	}
+	
+	
+	/**
+	 * Methode zum Anzeigen des ausgewählten <code>Item</code> Objekts und setzen des Favourite Icons.
+	 * @param i das ausgewählte <code>Item</code>.
+	 */
 	public void setSelected(Item i) {
 		itemToDisplayProduct =i;
 		if(i != null) {
@@ -186,7 +212,11 @@ public class ItemForm extends VerticalPanel{
 			setTableEditable(false);
 		}
 	}
-
+	
+	/**
+	 * Methode um die <code>ItemForm</code> in den EditModus zu setzen oder den EditModus zu beenden.
+	 * @param editable setzt für true den EditModus und verlässt ihn für false.
+	 */
 	public void setTableEditable (boolean editable) {
 		if (editable == true) {
 			isGlobalBox.setVisible(true);
@@ -208,12 +238,11 @@ public class ItemForm extends VerticalPanel{
 	 * ABSCHNITT der ClickHandler
 	 * ***************************************************************************
 	 */
-
-	/**
-	 * EditClickHandler der das Bearbeiten des Items ermöglicht.
-	 * Durch diesen werden alle Textboxen aktiviert, sowie ein zusätzliches ButtonPanel angezeigt.
-	 */
 	
+	/**
+	 * FavClickHandler der ein <code>Item</code> als favorisiert markiert.
+	 * Dabei wird der Favourite Button gefärbt und die Favourite Markierung des ausgewählten <code>Item</code> Objekts gesetzt.
+	 */
 	private class FavClickHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
@@ -231,6 +260,10 @@ public class ItemForm extends VerticalPanel{
 		}
 	}
 	
+	/**
+	 * EditClickHandler der das Bearbeiten des Items ermöglicht.
+	 * Durch diesen werden alle Textboxen aktiviert, sowie ein zusätzliches ButtonPanel angezeigt.
+	 */
 	private class EditClickHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
@@ -283,7 +316,7 @@ public class ItemForm extends VerticalPanel{
 	 	}
 	 
 		/**
-		 * EditClickHandler der das Loschen des Items ermöglicht.
+		 * EditClickHandler der das Löschen des Items umsetzt.
 		 */
 		private class DeleteClickHandler implements ClickHandler {
 			@Override
@@ -293,6 +326,10 @@ public class ItemForm extends VerticalPanel{
 				}
 			}
 		}
+		
+		/**
+		 * ************************* ABSCHNITT der Callbacks *************************
+		 */
 		
 		/**
 		 * Nachdem ein neues <code>Item</code> Objekt erstellt wurde, wird dieses der Liste der aktuellen
@@ -317,7 +354,7 @@ public class ItemForm extends VerticalPanel{
 		}
 		
 		/**
-		 * Nachdem ein neues <code>Item</code> Objekt erstellt wurde, wird dieses der Liste der aktuellen
+		 * Nachdem ein <code>Item</code> Objekt aktualisiert wurde, wird dieses der Liste der aktuellen
 		 *  <code>AllItemsCelllist</code> Instanz hinzugefügt.
 		 */
 		private class UpdateItemCallback implements AsyncCallback<Void> {
@@ -337,7 +374,7 @@ public class ItemForm extends VerticalPanel{
 		}
 		
 		/**
-		 * Hiermit kann <code>Item</code> Objekt geloscht werden und aus der 
+		 * ClickHandler mit dem <code>Item</code> Objekte gelöscht werden und aus der 
 		 *  <code>AllItemsCelllist</code> Instanz entfernt werden.
 		 */
 		private class DeleteItemCallback implements AsyncCallback<Void> {
@@ -357,8 +394,7 @@ public class ItemForm extends VerticalPanel{
 		}
 		
 		/**
-		 * Hiermit kann <code>Item</code> Objekt geloscht werden und aus der 
-		 *  <code>AllItemsCelllist</code> Instanz entfernt werden.
+		 * Callback mit dem das ausgewählte <code>Item</code> Objekt als Favorit markiert wird.
 		 */
 		private class addFavoriteItemCallback implements AsyncCallback<Void> {
 
@@ -377,8 +413,8 @@ public class ItemForm extends VerticalPanel{
 		
 		
 		/**
-		 * Hiermit kann <code>Item</code> Objekt geloscht werden und aus der 
-		 *  <code>AllItemsCelllist</code> Instanz entfernt werden.
+		 * ClickHandler mit dem überprüft wird, ob sich das ausgewählte <code>Item</code> in einer 
+		 * <code>ShoppingList</code> als <code>ListItem</code> befindet.
 		 */
 		private class CheckForExistingListitemCallback implements AsyncCallback<Boolean> {
 
@@ -400,8 +436,7 @@ public class ItemForm extends VerticalPanel{
 		}
 		
 		/**
-		 * Hiermit kann <code>Item</code> Objekt geloscht werden und aus der 
-		 *  <code>AllItemsCelllist</code> Instanz entfernt werden.
+		 * Callback mit dem das ausgewählte <code>Item</code> Objekt nicht mehr als Favorit markiert wird.
 		 */
 		private class removeFavoriteItemCallback implements AsyncCallback<Void> {
 
@@ -416,10 +451,6 @@ public class ItemForm extends VerticalPanel{
 				Notification.show("Der Artikel ist kein Favorit mehr");
 				aicl.updateCelllist(itemToDisplayProduct);
 			}
-		}
-
-		public void setGroup(Group selectedGroup) {
-			this.selectedGroup = selectedGroup;
 		}
 		
 }

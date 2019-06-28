@@ -4,6 +4,14 @@ import java.util.logging.Logger;
 
 import de.hdm.softwarepraktikum.shared.CommonSettings;
 
+/**
+ * Klasse mit Eigenschaften und Diensten, die fürr alle Server-seitigen Klassen von
+ * Bedeutung sind.
+ * Durch diese Klasse wird eine Logging-Funktion unter Java unterstützt,
+ * indem ein zentraler Applikationslogger realisiert wird. Diese Funktion kann 
+ * mit Hilfe von <code>ServerSideSettings.getLogger()</code> aufgerufen werden.
+ *
+ */
 public class ServersideSettings extends CommonSettings{
 	
 	private static final String LOGGER_NAME = "Shoppinglisttool Server";

@@ -29,6 +29,11 @@ public class Footer extends VerticalPanel {
 	private Button impressumButton = new Button("| Impressum |");
 	private Button creditsButton = new Button("| Credits |");
 
+	/**
+	 * In dieser Methode werden die darzustellenden Widgets der Klasse hinzugefügt. 
+	 * Die Widgets werden innerhalb dieser Methode ebenfalls formatiert.
+	 * Der Methodenaufruf erfolgt beim Aufruf der Klasse.
+	 */
 	public void onLoad() {
 		this.setWidth("100%");
 		slogan.setStylePrimaryName("slogan");
