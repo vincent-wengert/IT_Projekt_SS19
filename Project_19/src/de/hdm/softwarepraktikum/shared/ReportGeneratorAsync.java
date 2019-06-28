@@ -14,7 +14,10 @@ import de.hdm.softwarepraktikum.shared.bo.Store;
 import de.hdm.softwarepraktikum.shared.report.ItemsByGroupReport;
 import de.hdm.softwarepraktikum.shared.report.ItemsByPersonReport;
 
-
+/*Asynchrones Interface fuer den Reportgenerator
+ * 
+ * 
+ */
 
 public interface ReportGeneratorAsync {
 	

@@ -14,6 +14,10 @@ import de.hdm.softwarepraktikum.shared.bo.Responsibility;
 import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 
+/*
+ * Asynchrones Interface fuer die Shoppinglist
+ */
+
 public interface ShoppingListAdministrationAsync {
 	
 	public void init(AsyncCallback<Void> callback);
