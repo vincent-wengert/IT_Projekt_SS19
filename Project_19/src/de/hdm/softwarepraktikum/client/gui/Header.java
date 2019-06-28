@@ -74,7 +74,6 @@ public class Header extends HorizontalPanel{
 	 	
 	 	public void onLoad() {
 	 		MenuBar menu = new MenuBar();
-	 		menu.setAutoOpen(true);
 	 		
 	 		MenuBar logoutMenu = new MenuBar(true);
 	 		logoutMenu.setAnimationEnabled(true);

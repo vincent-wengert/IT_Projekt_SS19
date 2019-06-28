@@ -69,7 +69,6 @@ public class ReportHeader extends HorizontalPanel {
  	 */
  	public void onLoad() {
  		MenuBar menu = new MenuBar();
- 		menu.setAutoOpen(true);
  		
  		MenuBar logoutMenu = new MenuBar(true);
  		logoutMenu.setAnimationEnabled(true);
@@ -103,7 +102,7 @@ public class ReportHeader extends HorizontalPanel {
  		
  		/**
  		 * Durch ein Klick auf den Logout-Button wird der User auf die
- 		 * Begrueßungsseite weitergeleitet
+ 		 * Begrueï¿½ungsseite weitergeleitet
  		 */
  		
  		logoutMenu.addItem("Logout", new Command() {
