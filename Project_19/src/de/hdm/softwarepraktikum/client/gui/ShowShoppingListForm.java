@@ -95,7 +95,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private ArrayList<ListItem> allListItems = new ArrayList<ListItem>();
 	private ArrayList<ListItem> checkedListItems = new ArrayList<ListItem>();
 
-	private Grid additionalInfoGrid = new Grid(3, 2);
+	private Grid additionalInfoGrid = new Grid(2, 2);
 
 	private CustomTreeModel ctm = null;
 
@@ -478,9 +478,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 		additionalInfoGrid.setVisible(true);
 		additionalInfoGrid.setWidget(0, 0,
 				new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
-		additionalInfoGrid.setWidget(1, 0,
+		additionalInfoGrid.setWidget(0, 1,
 				new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
-		additionalInfoGrid.setWidget(2, 0, myItemsCheckbox);
+		additionalInfoGrid.setWidget(1, 0, myItemsCheckbox);
 		}else {
 			this.clear();
 		}
@@ -566,7 +566,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 					selectedListitemIndex = null;
 				}
 			} else {
-				Window.alert("Bitte selektieren sie ein Artikel in der Liste");
+				Window.alert("Bitte selektieren sie einen Artikel in der Liste");
 			}
 		}
 	}
@@ -624,7 +624,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 			addListItemButton.setVisible(true);
 			deleteListItemPanel.setVisible(false);
 			myItemsCheckbox.setVisible(true);
-
 			shoppingListToDisplay.setTitle(shoppinglistNameBox.getText());
 			shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
 
