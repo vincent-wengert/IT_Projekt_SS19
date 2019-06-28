@@ -394,23 +394,54 @@ body{
 	margin: 10px;
 }
 
+.deleteListItemButton {
+	background-color: #1F2833;
+	border: none;
+	margin: 10px;
+	background-image: url("images/deleteButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+	background-size: cover;
+	height: 6vh;
+	width: 6vh;
+}
+
+.deleteListItemButton:hover {
+	background-color: #1F2833;
+	border:solid black 1px;
+	cursor: pointer;
+	margin: 10px;
+	background-image: url("images/deleteButton.png");
+	background-repeat:no-repeat;
+	background-position: center center;
+	background-size: 90%;
+	height: 6vh;
+	width: 6vh;
+}
+
 .addListItemButton{
 	background-color: #1F2833;
 	border: solid black 1px;
-	margin: 15px;
+	margin: 10px;	
 	background-image: url("images/addListItem.png");
 	background-repeat:no-repeat;
 	background-position: center center;
+	background-size: cover;
+	width: 6vh;
+	height: 6vh
 }
 
 .addListItemButton:hover{
 	border: solid white 2px;
 	cursor: pointer;
-	margin: 15px;
+	margin : 10px;
 	background-color:#6f7277;
 	background-image: url("images/addListItem.png");
 	background-repeat:no-repeat;
 	background-position: center center;
+	background-size: 90%;
+	width: 6vh;
+	height: 6vh;
 }
 
 .editListNameButton{
