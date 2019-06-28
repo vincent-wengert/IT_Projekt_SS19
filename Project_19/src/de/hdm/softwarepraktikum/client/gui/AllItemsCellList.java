@@ -34,6 +34,13 @@ import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 import java_cup.version;
 
+/**
+ * Diese CellList dient als Navigationselement in der Benutzeroberfläche für Objekte der Klasse <code>Item</code>. 
+ * 
+ * @author Jan Duwe, Vincent Wengert
+ *
+ */
+
 public class AllItemsCellList extends VerticalPanel {
 	private NavigatorPanel navigator;
 
@@ -58,10 +65,19 @@ public class AllItemsCellList extends VerticalPanel {
 	private Grid groupGrid = new Grid(3, 2);
 	private Label favLabel = new Label("Favoriten-Gruppe");
 	private ListBox groupListBox = new ListBox();
-	private Button confirmButton = new Button("Bestätigen");
+	private Button confirmButton = new Button("BestÃ¤tigen");
 
 	private ArrayList<Group> allGroups = new ArrayList<Group>();
 
+	/**
+	 * ************************* ABSCHNITT der Methoden *************************
+	 */
+	
+	/**
+	 * In dieser Methode werden die darzustellenden Widgets der Klasse hinzugefügt. 
+	 * Die Widgets werden innerhalb dieser Methode ebenfalls formatiert.
+	 * Der Methodenaufruf erfolgt beim Aufruf der Klasse.
+	 */
 	public void onLoad() {
 		this.load();
 		groupGrid.setWidget(0, 0, favLabel);
@@ -95,7 +111,10 @@ public class AllItemsCellList extends VerticalPanel {
 		}
 		administration.getAllGroupsByPerson(currentPerson, new GetAllGroupsCallback());
 	}
-
+	
+	/**
+	 * Fügt alle <code>Item</code> Objekte dem ListDataProvider hinzu.
+	 */
 	public void getAllItems() {
 
 		for (Item p : items) {
@@ -105,26 +124,42 @@ public class AllItemsCellList extends VerticalPanel {
 	}
 
 	/**
-	 * Setzen des NavigatorPanels innerhalb des MenuPanels
+	 * Methode zum Setzen des NavigatorPanels innerhalb des MenuPanels.
 	 * 
-	 * @param das zu setzende NavigatorPanel
+	 * @param das zu setzende NavigatorPanel.
 	 */
 	public void setNavigator(NavigatorPanel navigator) {
 		this.navigator = navigator;
 	}
-
+	
+	/**
+	 * Methode zum Auslesen des SingleSelectionModel innerhalb des NavigatorPanels.
+	 * @return das ausgelesene SingleSelectionModel.
+	 */
 	public SingleSelectionModel<Item> getSelectionModel() {
 		return this.selectionModel;
 	}
-
+	
+	/**
+	 * Methode zum Setzen der <code>ItemForm</code> innerhalb des NavigatorPanels.
+	 * @param itemForm zu setzende ItemForm.
+	 */
 	public void setItemForm(ItemForm itemForm) {
 		this.itemForm = itemForm;
 	}
-
+	
+	/**
+	 * Methode zum Setzen der ausgewählten <code>Group</code>.
+	 * @param g die zu setzende <code>Group</code>.
+	 */
 	public void setSelectedGroup(Group g) {
 		this.selectedGroup = g;
 	}
-
+	
+	/**
+	 * Methode zur Darstellung des in der CellList ausgewählten <code>Item</code> Objekts.
+	 * @param i das ausgewählte <code>Item</code>.
+	 */
 	public void setSelectedItem(Item i) {
 		itemToDisplay = i;
 		RootPanel.get("Details").clear();
@@ -134,7 +169,11 @@ public class AllItemsCellList extends VerticalPanel {
 		itemForm.setGroup(selectedGroup);
 		RootPanel.get("Details").add(itemForm);
 	}
-
+	
+	/**
+	 * Methode zum Aktualisieren des ListDataProvider der Klasse <code>AllItemsCellList</code>. Anschließend erfolgt die Auswahl auf das übergebene <code>Item</code> Objekt.
+	 * @param item <code>Item</code> Objekt, das nach dem Aktualisieren ausgewählt wird.
+	 */
 	public void updateCelllist(Item item) {
 		dataProvider.getList().clear();
 		if (selectedGroup != null) {
@@ -144,6 +183,10 @@ public class AllItemsCellList extends VerticalPanel {
 		selectionModel.setSelected(item, true);
 	}
 
+	/**
+	 * Methode zum Aktualisieren des ListDataProvider der Klasse <code>AllItemsCellList</code> nachdem ein <code>Item</code> Objekt gelöscht wird.
+	 * @param i zu löschendes <code>Item</code> Objekt.
+	 */
 	public void removeItem(Item i) {
 		if (selectedGroup != null) {
 			administration.getAllItemsByGroup(selectedGroup.getId(), currentPerson.getId(), new GetAllItemsCallback());
@@ -151,18 +194,39 @@ public class AllItemsCellList extends VerticalPanel {
 		dataProvider.getList().remove(i);
 		dataProvider.refresh();
 	}
-
+	
+	/**
+	 * Methode zum Aktualisieren des ListBox Objekts innerhalb der Klasse <code>GroupForm</code> nachdem eine neue Instanz eines <code>Group</code> Objekts erstellt wird.
+	 * @param g die neu hinzugefügte <code>Group</code>.
+	 */
 	public void updateAddedGroup(Group g) {
 		groupListBox.addItem(g.getTitle());
 	}
 
+	/**
+	 * Methode zum Auslesen aller <code>Group</code> Objekte innerhalb der ArrayList allGroups.
+	 * @return ArrayList befüllt mit allen <code>Group</code> Objekten.
+	 */
 	public ArrayList<Group> getAllGroups() {
 		return this.allGroups;
 	}
 
+	/**
+	 * Methode zum Setzen aller <code>Group</code> Objekte innerhalb der ArrayList allGroups.
+	 * @param allGroups ArrayList befüllt mit zu setzenden <code>Group</code> Objekten.
+	 */
 	public void setAllGroups(ArrayList<Group> allGroups) {
 		this.allGroups = allGroups;
 	}
+	
+	/**
+	 * ************************* ABSCHNITT der Click-/EventHandler *************************
+	 */
+	
+	/**
+	 * Ein ClickHandler der die in der ListBox ausgewählte <code>Group</code> zur Auswahl der favorisierten <code>Item</code> Objekte setzt.
+	 * Aktualisiert anschließend die <code>AllItemsCellList</code>.
+	 */
 	
 	private class ConfirmGroupFavoritesClickHandler implements ClickHandler {
 		@Override
@@ -176,7 +240,10 @@ public class AllItemsCellList extends VerticalPanel {
 			}
 		}
 	}
-
+	
+	/**
+	 * Ein SelectionHandler der das in dem SingleSelectionModel der <code>AllItemsCellList</code> ausgewählte <code>Item</code> Objekt als ausgewählt setzt.
+	 */
 	private class SelectionChangeEventHandler implements SelectionChangeEvent.Handler {
 		@Override
 		public void onSelectionChange(SelectionChangeEvent event) {
@@ -187,6 +254,14 @@ public class AllItemsCellList extends VerticalPanel {
 		}
 	}
 	
+	/**
+	 * ************************* ABSCHNITT der Cells *************************
+	 */
+	
+	/**
+	 * <code>ItemCell</code> Objekt zum Rendern der anzuzeigenden <code>Item</code> Objekte.
+	 * Wird mit dem Namen des <code>Item</code> befüllt.
+	 */
 	private static class ItemCell extends AbstractCell<Item> {
 		@Override
 		public void render(Context context, Item key, SafeHtmlBuilder sb) {
@@ -202,15 +277,29 @@ public class AllItemsCellList extends VerticalPanel {
 			}
 		}
 	}
-
+	
+	/**
+	 * ************************* ABSCHNITT der KeyProvider *************************
+	 */
+	
+	/**
+	 * Versieht jedes darzustellende <code>Item</code> Objekt mit einer ID.
+	 */
 	private class ItemDemoKeyProvider implements ProvidesKey<Item> {
 		@Override
 		public Object getKey(Item item) {
 			return (item == null) ? null : item.getId();
 		}
 	}
-
-
+	
+	/**
+	 * ************************* ABSCHNITT der Callbacks *************************
+	 */
+	
+	/** 
+	 * CallBack mit dem alle <code>Item</code> Einträge aus der Datenbank geladen werden.
+	 * Anschließend werden alle geladenen Objekte dem ListDataProvider hinzugefügt.
+	 */
 	private class GetAllItemsCallback implements AsyncCallback<ArrayList<Item>> {
 
 		@Override
@@ -229,6 +318,10 @@ public class AllItemsCellList extends VerticalPanel {
 		}
 	}
 
+	/**
+	 * CallBack mit dem alle <code>Group</code> Objekte aus der Datenbank ausgelesen werden.
+	 * Anschließend werden die Namen der ausgelesenen Objekte der ListBox hinzugefügt und die <code>AllItemsCellList</code> aktualisiert.
+	 */
 	private class GetAllGroupsCallback implements AsyncCallback<ArrayList<Group>> {
 		@Override
 		public void onSuccess(ArrayList<Group> result) {

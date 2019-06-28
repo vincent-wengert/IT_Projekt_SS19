@@ -51,7 +51,7 @@ public class Header extends HorizontalPanel{
 	 	private MenuItem logout;
 
 	 	/**
-	 	 * Im Konstruktor dieser Klasse werden die Buttons in die Panels
+	 	 * Im Konstruktor der Klasse <code>Header</code> werden die Buttons in die Panels
 	 	 * und zu den Buttons die ClickHandler hinzugefügt.
 	 	 */
 	 	public Header() {
@@ -62,11 +62,14 @@ public class Header extends HorizontalPanel{
 	 		reportGeneratorButton.addClickHandler(new ReportGeneratorClickHandler());
 	 	}
 
+	 	/**
+		 * ************************* ABSCHNITT der Methoden *************************
+		 */
 	 	
 	 	/**
-	 	 * In dieser Methode werden die Desings der Buttons festgelegt. Auch
-	 	 * die ShoppingList-Editor und ReportGenerator-Buttons werden zum Kopfbereich
-	 	 * des Shoppinglisttool hinzugefügt. 
+	 	 * In dieser Methode werden die Desings der Buttons und der MenuBar festgelegt. Auch
+	 	 * die ShoppingList-Editor und ReportGenerator-Buttons sowie die MenuBar zum Logout werden zum
+	 	 * Kopfbereich des Shoppinglisttool hinzugefügt. 
 	 	 */
 	 	
 	 	public void onLoad() {
@@ -84,6 +87,13 @@ public class Header extends HorizontalPanel{
 	 	      });
 	 		
 	 		logoutMenu.addSeparator();
+	 		
+	 		/**
+	 		 * Durch ein Klick auf die Konto Löschen Interaktion wird der User auf die
+	 		 * aufgefordert die Aktion zu bestätigen. Anschließend wird der Account aus
+	 		 * der Datenbank entfernt und der User ausgeloggt und auf die Begrüßungsseite
+	 		 * weitergeleitet.
+	 		 */
 	 		
 	 		logoutMenu.addItem("Konto l\u00F6schen", new Command() {
 	 			@Override
@@ -151,9 +161,17 @@ public class Header extends HorizontalPanel{
 
 	 	}
 	 	
+	 	/**
+	 	 * Methode zum Auslesen des MenuItems logout um den Namen in der Klasse <code>EditPersonDialog</code> zu ändern.
+	 	 * @return MenuItem logout
+	 	 */
 	 	public MenuItem getLogoutMenu() {
 	 		return this.logout;
 	 	}
+	 	
+	 	/**
+		 * ************************* ABSCHNITT der Click-/EventHandler *************************
+		 */
 	 	
 	 	/**
 	 	 * Durch ein Klick auf den ReportGenerator-Button wird man 
