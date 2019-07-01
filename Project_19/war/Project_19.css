@@ -394,11 +394,11 @@ body{
 	margin: 10px;
 }
 
-.deleteListItemButton {
+.removeListItemButton {
 	background-color: #1F2833;
 	border: none;
 	margin: 10px;
-	background-image: url("images/deleteButton.png");
+	background-image: url("images/removeListItem.png");
 	background-repeat:no-repeat;
 	background-position: center center;
 	background-size: cover;
@@ -500,16 +500,29 @@ body{
 
 .loginButton{
 	margin: 50px;
-	color:white;
-	padding-left: 35px;
+	background-color: #1F2833;
+	color: white;
 	border: none;
 	font-size:170% !important;
 	font-weigth: bolder;
 	cursor: pointer;
-	background: transparent;
-	background-repeat:no-repeat;
-	background-image: url("images/loginButton.png");
+	width: 20vh;
+	height: 7vh;
+	text-align: center;
 	
+}
+
+.loginButton:hover {
+	margin: 50px;
+	background-color: #1F2833;
+	color: white;
+	border: none;
+	font-size:140% !important;
+	font-weigth: bolder;
+	cursor: pointer;
+	width: 20vh;
+	height: 7vh;
+	text-align: center;
 }
 
 .loginLabel {
