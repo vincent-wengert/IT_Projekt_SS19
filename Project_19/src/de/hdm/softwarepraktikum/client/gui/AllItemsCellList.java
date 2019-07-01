@@ -65,7 +65,7 @@ public class AllItemsCellList extends VerticalPanel {
 	private Grid groupGrid = new Grid(3, 2);
 	private Label favLabel = new Label("Favoriten-Gruppe");
 	private ListBox groupListBox = new ListBox();
-	private Button confirmButton = new Button("BestÃ¤tigen");
+	private Button confirmButton = new Button("Best\u00E4tigen");
 
 	private ArrayList<Group> allGroups = new ArrayList<Group>();
 
