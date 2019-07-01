@@ -102,23 +102,29 @@ public class EditPersonDialog extends PopupPanel{
 
 		@Override
 		public void onClick(ClickEvent arg0) {
-			currentPerson.setName(userNameTextBox.getText());
-			
-			administration.updatePerson(currentPerson, new AsyncCallback<Void>() {
-
-				@Override
-				public void onFailure(Throwable arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void onSuccess(Void arg0) {
-					EditPersonDialog.this.hide();
-					header.getLogoutMenu().setHTML(currentPerson.getName());
-				}
+			if(userNameTextBox.getText() != "") {
+				currentPerson.setName(userNameTextBox.getText());
 				
-			});
+				administration.updatePerson(currentPerson, new AsyncCallback<Void>() {
+
+					@Override
+					public void onFailure(Throwable arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Void arg0) {
+						EditPersonDialog.this.hide();
+						header.getLogoutMenu().setHTML("Angemeldet als: " +currentPerson.getName());
+					}
+					
+				});
+			} else {
+				Window.alert("Bitte geben Sie einen Namen f\u00fcr ihr Konto ein.");
+			}
+			
+			
 			
 		}
 		
