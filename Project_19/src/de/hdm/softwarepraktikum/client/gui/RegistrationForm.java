@@ -130,9 +130,7 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 
 			@Override
 			public void onClick(ClickEvent event) {
-				RootPanel.get("Details").clear();
-				Window.open(p.getLogoutUrl(), "_self", "");	
-
+				administration.deletePerson(p, new DeletePersonCallback());
 			}
 			
 		}
@@ -162,6 +160,25 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 		 * ***************************************************************************
 		 */
 
+		/**
+		 * Implementierung der SaveUserCallback Klasse. In dieser wird nach erfolgreicher Speicherung des Users,
+		 * der Editor geladen und dem User angezeigt.
+		 * 
+		 */
+			
+			private class DeletePersonCallback implements AsyncCallback<Void>{
+				
+				@Override
+				public void onFailure(Throwable caught) {
+					Notification.show(caught.toString());
+				}
+
+				@Override
+				public void onSuccess(Void p) {
+					RootPanel.get("Details").clear();
+					Window.open(RegistrationForm.this.p.getLogoutUrl(), "_self", "");	
+			}			
+		}
 		
 		/**
 		 * Implementierung der SaveUserCallback Klasse. In dieser wird nach erfolgreicher Speicherung des Users,

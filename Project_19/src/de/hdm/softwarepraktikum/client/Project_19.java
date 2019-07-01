@@ -69,7 +69,7 @@ public class Project_19 implements EntryPoint {
 				CurrentPerson.setPerson(p);
 
 				if (p.isLoggedIn()) {
-					if (p.getName() == null) {
+					if (p.getName() == null || p.getName() == "Gastnutzer") {
 					Anchor shoppingListEditorLink = new Anchor();
 					shoppingListEditorLink.setHref(GWT.getHostPageBaseURL() + "Project_19.html");
 					RootPanel.get("Navigator").setVisible(false);
