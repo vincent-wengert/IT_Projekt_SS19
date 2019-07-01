@@ -478,6 +478,9 @@ public class ShowShoppingListForm extends VerticalPanel {
 				dataProvider.refresh();
 			}
 		});
+		}else {
+			dataProvider.getList().add(li);
+			dataProvider.refresh();
 		}
 	}
 

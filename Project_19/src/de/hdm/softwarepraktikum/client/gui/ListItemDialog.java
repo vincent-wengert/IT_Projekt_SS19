@@ -550,7 +550,6 @@ public class ListItemDialog extends PopupPanel {
 			sslf.AddListItem(result, false);
 			sslf.getAllListItems().add(result);
 			Notification.show("Artikel in der Einkaufsliste wurde erstellt");
-
 		}
 	}
 
