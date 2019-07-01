@@ -8,6 +8,7 @@ import java.util.Comparator;
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,8 +16,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.RowStyles;
+import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.client.Window;
@@ -65,12 +70,11 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
-	private HorizontalPanel shoppingListPanel = new HorizontalPanel();
+	private VerticalPanel shoppingListPanel = new VerticalPanel();
 	private HorizontalPanel topButtonsPanel = new HorizontalPanel();
 
-	private HorizontalPanel deleteListItemPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
-	private HorizontalPanel addListItemPanel = new HorizontalPanel();
+	private HorizontalPanel listItemButtonPanel = new HorizontalPanel();
 
 	private Button addListItemButton = new Button();
 	private Button deleteListItemButton = new Button();
@@ -93,7 +97,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private ArrayList<Person> allPersons = new ArrayList<Person>();
 	private ArrayList<Item> allItems = new ArrayList<Item>();
 	private ArrayList<ListItem> allListItems = new ArrayList<ListItem>();
-	private ArrayList<ListItem> checkedListItems = new ArrayList<ListItem>();
 
 	private Grid additionalInfoGrid = new Grid(2, 2);
 
@@ -105,6 +108,12 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private Boolean loadFavorites;
 
 	Group group = new Group();
+	
+	  /**
+	   * Der Pager der benutzt wird, wenn es mehr als 15 Einträge gibt
+	   */
+	  @UiField(provided = true)
+	  SimplePager pager;
 
 	/**
 	 * Bei der Instanziierung der <code>ShowShoppingListForm</code>, werden die
@@ -121,8 +130,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 		topButtonsPanel.add(editButton);
 		topButtonsPanel.add(deleteButton);
 		formHeaderPanel.add(shoppinglistNameBox);
-		addListItemPanel.add(addListItemButton);
-		deleteListItemPanel.add(deleteListItemButton);
+		listItemButtonPanel.add(addListItemButton);
+		listItemButtonPanel.add(deleteListItemButton);
 		bottomButtonsPanel.add(confirmButton);
 		bottomButtonsPanel.add(cancelButton);
 	}
@@ -141,12 +150,10 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 		loadListitems();
 		this.setWidth("100%");
-		deleteListItemPanel.setStylePrimaryName("bottomButtonsPanel");
-
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
 		bottomButtonsPanel.setStylePrimaryName("bottomButtonsPanel");
-		addListItemPanel.setStylePrimaryName("addListItemPanel");
+		listItemButtonPanel.setStylePrimaryName("addListItemPanel");
 		additionalInfoGrid.setStylePrimaryName("additionalInfoGrid");
 
 		topButtonsPanel.setStylePrimaryName("topButtonsPanel2");
@@ -366,16 +373,21 @@ public class ShowShoppingListForm extends VerticalPanel {
 		cellTable.getColumnSortList().push(personColumn);
 
 		shoppingListPanel.add(cellTable);
+		
+		
+		 // Create a Pager to control the table.
+	    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+	    pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+	    pager.setDisplay(cellTable);
+	    pager.setPageSize(10);
+	    shoppingListPanel.add(pager);
+	    shoppingListPanel.setCellHorizontalAlignment(pager, ALIGN_CENTER);
 
 		this.add(shoppingListPanel);
 		this.setCellHorizontalAlignment(shoppingListPanel, ALIGN_CENTER);
 
-		this.add(addListItemPanel);
-		this.setCellHorizontalAlignment(addListItemPanel, ALIGN_CENTER);
-
-		this.add(deleteListItemPanel);
-		this.setCellHorizontalAlignment(deleteListItemPanel, ALIGN_CENTER);
-		deleteListItemPanel.setVisible(false);
+		this.add(listItemButtonPanel);
+		this.setCellHorizontalAlignment(listItemButtonPanel, ALIGN_CENTER);
 
 		this.add(bottomButtonsPanel);
 
@@ -583,8 +595,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			shoppinglistNameBox.setText(infoTitleLabel.getText());
 			infoTitleLabel.setVisible(false);
 
-			addListItemButton.setVisible(false);
-			deleteListItemPanel.setVisible(true);
+			listItemButtonPanel.setVisible(false);
 			confirmButton.setVisible(true);
 			cancelButton.setVisible(true);
 			editButton.setVisible(false);
@@ -621,8 +632,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			confirmButton.setVisible(false);
 			cancelButton.setVisible(false);
 			editButton.setVisible(true);
-			addListItemButton.setVisible(true);
-			deleteListItemPanel.setVisible(false);
+			listItemButtonPanel.setVisible(true);
 			myItemsCheckbox.setVisible(true);
 			shoppingListToDisplay.setTitle(shoppinglistNameBox.getText());
 			shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
@@ -642,8 +652,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			confirmButton.setVisible(false);
 			cancelButton.setVisible(false);
 			editButton.setVisible(true);
-			addListItemButton.setVisible(true);
-			deleteListItemPanel.setVisible(false);
+			listItemButtonPanel.setVisible(true);
 			myItemsCheckbox.setVisible(true);
 
 			additionalInfoGrid.setVisible(true);
