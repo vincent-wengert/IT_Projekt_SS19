@@ -62,7 +62,7 @@ public class PersonMapper {
 		try {
 
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("DELETE FROM Person WHERE Person_ID = "+person.getId());
+			stmt.executeUpdate("DELETE FROM Person WHERE PersonID = "+person.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -265,9 +265,9 @@ public class CustomTreeModel implements TreeViewModel {
 	 */
 	public void updateRemovedGroup(Group g) {
 		groupsDataProvider.getList().remove(g);
+		this.getPersonGroups().remove(g);
 		groupsDataProvider.setList(this.getPersonGroups());
 		groupsDataProvider.refresh();
-		//selectionModel.setSelected(null, false);
 	}
 	
 	/**
