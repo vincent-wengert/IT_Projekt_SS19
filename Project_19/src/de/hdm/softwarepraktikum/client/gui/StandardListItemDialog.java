@@ -419,7 +419,7 @@ public class StandardListItemDialog extends PopupPanel {
 		public void onSuccess(ListItem result) {
 			// TODO Auto-generated method stub
 			StandardListItemDialog.this.hide();
-			sslf.AddListItem(result);
+			sslf.AddListItem(result, false);
 			Notification.show("Artikel in der Einkaufsliste wurde erstellt");
 		}
 	} 

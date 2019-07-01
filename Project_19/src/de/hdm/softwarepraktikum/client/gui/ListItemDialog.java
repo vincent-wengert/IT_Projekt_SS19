@@ -547,7 +547,7 @@ public class ListItemDialog extends PopupPanel {
 		@Override
 		public void onSuccess(ListItem result) {
 			// TODO Auto-generated method stub
-			sslf.AddListItem(result);
+			sslf.AddListItem(result, false);
 			sslf.getAllListItems().add(result);
 			Notification.show("Artikel in der Einkaufsliste wurde erstellt");
 
@@ -602,7 +602,7 @@ public class ListItemDialog extends PopupPanel {
 						@Override
 						public void onSuccess(ListItem result) {
 							// TODO Auto-generated method stub
-							sslf.AddListItem(result);
+							sslf.AddListItem(result, true);
 							Notification.show("Ein neuer Artikel wurde erstellt und der Einkaufsliste hinzugefügt");
 						}
 					});

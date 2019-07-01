@@ -147,7 +147,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	 * hier die Formatierungen der Widgets statt.
 	 */
 	public void onLoad() {
-
+		Window.alert("test");
 		loadListitems();
 		this.setWidth("100%");
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
@@ -459,11 +459,11 @@ public class ShowShoppingListForm extends VerticalPanel {
 	 * 
 	 * @param li Das zu setzenden <code>ListItem</code> Objekt
 	 */
-	public void AddListItem(ListItem li) {
+	public void AddListItem(ListItem li, Boolean createNewListItem) {
 		shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
 		administration.updateShoppingList(shoppingListToDisplay, new UpdateShoppinglistCallback());
-		dataProvider.getList().add(li);
-		allItems = null;
+		
+		if (createNewListItem == true) {
 		administration.getAllItems(new AsyncCallback<ArrayList<Item>>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -475,9 +475,11 @@ public class ShowShoppingListForm extends VerticalPanel {
 			public void onSuccess(ArrayList<Item> result) {
 				// TODO Auto-generated method stub
 				allItems = result;
+				dataProvider.getList().add(li);
 				dataProvider.refresh();
 			}
 		});
+		}
 	}
 
 	/**

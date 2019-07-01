@@ -203,12 +203,14 @@ public class GroupForm extends VerticalPanel {
 	 */
 	private void showGroupMembers() {
 
+		if (groupToDisplay.getMember().isEmpty() == false) {
 		groupMembersListBox.clear();
-
+		
 		for (Person p : groupToDisplay.getMember()) {
 			groupMembersListBox.addItem(p.getName());
 		}
 		groupMembersListBox.setVisibleItemCount(groupToDisplay.getMember().size());
+		}
 	}
 	
 	/**
@@ -233,12 +235,14 @@ public class GroupForm extends VerticalPanel {
 				
 		}
 		
+		if(groupToDisplay.getMember().isEmpty()) {
 		for(Person person : groupToDisplay.getMember()) {
 
 			for (int i = 0; i < addMemberListBox.getItemCount(); i++) {
 				if (addMemberListBox.getItemText(i) == getGmail(person)) {
 					addMemberListBox.removeItem(i);
 					}
+				}
 			}
 		}
 	}
