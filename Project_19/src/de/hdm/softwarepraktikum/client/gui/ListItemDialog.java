@@ -316,10 +316,9 @@ public class ListItemDialog extends PopupPanel {
 	 * Rückmeldung an den aktuellen Benutzer
 	 */
 	private Boolean isSaveable() {
-		if (amountTextBox.getText() == null || personListBox.getSelectedItemText() == null
-				|| itemListBox.getSelectedItemText() == null || unitListBox.getSelectedItemText() == null) {
+		if (amountTextBox.getText() == "" || personListBox.getSelectedItemText() == ""
+				|| itemListBox.getSelectedItemText() == "" || unitListBox.getSelectedItemText() == "") {
 			Window.alert("Bitte füllen sie alle Felder aus");
-
 			return false;
 		} else {
 			return true;
@@ -339,7 +338,6 @@ public class ListItemDialog extends PopupPanel {
 	private class ConfirmClickHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
-
 			if (isSaveable() == true) {
 				if (updateItem == false) {
 					if (existingButton.getValue() == true) {
@@ -497,7 +495,8 @@ public class ListItemDialog extends PopupPanel {
 	}
 
 	/**
-	 * Private Klasse des Callback um alle <code>Person<code> Instanzen aus der Gruppe aus dem System zu bekommen.
+	 * Private Klasse des Callback um alle <code>Person<code> Instanzen aus der
+	 * Gruppe aus dem System zu bekommen.
 	 */
 	private class GetAllGroupMembersCallback implements AsyncCallback<ArrayList<Person>> {
 
@@ -533,9 +532,10 @@ public class ListItemDialog extends PopupPanel {
 			}
 		}
 	}
-	
+
 	/**
-	 * Private Klasse des Callback um eine <code>ListItem<code> Instanz im System zu erstellen.
+	 * Private Klasse des Callback um eine <code>ListItem<code> Instanz im System zu
+	 * erstellen.
 	 */
 	private class createListItemCallback implements AsyncCallback<ListItem> {
 
@@ -555,7 +555,8 @@ public class ListItemDialog extends PopupPanel {
 	}
 
 	/**
-	 * Private Klasse des Callback um eine <code>ListItem<code> Instanz im System zu aktualisieren.
+	 * Private Klasse des Callback um eine <code>ListItem<code> Instanz im System zu
+	 * aktualisieren.
 	 */
 	private class UpdateListItemCallback implements AsyncCallback<ListItem> {
 
@@ -573,10 +574,9 @@ public class ListItemDialog extends PopupPanel {
 		}
 	}
 
-	
 	/**
-	 * Private Klasse des Callback um eine <code>ListItem<code> Instanz im System zu erstellen, zu
-	 * dem noch kein Item existiert.
+	 * Private Klasse des Callback um eine <code>ListItem<code> Instanz im System zu
+	 * erstellen, zu dem noch kein Item existiert.
 	 */
 	private class CreateItemListItemCallback implements AsyncCallback<Item> {
 

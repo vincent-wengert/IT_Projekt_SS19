@@ -111,6 +111,9 @@ public class PersonMapper {
 		Connection con = DBConnection.connection();
 
 		try {
+			if(person.getName() == null) {
+				person.setName("Gastnutzer");
+			}
 
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT MAX(PersonID) AS maxid " + "FROM Person ");

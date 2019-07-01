@@ -147,7 +147,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 	 * hier die Formatierungen der Widgets statt.
 	 */
 	public void onLoad() {
-		Window.alert("test");
 		loadListitems();
 		this.setWidth("100%");
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
