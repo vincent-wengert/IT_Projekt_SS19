@@ -195,7 +195,6 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 
 				@Override
 				public void onSuccess(Void p) {
-				Window.alert(destinationUrl.getHref());
 				Window.open(destinationUrl.getHref(), "_self", "");
 
 			}			

@@ -178,6 +178,7 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 		responsibilityMapper.deleteByPersonID(p);
 		listItemMapper.deleteListItemByPersonID(p);
+		itemMapper.deleteItemsByPersonID(p);
 		personMapper.deleteparticipationByPersonID(p);
 		personMapper.delete(p);
 	}

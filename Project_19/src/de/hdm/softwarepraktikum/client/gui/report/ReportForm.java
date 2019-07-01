@@ -232,28 +232,24 @@ public class ReportForm {
 
 			// Nur Zeitraum (und Person)
 			if (selectedGroup == null && selectedStore == null) {
-				Window.alert("alles leer nur Zeitraum");
 				reportadministration.getReportOfPersonBetweenDates(userPerson, selectedStore, selectedGroup, fromDate,
 						toDate, new getReportOfPersonCallback());
 			}
 
 			// Gruppe und Zeitraum
 			if (selectedGroup != null && selectedStore == null) {
-				Window.alert("Gruppe und Zeitraum");
 				reportadministration.getReportOfGroupBetweenDates(personCheckBox.getValue(), userPerson, selectedGroup,
 						selectedStore, fromDate, toDate, new getReportOfGroupCallback());
 			}
 
 			// Store und Zeitraum (und Person)
 			if (selectedGroup == null && selectedStore != null) {
-				Window.alert("Store und Zeitraum");
 				reportadministration.getReportOfPersonBetweenDates(userPerson, selectedStore, selectedGroup, fromDate,
 						toDate, new getReportOfPersonCallback());
 			}
 
 			// Nur Gruppe
 			if (selectedGroup != null && selectedStore != null) {
-				Window.alert("Gruppe und Store und Zeitraum");
 				reportadministration.getReportOfGroupBetweenDates(personCheckBox.getValue(), userPerson, selectedGroup,
 						selectedStore, fromDate, toDate, new getReportOfGroupCallback());
 			}
@@ -261,28 +257,24 @@ public class ReportForm {
 		} else if (getIntervallDefined() == false) {
 			// Nichts ausgewählt: alle eingekauften Artikel der Person werden angezeigt.
 			if (selectedGroup == null && selectedStore == null) {
-				Window.alert("nur Person ohne Gruppe");
 				reportadministration.getReportOfPerson(userPerson, selectedStore, selectedGroup,
 						new getReportOfPersonCallback());
 			}
 
 			// Nur Gruppe ausgewählt
 			if (selectedGroup != null && selectedStore == null) {
-				Window.alert("nur Person in Gruppe");
 				reportadministration.getReportOfGroup(personCheckBox.getValue(), userPerson, selectedGroup,
 						selectedStore, new getReportOfGroupCallback());
 			}
 
 			// Nur Store ausgewählt (und Person)
 			if (selectedGroup == null && selectedStore != null) {
-				Window.alert("nur Store");
 				reportadministration.getReportOfPerson(userPerson, selectedStore, selectedGroup,
 						new getReportOfPersonCallback());
 			}
 
 			// Gruppe und Store ausgewählt
 			if (selectedGroup != null && selectedStore != null) {
-				Window.alert("Gruppe und Store");
 				reportadministration.getReportOfGroup(personCheckBox.getValue(), userPerson, selectedGroup,
 						selectedStore, new getReportOfGroupCallback());
 			}

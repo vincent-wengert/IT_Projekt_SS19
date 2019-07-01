@@ -153,6 +153,20 @@ public class ItemMapper {
 		}
 	}
 	
+	
+	//Lï¿½schen von Listitems anhand der Person ID
+	public void deleteItemsByPersonID(Person p) {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement stmt = con.createStatement();
+		stmt.executeUpdate("DELETE FROM Item WHERE Owner_ID = " + p.getId());
+		  	}
+		  catch(SQLException e) {
+	  		e.printStackTrace();
+	  	}
+	}
+	
 	/**
 	 * Methode, um Artikel anhand ihrer ID zu suchen.
 	 * @param id
@@ -261,7 +275,7 @@ public class ItemMapper {
 	}
 	
 	/**
-	 * Methode um zu prüfen, ob ListItems zu einem Item existieren.
+	 * Methode um zu prï¿½fen, ob ListItems zu einem Item existieren.
 	 * @param i
 	 */
 	public boolean checkForExistingListitems(Item i) {

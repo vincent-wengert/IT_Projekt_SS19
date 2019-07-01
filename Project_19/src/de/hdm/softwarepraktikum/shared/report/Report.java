@@ -3,7 +3,7 @@ package de.hdm.softwarepraktikum.shared.report;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Report implements IsSerializable {

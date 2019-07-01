@@ -3,7 +3,7 @@ package de.hdm.softwarepraktikum.shared.bo;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 

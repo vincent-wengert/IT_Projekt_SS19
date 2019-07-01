@@ -580,7 +580,7 @@ public class ListItemMapper {
 				Statement stmt = con.createStatement();
 			stmt.executeUpdate("DELETE ListItem FROM Responsibility INNER JOIN ListItem ON \r\n" + 
 					"ListItem.Responsibility_ID = Responsibility.Responsibility_ID \r\n" + 
-					"WHERE Responsibility.Person_ID = 1;" + p.getId());
+					"WHERE Responsibility.Person_ID = " + p.getId());
 			
 				
 				
