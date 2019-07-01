@@ -68,6 +68,9 @@ public class GroupForm extends VerticalPanel {
 
 	private ArrayList<Person> allPersons = new ArrayList<Person>();
 	private ArrayList<Person> membersList = new ArrayList<Person>();
+	
+	private ArrayList<Person> membersToAdd = new ArrayList<Person>();
+	private ArrayList<Person> membersToRemove= new ArrayList<Person>();
 	private Person selectedPerson = new Person();
 
 	private Group groupToDisplay = null;
@@ -387,6 +390,11 @@ public class GroupForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 			setEditable(false);
 			setTableEditable(editable);
+			groupNameBox.setText(groupToDisplay.getTitle());
+			addMemberListBox.clear();
+			groupMembersListBox.clear();
+			loadSearchbar();
+			showGroupMembers();
 		}
 	}
 
@@ -406,6 +414,19 @@ public class GroupForm extends VerticalPanel {
 			} else {
 				groupToDisplay.setTitle(groupNameBox.getText());
 				administration.updateGroup(groupToDisplay, new updateGroupCallback());
+				
+				if(membersToAdd.isEmpty() == false) {
+					for(Person p : membersToAdd) {
+						administration.addGroupMembership(p, groupToDisplay, new AddGroupMembershipCallback());
+						groupToDisplay.getMember().add(p);
+					}
+				}else if(membersToRemove.isEmpty() == false) {
+					for(Person p : membersToRemove) {
+						administration.deleteGroupMembership(p, groupToDisplay , new RemoveGroupMembershipCallback());
+						groupToDisplay.getMember().remove(p);
+					}
+				}
+				
 				setEditable(false);
 				setTableEditable(editable);
 			}
@@ -424,6 +445,9 @@ public class GroupForm extends VerticalPanel {
 			setEditable(true);
 			setTableEditable(editable);
 			setInitial(false);
+			loadSearchbar();
+			groupMembersListBox.clear();
+			showGroupMembers();
 		}
 	}
 
@@ -459,8 +483,10 @@ public class GroupForm extends VerticalPanel {
 			
 			}else {
 			setSelectedPerson(addMemberListBox.getSelectedItemText());
-			administration.addGroupMembership(selectedPerson, groupToDisplay, new AddGroupMembershipCallback());
-			
+			membersToAdd.add(selectedPerson);
+			groupMembersListBox.addItem(selectedPerson.getName());			
+			addMemberListBox.removeItem(addMemberListBox.getSelectedIndex());
+			groupMembersListBox.setVisibleItemCount(groupMembersListBox.getVisibleItemCount()+1);
 			}
 		}
 	}
@@ -488,7 +514,10 @@ public class GroupForm extends VerticalPanel {
 						membersList.remove(p);
 						groupMembersListBox.setVisibleItemCount(groupToDisplay.getMember().size());
 						addMemberListBox.addItem(selectedPerson.getGmail());
-						administration.deleteGroupMembership(selectedPerson, groupToDisplay , new RemoveGroupMembershipCallback());
+						membersToRemove.add(selectedPerson);
+						groupMembersListBox.removeItem(groupMembersListBox.getSelectedIndex());
+						groupToDisplay.getMember().remove(selectedPerson);
+						addMemberListBox.setVisibleItemCount(groupToDisplay.getMember().size());
 					}
 				}
 			}	
@@ -540,13 +569,6 @@ public class GroupForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Void result) {
 			Notification.show(selectedPerson.getName() + " wurde der Gruppe hinzugefügt");
-
-			groupMembersListBox.addItem(selectedPerson.getName());
-			groupToDisplay.getMember().add(selectedPerson);
-			
-			addMemberListBox.removeItem(addMemberListBox.getSelectedIndex());
-			membersList.add(selectedPerson);
-			groupMembersListBox.setVisibleItemCount(membersList.size()+1);
 		}
 	}
 	
@@ -564,10 +586,6 @@ public class GroupForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Void result) {
 			Notification.show(selectedPerson.getName() + " wurde aus der Gruppe entfernt");
-		
-			groupMembersListBox.removeItem(groupMembersListBox.getSelectedIndex());
-			groupToDisplay.getMember().remove(selectedPerson);
-			addMemberListBox.setVisibleItemCount(groupToDisplay.getMember().size());
 		}
 	}
 	
