@@ -52,7 +52,6 @@ public class GroupForm extends VerticalPanel {
 	private HorizontalPanel topButtonsPanel = new HorizontalPanel();
 	private VerticalPanel vp = new VerticalPanel();
 
-
 	private Label infoTitleLabel = new Label("Neue Gruppe erstellen");
 	private Label groupNameLabel = new Label("Name der Gruppe");
 	private Label groupMembersLabel = new Label("Mitglieder");
@@ -68,9 +67,9 @@ public class GroupForm extends VerticalPanel {
 
 	private ArrayList<Person> allPersons = new ArrayList<Person>();
 	private ArrayList<Person> membersList = new ArrayList<Person>();
-	
+
 	private ArrayList<Person> membersToAdd = new ArrayList<Person>();
-	private ArrayList<Person> membersToRemove= new ArrayList<Person>();
+	private ArrayList<Person> membersToRemove = new ArrayList<Person>();
 	private Person selectedPerson = new Person();
 
 	private Group groupToDisplay = null;
@@ -80,7 +79,7 @@ public class GroupForm extends VerticalPanel {
 
 	private MultiWordSuggestOracle personSearchBar = new MultiWordSuggestOracle();
 	private final SuggestBox personSuggestBox = new SuggestBox(personSearchBar);
-	
+
 	private ListBox groupMembersListBox = new ListBox();
 	private ListBox addMemberListBox = new ListBox();
 
@@ -88,12 +87,12 @@ public class GroupForm extends VerticalPanel {
 	private Grid searchGridPersons = new Grid(1, 3);
 	private Button addGroupMember = new Button("\u271A");
 	private Button removeGroupMember = new Button("\u2716");
-	
+
 	private GroupForm newGroupForm;
 
 	/**
-	 * Bei der Instanziierung der <code>GroupForm</code> werden die
-	 * ClickHandler den Buttons und die Buttons anschließend dem Panel hinzugefügt.
+	 * Bei der Instanziierung der <code>GroupForm</code> werden die ClickHandler den
+	 * Buttons und die Buttons anschließend dem Panel hinzugefügt.
 	 */
 	public GroupForm() {
 		editButton.addClickHandler(new EditClickHandler());
@@ -104,11 +103,11 @@ public class GroupForm extends VerticalPanel {
 
 		cancelButton.addClickHandler(new CancelClickHandler());
 		bottomButtonsPanel.add(cancelButton);
-		
+
 		addGroupMember.addClickHandler(new AddGroupMemberClickHandler());
 		removeGroupMember.addClickHandler(new RemoveGroupMemberClickHandler());
 	}
-	
+
 	/**
 	 * ************************* ABSCHNITT der Methoden *************************
 	 */
@@ -119,7 +118,7 @@ public class GroupForm extends VerticalPanel {
 	 */
 	public void onLoad() {
 		this.load();
-		
+
 		this.setWidth("100%");
 		formHeaderPanel.setStylePrimaryName("formHeaderPanel");
 		infoTitleLabel.setStylePrimaryName("infoTitleLabel");
@@ -147,11 +146,11 @@ public class GroupForm extends VerticalPanel {
 		groupNameBox.setMaxLength(15);
 
 		groupGrid.setCellSpacing(10);
-		
+
 		groupGrid.setWidget(0, 0, groupNameLabel);
 		groupGrid.setWidget(0, 1, groupNameBox);
 		groupGrid.setWidget(1, 0, groupMembersLabel);
-		
+
 		groupMembersListBox.setWidth("300px");
 
 		addMemberListBox.setSize("300px", "27px");
@@ -163,13 +162,12 @@ public class GroupForm extends VerticalPanel {
 		// searchGridPersons.setWidget(0, 0, personSuggestBox);
 		searchGridPersons.setWidget(0, 0, addMemberListBox);
 		searchGridPersons.setWidget(0, 1, addGroupMember);
-		
 
 		groupGrid.setWidget(1, 1, searchGridPersons);
 		groupGrid.setWidget(2, 0, addedGroupMembersLabel);
 		groupGrid.setWidget(2, 1, groupMembersListBox);
 		groupGrid.setWidget(2, 2, removeGroupMember);
-		
+
 		this.add(groupGrid);
 		this.setCellHorizontalAlignment(groupGrid, ALIGN_CENTER);
 
@@ -179,40 +177,42 @@ public class GroupForm extends VerticalPanel {
 		setTableEditable(editable);
 
 	}
-	
+
 	/**
-	 * Methode zum Auslesen des gmail Attributts der übergebenen <code>Person</code>.
+	 * Methode zum Auslesen des gmail Attributts der übergebenen
+	 * <code>Person</code>.
 	 * 
-	 * @param person wird mit allen <code>Person</code> Objekten innerhalb der ArrayList
-	 * allPersons verglichen und gibt bei einer Übereinstimmung das gmail Attribut zurück.
+	 * @param person wird mit allen <code>Person</code> Objekten innerhalb der
+	 *               ArrayList allPersons verglichen und gibt bei einer
+	 *               Übereinstimmung das gmail Attribut zurück.
 	 * 
 	 * @return Gmail Attribut der <code>Person</code>.
 	 */
 	private String getGmail(Person person) {
-			for(Person p1: allPersons) {
-				if(person.getId() == p1.getId()) {
-					return p1.getGmail();
-				}
+		for (Person p1 : allPersons) {
+			if (person.getId() == p1.getId()) {
+				return p1.getGmail();
 			}
-			return null;
+		}
+		return null;
 	}
 
 	/**
 	 * Methode um die <code>Person</code> Objekte, die Teil einer <code>Group</code>
-	 * sind anzuzeigen. 
+	 * sind anzuzeigen.
 	 */
 	private void showGroupMembers() {
 
 		if (groupToDisplay.getMember().isEmpty() == false) {
-		groupMembersListBox.clear();
-		
-		for (Person p : groupToDisplay.getMember()) {
-			groupMembersListBox.addItem(p.getName());
-		}
-		groupMembersListBox.setVisibleItemCount(groupToDisplay.getMember().size());
+			groupMembersListBox.clear();
+
+			for (Person p : groupToDisplay.getMember()) {
+				groupMembersListBox.addItem(p.getName());
+			}
+			groupMembersListBox.setVisibleItemCount(groupToDisplay.getMember().size());
 		}
 	}
-	
+
 	/**
 	 * Methode um alle <code>Person</code> Objekte zu laden.
 	 */
@@ -221,31 +221,34 @@ public class GroupForm extends VerticalPanel {
 	}
 
 	/**
-	 * Methode um die addMemberListBox mit allen <code>Person</code> 
-	 * Objekten zu befüllen. 
+	 * Methode um die addMemberListBox mit allen <code>Person</code> Objekten zu
+	 * befüllen.
 	 */
 	public void loadSearchbar() {
-		
+
 		addMemberListBox.clear();
-		
-		for(Person person : allPersons) {
-			if(person.getId() != currentPerson.getId()) {
+
+		for (Person person : allPersons) {
+			if (person.getId() != currentPerson.getId()) {
 				addMemberListBox.addItem(person.getGmail());
 			}
-				
-		}
-		
-		if(groupToDisplay.getMember().isEmpty()) {
-		for(Person person : groupToDisplay.getMember()) {
 
-			for (int i = 0; i < addMemberListBox.getItemCount(); i++) {
-				if (addMemberListBox.getItemText(i) == getGmail(person)) {
-					addMemberListBox.removeItem(i);
+		}
+
+		if (groupToDisplay != null) {
+			if (groupToDisplay.getMember().isEmpty()) {
+				for (Person person : groupToDisplay.getMember()) {
+
+					for (int i = 0; i < addMemberListBox.getItemCount(); i++) {
+						if (addMemberListBox.getItemText(i) == getGmail(person)) {
+							addMemberListBox.removeItem(i);
+						}
 					}
 				}
 			}
 		}
 	}
+
 	/**
 	 * Setzt die aktuell ausgewählte Person
 	 * 
@@ -260,9 +263,11 @@ public class GroupForm extends VerticalPanel {
 			}
 		}
 	}
-	
+
 	/**
-	 * Methode um die ausgewählte <code>Group</code> zu setzen und in den Widgets anzuzeigen.
+	 * Methode um die ausgewählte <code>Group</code> zu setzen und in den Widgets
+	 * anzuzeigen.
+	 * 
 	 * @param g das ausgewählte <code>Group</code> Objekt.
 	 */
 	public void setSelected(Group g) {
@@ -270,10 +275,11 @@ public class GroupForm extends VerticalPanel {
 		infoTitleLabel.setText(groupToDisplay.getTitle());
 		groupNameBox.setText(groupToDisplay.getTitle());
 	}
-	
+
 	/**
-	 * /**
-	 * Methode um die <code>GroupForm</code> in den EditModus zu setzen oder den EditModus zu beenden.
+	 * /** Methode um die <code>GroupForm</code> in den EditModus zu setzen oder den
+	 * EditModus zu beenden.
+	 * 
 	 * @param editable setzt für true den EditModus und verlässt ihn für false.
 	 */
 	public void setTableEditable(Boolean editable) {
@@ -312,21 +318,23 @@ public class GroupForm extends VerticalPanel {
 
 		this.newGroupForm = newGroupForm;
 	}
-	
+
 	/**
-	 * Methode zum Auslesen des Boolean Attributs initial innerhalb der <code>GroupForm</code>.
+	 * Methode zum Auslesen des Boolean Attributs initial innerhalb der
+	 * <code>GroupForm</code>.
 	 * 
 	 * @return der Boolean initial der <code>GroupForm</code>.
 	 */
 	public Boolean getInitial() {
 		return initial;
 	}
-	
+
 	/**
 	 * Setzen des Boolean Attributs initial innerhalb der <code>GroupForm</code>.
 	 * 
-	 * @param initial Mithilfe des Wertes wird entschieden ob die <code>GroupForm</code>
-	 * sich im Neu-Anlegen-Modus befindet oder im Editier-Modus.
+	 * @param initial Mithilfe des Wertes wird entschieden ob die
+	 *                <code>GroupForm</code> sich im Neu-Anlegen-Modus befindet oder
+	 *                im Editier-Modus.
 	 */
 	public void setInitial(Boolean initial) {
 		this.initial = initial;
@@ -335,49 +343,55 @@ public class GroupForm extends VerticalPanel {
 	/**
 	 * Auslesen des Boolean Attributs editable innerhalb der <code>GroupForm</code>.
 	 * 
-	 * @return Boolean der Auskunft darüber gibt, ob die <code>GroupForm</code> sich im
-	 * Editier-Modus befindet.
+	 * @return Boolean der Auskunft darüber gibt, ob die <code>GroupForm</code> sich
+	 *         im Editier-Modus befindet.
 	 */
 	public Boolean getEditable() {
 		return editable;
 	}
-	
+
 	/**
 	 * Setzen des Boolean Attributs editable innerhalb der <code>GroupForm</code>.
 	 * 
-	 * @param initial Mithilfe des Wertes wird entschieden ob die <code>ItemForm</code> 
-	 * sich im Neu-Anlegen-Modus befindet oder im Editier-Modus.
+	 * @param initial Mithilfe des Wertes wird entschieden ob die
+	 *                <code>ItemForm</code> sich im Neu-Anlegen-Modus befindet oder
+	 *                im Editier-Modus.
 	 */
 	public void setEditable(Boolean editable) {
 		this.editable = editable;
 	}
-	
+
 	/**
-	 * Auslesen des <code>CustomTreeModel</code> innerhalb der <code>GroupForm</code>.
-	 * @return das <code>CustomTreeModel</code> innerhalb der <code>GroupForm</code>.
+	 * Auslesen des <code>CustomTreeModel</code> innerhalb der
+	 * <code>GroupForm</code>.
+	 * 
+	 * @return das <code>CustomTreeModel</code> innerhalb der
+	 *         <code>GroupForm</code>.
 	 */
 	public CustomTreeModel getCtm() {
 		return ctm;
 	}
-	
+
 	/**
 	 * Setzen des <code>CustomTreeModel</code> innerhalb der <code>GroupForm</code>.
 	 * 
-	 * @param ctm neues <code>CustomTreeModel</code> innerhalb der <code>GroupForm</code>
+	 * @param ctm neues <code>CustomTreeModel</code> innerhalb der
+	 *            <code>GroupForm</code>
 	 */
 	public void setCtm(CustomTreeModel ctm) {
 		this.ctm = ctm;
 	}
-	
+
 	/**
-	 * Setzen der <code>AllItemsCellList</code> innerhalb der <code>GroupForm</code>.
+	 * Setzen der <code>AllItemsCellList</code> innerhalb der
+	 * <code>GroupForm</code>.
 	 * 
-	 * @param aicl neue <code>AllItemsCellList</code> innerhalb der <code>GroupForm</code>
+	 * @param aicl neue <code>AllItemsCellList</code> innerhalb der
+	 *             <code>GroupForm</code>
 	 */
 	public void setAllItemsCelllist(AllItemsCellList aicl) {
 		this.aicl = aicl;
 	}
-
 
 	/**
 	 * ***************************************************************************
@@ -412,35 +426,35 @@ public class GroupForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 			if (initial == true) {
 				membersList.add(currentPerson);
-				administration.createGroup(groupNameBox.getText(),membersList, new createGroupCallback());
+				administration.createGroup(groupNameBox.getText(), membersList, new createGroupCallback());
 				setEditable(false);
 				setTableEditable(editable);
 			} else {
 				groupToDisplay.setTitle(groupNameBox.getText());
 				administration.updateGroup(groupToDisplay, new updateGroupCallback());
-				
-				if(membersToAdd.isEmpty() == false) {
-					for(Person p : membersToAdd) {
+
+				if (membersToAdd.isEmpty() == false) {
+					for (Person p : membersToAdd) {
 						administration.addGroupMembership(p, groupToDisplay, new AddGroupMembershipCallback());
 						groupToDisplay.getMember().add(p);
 					}
-				}else if(membersToRemove.isEmpty() == false) {
-					for(Person p : membersToRemove) {
-						administration.deleteGroupMembership(p, groupToDisplay , new RemoveGroupMembershipCallback());
+				} else if (membersToRemove.isEmpty() == false) {
+					for (Person p : membersToRemove) {
+						administration.deleteGroupMembership(p, groupToDisplay, new RemoveGroupMembershipCallback());
 						groupToDisplay.getMember().remove(p);
 					}
 				}
-				
+
 				setEditable(false);
 				setTableEditable(editable);
 			}
 
 		}
 	}
-	
+
 	/**
-	 * Versetzt die <code>GroupForm</code> in den Editier-Modus durch den Aufruf der Methode
-	 * setTableEditable().
+	 * Versetzt die <code>GroupForm</code> in den Editier-Modus durch den Aufruf der
+	 * Methode setTableEditable().
 	 */
 	private class EditClickHandler implements ClickHandler {
 
@@ -456,64 +470,64 @@ public class GroupForm extends VerticalPanel {
 	}
 
 	/**
-	 * ClickHandler mit dem das im <code>CustomTreeModel</code> 
-	 * ausgewählte <code>Group</code> Objekt gelöscht wird.
+	 * ClickHandler mit dem das im <code>CustomTreeModel</code> ausgewählte
+	 * <code>Group</code> Objekt gelöscht wird.
 	 */
 	private class DeleteClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			if(Window.confirm("Wollen Sie wirklich entfernen?") == true) {
+			if (Window.confirm("Wollen Sie wirklich entfernen?") == true) {
 				administration.deleteGroup(groupToDisplay, new deleteGroupCallback());
 			}
 		}
 	}
 
 	/**
-	 * ClickHandler mit dem die ausgewählte <code>Person</code> zur 
-	 * ausgewählten <code>Group</code> hinzugefügt wird.
+	 * ClickHandler mit dem die ausgewählte <code>Person</code> zur ausgewählten
+	 * <code>Group</code> hinzugefügt wird.
 	 */
 	private class AddGroupMemberClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
 			if (initial == true) {
-			// setSelectedPerson(personSuggestBox.getValue());
-			setSelectedPerson(addMemberListBox.getSelectedItemText());
-			addMemberListBox.removeItem(addMemberListBox.getSelectedIndex());
-			membersList.add(selectedPerson);
-			groupMembersListBox.addItem(selectedPerson.getName());
-			groupMembersListBox.setVisibleItemCount(membersList.size()+1);
-			
-			}else {
-			setSelectedPerson(addMemberListBox.getSelectedItemText());
-			membersToAdd.add(selectedPerson);
-			groupMembersListBox.addItem(selectedPerson.getName());			
-			addMemberListBox.removeItem(addMemberListBox.getSelectedIndex());
-			groupMembersListBox.setVisibleItemCount(groupMembersListBox.getVisibleItemCount()+1);
+				// setSelectedPerson(personSuggestBox.getValue());
+				setSelectedPerson(addMemberListBox.getSelectedItemText());
+				addMemberListBox.removeItem(addMemberListBox.getSelectedIndex());
+				membersList.add(selectedPerson);
+				groupMembersListBox.addItem(selectedPerson.getName());
+				groupMembersListBox.setVisibleItemCount(membersList.size() + 1);
+
+			} else {
+				setSelectedPerson(addMemberListBox.getSelectedItemText());
+				membersToAdd.add(selectedPerson);
+				groupMembersListBox.addItem(selectedPerson.getName());
+				addMemberListBox.removeItem(addMemberListBox.getSelectedIndex());
+				groupMembersListBox.setVisibleItemCount(groupMembersListBox.getVisibleItemCount() + 1);
 			}
 		}
 	}
-	
+
 	/**
-	 * ClickHandler mit dem die ausgewählte <code>Person</code> von der
-	 * ausgewählten <code>Group</code> entfernt wird.
+	 * ClickHandler mit dem die ausgewählte <code>Person</code> von der ausgewählten
+	 * <code>Group</code> entfernt wird.
 	 */
 	private class RemoveGroupMemberClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
 			for (Person p : allPersons) {
-				//TODO hier kommt der angemeldete user rein
+				// TODO hier kommt der angemeldete user rein
 				if (p.getName().equals(groupMembersListBox.getSelectedItemText())) {
 					selectedPerson = p;
-					if(initial == true) {
+					if (initial == true) {
 						groupMembersListBox.removeItem(groupMembersListBox.getSelectedIndex());
 						membersList.remove(p);
-						groupMembersListBox.setVisibleItemCount(membersList.size()+1);
+						groupMembersListBox.setVisibleItemCount(membersList.size() + 1);
 						addMemberListBox.addItem(selectedPerson.getGmail());
 
-					}else {
+					} else {
 						groupMembersListBox.removeItem(groupMembersListBox.getSelectedIndex());
 						membersList.remove(p);
 						groupMembersListBox.setVisibleItemCount(groupToDisplay.getMember().size());
@@ -524,7 +538,7 @@ public class GroupForm extends VerticalPanel {
 						addMemberListBox.setVisibleItemCount(groupToDisplay.getMember().size());
 					}
 				}
-			}	
+			}
 		}
 	}
 
@@ -533,7 +547,8 @@ public class GroupForm extends VerticalPanel {
 	 */
 
 	/**
-	 * Callback mit dem alle <code>Person</code> Objekte aus der Datenbank geladen werden.
+	 * Callback mit dem alle <code>Person</code> Objekte aus der Datenbank geladen
+	 * werden.
 	 */
 	private class getAllPersonsCallback implements AsyncCallback<ArrayList<Person>> {
 
@@ -547,21 +562,21 @@ public class GroupForm extends VerticalPanel {
 			// add item to cellist
 			// aicl.updateCellList();
 			allPersons = result;
-			if (initial == false){
-			administration.getAllGroupMembers(groupToDisplay.getId(), new getAllGroupMembersCallback());
-			}else {
-				for(Person person : allPersons) {
+			if (initial == false) {
+				administration.getAllGroupMembers(groupToDisplay.getId(), new getAllGroupMembersCallback());
+			} else {
+				for (Person person : allPersons) {
 					addMemberListBox.addItem(person.getGmail());
-					
+
 				}
 				GroupForm.this.loadSearchbar();
 			}
 		}
 	}
-	
+
 	/**
-	 * Callback mit dem Mitgliedschaften von <code>Person</code> Objekten in <code>Group</code> Objekten
-	 * in die Datenbank hinzugefügt werden.
+	 * Callback mit dem Mitgliedschaften von <code>Person</code> Objekten in
+	 * <code>Group</code> Objekten in die Datenbank hinzugefügt werden.
 	 */
 	private class AddGroupMembershipCallback implements AsyncCallback<Void> {
 
@@ -575,10 +590,10 @@ public class GroupForm extends VerticalPanel {
 			Notification.show(selectedPerson.getName() + " wurde der Gruppe hinzugefügt");
 		}
 	}
-	
+
 	/**
-	 * Callback mit dem Mitgliedschaften von <code>Person</code> Objekten in <code>Group</code> Objekten
-	 * aus der Datenbank entfernt werden.
+	 * Callback mit dem Mitgliedschaften von <code>Person</code> Objekten in
+	 * <code>Group</code> Objekten aus der Datenbank entfernt werden.
 	 */
 	private class RemoveGroupMembershipCallback implements AsyncCallback<Void> {
 
@@ -592,9 +607,10 @@ public class GroupForm extends VerticalPanel {
 			Notification.show(selectedPerson.getName() + " wurde aus der Gruppe entfernt");
 		}
 	}
-	
+
 	/**
-	 * Callback mit dem alle <code>Person</code> die Mitglieder einer <code>Group</code> sind geladen werden.
+	 * Callback mit dem alle <code>Person</code> die Mitglieder einer
+	 * <code>Group</code> sind geladen werden.
 	 */
 	private class getAllGroupMembersCallback implements AsyncCallback<ArrayList<Person>> {
 
@@ -606,8 +622,8 @@ public class GroupForm extends VerticalPanel {
 		@Override
 		public void onSuccess(ArrayList<Person> result) {
 			for (Person p : result) {
-				for(Person p1: allPersons) {
-					if(p.getId() == p1.getId()) {
+				for (Person p1 : allPersons) {
+					if (p.getId() == p1.getId()) {
 						p.setName(p1.getName());
 					}
 				}
@@ -619,7 +635,8 @@ public class GroupForm extends VerticalPanel {
 	}
 
 	/**
-	 * Callback mit dem eine neues <code>Group</code> Objekt in die Datenbank geladen wird.
+	 * Callback mit dem eine neues <code>Group</code> Objekt in die Datenbank
+	 * geladen wird.
 	 */
 	private class createGroupCallback implements AsyncCallback<Group> {
 
@@ -634,9 +651,10 @@ public class GroupForm extends VerticalPanel {
 			aicl.updateAddedGroup(result);
 		}
 	}
-	
+
 	/**
-	 * Callback mit dem Änderungen in einem <code>Group</code> Objekt in die Datenbank geladen werden.
+	 * Callback mit dem Änderungen in einem <code>Group</code> Objekt in die
+	 * Datenbank geladen werden.
 	 */
 	private class updateGroupCallback implements AsyncCallback<Void> {
 
@@ -651,11 +669,12 @@ public class GroupForm extends VerticalPanel {
 			ctm.updateGroup(groupToDisplay);
 			setSelected(groupToDisplay);
 		}
-		
+
 	}
-	
+
 	/**
-	 * Callback mit dem ein <code>Group</code> Objekt aus der Datenbank entfernt wird.
+	 * Callback mit dem ein <code>Group</code> Objekt aus der Datenbank entfernt
+	 * wird.
 	 */
 	private class deleteGroupCallback implements AsyncCallback<Void> {
 
@@ -670,8 +689,7 @@ public class GroupForm extends VerticalPanel {
 			Notification.show("Die Gruppe wurde gel�scht");
 			RootPanel.get("Details").clear();
 		}
-		
+
 	}
 
-	
 }
