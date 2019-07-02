@@ -73,8 +73,8 @@ public class ListItemDialog extends PopupPanel {
 	private RadioButton existingButton = new RadioButton("Bestehend");
 	private RadioButton newButton = new RadioButton("Neu");
 
-	private Label existingLabel = new Label("Bestehenden Artikel");
-	private Label newLabel = new Label("Neuen Anlegen");
+	private Label existingLabel = new Label("Bestehend");
+	private Label newLabel = new Label("Neuanlage");
 
 	private VerticalPanel verticalPanel = new VerticalPanel();
 	private HorizontalPanel radioButtonPanel = new HorizontalPanel();
