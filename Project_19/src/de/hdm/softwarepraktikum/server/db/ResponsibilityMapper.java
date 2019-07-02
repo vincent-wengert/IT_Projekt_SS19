@@ -301,6 +301,7 @@ public class ResponsibilityMapper {
 		try {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate("DELETE FROM Responsibility WHERE Person_ID = " + p.getId());
+			System.out.println(stmt);
 
 		} catch (SQLException e) {
 			e.printStackTrace();

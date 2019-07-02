@@ -158,6 +158,7 @@ public class ItemMapper {
 		try {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate("DELETE FROM Item WHERE Owner_ID = " + p.getId());
+			System.out.println(stmt);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

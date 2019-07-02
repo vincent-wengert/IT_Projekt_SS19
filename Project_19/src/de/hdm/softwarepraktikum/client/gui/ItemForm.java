@@ -254,6 +254,7 @@ public class ItemForm extends VerticalPanel {
 	private class FavClickHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
+			if(selectedGroup!=null) {
 			setTableEditable(false);
 			if (itemToDisplayProduct.getIsFavorite() == true) {
 				itemToDisplayProduct.setFavorite(false);
@@ -265,7 +266,9 @@ public class ItemForm extends VerticalPanel {
 				administration.addFavoriteItem(itemToDisplayProduct, selectedGroup, new addFavoriteItemCallback());
 				favButton.setStylePrimaryName("FavoriteItemTrue");
 			}
-
+			}else {
+				Notification.show("Bitte erstellen sie zuerst eine Gruppe");
+			}
 		}
 	}
 
@@ -304,7 +307,6 @@ public class ItemForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-
 			if (itemNameBox.getText() != "") {
 				administration.checkForExistingItemByName(itemNameBox.getText(), new AsyncCallback<Boolean>() {
 					@Override

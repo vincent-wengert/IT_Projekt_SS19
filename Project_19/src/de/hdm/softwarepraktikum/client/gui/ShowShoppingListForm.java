@@ -102,18 +102,19 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 	private CustomTreeModel ctm = null;
 
-	ShoppingList shoppingListToDisplay = null;
-	Integer selectedListitemIndex = null;
+	private ShoppingList shoppingListToDisplay = null;
+	private Integer selectedListitemIndex = null;
+	
 
 	private Boolean loadFavorites;
 
 	Group group = new Group();
-	
-	  /**
-	   * Der Pager der benutzt wird, wenn es mehr als 15 Einträge gibt
-	   */
-	  @UiField(provided = true)
-	  SimplePager pager;
+
+	/**
+	 * Der Pager der benutzt wird, wenn es mehr als 15 Einträge gibt
+	 */
+	@UiField(provided = true)
+	SimplePager pager;
 
 	/**
 	 * Bei der Instanziierung der <code>ShowShoppingListForm</code>, werden die
@@ -175,7 +176,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		confirmButton.setStylePrimaryName("confirmButton");
 		cancelButton.setPixelSize(130, 40);
 		confirmButton.setPixelSize(130, 40);
-		
+
 		formHeaderPanel.add(infoTitleLabel);
 		formHeaderPanel.add(topButtonsPanel);
 
@@ -188,20 +189,25 @@ public class ShowShoppingListForm extends VerticalPanel {
 		keyProvider = new ListItemKeyProvider();
 		multiSelectionModel = new MultiSelectionModel<ListItem>(keyProvider);
 		cellTable = new CellTable<ListItem>();
-		dataProvider.addDataDisplay(cellTable);	
+		dataProvider.addDataDisplay(cellTable);
 		cellTable.setStylePrimaryName("cellTable");
 		cellTable.setSelectionModel(multiSelectionModel,
 				DefaultSelectionEventManager.<ListItem>createCheckboxManager());
-		
+
 		// Eventhandler um die aktuell ausgewählte Zeile zu setzen
-	       cellTable.addCellPreviewHandler(new CellPreviewEvent.Handler<ListItem>() {
-				@Override
-	            public void onCellPreview(CellPreviewEvent<ListItem> event) {
-	                if (BrowserEvents.CLICK.equalsIgnoreCase(event.getNativeEvent().getType())) {
-	                    ShowShoppingListForm.this.selectedListitemIndex = event.getIndex();
-	                }
-	            }
-	        });
+		cellTable.addCellPreviewHandler(new CellPreviewEvent.Handler<ListItem>() {
+			@Override
+			public void onCellPreview(CellPreviewEvent<ListItem> event) {
+				if (BrowserEvents.CLICK.equalsIgnoreCase(event.getNativeEvent().getType())) {
+					ShowShoppingListForm.this.selectedListitemIndex = event.getIndex();
+					for (Item item : allItems) {
+						if (item.getId() == allListItems.get(event.getIndex()).getItemId()) {
+							Notification.show(item.getName() + " wurde ausgewählt.");
+						}
+					}
+				}
+			}
+		});
 
 		// Doppelklick Event um das ausgewählte ListItem zu bearbeiten
 		cellTable.addDomHandler(new DoubleClickHandler() {
@@ -237,8 +243,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 		TextColumn<ListItem> amountColumn = new TextColumn<ListItem>() {
 			@Override
 			public String getValue(ListItem i) {
-				return Double.toString(i.getAmount())+ " " + i.getUnit();
-				
+				return Double.toString(i.getAmount()) + " " + i.getUnit();
+
 			}
 		};
 
@@ -328,15 +334,14 @@ public class ShowShoppingListForm extends VerticalPanel {
 		cellTable.getColumnSortList().push(storeColumn);
 
 		shoppingListPanel.add(cellTable);
-		
-		
-		 // Create a Pager to control the table.
-	    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-	    pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-	    pager.setDisplay(cellTable);
-	    pager.setPageSize(10);
-	    shoppingListPanel.add(pager);
-	    shoppingListPanel.setCellHorizontalAlignment(pager, ALIGN_CENTER);
+
+		// Create a Pager to control the table.
+		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+		pager.setDisplay(cellTable);
+		pager.setPageSize(10);
+		shoppingListPanel.add(pager);
+		shoppingListPanel.setCellHorizontalAlignment(pager, ALIGN_CENTER);
 
 		this.add(shoppingListPanel);
 		this.setCellHorizontalAlignment(shoppingListPanel, ALIGN_CENTER);
@@ -424,31 +429,31 @@ public class ShowShoppingListForm extends VerticalPanel {
 	/**
 	 * Setzt die aktuell ausgewählte <code>ShoppingList</code>
 	 * 
-	 * @param shoppinglist      Die zu setzende <code>ShoppingList</code>
-	 * @param initial Setzt ob die Einkaufsliste initial angelegt wird
+	 * @param shoppinglist Die zu setzende <code>ShoppingList</code>
+	 * @param initial      Setzt ob die Einkaufsliste initial angelegt wird
 	 */
 	public void setSelected(ShoppingList shoppinglist, Boolean initial) {
-		if(shoppinglist!=null) {
-		selectedListitemIndex = null;
-		ShowShoppingListForm.this.shoppingListPanel.clear();
-		dataProvider.getList().clear();
-		shoppingListToDisplay = shoppinglist;
-		infoTitleLabel.setText(shoppinglist.getTitle());
+		if (shoppinglist != null) {
+			selectedListitemIndex = null;
+			ShowShoppingListForm.this.shoppingListPanel.clear();
+			dataProvider.getList().clear();
+			shoppingListToDisplay = shoppinglist;
+			infoTitleLabel.setText(shoppinglist.getTitle());
 
-		infoTitleLabel.setVisible(true);
-		editButton.setVisible(true);
+			infoTitleLabel.setVisible(true);
+			editButton.setVisible(true);
 
-		if (initial == true) {
-			loadFavoriteItems();
-		}
+			if (initial == true) {
+				loadFavoriteItems();
+			}
 
-		additionalInfoGrid.setVisible(true);
-		additionalInfoGrid.setWidget(0, 0,
-				new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
-		additionalInfoGrid.setWidget(0, 1,
-				new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
-		additionalInfoGrid.setWidget(1, 0, myItemsCheckbox);
-		}else {
+			additionalInfoGrid.setVisible(true);
+			additionalInfoGrid.setWidget(0, 0,
+					new Label("Erstelldatum: " + shoppingListToDisplay.getCreationDateString()));
+			additionalInfoGrid.setWidget(0, 1,
+					new HTML("Änderungsdatum: " + shoppingListToDisplay.getChangeDateString()));
+			additionalInfoGrid.setWidget(1, 0, myItemsCheckbox);
+		} else {
 			this.clear();
 		}
 	}
@@ -461,24 +466,24 @@ public class ShowShoppingListForm extends VerticalPanel {
 	public void AddListItem(ListItem li, Boolean createNewListItem) {
 		shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
 		administration.updateShoppingList(shoppingListToDisplay, new UpdateShoppinglistCallback());
-		
-		if (createNewListItem == true) {
-		administration.getAllItems(new AsyncCallback<ArrayList<Item>>() {
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				Notification.show("Artikel konnten leider nicht geladen werden" + caught.toString());
-			}
 
-			@Override
-			public void onSuccess(ArrayList<Item> result) {
-				// TODO Auto-generated method stub
-				allItems = result;
-				dataProvider.getList().add(li);
-				dataProvider.refresh();
-			}
-		});
-		}else {
+		if (createNewListItem == true) {
+			administration.getAllItems(new AsyncCallback<ArrayList<Item>>() {
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					Notification.show("Artikel konnten leider nicht geladen werden" + caught.toString());
+				}
+
+				@Override
+				public void onSuccess(ArrayList<Item> result) {
+					// TODO Auto-generated method stub
+					allItems = result;
+					dataProvider.getList().add(li);
+					dataProvider.refresh();
+				}
+			});
+		} else {
 			dataProvider.getList().add(li);
 			dataProvider.refresh();
 		}
@@ -531,7 +536,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			if (selectedListitemIndex != null) {
-				if (Window.confirm("Wollen Sie diesen Artikel wirklich entfernen?") == true) {
+				if (Window.confirm("Wollen Sie den Artikel wirklich entfernen?") == true) {
 					administration.deleteListItem(allListItems.get(selectedListitemIndex),
 							new deleteListItemCallback());
 				} else {
@@ -650,7 +655,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	 * ABSCHNITT der Callbacks
 	 * ***************************************************************************
 	 */
-	
+
 	/**
 	 * Private Klasse des Callback um alle <code>Store</code> Instanzen aus dem
 	 * System zu bekommen.

@@ -105,13 +105,13 @@ public class Header extends HorizontalPanel{
 
 								@Override
 								public void onFailure(Throwable arg0) {
-									Notification.show(arg0.toString());
+								Notification.show("Person konnte nicht gelöscht werden.");								
 								}
 
 								@Override
 								public void onSuccess(Void arg0) {
 									// TODO Auto-generated method stub
-								
+								Notification.show("Person wurde erfolgreich gelöscht.");
 								}
 	 		 					
 	 		 				});

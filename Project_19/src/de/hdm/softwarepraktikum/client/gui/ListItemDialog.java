@@ -172,6 +172,8 @@ public class ListItemDialog extends PopupPanel {
 		verticalPanel.setCellHorizontalAlignment(itemListBox, HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setCellHorizontalAlignment(itemTextBox, HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setCellHorizontalAlignment(storeListBox, HasHorizontalAlignment.ALIGN_CENTER);
+		verticalPanel.setCellHorizontalAlignment(amountTextBox, HasHorizontalAlignment.ALIGN_LEFT);
+		verticalPanel.setCellHorizontalAlignment(unitListBox, HasHorizontalAlignment.ALIGN_RIGHT);
 		verticalPanel.setCellHorizontalAlignment(bottomButtonsPanel, HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setCellHorizontalAlignment(isGlobalBox, HasHorizontalAlignment.ALIGN_CENTER);
 
@@ -297,7 +299,7 @@ public class ListItemDialog extends PopupPanel {
 				break;
 			}
 		}
-		itemListBox.setSelectedIndex(indexToFind);
+		unitListBox.setSelectedIndex(indexToFind);
 	}
 
 	/**
