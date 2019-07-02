@@ -330,6 +330,10 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		
 		return itemMapper.checkForExistingListitems(i);
 	}
+	
+	public Boolean checkForExistingItemByName(String name) {
+		return this.itemMapper.checkForExistingItemByName(name);
+	}
 
 	/*
 	   * ***************************************************************************
@@ -765,6 +769,10 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		store.setId(storeId);
 		
 		return this.storeMapper.checkforExisitingStores(store);
+	}
+	
+	public Boolean checkForExistingStoreByName(String name) {
+		return this.storeMapper.checkForExistingStoreByName(name);
 	}
 	/*
 	   * ***************************************************************************
