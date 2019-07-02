@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -90,6 +91,8 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void removeFavoriteItem(Item i, Group g);
 	
+	public Boolean checkForExistingItemByName(String name);
+	
 	public Boolean checkFav(Group group , Item i);
 	
 	public Store createStore(String name, String street, int postcode, String city, int housenumber);
@@ -103,6 +106,8 @@ public interface ShoppingListAdministration extends RemoteService {
 	public void deleteStore(Store s);
 	
 	public Boolean checkforExisitingStores(Integer storeId);
+	
+	public Boolean checkForExistingStoreByName(String name);
 	
 	public Responsibility createResponsibility(int buyerID, int storeID, int slID);
 	

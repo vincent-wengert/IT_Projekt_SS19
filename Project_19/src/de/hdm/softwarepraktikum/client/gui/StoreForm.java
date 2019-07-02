@@ -29,7 +29,7 @@ import de.hdm.softwarepraktikum.shared.bo.Store;
 
 public class StoreForm extends VerticalPanel {
 
-	private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings.getShoppinglistAdministration();
+	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 
 	private Store storeToDisplay = null;
 	private AllStoresCellList ascl = null;
@@ -104,7 +104,7 @@ public class StoreForm extends VerticalPanel {
 
 		houseNumberBox.setWidth("42%");
 		streetNameBox.setWidth("95%");
-		
+
 		editButton.setHeight("8vh");
 		editButton.setWidth("8vh");
 		topButtonsPanel.setCellHorizontalAlignment(editButton, ALIGN_LEFT);
@@ -269,20 +269,38 @@ public class StoreForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 			if (cityNameBox.getText() != "" && postCodeBox.getText() != "" && streetNameBox.getText() != ""
 					&& houseNumberBox.getText() != "" && storeNameBox.getText() != "") {
-				if (initial == false) {
-					storeToDisplay.setCity(cityNameBox.getText());
-					storeToDisplay.setPostcode(Integer.parseInt(postCodeBox.getText()));
-					storeToDisplay.setStreet(streetNameBox.getText());
-					storeToDisplay.setHouseNumber(Integer.parseInt(houseNumberBox.getText()));
-					storeToDisplay.setName(storeNameBox.getText());
-					shoppinglistAdministration.updateStore(storeToDisplay, new UpdateStoreCallback());
-					setTableEditable(false);
-				} else {
-					shoppinglistAdministration.createStore(storeNameBox.getText(), streetNameBox.getText(),
-							Integer.parseInt(postCodeBox.getText()), cityNameBox.getText(),
-							Integer.parseInt(houseNumberBox.getText()), new CreateStoreCallback());
-					setTableEditable(false);
-				}
+				administration.checkForExistingStoreByName(storeNameBox.getText(), new AsyncCallback<Boolean>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						Notification.show("Artikel konnte in der Datenbank nicht gefunden werden.");
+					}
+
+					@Override
+					public void onSuccess(Boolean result) {
+						// TODO Auto-generated method stub
+						if (result == true) {
+							Notification.show("Laden exisitiert bereits.");
+						} else {
+
+							if (initial == false) {
+								storeToDisplay.setCity(cityNameBox.getText());
+								storeToDisplay.setPostcode(Integer.parseInt(postCodeBox.getText()));
+								storeToDisplay.setStreet(streetNameBox.getText());
+								storeToDisplay.setHouseNumber(Integer.parseInt(houseNumberBox.getText()));
+								storeToDisplay.setName(storeNameBox.getText());
+								administration.updateStore(storeToDisplay, new UpdateStoreCallback());
+								setTableEditable(false);
+							} else {
+								administration.createStore(storeNameBox.getText(), streetNameBox.getText(),
+										Integer.parseInt(postCodeBox.getText()), cityNameBox.getText(),
+										Integer.parseInt(houseNumberBox.getText()), new CreateStoreCallback());
+								setTableEditable(false);
+							}
+						}
+					}
+				});
 			} else {
 				Window.alert("Bitte füllen sie alle Felder des Ladens richtig aus");
 			}
@@ -310,8 +328,7 @@ public class StoreForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			if (Window.confirm("Wollen Sie wirklich entfernen?") == true) {
-				shoppinglistAdministration.checkforExisitingStores(storeToDisplay.getId(),
-						new checkForExistingStoresCallback());
+				administration.checkforExisitingStores(storeToDisplay.getId(), new checkForExistingStoresCallback());
 			}
 		}
 	}
@@ -364,8 +381,7 @@ public class StoreForm extends VerticalPanel {
 	}
 
 	/**
-	 * Private Klasse des Callback um eine <code>Store</code> Instanzen zu
-	 * löschen.
+	 * Private Klasse des Callback um eine <code>Store</code> Instanzen zu löschen.
 	 */
 	private class DeleteStoreCallback implements AsyncCallback<Void> {
 
@@ -401,7 +417,7 @@ public class StoreForm extends VerticalPanel {
 				Window.alert("Der Laden kann nicht gelöscht, da dieser noch in einer Einkaufliste vorhanden ist."
 						+ " Wenn dieser dennoch gelöscht werden möchte dann kontaktieren sie den Administrator");
 			} else {
-				shoppinglistAdministration.deleteStore(storeToDisplay, new DeleteStoreCallback());
+				administration.deleteStore(storeToDisplay, new DeleteStoreCallback());
 				ascl.updateCellList(null);
 			}
 		}

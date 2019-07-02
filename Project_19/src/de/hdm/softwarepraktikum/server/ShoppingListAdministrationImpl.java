@@ -331,6 +331,12 @@ private FavoriteItemMapper favoriteItemMapper = null;
 		return itemMapper.checkForExistingListitems(i);
 	}
 	
+	
+	/**
+	 * Methode, um zu prüfen, ob ein  <code>Item</code>-Objekt bereits existiert.
+	 * @param  name
+	 * @return checkForExistingListitems
+	 */
 	public Boolean checkForExistingItemByName(String name) {
 		return this.itemMapper.checkForExistingItemByName(name);
 	}

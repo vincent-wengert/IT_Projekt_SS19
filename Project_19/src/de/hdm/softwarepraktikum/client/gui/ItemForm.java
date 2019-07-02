@@ -38,8 +38,7 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 public class ItemForm extends VerticalPanel {
 	Person currentPerson = CurrentPerson.getPerson();
 
-	private ShoppingListAdministrationAsync shoppinglistAdministration = ClientsideSettings
-			.getShoppinglistAdministration();
+	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 
 	private HorizontalPanel formHeaderPanel = new HorizontalPanel();
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
@@ -258,13 +257,12 @@ public class ItemForm extends VerticalPanel {
 			setTableEditable(false);
 			if (itemToDisplayProduct.getIsFavorite() == true) {
 				itemToDisplayProduct.setFavorite(false);
-				shoppinglistAdministration.removeFavoriteItem(itemToDisplayProduct, selectedGroup,
+				administration.removeFavoriteItem(itemToDisplayProduct, selectedGroup,
 						new removeFavoriteItemCallback());
 				favButton.setStylePrimaryName("FavoriteItemFalse");
 			} else {
 				itemToDisplayProduct.setFavorite(true);
-				shoppinglistAdministration.addFavoriteItem(itemToDisplayProduct, selectedGroup,
-						new addFavoriteItemCallback());
+				administration.addFavoriteItem(itemToDisplayProduct, selectedGroup, new addFavoriteItemCallback());
 				favButton.setStylePrimaryName("FavoriteItemTrue");
 			}
 
@@ -308,16 +306,32 @@ public class ItemForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 
 			if (itemNameBox.getText() != "") {
-				if (initial == true) {
-					shoppinglistAdministration.createItem(itemNameBox.getText(), isGlobalBox.getValue(),
-							currentPerson.getId(), new CreateItemCallback());
-				} else {
-					itemToDisplayProduct.setName(itemNameBox.getText());
-					itemToDisplayProduct.setIsGlobal(isGlobalBox.getValue());
-					itemToDisplayProduct.setChangedate(new Timestamp(System.currentTimeMillis()));
-					shoppinglistAdministration.updateItem(itemToDisplayProduct, new UpdateItemCallback());
-				}
-				setTableEditable(false);
+				administration.checkForExistingItemByName(itemNameBox.getText(), new AsyncCallback<Boolean>() {
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						Notification.show("Artikel konnte in der Datenbank nicht gefunden werden.");
+					}
+
+					@Override
+					public void onSuccess(Boolean result) {
+						// TODO Auto-generated method stub
+						if (result == true) {
+							Notification.show("Laden exisitiert bereits.");
+						} else {
+							if (initial == true) {
+								administration.createItem(itemNameBox.getText(), isGlobalBox.getValue(),
+										currentPerson.getId(), new CreateItemCallback());
+								
+							} else {
+								itemToDisplayProduct.setName(itemNameBox.getText());
+								itemToDisplayProduct.setIsGlobal(isGlobalBox.getValue());
+								itemToDisplayProduct.setChangedate(new Timestamp(System.currentTimeMillis()));
+								administration.updateItem(itemToDisplayProduct, new UpdateItemCallback());
+							}
+						}
+					}
+				});
 			} else {
 				Window.alert("Bitte geben sie einen Artikelnamen ein");
 			}
@@ -331,7 +345,7 @@ public class ItemForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			if (Window.confirm("Wollen Sie wirklich entfernen?") == true) {
-				shoppinglistAdministration.checkForExistingListItems(itemToDisplayProduct.getId(),
+				administration.checkForExistingListItems(itemToDisplayProduct.getId(),
 						new CheckForExistingListitemCallback());
 			}
 		}
@@ -356,6 +370,7 @@ public class ItemForm extends VerticalPanel {
 		public void onSuccess(Item item) {
 			// add item to cellist
 			Notification.show("Artikel wurde erstellt");
+			setTableEditable(false);
 			aicl.updateCelllist(item);
 
 			RootPanel.get("Details").clear();
@@ -376,6 +391,7 @@ public class ItemForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
+			setTableEditable(false);
 			aicl.updateCelllist(itemToDisplayProduct);
 			RootPanel.get("Details").clear();
 			aicl.setSelectedItem(itemToDisplayProduct);
@@ -440,7 +456,7 @@ public class ItemForm extends VerticalPanel {
 				Window.alert("Der Artikel kann nicht gelöscht, da dieser noch in einer Einkaufliste vorhanden ist."
 						+ " Wenn dieser dennoch gelöscht werden soll dann kontaktieren sie den Administrator");
 			} else {
-				shoppinglistAdministration.deleteItem(itemToDisplayProduct, new DeleteItemCallback());
+				administration.deleteItem(itemToDisplayProduct, new DeleteItemCallback());
 				aicl.updateCelllist(null);
 			}
 		}
