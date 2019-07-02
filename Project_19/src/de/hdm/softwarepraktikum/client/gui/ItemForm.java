@@ -317,7 +317,7 @@ public class ItemForm extends VerticalPanel {
 					public void onSuccess(Boolean result) {
 						// TODO Auto-generated method stub
 						if (result == true) {
-							Notification.show("Laden exisitiert bereits.");
+							Notification.show("Artikel exisitiert bereits.");
 						} else {
 							if (initial == true) {
 								administration.createItem(itemNameBox.getText(), isGlobalBox.getValue(),
