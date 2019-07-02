@@ -88,7 +88,7 @@ public class HTMLReportWriter extends ReportWriter {
 		 * Hier werden Schritt für Schritt die einzelnen Bestandteile des
 		 * Reports ausgelesen und in HTML-Form übersetzt
 		 */
-		result.append("<h2 style='text-align:center;'>" + r.getTitle() + "</h2>");
+		//result.append("<h2 style='text-align:center;'>" + r.getTitle() + "</h2>");
 		result.append("<h3 style='text-align:center;'>" + "Erstelldatum des Reports: " + r.getCreationDateString()+ "</h3>");
 		result.append("<table style=\"width:1400px;border:1px solid black;border-collapse:collapse;margin: auto;\n" + 
 				"\"><tr></table\"");
@@ -156,7 +156,7 @@ public class HTMLReportWriter extends ReportWriter {
 		 * Hier werden Schritt für Schritt die einzelnen Bestandteile des
 		 * Reports ausgelesen und in HTML-Form übersetzt
 		 */
-		result.append("<h2 style='text-align:center;'>" + r.getTitle() + "</h2>");
+		//result.append("<h2 style='text-align:center;'>" + r.getTitle() + "</h2>");
 		result.append("<h3 style='text-align:center;'>" + "Erstelldatum des Reports: " + r.getCreationDateString()+ "</h3>");
 		result.append("<table style=\"width:1400px;border:1px solid black;border-collapse:collapse;margin: auto;\n" + 
 				"\"><tr></table\"");

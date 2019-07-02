@@ -211,7 +211,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	
   
     	// Jeder Report erhaelt einen Titel (Überschrift)
-    	result.setTitle("Alle gekauften Items der Gruppe im angegebenen Zeitraum");
+    	//result.setTitle("Alle gekauften Items der Gruppe im angegebenen Zeitraum");
     	
     	/*
          * Datum der Erstellung hinzufï¿½gen. new Timestamp() erzeugt autom. einen
@@ -305,8 +305,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     		}
 		
 		ItemsByPersonReport result = new ItemsByPersonReport();
-		
-		result.setTitle("Alle eingekauften Items des Users.");
+		result.setCreationDate(new Timestamp(System.currentTimeMillis()));
+		//result.setTitle("Alle eingekauften Items des Users.");
 		
 		ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfPerson(p.getId());
 		//Wenn ein Store angegeben wird, wird nach diesem gefiltert.
@@ -396,8 +396,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     		}
 		
 		ItemsByPersonReport result = new ItemsByPersonReport();
+		result.setCreationDate(new Timestamp(System.currentTimeMillis()));
 		
-		result.setTitle("Alle eingekauften Items des Users in einem bestimmten Zeitraum.");
+		//result.setTitle("Alle eingekauften Items des Users in einem bestimmten Zeitraum.");
 		
 		ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfPersonBetweenDates(p.getId(), from, to);
 
@@ -488,10 +489,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     	
     	//Anlegen eines leeren Reports
     	ItemsByGroupReport result = new ItemsByGroupReport();
-    	
+    	result.setCreationDate(new Timestamp(System.currentTimeMillis()));
   
     	// Jeder Report erhaellt einen Titel (Überschrift)
-    	result.setTitle("Alle Items einer Gruppe");
+    	//result.setTitle("Alle Items einer Gruppe");
     	
     	/*
          * Datum der Erstellung hinzufügen. new Timestamp() erzeugt autom. einen
