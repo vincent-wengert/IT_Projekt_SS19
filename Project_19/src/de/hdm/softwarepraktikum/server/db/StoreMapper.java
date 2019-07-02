@@ -253,6 +253,32 @@ public void deleteStore(Store s) {
 					return available; 
 					
 				}
+				
+
+			public boolean checkStoreByName(String name) {
+				boolean available = false;
+				Connection con = DBConnection.connection();
+				
+				try {
+					
+					Statement stmt = con.createStatement();
+			
+					ResultSet rs = stmt.executeQuery("SELECT * FROM Store WHERE Store_ID = "+name);
+				
+						if (rs.next()) {
+
+							available = true;
+
+						} 
+					
+				
+					}catch (SQLException e) {
+					e.printStackTrace();
+					
+				}
+				return available;
+				
+			}
 
 	
 }
