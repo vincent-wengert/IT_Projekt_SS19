@@ -303,5 +303,29 @@ public class ItemMapper {
 		return available; 
 	}
 	
+	public boolean checkForExistingItemByName(String name) {
+		boolean available = false;
+		Connection con = DBConnection.connection();
+		
+		try {
+			
+			Statement stmt = con.createStatement();
+	
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Item WHERE Item_ID = "+name);
+		
+				if (rs.next()) {
+
+					available = true;
+
+				} 
+			
+		
+			}catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
+		return available;
+		
+	}
 	
 }
