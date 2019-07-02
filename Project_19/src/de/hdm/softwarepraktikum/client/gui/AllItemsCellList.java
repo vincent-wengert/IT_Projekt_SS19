@@ -108,6 +108,8 @@ public class AllItemsCellList extends VerticalPanel {
 	private void load() {
 		if (selectedGroup != null) {
 			administration.getAllItemsByGroup(selectedGroup.getId(), currentPerson.getId(), new GetAllItemsCallback());
+		}else {
+			administration.getAllItems(new GetAllItemsCallback());
 		}
 		administration.getAllGroupsByPerson(currentPerson, new GetAllGroupsCallback());
 	}
@@ -178,6 +180,9 @@ public class AllItemsCellList extends VerticalPanel {
 		dataProvider.getList().clear();
 		if (selectedGroup != null) {
 			administration.getAllItemsByGroup(selectedGroup.getId(), currentPerson.getId(), new GetAllItemsCallback());
+		}else {
+			administration.getAllItems(new GetAllItemsCallback());
+			Notification.show("Bitte erstellen sie eine zuerst eine Gruppe");
 		}
 		dataProvider.refresh();
 		selectionModel.setSelected(item, true);
@@ -201,6 +206,7 @@ public class AllItemsCellList extends VerticalPanel {
 	 */
 	public void updateAddedGroup(Group g) {
 		groupListBox.addItem(g.getTitle());
+		setSelectedGroup(g);
 	}
 
 	/**
