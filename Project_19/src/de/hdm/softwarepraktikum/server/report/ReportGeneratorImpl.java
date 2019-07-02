@@ -1,14 +1,10 @@
 package de.hdm.softwarepraktikum.server.report;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.Map;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
 import de.hdm.softwarepraktikum.server.ShoppingListAdministrationImpl;
 import de.hdm.softwarepraktikum.server.db.ListItemMapper;
 import de.hdm.softwarepraktikum.shared.ShoppingListAdministration;
@@ -17,8 +13,6 @@ import de.hdm.softwarepraktikum.shared.bo.Person;
 import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Item;
 import de.hdm.softwarepraktikum.shared.bo.ListItem;
-import de.hdm.softwarepraktikum.shared.bo.Responsibility;
-import de.hdm.softwarepraktikum.shared.bo.ShoppingList;
 import de.hdm.softwarepraktikum.shared.bo.Store;
 import de.hdm.softwarepraktikum.shared.report.ItemsByGroupReport;
 import de.hdm.softwarepraktikum.shared.report.ItemsByPersonReport;
@@ -26,7 +20,6 @@ import de.hdm.softwarepraktikum.shared.report.Report;
 import de.hdm.softwarepraktikum.shared.report.Column;
 import de.hdm.softwarepraktikum.shared.report.CompositeParagraph;
 import de.hdm.softwarepraktikum.shared.report.SubColumn;
-import java_cup.internal_error;
 import de.hdm.softwarepraktikum.shared.report.Row;
 import de.hdm.softwarepraktikum.shared.report.SimpleParagraph;
 
@@ -273,8 +266,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     			  	
     	    	for(Integer i : groupIds) {
     	    			
-    	    			
-    					
     					//Eine leere Zeile anlegen.
     					Row listItemRow = new Row();
     						
@@ -658,7 +649,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	 */  
 	
 	private String getGroupName(int groupID, Person p) {
-		ArrayList<Group> allGroups = getAllGroups(p);
+		ArrayList<Group> allGroups = new ArrayList<Group>();
+		if(allGroups.isEmpty() == true) {
+			allGroups = getAllGroups(p);
+		}
+		
 		for(Group group : allGroups) {
 			if (group.getId() == groupID) {
 				return group.getTitle();
@@ -676,7 +671,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	 */  
 	
 	private String getStoreName(int storeID) {
-		ArrayList<Store> allStores = getAllStores();
+		ArrayList<Store> allStores = new ArrayList<Store>();
+		if(allStores.isEmpty() == true) {
+			allStores = getAllStores();
+		}
+		
 		for(Store store : allStores) {
 			if (store.getId() == storeID) {
 				return store.getName();
@@ -694,7 +693,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	 */  
 	
 	private String getPersonName(int personID) {
-		ArrayList<Person> allPersons = getAllPersons();
+		ArrayList<Person> allPersons = new ArrayList<Person>();
+		if(allPersons.isEmpty() == true) {
+			allPersons = getAllPersons();
+		}
+		
 		for(Person person : allPersons) {
 			if (person.getId() == personID) {
 				return person.getName();

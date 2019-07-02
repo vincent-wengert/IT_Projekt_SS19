@@ -81,11 +81,11 @@ public class ListItemDialog extends PopupPanel {
 	private HorizontalPanel bottomButtonsPanel = new HorizontalPanel();
 
 	private Label itemLabel = new Label("Artikel hinzufügen");
-	private Label personLabel = new Label("Person auswählen");
-	private Label storeLabel = new Label("Laden auswählen");
+	private Label personLabel = new Label("Verantwortlicher");
+	private Label storeLabel = new Label("Laden");
 
-	private Label unitLabel = new Label("Einheit auswählen");
-	private Label amountLabel = new Label("Menge eingeben");
+	private Label unitLabel = new Label("Einheit");
+	private Label amountLabel = new Label("Menge");
 
 	private ListBox itemListBox = new ListBox();
 	private ListBox personListBox = new ListBox();

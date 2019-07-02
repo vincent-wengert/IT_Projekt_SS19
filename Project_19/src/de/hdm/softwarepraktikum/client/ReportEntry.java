@@ -59,7 +59,7 @@ public class ReportEntry implements EntryPoint {
 		public void onSuccess(Person p) {
 			CurrentReportPerson.setPerson(p);
 			if (p.isLoggedIn()) {
-				if (p.getName() == null) {
+				if (p.getName() == null || p.getName() == "Gastnutzer") {
 					Anchor reportGeneratorLink = new Anchor("ReportGenerator");
 					reportGeneratorLink.setHref(GWT.getHostPageBaseURL() + "ReportGenerator.html");
 

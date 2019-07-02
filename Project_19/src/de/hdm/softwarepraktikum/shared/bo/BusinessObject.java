@@ -1,9 +1,6 @@
 package de.hdm.softwarepraktikum.shared.bo;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-
-import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 
@@ -120,13 +117,8 @@ public abstract class BusinessObject implements IsSerializable{
      */
     public String getCreationDateString() {
     	
-//    	String creationDate = this.creationdate.toString().split("\\.")[0];
-    	
-    	Date date=new Date(creationdate.getTime());
-    	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy, HH:mm 'Uhr'");
-    	String test = fmt.format(date);
-  
-    	return test;
+    	String creationDate = this.creationdate.toString().split("\\.")[0];
+    	return creationDate;
 	}
     
     /**
@@ -136,13 +128,8 @@ public abstract class BusinessObject implements IsSerializable{
      */
     public String getChangeDateString() {
 
-//    	String changeDate = this.changedate.toString().split("\\.")[0];
-    	
-    	Date date=new Date(changedate.getTime());
-    	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy, HH:mm 'Uhr'");
-    	String test = fmt.format(date);
-  
-    	return test;
+    	String changeDate = this.changedate.toString().split("\\.")[0];  
+    	return changeDate;
 	}
     
 	

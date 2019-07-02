@@ -738,14 +738,25 @@ body{
 
 .gwt-MenuBar .gwt-MenuItemSeparator {
 	width: 30vw !important;
-	
 }
 
-.gwt-MenuBar .gwt-MenuItem {
+.com-google-gwt-user-cellview-client-CellTable-Style-cellTableEvenRowCell {
+    border: 2px solid #fff !important;
 }
 
-.gwt-cellTableSelectedRow {
-    background: red !important;
+.com-google-gwt-user-cellview-client-CellTable-Style-cellTableSelectedRow {
+    background: #fff !important;
+    color: black !important;
+    height: auto !important;
+    overflow: auto !important;
+}
+
+.com-google-gwt-user-cellview-client-CellTable-Style-cellTableSelectedRowCell {
+    border: 2px solid #fff !important;
+}
+
+com-google-gwt-user-cellview-client-CellTable-Style-cellTableHoveredRow-cellTableKeyboardSelectedRow {
+	background: #ffc !important;
 }
 
 @-webkit-keyframes refreshInfoLabelAnimation {

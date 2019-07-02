@@ -77,7 +77,7 @@ public class Header extends HorizontalPanel{
 	 		
 	 		MenuBar logoutMenu = new MenuBar(true);
 	 		logoutMenu.setAnimationEnabled(true);
-	 		logoutMenu.addItem("Kontoeinstellungen", new Command() {
+	 		logoutMenu.addItem("Name ändern", new Command() {
 	 	         @Override
 	 	         public void execute() {
 	 	        	 EditPersonDialog epd = new EditPersonDialog();
