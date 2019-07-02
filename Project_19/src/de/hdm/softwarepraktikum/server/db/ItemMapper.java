@@ -303,7 +303,7 @@ public class ItemMapper {
 		return available; 
 	}
 	
-	public boolean checkItemByName(String name) {
+	public boolean checkForExistingItemByName(String name) {
 		boolean available = false;
 		Connection con = DBConnection.connection();
 		

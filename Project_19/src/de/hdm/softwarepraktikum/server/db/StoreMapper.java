@@ -255,7 +255,7 @@ public void deleteStore(Store s) {
 				}
 				
 
-			public boolean checkStoreByName(String name) {
+			public boolean checkForExistingStoreByName(String name) {
 				boolean available = false;
 				Connection con = DBConnection.connection();
 				
