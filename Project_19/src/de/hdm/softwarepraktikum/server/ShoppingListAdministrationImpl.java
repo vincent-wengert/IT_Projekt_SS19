@@ -267,8 +267,9 @@ private FavoriteItemMapper favoriteItemMapper = null;
 	 * @param i
 	 * @throws IllegalArgumentException
 	 */
-	public void deleteItem(Item i) throws IllegalArgumentException {
+	public void deleteItem(Item i, Group g) throws IllegalArgumentException {
 		listItemMapper.deleteListItemByItemID(i);
+		favoriteItemMapper.delete(i, g);
 		itemMapper.delete(i);
 	}
 	

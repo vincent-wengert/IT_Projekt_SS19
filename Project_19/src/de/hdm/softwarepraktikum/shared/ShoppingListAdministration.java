@@ -37,7 +37,7 @@ public interface ShoppingListAdministration extends RemoteService {
 	
 	public void updateItem(Item i);
 	
-	public void deleteItem(Item i);
+	public void deleteItem(Item i, Group g);
 	
 	public ArrayList<Item> getAllItems();
 	

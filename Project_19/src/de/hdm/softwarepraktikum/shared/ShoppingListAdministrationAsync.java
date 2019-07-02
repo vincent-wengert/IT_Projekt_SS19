@@ -51,7 +51,7 @@ public interface ShoppingListAdministrationAsync {
 	
 	void deleteGroupMembership(Person p, Group g, AsyncCallback<Void> callback);
 
-	void deleteItem(Item i, AsyncCallback<Void> callback);
+	void deleteItem(Item i, Group g, AsyncCallback<Void> callback);
 
 	void deleteStore(Store s, AsyncCallback<Void> callback);
 
