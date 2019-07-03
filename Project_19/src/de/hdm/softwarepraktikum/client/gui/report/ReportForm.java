@@ -176,7 +176,7 @@ public class ReportForm {
 
 	private void getSelectedValues() {
 
-		if (groupListBox.getSelectedItemText() != "") {
+		if (groupListBox.getSelectedItemText() != "keine Gruppe ausgewählt") {
 			for (Group g : allGroups) {
 				if (g.getTitle().equals(groupListBox.getSelectedItemText())) {
 					selectedGroup = g;
@@ -190,7 +190,7 @@ public class ReportForm {
 			selectedGroup = null;
 		}
 
-		if (storeListBox.getSelectedItemText() != "") {
+		if (storeListBox.getSelectedItemText() != "keinen Laden ausgewählt") {
 			for (Store s : allStores) {
 				if (s.getName().equals(storeListBox.getSelectedItemText())) {
 					selectedStore = s;
@@ -404,7 +404,7 @@ public class ReportForm {
 		public void onSuccess(ArrayList<Store> result) {
 			// TODO Auto-generated method stub
 			allStores = result;
-			storeListBox.addItem("");
+			storeListBox.addItem("keinen Laden ausgewählt");
 			for (Store store : allStores) {
 				storeListBox.addItem(store.getName());
 			}
@@ -429,7 +429,7 @@ public class ReportForm {
 		public void onSuccess(ArrayList<Group> result) {
 			// TODO Auto-generated method stub
 			allGroups = result;
-			groupListBox.addItem("");
+			groupListBox.addItem("keine Gruppe ausgewählt");
 			for (Group group : allGroups) {
 				groupListBox.addItem(group.getTitle());
 			}

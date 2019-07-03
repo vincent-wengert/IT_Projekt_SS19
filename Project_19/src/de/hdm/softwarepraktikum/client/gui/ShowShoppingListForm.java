@@ -102,13 +102,13 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 	private CustomTreeModel ctm = null;
 
-	private ShoppingList shoppingListToDisplay = null;
+	private ShoppingList shoppingListToDisplay = new ShoppingList();
 	private Integer selectedListitemIndex = null;
 	
 
 	private Boolean loadFavorites;
 
-	Group group = new Group();
+	private Group group = new Group();
 
 	/**
 	 * Der Pager der benutzt wird, wenn es mehr als 15 Einträge gibt
@@ -202,7 +202,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 					ShowShoppingListForm.this.selectedListitemIndex = event.getIndex();
 					for (Item item : allItems) {
 						if (item.getId() == allListItems.get(event.getIndex()).getItemId()) {
-							Notification.show(item.getName() + " wurde ausgewählt.");
+//							Notification.show(item.getName() + " wurde ausgewählt.");
 						}
 					}
 				}
@@ -213,7 +213,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		cellTable.addDomHandler(new DoubleClickHandler() {
 			@Override
 			public void onDoubleClick(DoubleClickEvent event) {
-				ListItemDialog lid = new ListItemDialog();
+				ListItemDialog lid = new ListItemDialog(shoppingListToDisplay);
 				if (selectedListitemIndex != null) {
 					lid.setGroup(group);
 					lid.setShoppingList(shoppingListToDisplay);
@@ -439,6 +439,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			ShowShoppingListForm.this.shoppingListPanel.clear();
 			dataProvider.getList().clear();
 			shoppingListToDisplay = shoppinglist;
+			shoppingListToDisplay.setGroupID(shoppinglist.getGroupID());
 			infoTitleLabel.setText(shoppinglist.getTitle());
 
 			infoTitleLabel.setVisible(true);
@@ -520,7 +521,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			ListItemDialog lid = new ListItemDialog();
+			ListItemDialog lid = new ListItemDialog(shoppingListToDisplay);
 			lid.setGroup(group);
 			lid.setShoppingList(shoppingListToDisplay);
 			lid.setShowShoppingListForm(ShowShoppingListForm.this);
@@ -748,7 +749,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			// TODO Auto-generated method stub
 			shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
 			administration.updateShoppingList(shoppingListToDisplay, new UpdateShoppinglistCallback());
-			Notification.show("Artikel wurde erfolgreich abgehakt");
+			//Notification.show("Artikel wurde erfolgreich abgehakt");
 		}
 	}
 

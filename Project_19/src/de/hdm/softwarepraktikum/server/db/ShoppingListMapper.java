@@ -144,13 +144,14 @@ public class ShoppingListMapper {
 	    try {
 	      Statement stmt = con.createStatement();
 
-	      ResultSet rs = stmt.executeQuery("SELECT ShoppingList_ID, Title, CreationDate, ChangeDate FROM ShoppingList WHERE Group_ID = " + groupID);
+	      ResultSet rs = stmt.executeQuery("SELECT ShoppingList_ID, Title, Group_ID, CreationDate, ChangeDate FROM ShoppingList WHERE Group_ID = " + groupID);
 
 	      
 	      while (rs.next()) {
 	    	ShoppingList sl = new ShoppingList();
 	        sl.setId(rs.getInt("ShoppingList_ID"));
 	        sl.setTitle(rs.getString("Title"));
+	        sl.setGroupID(rs.getInt("Group_ID"));
 	        sl.setCreationdate(rs.getTimestamp("CreationDate"));
 	        sl.setChangedate(rs.getTimestamp("ChangeDate"));
 

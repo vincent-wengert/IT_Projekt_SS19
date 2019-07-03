@@ -52,9 +52,10 @@ public class NewShoppingListForm extends VerticalPanel {
 	private Label infoTitleLabel = new Label("Neue Einkaufsliste erstellen");
 	private Label shoppinglistNameLabel = new Label("Name der Einkaufsliste");
 	private Label groupNameLabel = new Label("Gruppe");
+	private Label addFavItemsLabel = new Label("Standardartikel hinzufügen");
 
 	private TextBox shoppinglistNameBox = new TextBox();
-	private CheckBox addFavItems = new CheckBox("Favorisierte Artikel hinzufügen");
+	private CheckBox addFavItems = new CheckBox();
 
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
@@ -123,14 +124,15 @@ public class NewShoppingListForm extends VerticalPanel {
 		this.add(shoppinglistGrid);
 		this.setCellHorizontalAlignment(shoppinglistGrid, ALIGN_CENTER);
 
-		shoppinglistNameBox.setMaxLength(10);
+		shoppinglistNameBox.setMaxLength(20);
 
 		shoppinglistGrid.setCellSpacing(10);
 		shoppinglistGrid.setWidget(0, 0, shoppinglistNameLabel);
 		shoppinglistGrid.setWidget(0, 1, shoppinglistNameBox);
 		shoppinglistGrid.setWidget(1, 0, groupNameLabel);
 		shoppinglistGrid.setWidget(1, 1, groupSuggestBox);
-		shoppinglistGrid.setWidget(2, 0, addFavItems);
+		shoppinglistGrid.setWidget(2, 1, addFavItems);
+		shoppinglistGrid.setWidget(2, 0, addFavItemsLabel);
 
 		this.add(bottomButtonsPanel);
 		this.setCellHorizontalAlignment(bottomButtonsPanel, ALIGN_CENTER);

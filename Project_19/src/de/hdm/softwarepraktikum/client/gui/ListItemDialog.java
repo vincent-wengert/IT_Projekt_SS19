@@ -63,7 +63,7 @@ public class ListItemDialog extends PopupPanel {
 	private Item selectedItem = null;
 	private ListItem selectedListItem = null;
 
-	private Group group = new Group();
+	private Group group = null;
 	private ShoppingList shoppingList = new ShoppingList();
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
@@ -104,8 +104,9 @@ public class ListItemDialog extends PopupPanel {
 	 * <code>Store</code>,<code>Person</code> geladen und mitels einer SuggestBox
 	 * angezeigt, um so ein <code>ListItemDialog</code> zu erstellen.
 	 */
-	public ListItemDialog() {
+	public ListItemDialog(ShoppingList sl) {
 		// Hinufügen der Buttons zu dem jeweiligen Panel und hinzufügen von ClickHandler
+		setShoppingList(sl);
 		this.load();
 
 		this.setTitle("Artikel hinzufugen");
@@ -228,8 +229,11 @@ public class ListItemDialog extends PopupPanel {
 		isGlobalBox.setVisible(false);
 		administration.getAllItems(new GetAllItemsCallback());
 		administration.getAllStores(new GetAllStoresCallback());
+		if(shoppingList.getGroupID()!=0) {
+		administration.getAllGroupMembers(shoppingList.getGroupID(), new GetAllGroupMembersCallback());
+		}else {
 		administration.getAllPersons(new GetAllGroupMembersCallback());
-		// administration.getAllGroupMembers(g, new GetAllGroupMembersCallback());
+		}
 		loadListBox();
 	}
 
@@ -393,7 +397,6 @@ public class ListItemDialog extends PopupPanel {
 			itemListBox.setVisible(false);
 			itemTextBox.setVisible(true);
 			isGlobalBox.setVisible(true);
-
 		}
 	}
 
