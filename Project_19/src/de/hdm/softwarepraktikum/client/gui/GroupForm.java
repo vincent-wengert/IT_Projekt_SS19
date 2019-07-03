@@ -566,8 +566,9 @@ public class GroupForm extends VerticalPanel {
 				administration.getAllGroupMembers(groupToDisplay.getId(), new getAllGroupMembersCallback());
 			} else {
 				for (Person person : allPersons) {
+					if(person.getName().equals("inaktiv")==false) {
 					addMemberListBox.addItem(person.getGmail());
-
+					}
 				}
 				GroupForm.this.loadSearchbar();
 			}

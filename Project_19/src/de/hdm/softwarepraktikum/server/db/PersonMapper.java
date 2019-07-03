@@ -58,8 +58,8 @@ public class PersonMapper {
 
 			PreparedStatement st = con.prepareStatement("UPDATE Person SET Gmail= ?, Name= ? WHERE PersonID = ?");
 
-			st.setString(1, person.getGmail()+"(inaktiv)");
-			st.setString(2, person.getName()+"(inaktiv)");
+			st.setString(1, "inaktiv");
+			st.setString(2, "inaktiv");
 			st.setInt(3, person.getId());
 			st.executeUpdate();
 
