@@ -863,6 +863,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			int index = selectedListitemIndex;
 			if (selectedListitemIndex != null) {
 				dataProvider.getList().remove(index);
+				allListItems.remove(index);
 				dataProvider.refresh();
 				cellTable.redraw();
 				selectedListitemIndex = null;

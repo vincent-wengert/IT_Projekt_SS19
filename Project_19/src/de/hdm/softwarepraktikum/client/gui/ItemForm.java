@@ -334,7 +334,7 @@ public class ItemForm extends VerticalPanel {
 					});
 				}
 			} else {
-				Window.alert("Bitte geben sie einen Artikelnamen ein");
+				Notification.show("Bitte geben sie einen Artikelnamen ein");
 			}
 		}
 	}
@@ -454,8 +454,8 @@ public class ItemForm extends VerticalPanel {
 		public void onSuccess(Boolean item) {
 			// add item to cellist
 			if (item == true) {
-				Window.alert("Der Artikel kann nicht gelöscht, da dieser noch in einer Einkaufliste vorhanden ist."
-						+ " Wenn dieser dennoch gelöscht werden soll dann kontaktieren sie den Administrator");
+				Notification.show("Der Artikel kann nicht gelöscht, da dieser noch in einer Einkaufliste vorhanden ist."
+						+ " Wenn dieser dennoch gelöscht werden soll dann kontaktieren sie den Administrator.");
 			} else {
 				administration.deleteItem(itemToDisplayProduct, selectedGroup, new DeleteItemCallback());
 				aicl.updateCelllist(null);
