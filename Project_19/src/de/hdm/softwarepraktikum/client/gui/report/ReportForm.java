@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -107,6 +108,13 @@ public class ReportForm {
 		formHeaderPanel.add(infoTitleLabel);
 		formHeaderPanel.setWidth("100%");
 		formHeaderPanel.setHeight("8vh");
+		
+		 DateTimeFormat dateFormat = DateTimeFormat.getLongDateFormat();
+		 fromDateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
+		 fromDateBox.getDatePicker().setYearArrowsVisible(true);
+		 
+		 toDateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
+		 toDateBox.getDatePicker().setYearArrowsVisible(true);
 
 		selectionGrid.setWidget(0, 0, groupLabel);
 		selectionGrid.setWidget(1, 0, groupListBox);
