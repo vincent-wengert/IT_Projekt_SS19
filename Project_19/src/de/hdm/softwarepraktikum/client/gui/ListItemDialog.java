@@ -280,7 +280,7 @@ public class ListItemDialog extends PopupPanel {
 		this.group = group;
 		this.shoppingList = shoppingList;
 		this.updateItem = update;
-
+		
 		existingButton.setValue(false);
 		newButton.setValue(false);
 		this.selectedListItem = li;
@@ -606,6 +606,7 @@ public class ListItemDialog extends PopupPanel {
 						@Override
 						public void onSuccess(ListItem result) {
 							// TODO Auto-generated method stub
+							sslf.getAllListItems().add(result);
 							sslf.AddListItem(result, true);
 							Notification.show("Ein neuer Artikel wurde erstellt und der Einkaufsliste hinzugefügt");
 						}
