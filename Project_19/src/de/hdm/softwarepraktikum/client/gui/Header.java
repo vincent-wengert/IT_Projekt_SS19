@@ -28,178 +28,178 @@ import de.hdm.softwarepraktikum.shared.bo.Group;
 import de.hdm.softwarepraktikum.shared.bo.Person;
 
 /**
- * Die <code>Header</code>-Klasse ist der Kopfbereich des Shoppinglisttool. 
- * Der Header wird über alle Seiten des Tools gleich angezeigt. 
- * Dieser ermöglicht die Navigation zwischen den Clients <code>ShoppingListEntry</code>
- * und <code>ShoppingListReportEntry</code> und den Logout aus dem System.
+ * Die <code>Header</code>-Klasse ist der Kopfbereich des Shoppinglisttool. Der
+ * Header wird über alle Seiten des Tools gleich angezeigt. Dieser ermöglicht
+ * die Navigation zwischen den Clients <code>ShoppingListEntry</code> und
+ * <code>ShoppingListReportEntry</code> und den Logout aus dem System.
  * 
  * @author Vincent Wengert
  * @version 1.0
  */
 
-public class Header extends HorizontalPanel{
-		
-		private Person currentPerson = CurrentPerson.getPerson();
-		private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
-	
-	 	private HorizontalPanel homeButtonPanel = new HorizontalPanel();
-	 	
-	 	private Button editorButton = new Button ("Editor");
-	 	private Button reportGeneratorButton = new Button("Reportgenerator");
-	 	private Anchor reportGeneratorLink = new Anchor("ReportGenerator");
+public class Header extends HorizontalPanel {
 
-	 	private MenuItem logout;
+	private Person currentPerson = CurrentPerson.getPerson();
+	private ShoppingListAdministrationAsync administration = ClientsideSettings.getShoppinglistAdministration();
 
-	 	/**
-	 	 * Im Konstruktor der Klasse <code>Header</code> werden die Buttons in die Panels
-	 	 * und zu den Buttons die ClickHandler hinzugefügt.
-	 	 */
-	 	public Header() {
-	 		this.add(homeButtonPanel);
+	private HorizontalPanel homeButtonPanel = new HorizontalPanel();
 
+	private Button editorButton = new Button("Editor");
+	private Button reportGeneratorButton = new Button("Reportgenerator");
+	private Anchor reportGeneratorLink = new Anchor("ReportGenerator");
 
-	 		editorButton.addClickHandler(new HomeClickHandler());
-	 		reportGeneratorButton.addClickHandler(new ReportGeneratorClickHandler());
-	 	}
+	private MenuItem logout;
 
-	 	/**
-		 * ************************* ABSCHNITT der Methoden *************************
+	/**
+	 * Im Konstruktor der Klasse <code>Header</code> werden die Buttons in die
+	 * Panels und zu den Buttons die ClickHandler hinzugefügt.
+	 */
+	public Header() {
+		this.add(homeButtonPanel);
+
+		editorButton.addClickHandler(new HomeClickHandler());
+		reportGeneratorButton.addClickHandler(new ReportGeneratorClickHandler());
+	}
+
+	/**
+	 * ************************* ABSCHNITT der Methoden *************************
+	 */
+
+	/**
+	 * In dieser Methode werden die Desings der Buttons und der MenuBar festgelegt.
+	 * Auch die ShoppingList-Editor und ReportGenerator-Buttons sowie die MenuBar
+	 * zum Logout werden zum Kopfbereich des Shoppinglisttool hinzugefügt.
+	 */
+
+	public void onLoad() {
+		MenuBar menu = new MenuBar();
+
+		MenuBar logoutMenu = new MenuBar(true);
+		logoutMenu.setAnimationEnabled(true);
+		logoutMenu.addItem("Name ändern", new Command() {
+			@Override
+			public void execute() {
+				EditPersonDialog epd = new EditPersonDialog();
+				epd.setHeader(Header.this);
+			}
+		});
+
+		logoutMenu.addSeparator();
+
+		/**
+		 * Durch ein Klick auf die Konto Löschen Interaktion wird der User auf die
+		 * aufgefordert die Aktion zu bestätigen. Anschließend wird der Account aus der
+		 * Datenbank entfernt und der User ausgeloggt und auf die Begrüßungsseite
+		 * weitergeleitet.
 		 */
-	 	
-	 	/**
-	 	 * In dieser Methode werden die Desings der Buttons und der MenuBar festgelegt. Auch
-	 	 * die ShoppingList-Editor und ReportGenerator-Buttons sowie die MenuBar zum Logout werden zum
-	 	 * Kopfbereich des Shoppinglisttool hinzugefügt. 
-	 	 */
-	 	
-	 	public void onLoad() {
-	 		MenuBar menu = new MenuBar();
-	 		
-	 		MenuBar logoutMenu = new MenuBar(true);
-	 		logoutMenu.setAnimationEnabled(true);
-	 		logoutMenu.addItem("Name ändern", new Command() {
-	 	         @Override
-	 	         public void execute() {
-	 	        	 EditPersonDialog epd = new EditPersonDialog();
-	 	        	 epd.setHeader(Header.this);
-	 	         }
-	 	      });
-	 		
-	 		logoutMenu.addSeparator();
-	 		
-	 		/**
-	 		 * Durch ein Klick auf die Konto Löschen Interaktion wird der User auf die
-	 		 * aufgefordert die Aktion zu bestätigen. Anschließend wird der Account aus
-	 		 * der Datenbank entfernt und der User ausgeloggt und auf die Begrüßungsseite
-	 		 * weitergeleitet.
-	 		 */
-	 		
-	 		logoutMenu.addItem("Konto l\u00F6schen", new Command() {
-	 			@Override
-	 			public void execute() {
-	 				if(Window.confirm("Konto wirklich l\u00F6schen?") == true){
-	 					if(Window.confirm("Diese Aktion kann nicht r\u00FCckg\u00E4ngig gemacht werden. Sind Sie sicher?") == true) {
-//	 						currentPerson.setLogoutUrl(currentPerson.getLogoutUrl());
-//	 		 				Window.open(currentPerson.getLogoutUrl(), "_self", "");
-	 						administration.deletePerson(currentPerson, new AsyncCallback<Void>() {
 
-								@Override
-								public void onFailure(Throwable arg0) {
-								Notification.show("Person konnte nicht gelöscht werden.");								
-								}
+		logoutMenu.addItem("Konto l\u00F6schen", new Command() {
+			@Override
+			public void execute() {
+				if (Window.confirm("Konto wirklich l\u00F6schen?") == true) {
+					if (Window.confirm(
+							"Diese Aktion kann nicht r\u00FCckg\u00E4ngig gemacht werden. Sind Sie sicher?") == true) {
 
-								@Override
-								public void onSuccess(Void arg0) {
-									// TODO Auto-generated method stub
+						administration.deletePerson(currentPerson, new AsyncCallback<Void>() {
+
+							@Override
+							public void onFailure(Throwable arg0) {
+								Notification.show("Person konnte nicht gelöscht werden.");
+							}
+
+							@Override
+							public void onSuccess(Void arg0) {
+								currentPerson.setLogoutUrl(currentPerson.getLogoutUrl());
+								Window.open(currentPerson.getLogoutUrl(), "_self", "");
 								Notification.show("Person wurde erfolgreich gelöscht.");
-								}
-	 		 					
-	 		 				});
-	 					}
-	 				}
-	 			}
-	 		});
-	 		
-	 		logoutMenu.addSeparator();
+							}
 
-	 		/**
-	 		 * Durch ein Klick auf den Logout-Button wird der User auf die
-	 		 * Begrüßungsseite weitergeleitet
-	 		 */
-	 		
-	 		logoutMenu.addItem("Logout", new Command() {
-	 			@Override
-	 			public void execute() {
-	 				Notification.show("Logout");
+						});
+					}
+				}
+			}
+		});
 
-	 				
-	 				currentPerson.setLogoutUrl(currentPerson.getLogoutUrl());
-	 				Window.open(currentPerson.getLogoutUrl(), "_self", "");
-	 				
-	 			}
-	 		});
-	 		
-	 		logout  = new MenuItem("Angemeldet als: " + currentPerson.getName(), logoutMenu);
-	 		
-	 		menu.addItem(logout);
+		logoutMenu.addSeparator();
 
-	 		this.setStylePrimaryName("Header");
-	 		
-
-	 		homeButtonPanel.add(editorButton);
-	 		homeButtonPanel.add(reportGeneratorButton);
-	 		homeButtonPanel.add(menu);
-	 		
-	 		homeButtonPanel.setStylePrimaryName("homeButtonPanel");
-	 		editorButton.setStylePrimaryName("editorButton");
-	 		reportGeneratorButton.setStylePrimaryName("reportGeneratorButton");
-	 		
-	 		menu.setStylePrimaryName("menuBar");
-
-	 		homeButtonPanel.setCellHorizontalAlignment(editorButton, ALIGN_LEFT);
-	 		homeButtonPanel.setCellHorizontalAlignment(reportGeneratorButton, ALIGN_RIGHT);
-
-	 	}
-	 	
-	 	/**
-	 	 * Methode zum Auslesen des MenuItems logout um den Namen in der Klasse <code>EditPersonDialog</code> zu ändern.
-	 	 * @return MenuItem logout
-	 	 */
-	 	public MenuItem getLogoutMenu() {
-	 		return this.logout;
-	 	}
-	 	
-	 	/**
-		 * ************************* ABSCHNITT der Click-/EventHandler *************************
+		/**
+		 * Durch ein Klick auf den Logout-Button wird der User auf die Begrüßungsseite
+		 * weitergeleitet
 		 */
-	 	
-	 	/**
-	 	 * Durch ein Klick auf den ReportGenerator-Button wird man 
-	 	 * auf die ReportGenerator-Seite weitergeleitet.
-	 	 */
-	 	public class ReportGeneratorClickHandler implements ClickHandler {
 
-	 		@Override
-	 		public void onClick(ClickEvent event) {
-	 			
-	 			reportGeneratorLink.setHref(GWT.getHostPageBaseURL()+"ReportGenerator.html");
-	 			Window.open(reportGeneratorLink.getHref(), "_self", "");
-	 			
-	 		}
+		logoutMenu.addItem("Logout", new Command() {
+			@Override
+			public void execute() {
+				Notification.show("Logout");
 
-	 	}
-	 	
-	 	
-	 	/**
-	 	 * Durch ein Klick auf den Shoppinglist-Editor-Button wird die Editorseite
-	 	 * aktualisiert.
-	 	 */
-	 	public class HomeClickHandler implements ClickHandler{
-	 		
-	 		@Override
-	 		public void onClick(ClickEvent event) {
-	 			Window.Location.reload();
-	 		}
-	 	}
-	 	
-	 }
+				currentPerson.setLogoutUrl(currentPerson.getLogoutUrl());
+				Window.open(currentPerson.getLogoutUrl(), "_self", "");
+
+			}
+		});
+
+		logout = new MenuItem("Angemeldet als: " + currentPerson.getName(), logoutMenu);
+
+		menu.addItem(logout);
+
+		this.setStylePrimaryName("Header");
+
+		homeButtonPanel.add(editorButton);
+		homeButtonPanel.add(reportGeneratorButton);
+		homeButtonPanel.add(menu);
+
+		homeButtonPanel.setStylePrimaryName("homeButtonPanel");
+		editorButton.setStylePrimaryName("editorButton");
+		reportGeneratorButton.setStylePrimaryName("reportGeneratorButton");
+
+		menu.setStylePrimaryName("menuBar");
+
+		homeButtonPanel.setCellHorizontalAlignment(editorButton, ALIGN_LEFT);
+		homeButtonPanel.setCellHorizontalAlignment(reportGeneratorButton, ALIGN_RIGHT);
+
+	}
+
+	/**
+	 * Methode zum Auslesen des MenuItems logout um den Namen in der Klasse
+	 * <code>EditPersonDialog</code> zu ändern.
+	 * 
+	 * @return MenuItem logout
+	 */
+	public MenuItem getLogoutMenu() {
+		return this.logout;
+	}
+
+	/**
+	 * ************************* ABSCHNITT der Click-/EventHandler
+	 * *************************
+	 */
+
+	/**
+	 * Durch ein Klick auf den ReportGenerator-Button wird man auf die
+	 * ReportGenerator-Seite weitergeleitet.
+	 */
+	public class ReportGeneratorClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+
+			reportGeneratorLink.setHref(GWT.getHostPageBaseURL() + "ReportGenerator.html");
+			Window.open(reportGeneratorLink.getHref(), "_self", "");
+
+		}
+
+	}
+
+	/**
+	 * Durch ein Klick auf den Shoppinglist-Editor-Button wird die Editorseite
+	 * aktualisiert.
+	 */
+	public class HomeClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			Window.Location.reload();
+		}
+	}
+
+}

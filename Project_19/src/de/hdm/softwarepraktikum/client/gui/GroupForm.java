@@ -229,12 +229,12 @@ public class GroupForm extends VerticalPanel {
 		addMemberListBox.clear();
 
 		for (Person person : allPersons) {
-			if (person.getId() != currentPerson.getId()) {
-				addMemberListBox.addItem(person.getGmail());
+			if (person.getGmail().trim().equals("inaktiv") == false) {
+				if (person.getId() != currentPerson.getId()) {
+					addMemberListBox.addItem(person.getGmail());
+				}
 			}
-
 		}
-
 		if (groupToDisplay != null) {
 			if (groupToDisplay.getMember().isEmpty()) {
 				for (Person person : groupToDisplay.getMember()) {
@@ -554,22 +554,15 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Notification.show("Die Person konnte leider nicht erstellt werden:\n" + caught.toString());
+			Notification.show("Die Person konnten leider nicht gefunden werden:\n" + caught.toString());
 		}
 
 		@Override
 		public void onSuccess(ArrayList<Person> result) {
-			// add item to cellist
-			// aicl.updateCellList();
 			allPersons = result;
 			if (initial == false) {
 				administration.getAllGroupMembers(groupToDisplay.getId(), new getAllGroupMembersCallback());
 			} else {
-				for (Person person : allPersons) {
-					if(person.getName().equals("inaktiv")==false) {
-					addMemberListBox.addItem(person.getGmail());
-					}
-				}
 				GroupForm.this.loadSearchbar();
 			}
 		}
