@@ -177,7 +177,6 @@ public class ShoppingListAdministrationImpl extends RemoteServiceServlet impleme
 	public void deletePerson(Person p) throws IllegalArgumentException {
 
 		listItemMapper.deleteListItemByPersonID(p);
-		itemMapper.deleteItemsByPersonID(p);
 		responsibilityMapper.deleteByPersonID(p);
 		personMapper.deleteparticipationByPersonID(p);
 		personMapper.delete(p);

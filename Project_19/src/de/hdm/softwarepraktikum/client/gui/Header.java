@@ -99,8 +99,8 @@ public class Header extends HorizontalPanel{
 	 			public void execute() {
 	 				if(Window.confirm("Konto wirklich l\u00F6schen?") == true){
 	 					if(Window.confirm("Diese Aktion kann nicht r\u00FCckg\u00E4ngig gemacht werden. Sind Sie sicher?") == true) {
-	 						currentPerson.setLogoutUrl(currentPerson.getLogoutUrl());
-	 		 				Window.open(currentPerson.getLogoutUrl(), "_self", "");
+//	 						currentPerson.setLogoutUrl(currentPerson.getLogoutUrl());
+//	 		 				Window.open(currentPerson.getLogoutUrl(), "_self", "");
 	 						administration.deletePerson(currentPerson, new AsyncCallback<Void>() {
 
 								@Override
