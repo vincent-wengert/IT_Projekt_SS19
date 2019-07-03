@@ -674,13 +674,13 @@ public class GroupForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Notification.show("Die Gruppe konnte leider nicht gel�scht werden:\n" + caught.toString());
+			Notification.show("Die Gruppe konnte leider nicht entfernt werden:\n" + caught.toString());
 		}
 
 		@Override
 		public void onSuccess(Void result) {
 			ctm.updateRemovedGroup(groupToDisplay);
-			Notification.show("Die Gruppe wurde gel�scht");
+			Notification.show("Die Gruppe wurde erfolgreich entfernt");
 			RootPanel.get("Details").clear();
 		}
 

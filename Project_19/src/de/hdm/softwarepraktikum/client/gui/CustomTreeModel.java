@@ -471,7 +471,7 @@ public class CustomTreeModel implements TreeViewModel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Notification.show("Es wurden keine Einkaufslisten in den Gruppeng gefunden:\n" + caught.toString());
+			Notification.show("Es wurden keine Einkaufslisten in den Gruppen gefunden:\n" + caught.toString());
 		}
 
 		@Override

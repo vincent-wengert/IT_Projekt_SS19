@@ -104,7 +104,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 	private ShoppingList shoppingListToDisplay = new ShoppingList();
 	private Integer selectedListitemIndex = null;
-	
 
 	private Boolean loadFavorites;
 
@@ -200,11 +199,6 @@ public class ShowShoppingListForm extends VerticalPanel {
 			public void onCellPreview(CellPreviewEvent<ListItem> event) {
 				if (BrowserEvents.CLICK.equalsIgnoreCase(event.getNativeEvent().getType())) {
 					ShowShoppingListForm.this.selectedListitemIndex = event.getIndex();
-					for (Item item : allItems) {
-						if (item.getId() == allListItems.get(event.getIndex()).getItemId()) {
-//							Notification.show(item.getName() + " wurde ausgewählt.");
-						}
-					}
 				}
 			}
 		});
@@ -254,8 +248,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 				String storeName = new String("leer");
 				for (Store s : allStores) {
 					if (s.getId() == i.getStoreID()) {
-						storeName = s.getName() + String.valueOf(" "+ 
-					s.getPostcode() +" "+ s.getStreet() +" "+ s.getHouseNumber());
+						storeName = s.getName() + String
+								.valueOf(" " + s.getPostcode() + " " + s.getStreet() + " " + s.getHouseNumber());
 					}
 				}
 				return storeName;
@@ -749,7 +743,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 			// TODO Auto-generated method stub
 			shoppingListToDisplay.setChangedate(new Timestamp(System.currentTimeMillis()));
 			administration.updateShoppingList(shoppingListToDisplay, new UpdateShoppinglistCallback());
-			//Notification.show("Artikel wurde erfolgreich abgehakt");
+			// Notification.show("Artikel wurde erfolgreich abgehakt");
 		}
 	}
 
@@ -825,7 +819,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			Notification.show("Favorite Items konnten nicht geladen werden" + caught.toString());
+			Notification.show("Standardartikel konnten nicht geladen werden" + caught.toString());
 		}
 
 		@Override
