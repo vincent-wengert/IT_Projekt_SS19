@@ -689,25 +689,6 @@ body{
 	color: #ffffff;
 }
 
-.addListItemPanel {
-	
-}
-
-.refreshInfoLabel {
-	text-align: center;
-    font-size: 100%;
-    color: white;
-    background-color: black;
-    -webkit-animation-name: refreshInfoLabelAnimation; 
-    -webkit-animation-duration: 3s; 
-    -webkit-animation-iteration-count: infinite;
-    animation-name: refreshInfoLabelAnimation;
-    animation-iteration-count: infinite;
-    animation-duration: 3s;
-    margin-left:120px;
-    
-}
-
 .errorLabel {
 	text-align: center;
     font-size: 100%;
@@ -720,6 +701,7 @@ body{
     animation-name: refreshInfoLabelAnimation;
     animation-iteration-count: infinite;
     animation-duration: 3s;
+    overflow: visible;
 }
 
 .menuBar {

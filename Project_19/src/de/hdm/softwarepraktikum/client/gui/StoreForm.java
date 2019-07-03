@@ -269,21 +269,6 @@ public class StoreForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 			if (cityNameBox.getText() != "" && postCodeBox.getText() != "" && streetNameBox.getText() != ""
 					&& houseNumberBox.getText() != "" && storeNameBox.getText() != "") {
-				administration.checkForExistingStoreByName(storeNameBox.getText(), new AsyncCallback<Boolean>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						Notification.show("Artikel konnte in der Datenbank nicht gefunden werden.");
-					}
-
-					@Override
-					public void onSuccess(Boolean result) {
-						// TODO Auto-generated method stub
-						if (result == true) {
-							Notification.show("Laden exisitiert bereits.");
-						} else {
-
 							if (initial == false) {
 								storeToDisplay.setCity(cityNameBox.getText());
 								storeToDisplay.setPostcode(Integer.parseInt(postCodeBox.getText()));
@@ -298,9 +283,6 @@ public class StoreForm extends VerticalPanel {
 										Integer.parseInt(houseNumberBox.getText()), new CreateStoreCallback());
 								setTableEditable(false);
 							}
-						}
-					}
-				});
 			} else {
 				Window.alert("Bitte füllen sie alle Felder des Ladens richtig aus");
 			}

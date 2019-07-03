@@ -30,7 +30,6 @@ public class Notification {
 	public static void clear (){
 		if(isActive == true) {
 			RootPanel.get("Header").remove(RootPanel.get("Header").getWidgetIndex(notificationLabel));
-
 		}
 	}
 	

@@ -254,7 +254,8 @@ public class ShowShoppingListForm extends VerticalPanel {
 				String storeName = new String("leer");
 				for (Store s : allStores) {
 					if (s.getId() == i.getStoreID()) {
-						storeName = s.getName();
+						storeName = s.getName() + String.valueOf(" "+ 
+					s.getPostcode() +" "+ s.getStreet() +" "+ s.getHouseNumber());
 					}
 				}
 				return storeName;
@@ -293,7 +294,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 
 		// Die Spalten werden der Tabelle hinzugefügt
 		cellTable.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
-		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
+		cellTable.setColumnWidth(checkColumn, 20, Unit.PX);
 		cellTable.addColumn(nameColumn, "Artikel");
 		cellTable.addColumn(amountColumn, "Menge");
 		cellTable.addColumn(storeColumn, "Laden");

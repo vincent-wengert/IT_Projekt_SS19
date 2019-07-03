@@ -254,19 +254,19 @@ public class ItemForm extends VerticalPanel {
 	private class FavClickHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
-			if(selectedGroup!=null) {
-			setTableEditable(false);
-			if (itemToDisplayProduct.getIsFavorite() == true) {
-				itemToDisplayProduct.setFavorite(false);
-				administration.removeFavoriteItem(itemToDisplayProduct, selectedGroup,
-						new removeFavoriteItemCallback());
-				favButton.setStylePrimaryName("FavoriteItemFalse");
+			if (selectedGroup != null) {
+				setTableEditable(false);
+				if (itemToDisplayProduct.getIsFavorite() == true) {
+					itemToDisplayProduct.setFavorite(false);
+					administration.removeFavoriteItem(itemToDisplayProduct, selectedGroup,
+							new removeFavoriteItemCallback());
+					favButton.setStylePrimaryName("FavoriteItemFalse");
+				} else {
+					itemToDisplayProduct.setFavorite(true);
+					administration.addFavoriteItem(itemToDisplayProduct, selectedGroup, new addFavoriteItemCallback());
+					favButton.setStylePrimaryName("FavoriteItemTrue");
+				}
 			} else {
-				itemToDisplayProduct.setFavorite(true);
-				administration.addFavoriteItem(itemToDisplayProduct, selectedGroup, new addFavoriteItemCallback());
-				favButton.setStylePrimaryName("FavoriteItemTrue");
-			}
-			}else {
 				Notification.show("Bitte erstellen sie zuerst eine Gruppe");
 			}
 		}
@@ -308,32 +308,31 @@ public class ItemForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			if (itemNameBox.getText() != "") {
-				administration.checkForExistingItemByName(itemNameBox.getText(), new AsyncCallback<Boolean>() {
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						Notification.show("Artikel konnte in der Datenbank nicht gefunden werden.");
-					}
+				if (initial == false) {
+					itemToDisplayProduct.setName(itemNameBox.getText());
+					itemToDisplayProduct.setIsGlobal(isGlobalBox.getValue());
+					itemToDisplayProduct.setChangedate(new Timestamp(System.currentTimeMillis()));
+					administration.updateItem(itemToDisplayProduct, new UpdateItemCallback());
+				} else {
+					administration.checkForExistingItemByName(itemNameBox.getText(), new AsyncCallback<Boolean>() {
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+							Notification.show("Artikel konnte in der Datenbank nicht gefunden werden.");
+						}
 
-					@Override
-					public void onSuccess(Boolean result) {
-						// TODO Auto-generated method stub
-						if (result == true) {
-							Notification.show("Artikel exisitiert bereits.");
-						} else {
-							if (initial == true) {
+						@Override
+						public void onSuccess(Boolean result) {
+							// TODO Auto-generated method stub
+							if (result == true) {
+								Notification.show("Artikel exisitiert bereits.");
+							} else {
 								administration.createItem(itemNameBox.getText(), isGlobalBox.getValue(),
 										currentPerson.getId(), new CreateItemCallback());
-								
-							} else {
-								itemToDisplayProduct.setName(itemNameBox.getText());
-								itemToDisplayProduct.setIsGlobal(isGlobalBox.getValue());
-								itemToDisplayProduct.setChangedate(new Timestamp(System.currentTimeMillis()));
-								administration.updateItem(itemToDisplayProduct, new UpdateItemCallback());
 							}
 						}
-					}
-				});
+					});
+				}
 			} else {
 				Window.alert("Bitte geben sie einen Artikelnamen ein");
 			}
@@ -458,7 +457,7 @@ public class ItemForm extends VerticalPanel {
 				Window.alert("Der Artikel kann nicht gelöscht, da dieser noch in einer Einkaufliste vorhanden ist."
 						+ " Wenn dieser dennoch gelöscht werden soll dann kontaktieren sie den Administrator");
 			} else {
-				administration.deleteItem(itemToDisplayProduct,selectedGroup, new DeleteItemCallback());
+				administration.deleteItem(itemToDisplayProduct, selectedGroup, new DeleteItemCallback());
 				aicl.updateCelllist(null);
 			}
 		}
