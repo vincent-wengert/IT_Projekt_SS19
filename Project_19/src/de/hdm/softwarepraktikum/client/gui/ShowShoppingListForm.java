@@ -82,7 +82,7 @@ public class ShowShoppingListForm extends VerticalPanel {
 	private Button deleteButton = new Button();
 	private Button confirmButton = new Button("\u2714");
 	private Button cancelButton = new Button("\u2716");
-	private CheckBox myItemsCheckbox = new CheckBox("Nur meine Items anzeigen");
+	private CheckBox myItemsCheckbox = new CheckBox("Nur meine Artikel anzeigen");
 
 	private Label infoTitleLabel = new Label();
 

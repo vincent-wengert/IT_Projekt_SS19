@@ -192,7 +192,7 @@ public class FavoriteItemMapper {
 	}
 	
 	/**
-	 * Methode, die anhand der Id prüft, ob ein Item als Favorit gespeichert ist.
+	 * Methode, die anhand der Id prÃ¼ft, ob ein Item als Favorit gespeichert ist.
 	 * @param item_id
 	 * @return boolean, ob ein Item Favorite ist
 	 */
