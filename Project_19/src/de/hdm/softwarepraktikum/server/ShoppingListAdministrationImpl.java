@@ -209,9 +209,7 @@ public class ShoppingListAdministrationImpl extends RemoteServiceServlet impleme
 	}
 
 	/**
-	 * Wird das überhaupt benötigt?? Methode um eine ArrayList aller Personen zu
-	 * erhalten
-	 * 
+	 *Methode um eine ArrayList aller Personen zu erhalten
 	 * @return findAll
 	 * @throws IllegalArgumentException
 	 */
@@ -581,7 +579,7 @@ public class ShoppingListAdministrationImpl extends RemoteServiceServlet impleme
 		sl.setGroupID(groupID);
 
 		/**
-		 * Setzen einer vorlÃ¤ufigen ID. Der Insert Aufruf liefert dann ein Objekt,
+		 * Setzen einer vorläufigen ID. Der Insert Aufruf liefert dann ein Objekt,
 		 * dessen Nummer mit der Datenbank konsistent ist.
 		 */
 
@@ -959,7 +957,7 @@ public class ShoppingListAdministrationImpl extends RemoteServiceServlet impleme
 	@Override
 	public void deleteGroup(Group g) {
 
-		// loeschen der zugeh�rigen Shoppinglists, Responsibilities, ListItems
+		// loeschen der zugehörigen Shoppinglists, Responsibilities, ListItems
 
 		ArrayList<ShoppingList> result = groupMapper.getShoppingListsPerGroup(g);
 
