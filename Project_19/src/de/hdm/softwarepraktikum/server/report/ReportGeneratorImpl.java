@@ -400,6 +400,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		
 		//result.setTitle("Alle eingekauften Items des Users in einem bestimmten Zeitraum.");
 		
+		System.out.println("from" + from.toString() + "to" + to.toString());
+		
 		ArrayList<ListItem> items = this.listItemMapper.getCheckedListItemsOfPersonBetweenDates(p.getId(), from, to);
 
 		//Wenn ein Store angegeben wird, wird nach diesem gefiltert.

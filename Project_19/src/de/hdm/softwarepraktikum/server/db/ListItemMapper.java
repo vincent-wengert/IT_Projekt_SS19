@@ -460,16 +460,12 @@ public class ListItemMapper {
 	public ArrayList<ListItem> getCheckedListItemsOfPersonBetweenDates(int personId, Timestamp start, Timestamp end) {
 		Connection con = DBConnection.connection();
 
-		java.sql.Timestamp from = java.sql.Timestamp.valueOf("2019-06-15 14:38:58");
-
-		java.sql.Timestamp to = java.sql.Timestamp.valueOf("2019-06-30 18:42:58");
-
 		ArrayList<ListItem> listItems = new ArrayList<ListItem>();
 
 		String st = "SELECT * from ListItem JOIN Responsibility ON Responsibility.Responsibility_ID = ListItem.Responsibility_ID"
 				+ " JOIN  ShoppingList ON ShoppingList.ShoppingList_ID = Responsibility.Shoppinglist_ID"
 				+ " JOIN `Group` ON `Group`.Group_ID = ShoppingList.Group_ID WHERE Person_ID= " + personId
-				+ " AND ListItem.BoughtOn BETWEEN \"" + from + " \"AND \" " + to + "\""
+				+ " AND ListItem.BoughtOn BETWEEN \"" + start + " \"AND \" " + end + "\""
 				+ " AND BoughtOn IS NOT NULL ORDER BY Store_ID ASC";
 
 		try {

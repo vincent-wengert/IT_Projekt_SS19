@@ -111,10 +111,8 @@ public class ReportForm {
 		
 		 DateTimeFormat dateFormat = DateTimeFormat.getLongDateFormat();
 		 fromDateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
-		 fromDateBox.getDatePicker().setYearArrowsVisible(true);
 		 
 		 toDateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
-		 toDateBox.getDatePicker().setYearArrowsVisible(true);
 
 		selectionGrid.setWidget(0, 0, groupLabel);
 		selectionGrid.setWidget(1, 0, groupListBox);
@@ -211,12 +209,10 @@ public class ReportForm {
 	private Boolean getIntervallDefined() {
 		if (fromDateBox.getValue() == null && toDateBox.getValue() == null) {
 			return false;
-		} else if (fromDateBox.getValue() != null && toDateBox.getValue() == null
-				|| fromDateBox.getValue() == null && toDateBox.getValue() != null) {
-			Notification.show("Bitte wählen sie Start- und Endzeitpunkt aus");
+		} else if (toDateBox.getValue() == null || fromDateBox.getValue() == null) {
+			Notification.show("Bitte wählen sie Start- und Endzeitpunkt aus. Es wird nun ein Report ohne Zeitraum erstellt.");
 			return false;
 		} else if (fromDateBox.getValue() != null && toDateBox.getValue() != null) {
-
 			fromDate = new Timestamp(fromDateBox.getValue().getTime());
 			toDate = new Timestamp(toDateBox.getValue().getTime());
 			return true;
