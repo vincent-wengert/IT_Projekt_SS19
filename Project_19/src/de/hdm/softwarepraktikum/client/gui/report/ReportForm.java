@@ -210,7 +210,7 @@ public class ReportForm {
 		if (fromDateBox.getValue() == null && toDateBox.getValue() == null) {
 			return false;
 		} else if (toDateBox.getValue() == null || fromDateBox.getValue() == null) {
-			Notification.show("Bitte wählen sie Start- und Endzeitpunkt aus. Es wird nun ein Report ohne Zeitraum erstellt.");
+			Window.alert("Bitte wählen sie Start- und Endzeitpunkt aus. Es wird nun ein Report ohne Zeitraum erstellt.");
 			return false;
 		} else if (fromDateBox.getValue() != null && toDateBox.getValue() != null) {
 			fromDate = new Timestamp(fromDateBox.getValue().getTime());
